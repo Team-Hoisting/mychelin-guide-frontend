@@ -86,7 +86,7 @@ const ConfigsContainer = styled.div`
   font-style: italic;
 `;
 
-const SignOut = styled.button`
+const SignInOutButton = styled.button`
   font-style: italic;
   background-color: #fff;
   border: none;
@@ -97,7 +97,7 @@ const SignOut = styled.button`
 const Header = () => {
   const [user, setUser] = useRecoilState(userState);
   const isDark = false;
-
+  // const user = false;
   console.log('[Header]', user);
 
   return (
@@ -118,16 +118,18 @@ const Header = () => {
           <ConfigsContainer>
             <Link to={user ? '/user' : '/signin'}>MY</Link>
             {user ? (
-              <SignOut
+              <SignInOutButton
                 onClick={async () => {
                   await logout();
 
                   setUser(null);
                 }}>
                 SIGN OUT
-              </SignOut>
+              </SignInOutButton>
             ) : (
-              <Link to="/signin">SIGN IN</Link>
+              <Link to="/signin">
+                <SignInOutButton>SIGN IN</SignInOutButton>
+              </Link>
             )}
             {isDark ? <LightModeIcon /> : <DarkModeIcon />}
           </ConfigsContainer>
