@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from './Button';
 
 const Container = styled.div`
   max-width: 240px;
@@ -31,7 +32,7 @@ const ButtonContainer = styled.div`
   align-items: center;
 `;
 
-const Button = styled.button`
+const RoundedButton = styled(Button)`
   width: 80%;
   height: 44px;
   margin: 6px;
