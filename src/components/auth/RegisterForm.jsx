@@ -10,10 +10,10 @@ import AuthForm from './AuthForm';
 
 const formSchema = z
   .object({
-    userid: z.string().email({ message: '이메일 형식에 맞게 입력해주세요.' }),
+    email: z.string().email({ message: '이메일 형식에 맞게 입력해주세요.' }),
     password: z.string().regex(/^[A-Za-z0-9]{6,12}$/, { message: '영문 또는 숫자를 6~12자 입력하세요.' }),
     confirmPassword: z.string(),
-    username: z.string().min(1, { message: '이름을 입력해주세요.' }),
+    nickname: z.string().min(1, { message: '이름을 입력해주세요.' }),
   })
   .refine(data => data.password === data.confirmPassword, {
     path: ['confirmPassword'],
@@ -21,10 +21,10 @@ const formSchema = z
   });
 
 const defaultValues = {
-  userid: '',
+  email: '',
   password: '',
   confirmPassword: '',
-  username: '',
+  nickname: '',
 };
 
 const RegisterForm = () => {
