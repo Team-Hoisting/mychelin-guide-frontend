@@ -39,16 +39,33 @@ const Button = styled.button`
   border-radius: 12px;
 `;
 
-const StoreItemOnHover = ({ handleMouseOut }) => (
-  <Container onMouseLeave={handleMouseOut}>
-    <Img />
-    <ButtonContainer>
-      {/* 상세보기 버튼 */}
-      {/* 투표하기 버튼 */}
-      <Button>button1</Button>
-      <Button>button1</Button>
-    </ButtonContainer>
-  </Container>
+const Info = styled.p`
+  font-size: 18px;
+  font-weight: 500;
+`;
+
+const StoreItemOnHover = ({ handleMouseOut, isRegistered = false }) => (
+  <>
+    <Container onMouseLeave={handleMouseOut}>
+      <Img />
+      <ButtonContainer>
+        {isRegistered ? (
+          <>
+            {/* 상세보기 버튼 */}
+            {/* 투표하기 버튼 */}
+          </>
+        ) : (
+          <>
+            <Info>등록되지 않은 식당입니다.</Info>
+            {/* 투표하기 버튼 */}
+          </>
+        )}
+        <Button>button1</Button>
+        <Button>button1</Button>
+      </ButtonContainer>
+    </Container>
+    )
+  </>
 );
 
 export default StoreItemOnHover;
