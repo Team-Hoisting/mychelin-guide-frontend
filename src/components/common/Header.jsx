@@ -11,7 +11,7 @@ const Container = styled.div`
   width: 100%;
   background: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
-  z-index: 9999;
+  z-index: 10;
 `;
 
 const Wrapper = styled(Responsive)`
@@ -51,7 +51,7 @@ const Header = () => {
           <div className="logo">logo</div>
           {user ? (
             <div className="right">
-              <UserInfo>{user.username}</UserInfo>
+              <UserInfo>{user.nickname}</UserInfo>
               <Button
                 to="/login"
                 onClick={async () => {

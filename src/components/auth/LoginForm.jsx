@@ -9,12 +9,12 @@ import { signIn } from '../../api/auth';
 import AuthForm from './AuthForm';
 
 const formSchema = z.object({
-  userid: z.string().email({ message: '이메일 형식에 맞게 입력해주세요.' }),
+  email: z.string().email({ message: '이메일 형식에 맞게 입력해주세요.' }),
   password: z.string().regex(/^[A-Za-z0-9]{6,12}$/, { message: '영문 또는 숫자를 6~12자 입력하세요.' }),
 });
 
 const defaultValues = {
-  userid: '',
+  email: '',
   password: '',
 };
 

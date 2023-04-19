@@ -64,7 +64,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
           control={control}
           trigger={trigger}
           autoComplete="off"
-          name="userid"
+          name="email"
           placeholder="아이디"
           type="text"
         />
@@ -90,13 +90,13 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
               control={control}
               trigger={trigger}
               autoComplete="off"
-              name="username"
+              name="nickname"
               placeholder="이름"
               type="text"
             />
           </>
         )}
-        <ButtonWithMarginTop disabled={!isValid} cyan full>
+        <ButtonWithMarginTop disabled={!isValid} full>
           {title}
         </ButtonWithMarginTop>
       </form>

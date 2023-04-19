@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from './Button';
 
 const Container = styled.div`
   max-width: 240px;
@@ -31,7 +32,7 @@ const ButtonContainer = styled.div`
   align-items: center;
 `;
 
-const Button = styled.button`
+const RoundedButton = styled(Button)`
   width: 80%;
   height: 44px;
   margin: 6px;
@@ -43,10 +44,8 @@ const StoreItemOnHover = ({ handleMouseOut }) => (
   <Container onMouseLeave={handleMouseOut}>
     <Img />
     <ButtonContainer>
-      {/* 상세보기 버튼 */}
-      {/* 투표하기 버튼 */}
-      <Button>button1</Button>
-      <Button>button1</Button>
+      <RoundedButton gray>상세보기</RoundedButton>
+      <RoundedButton red>투표하기</RoundedButton>
     </ButtonContainer>
   </Container>
 );
