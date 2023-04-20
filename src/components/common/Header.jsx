@@ -32,7 +32,7 @@ const LogoImage = styled.img`
 const SearchContainer = styled.div`
   position: relative;
   display: flex;
-  right: 60px;
+  /* right: 60px; */
 `;
 
 const SearchBar = styled.input`
@@ -48,6 +48,7 @@ const SearchBar = styled.input`
 
 const SearchIconContainer = styled.div`
   background-color: #d21312;
+  display: flex;
   position: relative;
   cursor: pointer;
   right: 35px;
