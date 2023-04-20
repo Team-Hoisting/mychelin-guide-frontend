@@ -22,7 +22,6 @@ const RootPage = () => {
   return (
     <>
       <Header />
-      <StoreItemOnHover />
       <div id="detail">
         <Outlet />
       </div>

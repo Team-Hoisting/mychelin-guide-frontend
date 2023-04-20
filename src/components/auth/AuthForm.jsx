@@ -13,7 +13,7 @@ const Container = styled.div`
     justify-content: center;
     margin: 0;
     color: ${palette.gray[8]};
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 `;
 
@@ -67,7 +67,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
           trigger={trigger}
           autoComplete="off"
           name="email"
-          placeholder="아이디"
+          label="이메일 주소"
           type="text"
         />
         <InputField
@@ -75,7 +75,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
           trigger={trigger}
           autoComplete="new-password"
           name="password"
-          placeholder="비밀번호"
+          label="비밀번호"
           type="password"
         />
         {type === 'register' && (
@@ -85,7 +85,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
               trigger={trigger}
               autoComplete="new-password"
               name="confirmPassword"
-              placeholder="비밀번호 확인"
+              label="비밀번호 확인"
               type="password"
             />
             <InputField
@@ -93,7 +93,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
               trigger={trigger}
               autoComplete="off"
               name="nickname"
-              placeholder="이름"
+              label="닉네임"
               type="text"
             />
           </>
@@ -102,7 +102,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
           {title}
         </ButtonWithMarginTop>
       </form>
-      <Footer>{type === 'register' ? <Link to="/login">로그인</Link> : <Link to="/register">회원가입</Link>}</Footer>
+      <Footer>{type === 'register' ? <Link to="/signin">로그인</Link> : <Link to="/signup">회원가입</Link>}</Footer>
     </Container>
   );
 };

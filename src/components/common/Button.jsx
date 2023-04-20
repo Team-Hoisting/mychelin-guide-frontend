@@ -48,9 +48,9 @@ const buttonStyle = css`
     `}
 
   &:disabled {
-    background-color: transparent;
-    border: 3px solid rgba(0, 0, 0, 0.1);
-    color: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    background: #c4bdbd;
+    font-size: 0.9rem;
   }
 `;
 

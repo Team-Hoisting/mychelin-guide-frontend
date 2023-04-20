@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import { useController } from 'react-hook-form';
 import palette from '../../lib/palette';
 
+const Label = styled.div`
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+`;
+
 const Input = styled.input`
   font-size: 1rem;
   border: none;
@@ -14,19 +19,19 @@ const Input = styled.input`
     color: $oc-teal-7;
     border-bottom: 1px solid ${palette.gray[7]};
   }
-  & ~ & {
-    margin-top: 1.5rem;
+
+  & ~ ${Label} {
+    margin-top: 2rem;
   }
 `;
 
 const ErrorMessage = styled.div`
   color: red;
-  text-align: center;
-  font-size: 0.875rem;
-  margin-top: 1rem;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
 `;
 
-const InputField = ({ control, trigger, name, autoComplete, placeholder, type }) => {
+const InputField = ({ control, trigger, name, autoComplete, label, type }) => {
   const {
     field: { value, onChange },
     fieldState: { isDirty, error },
@@ -43,14 +48,8 @@ const InputField = ({ control, trigger, name, autoComplete, placeholder, type })
 
   return (
     <>
-      <Input
-        value={value}
-        onChange={handleChange}
-        name={name}
-        autoComplete={autoComplete}
-        placeholder={placeholder}
-        type={type}
-      />
+      <Label>{label}</Label>
+      <Input value={value} onChange={handleChange} name={name} autoComplete={autoComplete} type={type} />
       <ErrorMessage>{isDirty && error?.message}</ErrorMessage>
     </>
   );
