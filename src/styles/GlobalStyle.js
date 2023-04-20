@@ -44,6 +44,7 @@ const GlobalStyle = createGlobalStyle`
 
   * {
     box-sizing: inherit;
+    font-family: 'Noto Sans KR', sans-serif;
   }
 
   code {
