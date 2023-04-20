@@ -20,6 +20,7 @@ const Container = styled.div`
 const Footer = styled.div`
   margin-top: 2rem;
   text-align: right;
+  font-size: 0.8rem;
   a {
     color: ${palette.gray[6]};
     text-decoration: underline;
@@ -50,11 +51,13 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
     defaultValues,
   });
 
-  const title = formTitle[type];
+  const [isValidEmail, setIsValidEmail] = React.useState(false);
+  const [isValidNickname, setIsValidNickname] = React.useState(false);
 
-  const onSubmit = e => {
-    console.log('event 객체:', e);
-    console.log('getValues:', getValues());
+  const title = formTitle[type];
+  const isRegister = type === 'register';
+
+  const onSubmit = () => {
     request(getValues());
   };
 
@@ -69,7 +72,21 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
           name="email"
           label="이메일 주소"
           type="text"
+          doubleCheck={isRegister}
+          setIsValidField={setIsValidEmail}
         />
+        {isRegister && (
+          <InputField
+            control={control}
+            trigger={trigger}
+            autoComplete="off"
+            name="nickname"
+            label="닉네임"
+            type="text"
+            doubleCheck
+            setIsValidField={setIsValidNickname}
+          />
+        )}
         <InputField
           control={control}
           trigger={trigger}
@@ -78,7 +95,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
           label="비밀번호"
           type="password"
         />
-        {type === 'register' && (
+        {isRegister && (
           <>
             <InputField
               control={control}
@@ -88,17 +105,9 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
               label="비밀번호 확인"
               type="password"
             />
-            <InputField
-              control={control}
-              trigger={trigger}
-              autoComplete="off"
-              name="nickname"
-              label="닉네임"
-              type="text"
-            />
           </>
         )}
-        <ButtonWithMarginTop disabled={!isValid} full>
+        <ButtonWithMarginTop disabled={!isValid || !isValidEmail || !isValidNickname} full red>
           {title}
         </ButtonWithMarginTop>
       </form>

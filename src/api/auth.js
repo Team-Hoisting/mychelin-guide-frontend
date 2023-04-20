@@ -33,4 +33,16 @@ const check = async () => {
   return response.data;
 };
 
-export { signUp, signIn, logout, check };
+const checkEmail = async email => {
+  const response = await axios.post(`${url}/checkEmail`, { email });
+
+  return response;
+};
+
+const checkNickname = async nickname => {
+  const response = await axios.post(`${url}/checkNickname`, { nickname });
+
+  return response;
+};
+
+export { signUp, signIn, logout, check, checkEmail, checkNickname };
