@@ -1,26 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import StoreItemOnHover from './StoreItemOnHover';
 
 const Container = styled.div`
-  max-width: 240px;
-  height: 200px;
-  background-color: white;
+  /* width: ${({ topThree }) => (topThree ? '30%' : '100%')}; */
+  width: ${({ topThree }) => (topThree ? '400px' : '290px')};
+  min-width: ${({ topThree }) => (topThree ? '400px' : '290px')};
+  overflow: hidden;
+  height: 350px;
+  background-color: #fff;
+  border: 1px solid red;
+  border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-  border-radius: 12px;
-  padding: 12px;
-  margin: 20px;
+`;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+const ImageContainer = styled.div`
+  /* ${({ imgUrl }) =>
+    imgUrl
+      ? `
+        background-image: url(${imgUrl});
+        background-size: cover;
+        background-position: center;
+      `
+      : `
+    background-color: gray;
+  `} */
+  background-color: #ababab;
+  width: 400px;
+  height: 250px;
+  overflow: hidden;
 `;
 
 const Img = styled.img`
   width: 100%;
   height: 100%;
-  border-radius: 12px;
+  object-fit: cover;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 `;
 
@@ -37,8 +51,9 @@ const Name = styled(Link)`
   text-overflow: ellipsis;
   white-space: nowrap;
   word-wrap: normal;
-  width: 100px;
+  width: 50%;
   overflow: hidden;
+  font-weight: 400;
 `;
 
 const StarContainer = styled.div``;
@@ -49,40 +64,24 @@ const Star = styled.img.attrs({
   width: 28px;
 `;
 
-const StoreItem = ({ storeName = '', imgUrl = '', starCnt = 0 }) => {
-  const [hover, setHover] = useState(false);
+const StoreItem = ({ storeName = '', imgUrl = '', starCnt = 0, topThree = false }) => (
+  <Container topThree={topThree}>
+    <Link to="/detail">
+      <ImageContainer imgUrl={imgUrl}>
+        <Img src={imgUrl} />
+      </ImageContainer>
+    </Link>
+    <Content>
+      <Name>{storeName}</Name>
+      <StarContainer>
+        {[...Array(starCnt).keys()].map(val => (
+          <Star key={val} />
+        ))}
+      </StarContainer>
 
-  const handleMouseOver = () => {
-    setHover(true);
-  };
-
-  const handleMouseOut = () => {
-    setHover(false);
-  };
-
-  return (
-    <>
-      {!hover ? (
-        <Container onMouseEnter={handleMouseOver}>
-          <Link>
-            <Img src={imgUrl} alt="store image" />
-          </Link>
-          <Content>
-            <Name>{storeName}</Name>
-            <StarContainer>
-              {[...Array(starCnt).keys()].map(val => (
-                <Star key={val} />
-              ))}
-            </StarContainer>
-
-            {/* 카테고리 라벨 */}
-          </Content>
-        </Container>
-      ) : (
-        <StoreItemOnHover handleMouseOut={handleMouseOut} />
-      )}
-    </>
-  );
-};
+      {/* 카테고리 라벨 */}
+    </Content>
+  </Container>
+);
 
 export default StoreItem;
