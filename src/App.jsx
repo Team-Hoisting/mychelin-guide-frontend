@@ -4,6 +4,7 @@ import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import RootPage from './pages/RootPage';
+import MainPage from './pages/MainPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import ErrorPage from './pages/ErrorPage';
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
     element: <RootPage />, // MainPage 이름 변경
     errorElement: <ErrorPage />,
     children: [
+      {
+        path: '',
+        element: <MainPage />,
+      },
       {
         path: 'signup',
         element: <RegisterPage />,
