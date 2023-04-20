@@ -34,9 +34,9 @@ const WhiteArea = styled.div`
 const AuthTemplate = ({ children }) => (
   <Container>
     <WhiteArea>
-      <div className="logo-area">
+      {/* <div className="logo-area">
         <Link to="/">logo</Link>
-      </div>
+      </div> */}
       {children}
     </WhiteArea>
   </Container>

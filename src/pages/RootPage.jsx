@@ -6,6 +6,7 @@ import { check } from '../api/auth';
 import userState from '../recoil/atoms/userState';
 import queryKey from '../constants/userQueryKey';
 import Header from '../components/common/Header';
+import StoreItemOnHover from '../components/common/StoreItemOnHover';
 
 const RootPage = () => {
   const setUser = useSetRecoilState(userState);
@@ -22,6 +23,7 @@ const RootPage = () => {
   return (
     <>
       <Header />
+      <StoreItemOnHover />
       <div id="detail">
         <Outlet />
       </div>

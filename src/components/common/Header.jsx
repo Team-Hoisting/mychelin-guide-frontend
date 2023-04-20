@@ -40,7 +40,6 @@ const SearchBar = styled.input`
   border-radius: 20px;
   border: 1px solid #ababab;
   padding: 15px;
-
   :focus {
     outline: none;
   }

@@ -9,6 +9,8 @@ import Button from '../common/Button';
 
 const Container = styled.div`
   h3 {
+    display: flex;
+    justify-content: center;
     margin: 0;
     color: ${palette.gray[8]};
     margin-bottom: 1rem;
