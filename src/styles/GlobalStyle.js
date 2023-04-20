@@ -10,6 +10,20 @@ const GlobalStyle = createGlobalStyle`
     -webkit-text-size-adjust: 100%;
     box-sizing: border-box;
     min-height: 100%;
+
+
+    
+    [data-theme='light'] {
+      --primary-color: #d21312;
+      --bg-color: #fff;
+      --font-color: #000;
+    }
+    
+    [data-theme='dark'] {
+      --primary-color: #d21312;
+      --bg-color: #22272e;
+      --font-color: #fff;
+    }
   }
 
   #root {
