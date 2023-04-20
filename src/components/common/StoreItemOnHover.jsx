@@ -65,7 +65,6 @@ const StoreItemOnHover = ({ handleMouseOut, isRegistered = false }) => (
         <Button>button1</Button>
       </ButtonContainer>
     </Container>
-    )
   </>
 );
 

@@ -7,20 +7,45 @@ import RootPage from './pages/RootPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import ErrorPage from './pages/ErrorPage';
+import SearchMapPage from './pages/SearchMapPage';
+import StoreDetailPage from './pages/StoreDetailPage';
+import ProfilePage from './pages/ProfilePage';
+import UserInfoPage from './pages/UserInfoPage';
+import RecommendationPage from './pages/RecommendationPage';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RootPage />,
+    element: <RootPage />, // MainPage 이름 변경
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'register',
+        path: 'signup',
         element: <RegisterPage />,
       },
       {
-        path: 'login',
+        path: 'signin',
         element: <LoginPage />,
+      },
+      {
+        path: 'user/:id',
+        element: <ProfilePage />,
+      },
+      {
+        path: 'searchmap',
+        element: <SearchMapPage />,
+      },
+      {
+        path: 'storedetail/:id',
+        element: <StoreDetailPage />,
+      },
+      {
+        path: 'userinfo/:id',
+        element: <UserInfoPage />,
+      },
+      {
+        path: 'recommendation/:id',
+        element: <RecommendationPage />,
       },
     ],
   },
