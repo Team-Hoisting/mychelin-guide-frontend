@@ -93,10 +93,14 @@ const SignInOutButton = styled.button`
   cursor: pointer;
 `;
 
+const Spacer = styled.div`
+  height: 4rem;
+`;
+
 const Header = () => {
   const [user, setUser] = useRecoilState(userState);
   const isDark = false;
-  // const user = false;
+
   console.log('[Header]', user);
 
   return (
@@ -104,7 +108,7 @@ const Header = () => {
       <Container>
         <Wrapper>
           <div>
-            <Link to="/">
+            <Link to="/main">
               <LogoImage src="../public/mychelin-guide-logo-light.png" alt="mychelin guide logo" to="/main"></LogoImage>
             </Link>
           </div>
@@ -115,7 +119,7 @@ const Header = () => {
             </SearchIconContainer>
           </SearchContainer>
           <ConfigsContainer>
-            <Link to={user ? '/user' : '/signin'}>MY</Link>
+            <Link to={user ? '/user' : '/login'}>MY</Link>
             {user ? (
               <SignInOutButton
                 onClick={async () => {
@@ -126,7 +130,7 @@ const Header = () => {
                 SIGN OUT
               </SignInOutButton>
             ) : (
-              <Link to="/signin">
+              <Link to="/login">
                 <SignInOutButton>SIGN IN</SignInOutButton>
               </Link>
             )}
@@ -134,6 +138,7 @@ const Header = () => {
           </ConfigsContainer>
         </Wrapper>
       </Container>
+      <Spacer />
     </>
   );
 };
