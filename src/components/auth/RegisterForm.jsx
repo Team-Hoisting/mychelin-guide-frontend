@@ -11,7 +11,7 @@ import AuthForm from './AuthForm';
 const formSchema = z
   .object({
     email: z.string().email({ message: '이메일 형식에 맞게 입력해주세요.' }),
-    password: z.string().regex(/^[A-Za-z0-9]{6,12}$/, { message: '영문 또는 숫자를 6~12자 입력하세요.' }),
+    password: z.string().regex(/^[A-Za-z0-9]{6,20}$/, { message: '영문 또는 숫자를 6~20자 입력하세요.' }),
     confirmPassword: z.string(),
     nickname: z.string().min(1, { message: '이름을 입력해주세요.' }),
   })

@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import RootPage from './pages/RootPage';
 import MainPage from './pages/MainPage';
 import RegisterPage from './pages/RegisterPage';
-import LoginPage from './pages/LoginPage';
+import SigninPage from './pages/SigninPage';
 import ErrorPage from './pages/ErrorPage';
 import SearchMapPage from './pages/SearchMapPage';
 import StoreDetailPage from './pages/StoreDetailPage';
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'signin',
-        element: <LoginPage />,
+        element: <SigninPage />,
       },
       {
         path: 'user/:id',

@@ -44,13 +44,22 @@ const buttonStyle = css`
       padding-top: 0.75rem;
       padding-bottom: 0.75rem;
       width: 100%;
-      font-size: 1.125rem;
+      font-size: 0.9rem;
+    `}
+  
+    ${props =>
+    props.small &&
+    css`
+      padding: 0;
+      margin-left: 0.8rem;
+      font-size: 0.1rem;
+      width: 60px;
+      flex-shrink: 0;
     `}
 
   &:disabled {
-    background-color: transparent;
-    border: 3px solid rgba(0, 0, 0, 0.1);
-    color: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    background: #c4bdbd;
   }
 `;
 

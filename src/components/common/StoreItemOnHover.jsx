@@ -54,11 +54,14 @@ const StoreItemOnHover = ({ handleMouseOut, isRegistered = false }) => (
           <>
             {/* 상세보기 버튼 */}
             {/* 투표하기 버튼 */}
+            <RoundedButton gray>상세보기</RoundedButton>
+            <RoundedButton red>투표하기</RoundedButton>
           </>
         ) : (
           <>
             <Info>등록되지 않은 식당입니다.</Info>
             {/* 투표하기 버튼 */}
+            <RoundedButton red>투표하기</RoundedButton>
           </>
         )}
         <Button>button1</Button>

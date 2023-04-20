@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import palette from '../../lib/palette';
 
 const Container = styled.div`
@@ -17,28 +16,17 @@ const Container = styled.div`
 `;
 
 const WhiteArea = styled.div`
-  .logo-area {
-    display: block;
-    padding-bottom: 2rem;
-    text-align: center;
-    font-weight: bold;
-    letter-spacing: 2px;
-  }
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
-  padding: 2rem;
-  width: 360px;
+  padding: 2rem 5rem;
+  width: 500px;
   background: white;
   border-radius: 2px;
+  margin-top: 1rem;
 `;
 
 const AuthTemplate = ({ children }) => (
   <Container>
-    <WhiteArea>
-      <div className="logo-area">
-        <Link to="/">logo</Link>
-      </div>
-      {children}
-    </WhiteArea>
+    <WhiteArea>{children}</WhiteArea>
   </Container>
 );
 
