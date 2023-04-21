@@ -6,9 +6,14 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Button, SideBanner } from '../components/common/index';
+<<<<<<< HEAD
 import categoryCodes from '../constants/categoryCodes';
 import categoryInfo from '../constants/categoryInfo';
 import storeQueryKey from '../constants/storeQueryKey';
+=======
+import { categoryInfo } from '../constants';
+import userState from '../recoil/atoms/userState';
+>>>>>>> 6f86a031576e00b39267cf6db1e3e0a8994b0a88
 
 const Container = styled.div`
   width: 100%;

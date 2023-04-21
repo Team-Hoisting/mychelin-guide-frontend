@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import fetchStores from '../api/stores';
-import fetchVotes from '../api/votes';
+// import fetchVotes from '../api/votes';
 import { StoreItem } from '../components/common';
+import Categories from '../components/mainpage/Categories';
 
-const Container = styled.div`
+const StoresContainer = styled.div`
   padding: 20px;
   border: 2px dashed red;
 `;
@@ -29,7 +30,7 @@ const MainPage = () => {
     (async () => {
       try {
         const stores = await fetchStores();
-        const votes = await fetchVotes();
+        // const votes = await fetchVotes();
 
         setTopStores(stores.splice(0, 3));
         setStores(stores.splice(0, 10));
@@ -40,18 +41,21 @@ const MainPage = () => {
   }, []);
 
   return (
-    <Container>
-      <TopStoresContainer>
-        {topStores.map(({ storeName, imgUrl }) => (
-          <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} topThree />
-        ))}
-      </TopStoresContainer>
-      <RestStoresContainer>
-        {stores.map(({ storeName, imgUrl }) => (
-          <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} />
-        ))}
-      </RestStoresContainer>
-    </Container>
+    <>
+      <Categories />
+      <StoresContainer>
+        <TopStoresContainer>
+          {topStores.map(({ storeName, imgUrl }) => (
+            <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} topThree />
+          ))}
+        </TopStoresContainer>
+        <RestStoresContainer>
+          {stores.map(({ storeName, imgUrl }) => (
+            <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} />
+          ))}
+        </RestStoresContainer>
+      </StoresContainer>
+    </>
   );
 };
 
