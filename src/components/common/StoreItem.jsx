@@ -53,9 +53,9 @@ const Star = styled.img.attrs({
   width: 28px;
 `;
 
-const StoreItem = ({ storeName = '', imgUrl = '', starCnt = 0, topThree = false }) => (
+const StoreItem = ({ storeName = '', imgUrl = '', starCnt = 0 }) => (
   <>
-    <Container topThree={topThree}>
+    <Container>
       <Link to="/detail">
         <ImageContainer imgUrl={imgUrl}>
           <Img src={imgUrl} />

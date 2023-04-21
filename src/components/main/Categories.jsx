@@ -5,7 +5,6 @@ import { categoryInfo } from '../../constants';
 import categoryCodes from '../../constants/categoryCodes';
 
 const Container = styled.div`
-  /* border: 2px dotted green; */
   height: 100px;
   padding: 15px;
   margin: 20px 0 20px 0;
@@ -41,6 +40,7 @@ const CategoryIcon = styled.img`
 
 const CategoryName = styled.p`
   margin: 0;
+  font-weight: ${({ selected }) => selected && '600'};
 `;
 
 const SelectedIcon = styled(AiOutlineLine)`
@@ -61,7 +61,7 @@ const Categories = ({ category, changeCategory }) => (
         <EachCategoryBox key={`${categoryInfo[code].ko}`} onClick={() => changeCategory(code)}>
           <SelectedIcon selected={category === code} />
           <CategoryIcon src={imgSrc} alt={`${categoryInfo[code].ko}`} />
-          <CategoryName>{categoryInfo[code].ko}</CategoryName>
+          <CategoryName selected={category === code}>{categoryInfo[code].ko}</CategoryName>
         </EachCategoryBox>
       );
     })}
