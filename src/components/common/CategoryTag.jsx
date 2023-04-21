@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import category from '../../constants/category';
+import { categoryInfo } from '../../constants';
 
 const Container = styled.div`
   display: flex;
@@ -30,12 +30,12 @@ const VotedCnt = styled.span`
 `;
 
 const CategoryTag = ({ categoryCode, votedCnt }) => {
-  const imgSrc = `./public/categoryIcons/${category[categoryCode].imgFile}.png`;
+  const imgSrc = `./public/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`;
 
   return (
     <Container>
       <CategoryIcon src={imgSrc} alt="" />
-      <CatagoryName>{category[categoryCode].ko}</CatagoryName>
+      <CatagoryName>{categoryInfo[categoryCode].ko}</CatagoryName>
       <VotedCnt>{votedCnt}</VotedCnt>
     </Container>
   );

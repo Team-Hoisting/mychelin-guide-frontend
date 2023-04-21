@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import category from '../../constants/category';
+import { categoryInfo } from '../../constants';
 import categoryCodes from '../../constants/categoryCodes';
 
 const Container = styled.div`
@@ -43,12 +43,12 @@ const Categories = () => (
       <CategoryName>전체 보기</CategoryName>
     </EachCategoryBox>
     {categoryCodes.map(code => {
-      const imgSrc = `./public/categoryIcons/${category[code].imgFile}.png`;
+      const imgSrc = `./public/categoryIcons/${categoryInfo[code].imgFile}.png`;
 
       return (
-        <EachCategoryBox key={`${category[code].ko}`}>
-          <CategoryIcon src={imgSrc} alt={`${category[code].ko}`} />
-          <CategoryName>{category[code].ko}</CategoryName>
+        <EachCategoryBox key={`${categoryInfo[code].ko}`}>
+          <CategoryIcon src={imgSrc} alt={`${categoryInfo[code].ko}`} />
+          <CategoryName>{categoryInfo[code].ko}</CategoryName>
         </EachCategoryBox>
       );
     })}

@@ -4,7 +4,7 @@ import { BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { useRecoilState } from 'recoil';
 import { Button, SideBanner } from '../components/common/index';
-import category from '../constants/category';
+import { categoryInfo } from '../constants';
 import userState from '../recoil/atoms/userState';
 
 const Container = styled.div`
@@ -108,7 +108,7 @@ const Category = styled.div`
 
 const CategoryIcon = styled.img.attrs(({ ctg }) => ({
   alt: 'category',
-  src: `/categoryIcons/${category[ctg].imgFile}.png`,
+  src: `/categoryIcons/${categoryInfo[ctg].imgFile}.png`,
 }))`
   width: 32px;
   margin: 4px;
@@ -267,7 +267,7 @@ const StoreDetailPage = () => {
                 voteCnt[ctg] && (
                   <Category key={ctg}>
                     <CategoryIcon ctg={ctg} />
-                    <CategoryText>{category[ctg].ko}</CategoryText>
+                    <CategoryText>{categoryInfo[ctg].ko}</CategoryText>
                     <CategoryText>{voteCnt[ctg]}</CategoryText>
                   </Category>
                 )
