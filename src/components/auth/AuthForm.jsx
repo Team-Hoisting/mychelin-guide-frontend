@@ -51,11 +51,11 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
     defaultValues,
   });
 
-  const [isValidEmail, setIsValidEmail] = React.useState(false);
-  const [isValidNickname, setIsValidNickname] = React.useState(false);
-
   const title = formTitle[type];
   const isRegister = type === 'register';
+
+  const [isValidEmail, setIsValidEmail] = React.useState(!isRegister);
+  const [isValidNickname, setIsValidNickname] = React.useState(!isRegister);
 
   const onSubmit = () => {
     request(getValues());

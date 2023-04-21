@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
@@ -7,6 +8,7 @@ import userState from '../../recoil/atoms/userState';
 import queryKey from '../../constants/userQueryKey';
 import { signIn } from '../../api/auth';
 import AuthForm from './AuthForm';
+import LoginFailAlert from './LoginFailAlert';
 
 const formSchema = z.object({
   email: z.string().email({ message: '이메일 형식에 맞게 입력해주세요.' }),
@@ -21,6 +23,7 @@ const defaultValues = {
 const LoginForm = () => {
   const navigate = useNavigate();
   const setUser = useSetRecoilState(userState);
+  const [isFailedLogin, setIsFailedLogin] = React.useState(false);
   const { mutate } = useMutation({
     queryKey,
     mutationFn: signIn,
@@ -30,10 +33,16 @@ const LoginForm = () => {
     },
     onError(err) {
       console.log(err);
+      setIsFailedLogin(true);
     },
   });
 
-  return <AuthForm type="login" formSchema={formSchema} defaultValues={defaultValues} request={mutate} />;
+  return (
+    <>
+      <AuthForm type="login" formSchema={formSchema} defaultValues={defaultValues} request={mutate} />
+      {isFailedLogin && createPortal(<LoginFailAlert close={() => setIsFailedLogin(false)} />, document.body)}
+    </>
+  );
 };
 
 export default LoginForm;
