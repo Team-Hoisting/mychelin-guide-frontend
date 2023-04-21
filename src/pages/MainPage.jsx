@@ -23,15 +23,11 @@ const RestStoresContainer = styled.div`
 `;
 
 const StoreItemContainer = styled.div`
-  /* width: ${({ topThree }) => (topThree ? '30%' : '100%')}; */
-  width: ${({ topThree }) => (topThree ? '400px' : '290px')};
-  min-width: ${({ topThree }) => (topThree ? '400px' : '290px')};
   overflow: hidden;
   height: 350px;
   background-color: #fff;
-  border: 1px solid red;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 30px;
   position: relative;
   transition: 0.1s ease-in-out;
 
@@ -84,7 +80,7 @@ const MainPage = () => {
       <StoresContainer>
         <TopStoresContainer>
           {topStores.map(({ storeId, storeName, imgUrl }) => (
-            <StoreItemContainer key={storeId} topThree>
+            <StoreItemContainer key={storeId}>
               <StoreItemOnHover storeId={storeId} />
               <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} />
             </StoreItemContainer>
