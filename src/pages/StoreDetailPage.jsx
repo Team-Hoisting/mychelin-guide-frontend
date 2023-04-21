@@ -2,10 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
-import { useRecoilState } from 'recoil';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import { Button, SideBanner } from '../components/common/index';
-import category from '../constants/category';
-import userState from '../recoil/atoms/userState';
+import categoryCodes from '../constants/categoryCodes';
+import categoryInfo from '../constants/categoryInfo';
+import storeQueryKey from '../constants/storeQueryKey';
 
 const Container = styled.div`
   width: 100%;
@@ -108,7 +111,7 @@ const Category = styled.div`
 
 const CategoryIcon = styled.img.attrs(({ ctg }) => ({
   alt: 'category',
-  src: `/categoryIcons/${category[ctg].imgFile}.png`,
+  src: `/categoryIcons/${categoryInfo[ctg].imgFile}.png`,
 }))`
   width: 32px;
   margin: 4px;
@@ -204,24 +207,8 @@ const comments = [
   },
 ];
 
-const storeData = {
-  _id: 0,
-  storeId: '26571895',
-  storeName: '더백푸드트럭 해방촌점',
-  address: '서울 용산구 신흥로20길 45 1,2층',
-  email: 'sqssung',
-  phoneNumber: '02-777-3338',
-  voteCnt: { KO01: 112, CH02: 249, JP03: 29 },
-  archivedCnt: 120,
-  imgUrl:
-    'https://github.com/Team-Hoisting/mychelin-guide-storage/blob/main/storeImages/0.%EB%8D%94%EB%B0%B1%ED%91%B8%EB%93%9C%ED%8A%B8%EB%9F%AD%20%ED%95%B4%EB%B0%A9%EC%B4%8C%EC%A0%90.jpeg?raw=true',
-};
-
-const categoryTitles = ['KO01', 'CH02', 'JP03', 'WE04', 'BS05', 'BG06', 'CK07', 'PZ08', 'GB09', 'DS10', 'VG11', 'PB12'];
-
 // 중앙 정렬 제대로 X
 const StoreDetailPage = () => {
-  //   const [user, setUser] = useRecoilState(userState);
   // 로그인 된 유저
   const user = {
     email: 'bin000527@naver.com',
@@ -231,7 +218,22 @@ const StoreDetailPage = () => {
     isCertified: true,
     voteOrder: [],
   };
-  const { storeid, storeName, address, phoneNumber, imgUrl, voteCnt, archivedCnt } = storeData;
+
+  const { id } = useParams();
+
+  const {
+    isLoading,
+    isError,
+    data: storeData,
+  } = useQuery([...storeQueryKey, id], async () => {
+    const res = await axios.get(`/api/stores/${id}`);
+    return res.data;
+  });
+
+  if (isLoading) return <div>Loading..</div>;
+
+  console.log('res: ', storeData);
+  const { storeid, storeName, address, firstVoteUser, phoneNumber, voteCnt, archivedCnt, imgUrl } = storeData;
 
   return (
     <>
@@ -255,19 +257,19 @@ const StoreDetailPage = () => {
             </Side>
           </StoreTitleContainer>
           <FirstVoteUser>
-            최초 투표자 : <UserName>손규성</UserName>
+            최초 투표자 : <UserName>{firstVoteUser}</UserName>
           </FirstVoteUser>
           <ImageContainer>
             <Image src={imgUrl} />
             <Map>지도 표시</Map>
           </ImageContainer>
           <VoteCategories>
-            {categoryTitles.map(
+            {categoryCodes.map(
               ctg =>
                 voteCnt[ctg] && (
                   <Category key={ctg}>
                     <CategoryIcon ctg={ctg} />
-                    <CategoryText>{category[ctg].ko}</CategoryText>
+                    <CategoryText>{categoryInfo[ctg].ko}</CategoryText>
                     <CategoryText>{voteCnt[ctg]}</CategoryText>
                   </Category>
                 )
