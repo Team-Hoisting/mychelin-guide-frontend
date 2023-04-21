@@ -1,4 +1,4 @@
-const category = {
+const categoryInfo = {
   KO01: { ko: '한식', imgFile: '01-korean' },
   CH02: { ko: '중식', imgFile: '02-chinese' },
   JP03: { ko: '일식', imgFile: '03-japanese' },
@@ -10,7 +10,7 @@ const category = {
   GB09: { ko: '글로벌', imgFile: '09-global' },
   DS10: { ko: '디저트', imgFile: '10-dessert' },
   VG11: { ko: '채식', imgFile: '11-vegan' },
-  PB12: { ko: '술', imgFile: '12-pub' },
+  PB12: { ko: '술집', imgFile: '12-pub' },
 };
 
-export default category;
+export default categoryInfo;
