@@ -1,4 +1,5 @@
 const categoryInfo = {
+  AL00: { ko: '전체', imgFile: '00-all' },
   KO01: { ko: '한식', imgFile: '01-korean' },
   CH02: { ko: '중식', imgFile: '02-chinese' },
   JP03: { ko: '일식', imgFile: '03-japanese' },

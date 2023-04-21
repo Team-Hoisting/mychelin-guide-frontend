@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { AiOutlineLine } from 'react-icons/ai';
 import { categoryInfo } from '../../constants';
 import categoryCodes from '../../constants/categoryCodes';
 
@@ -15,9 +16,15 @@ const Container = styled.div`
 const EachCategoryBox = styled.div`
   text-align: center;
   cursor: pointer;
+  transition: 0.3s ease-in;
+  position: relative;
+
+  :hover::after {
+    content: ;
+  }
 
   :hover > img {
-    width: 53%;
+    scale: 1.1;
     transition: 0.1s ease-in-out;
   }
 
@@ -36,17 +43,23 @@ const CategoryName = styled.p`
   margin: 0;
 `;
 
-const Categories = () => (
+const SelectedIcon = styled(AiOutlineLine)`
+  color: var(--primary-color);
+  position: absolute;
+  font-size: 20px;
+  top: 70px;
+  left: 39px;
+  display: ${({ selected }) => (selected ? 'block' : 'none')};
+`;
+
+const Categories = ({ category, changeCategory }) => (
   <Container>
-    <EachCategoryBox>
-      <CategoryIcon src="./public/images/fork-spoon.png" alt="전체" />
-      <CategoryName>전체 보기</CategoryName>
-    </EachCategoryBox>
     {categoryCodes.map(code => {
       const imgSrc = `./public/categoryIcons/${categoryInfo[code].imgFile}.png`;
 
       return (
-        <EachCategoryBox key={`${categoryInfo[code].ko}`}>
+        <EachCategoryBox key={`${categoryInfo[code].ko}`} onClick={() => changeCategory(code)}>
+          <SelectedIcon selected={category === code} />
           <CategoryIcon src={imgSrc} alt={`${categoryInfo[code].ko}`} />
           <CategoryName>{categoryInfo[code].ko}</CategoryName>
         </EachCategoryBox>

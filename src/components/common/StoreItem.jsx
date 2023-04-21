@@ -10,9 +10,8 @@ const Container = styled.div`
   overflow: hidden;
   height: 350px;
   background-color: #fff;
-  border: 1px solid red;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 30px;
   position: relative;
   transition: 0.1s ease-in-out;
 
@@ -49,10 +48,12 @@ const Img = styled.img`
 `;
 
 const Contents = styled.section`
-  padding: 5px;
+  padding: 10px;
   display: flex;
   align-items: center;
   background-color: #fff;
+  font-weight: 500;
+  font-size: 18px;
 `;
 
 const Name = styled(Link)`
@@ -62,8 +63,6 @@ const Name = styled(Link)`
   word-wrap: normal;
   width: 50%;
   overflow: hidden;
-  font-weight: 500;
-  font-size: 16px;
 `;
 
 const StarContainer = styled.div``;
