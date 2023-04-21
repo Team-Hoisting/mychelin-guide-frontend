@@ -1,5 +1,4 @@
 import React from 'react';
-import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
@@ -40,7 +39,7 @@ const LoginForm = () => {
   return (
     <>
       <AuthForm type="login" formSchema={formSchema} defaultValues={defaultValues} request={mutate} />
-      {isFailedLogin && createPortal(<LoginFailAlert close={() => setIsFailedLogin(false)} />, document.body)}
+      {isFailedLogin && <LoginFailAlert close={() => setIsFailedLogin(false)} />}
     </>
   );
 };
