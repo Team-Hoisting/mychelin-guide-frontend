@@ -1,34 +1,31 @@
 import styled from 'styled-components';
 import { Divider } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
+import categoryCodes from '../../constants/categoryCodes';
+import categoryInfo from '../../constants/categoryInfo';
 
-import category from '../../constants/category';
-
-const CATEGORYNUM = 12;
 const PAGEITEMNUM = 3;
 
 const StoreItemContainer = styled.div`
-  margin: 5px;
+  margin: 15px;
   padding: 3px;
+  height: 80px;
   border-radius: 10px;
 `;
 const CircleImgContainer = styled.div`
   border-radius: 50%;
 `;
-
 const StoreImg = styled.img`
   margin: auto;
   width: 40x;
   height: 40px;
   color: black;
 `;
-
 const CategoryName = styled.p`
-  font-size: 2px;
+  font-size: 10px;
 `;
-
 const CategoryItem = ({ categoryCode, storeid }) => {
-  const imgSrc = `./public/categoryIcons/${storeid ? '' : 'noColor/'}${category[categoryCode].imgFile}.png`;
+  const imgSrc = `/categoryIcons/${storeid ? '' : 'noColor/'}${categoryInfo[categoryCode].imgFile}.png`;
   return (
     <StoreItemContainer>
       <CircleImgContainer
@@ -37,23 +34,25 @@ const CategoryItem = ({ categoryCode, storeid }) => {
         }}>
         <StoreImg src={imgSrc} />
       </CircleImgContainer>
-      <CategoryName>{category[categoryCode].ko}</CategoryName>
+      <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
     </StoreItemContainer>
   );
 };
-
 const Container = styled.div`
+  position: fixed;
+  top: 100px;
+  right: 40px;
   padding: 5px;
-  width: 70px;
-  height: 100%;
+  width: 100px;
+  height: fit-content;
   border: 1px solid #d21312;
   border-radius: 10px;
   text-align: center;
 `;
-
-const Title = styled.p`
+const Title = styled.h4`
+  margin: 8px auto;
   width: 60px;
-  font-size: 5px;
+  font-size: 15px;
   text-align: center;
   color: #d21312;
 `;
@@ -62,51 +61,46 @@ const SlideContainer = styled.div`
   margin-top: 35px;
 `;
 
-const SideBanner = ({ email }) => {
-  const userVotes = [
-    { category: 0, storeid: '26571895', date: new Date() },
-    {},
-    { category: 2, storeid: '26571895', date: new Date() },
-    {},
-    { category: 4, storeid: '26571895', date: new Date() },
-    {},
-    { category: 6, storeid: '26571895', date: new Date() },
-    {},
-    {},
-    {},
-    {},
-    {},
-  ];
+const CarouselContainer = styled(Carousel)`
+  margin: 5px;
+`;
+
+const SideBanner = () => {
+  const userVote = {
+    KO01: '26571895',
+    JP03: '26571895',
+    BS05: '26571895',
+    CK07: '26571895',
+  };
 
   return (
     <Container>
       <Title>투표 현황</Title>
-      <Divider size="xs" />
-      <Carousel
+      <Divider size="sm" />
+      <CarouselContainer
         slideSize="100%"
-        height={280}
+        height={340}
         orientation="vertical"
         slideGap="xs"
         controlsOffset="sm"
         controlSize={15}
         loop
         draggable={false}>
-        {Array.from({ length: CATEGORYNUM / PAGEITEMNUM }, (_, i) => i).map(pageIdx => (
+        {Array.from({ length: categoryCodes.length / PAGEITEMNUM }, (_, i) => i).map(pageIdx => (
           <Carousel.Slide key={pageIdx}>
             <SlideContainer>
-              {Array.from({ length: PAGEITEMNUM }, (_, i) => PAGEITEMNUM * pageIdx + i).map(categoryCode => (
+              {Array.from({ length: PAGEITEMNUM }, (_, i) => PAGEITEMNUM * pageIdx + i).map(categoryIdx => (
                 <CategoryItem
-                  key={categoryCode}
-                  categoryCode={categoryCode}
-                  storeid={userVotes[categoryCode].storeid}
+                  key={categoryCodes[categoryIdx]}
+                  categoryCode={categoryCodes[categoryIdx]}
+                  storeid={userVote[categoryCodes[categoryIdx]]}
                 />
               ))}
             </SlideContainer>
           </Carousel.Slide>
         ))}
-      </Carousel>
+      </CarouselContainer>
     </Container>
   );
 };
-
 export default SideBanner;
