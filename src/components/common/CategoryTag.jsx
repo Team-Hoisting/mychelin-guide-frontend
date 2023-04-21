@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import category from '../../constants/category';
+import category from '../../constants/categoryInfo';
 
 const Container = styled.div`
   display: flex;
