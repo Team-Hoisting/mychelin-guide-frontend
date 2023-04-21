@@ -51,11 +51,11 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
     defaultValues,
   });
 
-  const [isValidEmail, setIsValidEmail] = React.useState(false);
-  const [isValidNickname, setIsValidNickname] = React.useState(false);
-
   const title = formTitle[type];
   const isRegister = type === 'register';
+
+  const [isDuplicateEmail, setIsDuplicateEmail] = React.useState(!isRegister);
+  const [isDuplicateNickname, setIsDuplicateNickname] = React.useState(!isRegister);
 
   const onSubmit = () => {
     request(getValues());
@@ -66,25 +66,25 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
       <h3>{title}</h3>
       <form onSubmit={handleSubmit(onSubmit)}>
         <InputField
+          type="text"
+          label="이메일 주소"
+          name="email"
+          autoComplete="off"
           control={control}
           trigger={trigger}
-          autoComplete="off"
-          name="email"
-          label="이메일 주소"
-          type="text"
+          setIsDuplicateField={setIsDuplicateEmail}
           doubleCheck={isRegister}
-          setIsValidField={setIsValidEmail}
         />
         {isRegister && (
           <InputField
+            type="text"
+            label="닉네임"
+            name="nickname"
+            autoComplete="off"
             control={control}
             trigger={trigger}
-            autoComplete="off"
-            name="nickname"
-            label="닉네임"
-            type="text"
+            setIsDuplicateField={setIsDuplicateNickname}
             doubleCheck
-            setIsValidField={setIsValidNickname}
           />
         )}
         <InputField
@@ -107,7 +107,7 @@ const AuthForm = ({ type, formSchema, defaultValues, request }) => {
             />
           </>
         )}
-        <ButtonWithMarginTop disabled={!isValid || !isValidEmail || !isValidNickname} full red>
+        <ButtonWithMarginTop disabled={!isValid || !isDuplicateEmail || !isDuplicateNickname} full red>
           {title}
         </ButtonWithMarginTop>
       </form>

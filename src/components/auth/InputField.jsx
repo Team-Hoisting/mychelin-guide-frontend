@@ -53,7 +53,7 @@ const DoubleCheckButton = styled(Button)`
   width: 20%;
 `;
 
-const InputField = ({ control, trigger, name, autoComplete, label, type, doubleCheck, setIsValidField }) => {
+const InputField = ({ control, trigger, name, autoComplete, label, type, doubleCheck, setIsDuplicateField }) => {
   const {
     field: { value, onChange },
     fieldState: { isDirty, error },
@@ -62,15 +62,18 @@ const InputField = ({ control, trigger, name, autoComplete, label, type, doubleC
     control,
   });
 
-  const [isValid, setIsValid] = React.useState(null);
+  const [isDuplicate, setIsDuplicate] = React.useState(null);
   const [isDisabled, setIsDisabled] = React.useState(false);
 
   const handleChange = e => {
     onChange(e.target.value);
-    setIsValid(null);
-    if (doubleCheck) setIsValidField(false);
+
+    setIsDuplicate(null);
     setIsDisabled(false);
+    if (doubleCheck) setIsDuplicateField(false);
+
     trigger(name);
+
     if (name === 'password') trigger('confirmPassword');
   };
 
@@ -79,18 +82,20 @@ const InputField = ({ control, trigger, name, autoComplete, label, type, doubleC
 
     try {
       const { status } = await request(value);
-
       console.log(status);
 
       if (status === 200) {
-        setIsValid(true);
-        if (doubleCheck) setIsValidField(true);
         console.log('성공');
+
+        setIsDuplicate(true);
+        if (doubleCheck) setIsDuplicateField(true);
       }
     } catch (e) {
-      setIsValid(false);
+      console.log('중복');
+
+      setIsDuplicate(false);
       setIsDisabled(true);
-      if (doubleCheck) setIsValidField(false);
+      if (doubleCheck) setIsDuplicateField(false);
     }
   };
 
@@ -99,7 +104,7 @@ const InputField = ({ control, trigger, name, autoComplete, label, type, doubleC
       <Label>
         {label}
         {doubleCheck && isDirty && !error && (
-          <Hint isValid={isValid}>{isValid === null ? '확인 필요' : isValid ? '사용 가능' : '중복'}</Hint>
+          <Hint isValid={isDuplicate}>{isDuplicate === null ? '확인 필요' : isDuplicate ? '사용 가능' : '중복'}</Hint>
         )}
       </Label>
       {doubleCheck ? (
@@ -109,7 +114,7 @@ const InputField = ({ control, trigger, name, autoComplete, label, type, doubleC
             type="button"
             small
             red
-            disabled={!isDirty || error || isValid || isDisabled}
+            disabled={!isDirty || error || isDuplicate || isDisabled}
             onClick={confirm}>
             중복 확인
           </DoubleCheckButton>

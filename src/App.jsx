@@ -17,7 +17,7 @@ import RecommendationPage from './pages/RecommendationPage';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RootPage />, // MainPage 이름 변경
+    element: <RootPage />,
     errorElement: <ErrorPage />,
     children: [
       {

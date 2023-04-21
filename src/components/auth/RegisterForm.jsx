@@ -1,24 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
-import { z } from 'zod';
 import userState from '../../recoil/atoms/userState';
-import queryKey from '../../constants/userQueryKey';
 import { signUp } from '../../api/auth';
+import { signupSchema } from '../../schema';
 import AuthForm from './AuthForm';
-
-const formSchema = z
-  .object({
-    email: z.string().email({ message: '이메일 형식에 맞게 입력해주세요.' }),
-    password: z.string().regex(/^[A-Za-z0-9]{6,20}$/, { message: '영문 또는 숫자를 6~20자 입력하세요.' }),
-    confirmPassword: z.string(),
-    nickname: z.string().min(1, { message: '이름을 입력해주세요.' }),
-  })
-  .refine(data => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: '패스워드가 일치하지 않습니다.',
-  });
 
 const defaultValues = {
   email: '',
@@ -30,16 +16,21 @@ const defaultValues = {
 const RegisterForm = () => {
   const navigate = useNavigate();
   const setUser = useSetRecoilState(userState);
-  const { mutate } = useMutation({
-    queryKey,
-    mutationFn: signUp,
-    onSuccess(data) {
+
+  const onSubmit = async data => {
+    try {
+      const user = await signUp(data);
+
+      console.log(user);
+
       setUser(data);
       navigate('/');
-    },
-  });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  return <AuthForm type="register" formSchema={formSchema} defaultValues={defaultValues} request={mutate} />;
+  return <AuthForm type="register" formSchema={signupSchema} defaultValues={defaultValues} request={onSubmit} />;
 };
 
 export default RegisterForm;
