@@ -190,9 +190,6 @@ const NickName = styled.p`
   font-weight: 600;
 `;
 
-// storeID에 해당하는 vote 가져오기 -> category 별로 개수 반환
-const voteCnt = { KO01: 112, CH02: 249, JP03: 29 };
-
 // storeId에 해당하는 comment 필터
 // 해당 comments data에서 email이 같은 해당하는 유저 정보 중 프로필 이미지, nickname, isCertified, comment 반환
 const comments = [
@@ -232,7 +229,6 @@ const StoreDetailPage = () => {
 
   if (isLoading) return <div>Loading..</div>;
 
-  console.log('res: ', storeData);
   const { storeid, storeName, address, firstVoteUser, phoneNumber, voteCnt, archivedCnt, imgUrl } = storeData;
 
   return (
