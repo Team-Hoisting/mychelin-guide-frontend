@@ -2,10 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
-import { useRecoilState } from 'recoil';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import { Button, SideBanner } from '../components/common/index';
-import { categoryInfo } from '../constants';
-import userState from '../recoil/atoms/userState';
+import categoryCodes from '../constants/categoryCodes';
+import categoryInfo from '../constants/categoryInfo';
+import storeQueryKey from '../constants/storeQueryKey';
 
 const Container = styled.div`
   width: 100%;
@@ -14,13 +17,15 @@ const Container = styled.div`
   font-size: 20px;
 `;
 
-const StoreDetailContainer = styled.div``;
+const StoreDetailContainer = styled.div`
+  width: 100%;
+`;
 
 const StoreTitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   height: 60px;
-  width: 90%;
+  // width: 90%;
 `;
 
 const StoreTitle = styled.div`
@@ -69,25 +74,77 @@ const BookmarkIcon = styled(BsBookmark)`
 `;
 
 const Bookmark = styled.div`
-  margin-right: 16px;
+  margin: 0 20px;
+  position: relative;
+`;
+
+const ArchivedCnt = styled.span`
+  position: absolute;
+  top: -1.5px;
+  left: 36px;
 `;
 
 const ImageContainer = styled.div`
   display: flex;
-  height: 100%;
+  height: 500px;
+  min-width: 800px;
+`;
+
+const DetailContainer = styled.div`
+  width: 35%;
+  min-width: 330px;
+  position: relative;
+  background-color: lightgray;
+  border-radius: 4px;
 `;
 
 const Map = styled.div`
-  width: 30%;
   background-color: gray;
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 76%;
+  border-radius: 4px;
+`;
+
+const DetailTextContainer = styled.div`
+  position: absolute;
+  border: 1px solid black;
+  top: 82%;
+  left: 50%;
+  width: 90%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  padding: 5px;
+  border-radius: 4px;
+`;
+
+const Address = styled.div`
+  padding: 4px 0;
+`;
+
+const Phone = styled.div`
+  padding: 4px 0;
+`;
+
+const AddressTitle = styled.span`
+  font-weight: 700;
+`;
+
+const PhoneTitle = styled.span`
+  font-weight: 700;
 `;
 
 const Image = styled.img.attrs({
   alt: 'store',
 })`
-  max-width: 60%;
-  margin-right: 20px;
+  max-width: 70%;
+  height: 500px;
+  margin-right: 24px;
   border-radius: 4px;
+  object-fit: cover;
 `;
 
 const VoteCategories = styled.div`
@@ -134,7 +191,7 @@ const TextArea = styled.textarea.attrs(({ comment }) => ({
 }))`
   display: block;
   padding: 12px;
-  width: 80%;
+  width: 100%;
   font-size: 16px;
   border-radius: 12px;
   border: 1px solid #ced4da;
@@ -187,41 +244,20 @@ const NickName = styled.p`
   font-weight: 600;
 `;
 
-// storeID에 해당하는 vote 가져오기 -> category 별로 개수 반환
-const voteCnt = { KO01: 112, CH02: 249, JP03: 29 };
+const Center = styled.div`
+  width: 80%;
+  margin: 0 auto;
+`;
 
-// storeId에 해당하는 comment 필터
-// 해당 comments data에서 email이 같은 해당하는 유저 정보 중 프로필 이미지, nickname, isCertified, comment 반환
-const comments = [
-  { commentid: 0, email: 'bin000527@naver.com', nickname: 'abc', isCertified: true, comment: '맛있엉요' },
-  { commentid: 1, email: 'bin000527@naver.com', nickname: 'abc123', isCertified: true, comment: '맛있엉요 짱짱' },
-  {
-    commentid: 2,
-    email: 'bin00052722@naver.com',
-    nickname: 'abc12345',
-    isCertified: true,
-    comment: '맛있엉요 짜아ㅉ아',
-  },
-];
-
-const storeData = {
-  _id: 0,
-  storeId: '26571895',
-  storeName: '더백푸드트럭 해방촌점',
-  address: '서울 용산구 신흥로20길 45 1,2층',
-  email: 'sqssung',
-  phoneNumber: '02-777-3338',
-  voteCnt: { KO01: 112, CH02: 249, JP03: 29 },
-  archivedCnt: 120,
-  imgUrl:
-    'https://github.com/Team-Hoisting/mychelin-guide-storage/blob/main/storeImages/0.%EB%8D%94%EB%B0%B1%ED%91%B8%EB%93%9C%ED%8A%B8%EB%9F%AD%20%ED%95%B4%EB%B0%A9%EC%B4%8C%EC%A0%90.jpeg?raw=true',
-};
-
-const categoryTitles = ['KO01', 'CH02', 'JP03', 'WE04', 'BS05', 'BG06', 'CK07', 'PZ08', 'GB09', 'DS10', 'VG11', 'PB12'];
-
-// 중앙 정렬 제대로 X
+/**
+ * TODO
+ * 1. 중앙 정렬
+ * 2. 로그인 된 유저 가져오기
+ * 3. 로더 변경
+ * 4. skeleton
+ * 5. 투표하기, 저장, 댓글 작성
+ */
 const StoreDetailPage = () => {
-  //   const [user, setUser] = useRecoilState(userState);
   // 로그인 된 유저
   const user = {
     email: 'bin000527@naver.com',
@@ -231,66 +267,93 @@ const StoreDetailPage = () => {
     isCertified: true,
     voteOrder: [],
   };
-  const { storeid, storeName, address, phoneNumber, imgUrl, voteCnt, archivedCnt } = storeData;
+
+  const { id } = useParams();
+
+  const { isLoading: storesLoading, data: storeData } = useQuery([...storeQueryKey, id], async () => {
+    const res = await axios.get(`/api/stores/${id}`);
+    return res.data;
+  });
+
+  const { isLoading: commentsLoading, data: commentsData } = useQuery(['comments', id], async () => {
+    const res = await axios.get(`/api/comments/${id}`);
+    return res.data;
+  });
+
+  if (storesLoading || commentsLoading) return <div>Loading..</div>;
+
+  const { storeid, storeName, address, firstVoteUser, phoneNumber, voteCnt, archivedCnt, imgUrl } = storeData;
 
   return (
     <>
       <Container className="container">
-        <StoreDetailContainer>
-          <StoreTitleContainer>
-            <StoreTitle>
-              <Title>{storeName}</Title>
-              <StarContainer>
-                <Star />
-                <Star />
-                <Star />
-              </StarContainer>
-            </StoreTitle>
-            <Side>
-              <Bookmark>
-                <BookmarkIcon />
-                <span>{archivedCnt}</span>
-              </Bookmark>
-              <VoteButton>투표하기</VoteButton>
-            </Side>
-          </StoreTitleContainer>
-          <FirstVoteUser>
-            최초 투표자 : <UserName>손규성</UserName>
-          </FirstVoteUser>
-          <ImageContainer>
-            <Image src={imgUrl} />
-            <Map>지도 표시</Map>
-          </ImageContainer>
-          <VoteCategories>
-            {categoryTitles.map(
-              ctg =>
-                voteCnt[ctg] && (
-                  <Category key={ctg}>
-                    <CategoryIcon ctg={ctg} />
-                    <CategoryText>{categoryInfo[ctg].ko}</CategoryText>
-                    <CategoryText>{voteCnt[ctg]}</CategoryText>
-                  </Category>
-                )
-            )}
-          </VoteCategories>
-        </StoreDetailContainer>
-        <CommentsContainer>
-          <Label>댓글</Label>
-          <TextArea></TextArea>
-          <Comments>
-            {comments.map(({ commentid, email, nickname, isCertified, comment }) => (
-              <Comment key={commentid}>
-                <User>
-                  <Profile />
-                  <NickName>{nickname}</NickName>
-                  {isCertified && <CertifiedIcon />}
-                </User>
-                <CommentText>{comment}</CommentText>
-                {email === user.email && <CloseBtn>X</CloseBtn>}
-              </Comment>
-            ))}
-          </Comments>
-        </CommentsContainer>
+        <Center>
+          <StoreDetailContainer>
+            <StoreTitleContainer>
+              <StoreTitle>
+                <Title>{storeName}</Title>
+                <StarContainer>
+                  <Star />
+                  <Star />
+                  <Star />
+                </StarContainer>
+              </StoreTitle>
+              <Side>
+                <Bookmark>
+                  <BookmarkIcon />
+                  <ArchivedCnt>{archivedCnt}</ArchivedCnt>
+                </Bookmark>
+                <VoteButton>투표하기</VoteButton>
+              </Side>
+            </StoreTitleContainer>
+            <FirstVoteUser>
+              최초 투표자 : <UserName>{firstVoteUser}</UserName>
+            </FirstVoteUser>
+            <ImageContainer>
+              <Image src={imgUrl} />
+              <DetailContainer>
+                <Map>지도 표시</Map>
+                <DetailTextContainer>
+                  <Address>
+                    <AddressTitle>주소 </AddressTitle>: {address}
+                  </Address>
+                  <Phone>
+                    <PhoneTitle>전화번호</PhoneTitle>: {phoneNumber}
+                  </Phone>
+                </DetailTextContainer>
+              </DetailContainer>
+            </ImageContainer>
+            <VoteCategories>
+              {categoryCodes.map(
+                ctg =>
+                  voteCnt[ctg] && (
+                    <Category key={ctg}>
+                      <CategoryIcon ctg={ctg} />
+                      <CategoryText>{categoryInfo[ctg].ko}</CategoryText>
+                      <CategoryText>{voteCnt[ctg]}</CategoryText>
+                    </Category>
+                  )
+              )}
+            </VoteCategories>
+          </StoreDetailContainer>
+          <CommentsContainer>
+            <Label>댓글</Label>
+            <TextArea></TextArea>
+            <Comments>
+              {commentsData.map(({ commentid, email, nickname, isCertified, comment }) => (
+                <Comment key={commentid}>
+                  <User>
+                    <Profile />
+                    <NickName>{nickname}</NickName>
+                    {isCertified && <CertifiedIcon />}
+                  </User>
+                  <CommentText>{comment}</CommentText>
+                  {email === user.email && <CloseBtn>X</CloseBtn>}
+                </Comment>
+              ))}
+            </Comments>
+          </CommentsContainer>
+        </Center>
       </Container>
       {/* <SideBanner /> */}
     </>
