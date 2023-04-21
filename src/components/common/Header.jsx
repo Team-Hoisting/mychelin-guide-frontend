@@ -32,7 +32,6 @@ const LogoImage = styled.img`
 const SearchContainer = styled.div`
   position: relative;
   display: flex;
-  /* right: 60px; */
 `;
 
 const SearchBar = styled.input`

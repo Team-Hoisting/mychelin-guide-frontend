@@ -3,14 +3,7 @@ import styled from 'styled-components';
 import { Divider } from '@mantine/core';
 
 const ResultItemContainer = styled.div`
-  margin: 15px 0;
   padding: 10px;
-  width: 250px;
-  height: 100px;
-  background-color: white;
-  opacity: 0.9;
-  border-radius: 20px;
-  box-shadow: 3px 3px 3px #ababab;
 `;
 
 const StoreName = styled.h5`
