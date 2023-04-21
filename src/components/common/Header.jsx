@@ -111,7 +111,10 @@ const Header = () => {
         <Wrapper>
           <div>
             <Link to="/main">
-              <LogoImage src="../public/mychelin-guide-logo-light.png" alt="mychelin guide logo" to="/main"></LogoImage>
+              <LogoImage
+                src="../public/images/mychelin-guide-logo-light.png"
+                alt="마이슐랭 가이드 로고"
+                to="/main"></LogoImage>
             </Link>
           </div>
           <SearchContainer>
