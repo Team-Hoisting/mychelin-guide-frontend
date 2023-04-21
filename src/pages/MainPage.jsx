@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import fetchStores from '../api/stores';
 // import fetchVotes from '../api/votes';
 import { StoreItem } from '../components/common';
-import Categories from '../components/mainpage/Categories';
+import Categories from '../components/main/Categories';
 
 const StoresContainer = styled.div`
   padding: 20px;
-  border: 2px dashed red;
 `;
 
 const TopStoresContainer = styled.div`
@@ -25,6 +24,9 @@ const RestStoresContainer = styled.div`
 const MainPage = () => {
   const [stores, setStores] = React.useState([]);
   const [topStores, setTopStores] = React.useState([]);
+  const [category, setCategory] = React.useState('AL00');
+
+  console.log('현재 카테고리:', category);
 
   React.useEffect(() => {
     (async () => {
@@ -40,9 +42,13 @@ const MainPage = () => {
     })();
   }, []);
 
+  const changeCategory = newCategory => {
+    setCategory(newCategory);
+  };
+
   return (
     <>
-      <Categories />
+      <Categories category={category} changeCategory={changeCategory} />
       <StoresContainer>
         <TopStoresContainer>
           {topStores.map(({ storeName, imgUrl }) => (
