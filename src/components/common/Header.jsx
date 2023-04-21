@@ -110,11 +110,11 @@ const Header = () => {
       <Container>
         <Wrapper>
           <div>
-            <Link to="/main">
+            <Link to="/">
               <LogoImage
                 src="../public/images/mychelin-guide-logo-light.png"
                 alt="마이슐랭 가이드 로고"
-                to="/main"></LogoImage>
+                to="/"></LogoImage>
             </Link>
           </div>
           <SearchContainer>
@@ -124,7 +124,7 @@ const Header = () => {
             </SearchIconContainer>
           </SearchContainer>
           <ConfigsContainer>
-            <Link to={user ? '/user' : '/login'}>MY</Link>
+            <Link to={user ? '/user' : '/signin'}>MY</Link>
             {user ? (
               <SignInOutButton
                 onClick={async () => {
@@ -135,7 +135,7 @@ const Header = () => {
                 SIGN OUT
               </SignInOutButton>
             ) : (
-              <Link to="/login">
+              <Link to="/signin">
                 <SignInOutButton>SIGN IN</SignInOutButton>
               </Link>
             )}

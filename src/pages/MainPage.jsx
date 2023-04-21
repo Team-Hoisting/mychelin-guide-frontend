@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import fetchStores from '../api/stores';
 // import fetchVotes from '../api/votes';
 import { StoreItem } from '../components/common';
-import Categories from '../components/mainpage/Categories';
+import Categories from '../components/main/Categories';
 
 const StoresContainer = styled.div`
   padding: 20px;

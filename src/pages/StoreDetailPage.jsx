@@ -4,11 +4,7 @@ import { BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { useRecoilState } from 'recoil';
 import { Button, SideBanner } from '../components/common/index';
-<<<<<<< HEAD
-import category from '../constants/categoryInfo';
-=======
 import { categoryInfo } from '../constants';
->>>>>>> 50d71eedd15604fad8a1c9d0aa37451ddbd71ed5
 import userState from '../recoil/atoms/userState';
 
 const Container = styled.div`
