@@ -6,14 +6,9 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Button, SideBanner } from '../components/common/index';
-<<<<<<< HEAD
 import categoryCodes from '../constants/categoryCodes';
 import categoryInfo from '../constants/categoryInfo';
 import storeQueryKey from '../constants/storeQueryKey';
-=======
-import { categoryInfo } from '../constants';
-import userState from '../recoil/atoms/userState';
->>>>>>> 6f86a031576e00b39267cf6db1e3e0a8994b0a88
 
 const Container = styled.div`
   width: 100%;
@@ -22,13 +17,15 @@ const Container = styled.div`
   font-size: 20px;
 `;
 
-const StoreDetailContainer = styled.div``;
+const StoreDetailContainer = styled.div`
+  width: 100%;
+`;
 
 const StoreTitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   height: 60px;
-  width: 90%;
+  // width: 90%;
 `;
 
 const StoreTitle = styled.div`
@@ -77,25 +74,77 @@ const BookmarkIcon = styled(BsBookmark)`
 `;
 
 const Bookmark = styled.div`
-  margin-right: 16px;
+  margin: 0 20px;
+  position: relative;
+`;
+
+const ArchivedCnt = styled.span`
+  position: absolute;
+  top: -1.5px;
+  left: 36px;
 `;
 
 const ImageContainer = styled.div`
   display: flex;
-  height: 100%;
+  height: 500px;
+  min-width: 800px;
+`;
+
+const DetailContainer = styled.div`
+  width: 35%;
+  min-width: 330px;
+  position: relative;
+  background-color: lightgray;
+  border-radius: 4px;
 `;
 
 const Map = styled.div`
-  width: 30%;
   background-color: gray;
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 76%;
+  border-radius: 4px;
+`;
+
+const DetailTextContainer = styled.div`
+  position: absolute;
+  border: 1px solid black;
+  top: 82%;
+  left: 50%;
+  width: 90%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  padding: 5px;
+  border-radius: 4px;
+`;
+
+const Address = styled.div`
+  padding: 4px 0;
+`;
+
+const Phone = styled.div`
+  padding: 4px 0;
+`;
+
+const AddressTitle = styled.span`
+  font-weight: 700;
+`;
+
+const PhoneTitle = styled.span`
+  font-weight: 700;
 `;
 
 const Image = styled.img.attrs({
   alt: 'store',
 })`
-  max-width: 60%;
-  margin-right: 20px;
+  max-width: 70%;
+  height: 500px;
+  margin-right: 24px;
   border-radius: 4px;
+  object-fit: cover;
 `;
 
 const VoteCategories = styled.div`
@@ -142,7 +191,7 @@ const TextArea = styled.textarea.attrs(({ comment }) => ({
 }))`
   display: block;
   padding: 12px;
-  width: 80%;
+  width: 100%;
   font-size: 16px;
   border-radius: 12px;
   border: 1px solid #ced4da;
@@ -195,21 +244,19 @@ const NickName = styled.p`
   font-weight: 600;
 `;
 
-// storeId에 해당하는 comment 필터
-// 해당 comments data에서 email이 같은 해당하는 유저 정보 중 프로필 이미지, nickname, isCertified, comment 반환
-const comments = [
-  { commentid: 0, email: 'bin000527@naver.com', nickname: 'abc', isCertified: true, comment: '맛있엉요' },
-  { commentid: 1, email: 'bin000527@naver.com', nickname: 'abc123', isCertified: true, comment: '맛있엉요 짱짱' },
-  {
-    commentid: 2,
-    email: 'bin00052722@naver.com',
-    nickname: 'abc12345',
-    isCertified: true,
-    comment: '맛있엉요 짜아ㅉ아',
-  },
-];
+const Center = styled.div`
+  width: 80%;
+  margin: 0 auto;
+`;
 
-// 중앙 정렬 제대로 X
+/**
+ * TODO
+ * 1. 중앙 정렬
+ * 2. 로그인 된 유저 가져오기
+ * 3. 로더 변경
+ * 4. skeleton
+ * 5. 투표하기, 저장, 댓글 작성
+ */
 const StoreDetailPage = () => {
   // 로그인 된 유저
   const user = {
@@ -223,77 +270,90 @@ const StoreDetailPage = () => {
 
   const { id } = useParams();
 
-  const {
-    isLoading,
-    isError,
-    data: storeData,
-  } = useQuery([...storeQueryKey, id], async () => {
+  const { isLoading: storesLoading, data: storeData } = useQuery([...storeQueryKey, id], async () => {
     const res = await axios.get(`/api/stores/${id}`);
     return res.data;
   });
 
-  if (isLoading) return <div>Loading..</div>;
+  const { isLoading: commentsLoading, data: commentsData } = useQuery(['comments', id], async () => {
+    const res = await axios.get(`/api/comments/${id}`);
+    return res.data;
+  });
+
+  if (storesLoading || commentsLoading) return <div>Loading..</div>;
 
   const { storeid, storeName, address, firstVoteUser, phoneNumber, voteCnt, archivedCnt, imgUrl } = storeData;
 
   return (
     <>
       <Container className="container">
-        <StoreDetailContainer>
-          <StoreTitleContainer>
-            <StoreTitle>
-              <Title>{storeName}</Title>
-              <StarContainer>
-                <Star />
-                <Star />
-                <Star />
-              </StarContainer>
-            </StoreTitle>
-            <Side>
-              <Bookmark>
-                <BookmarkIcon />
-                <span>{archivedCnt}</span>
-              </Bookmark>
-              <VoteButton>투표하기</VoteButton>
-            </Side>
-          </StoreTitleContainer>
-          <FirstVoteUser>
-            최초 투표자 : <UserName>{firstVoteUser}</UserName>
-          </FirstVoteUser>
-          <ImageContainer>
-            <Image src={imgUrl} />
-            <Map>지도 표시</Map>
-          </ImageContainer>
-          <VoteCategories>
-            {categoryCodes.map(
-              ctg =>
-                voteCnt[ctg] && (
-                  <Category key={ctg}>
-                    <CategoryIcon ctg={ctg} />
-                    <CategoryText>{categoryInfo[ctg].ko}</CategoryText>
-                    <CategoryText>{voteCnt[ctg]}</CategoryText>
-                  </Category>
-                )
-            )}
-          </VoteCategories>
-        </StoreDetailContainer>
-        <CommentsContainer>
-          <Label>댓글</Label>
-          <TextArea></TextArea>
-          <Comments>
-            {comments.map(({ commentid, email, nickname, isCertified, comment }) => (
-              <Comment key={commentid}>
-                <User>
-                  <Profile />
-                  <NickName>{nickname}</NickName>
-                  {isCertified && <CertifiedIcon />}
-                </User>
-                <CommentText>{comment}</CommentText>
-                {email === user.email && <CloseBtn>X</CloseBtn>}
-              </Comment>
-            ))}
-          </Comments>
-        </CommentsContainer>
+        <Center>
+          <StoreDetailContainer>
+            <StoreTitleContainer>
+              <StoreTitle>
+                <Title>{storeName}</Title>
+                <StarContainer>
+                  <Star />
+                  <Star />
+                  <Star />
+                </StarContainer>
+              </StoreTitle>
+              <Side>
+                <Bookmark>
+                  <BookmarkIcon />
+                  <ArchivedCnt>{archivedCnt}</ArchivedCnt>
+                </Bookmark>
+                <VoteButton>투표하기</VoteButton>
+              </Side>
+            </StoreTitleContainer>
+            <FirstVoteUser>
+              최초 투표자 : <UserName>{firstVoteUser}</UserName>
+            </FirstVoteUser>
+            <ImageContainer>
+              <Image src={imgUrl} />
+              <DetailContainer>
+                <Map>지도 표시</Map>
+                <DetailTextContainer>
+                  <Address>
+                    <AddressTitle>주소 </AddressTitle>: {address}
+                  </Address>
+                  <Phone>
+                    <PhoneTitle>전화번호</PhoneTitle>: {phoneNumber}
+                  </Phone>
+                </DetailTextContainer>
+              </DetailContainer>
+            </ImageContainer>
+            <VoteCategories>
+              {categoryCodes.map(
+                ctg =>
+                  voteCnt[ctg] && (
+                    <Category key={ctg}>
+                      <CategoryIcon ctg={ctg} />
+                      <CategoryText>{categoryInfo[ctg].ko}</CategoryText>
+                      <CategoryText>{voteCnt[ctg]}</CategoryText>
+                    </Category>
+                  )
+              )}
+            </VoteCategories>
+          </StoreDetailContainer>
+          <CommentsContainer>
+            <Label>댓글</Label>
+            <TextArea></TextArea>
+            <Comments>
+              {commentsData.map(({ commentid, email, nickname, isCertified, comment }) => (
+                <Comment key={commentid}>
+                  <User>
+                    <Profile />
+                    <NickName>{nickname}</NickName>
+                    {isCertified && <CertifiedIcon />}
+                  </User>
+                  <CommentText>{comment}</CommentText>
+                  {email === user.email && <CloseBtn>X</CloseBtn>}
+                </Comment>
+              ))}
+            </Comments>
+          </CommentsContainer>
+        </Center>
       </Container>
       {/* <SideBanner /> */}
     </>
