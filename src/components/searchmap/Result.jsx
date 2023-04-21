@@ -2,11 +2,12 @@ import { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { ResultItem } from '.';
+import ResultItemOnHover from './ResultItemOnHover';
+// import { StoreItemOnHover } from '../common/index';
 
 const Container = styled.div`
   position: relative;
-  margin: auto;
-  padding: 10px;
+  margin: 10px auto;
   width: fit-content;
 `;
 
@@ -19,9 +20,44 @@ const MapContainer = styled.div`
 
 const ResultList = styled.ul`
   position: absolute;
-  right: 30px;
-  top: 10px;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  right: 0px;
+  top: 0px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 20px;
   z-index: 990;
+`;
+
+const ResultItemContainer = styled.li`
+  position: relative;
+  margin: 15px 15px;
+  width: 250px;
+  height: 100px;
+  background-color: white;
+  opacity: 0.9;
+  border-radius: 20px;
+  box-shadow: 3px 3px 3px #ababab;
+  list-style: none;
+  overflow: hidden;
+
+  :hover {
+    scale: 1.02;
+  }
+
+  :hover > main {
+    transition: 0.1s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.8);
+
+    div {
+      display: flex;
+    }
+
+    img {
+      display: block;
+    }
+  }
 `;
 
 const { kakao } = window;
@@ -69,12 +105,16 @@ const Result = ({ resultList }) => {
     mapRef.current.setBounds(bounds, 32, 270, 32, 32);
   });
 
+  // TODO: isRegistered
   return (
     <Container>
       <MapContainer ref={mapContainerRef}></MapContainer>
       <ResultList>
         {resultList.map(({ id, place_name: storeName, road_address_name: address, phone }) => (
-          <ResultItem key={id} storeName={storeName} address={address} phoneNumber={phone} />
+          <ResultItemContainer key={id}>
+            <ResultItemOnHover storeId={id} />
+            <ResultItem key={id} storeName={storeName} address={address} phoneNumber={phone} />
+          </ResultItemContainer>
         ))}
       </ResultList>
     </Container>
