@@ -23,7 +23,7 @@ const LoginForm = () => {
 
       console.log(user);
 
-      setUser(data);
+      setUser(user);
       navigate('/');
     } catch (e) {
       setIsFailedLogin(true);

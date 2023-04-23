@@ -31,9 +31,14 @@ const PopupModal = ({ withCloseButton, title, btnText, btnBgColor, btnColor, dur
           onClick={() => setIsOpened(true)}
           styles={theme => ({
             root: {
+              width: '200px',
+              height: '44px',
+              margin: '6px',
+              border: 'none',
+              borderRadius: '12px',
+              fontSize: '16px',
               backgroundColor: btnBgColor || '#ababab',
               color: btnColor || '#000',
-              border: 0,
               '&:not([data-disabled])': theme.fn.hover({
                 backgroundColor: theme.fn.darken(btnBgColor || '#ababab', 0.05),
               }),
