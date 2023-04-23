@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Modal, Group, Button } from '@mantine/core';
+import Vote from '../modal/Vote';
+import Confirmed from '../modal/Confirmed';
 
 /*
   트리거
@@ -10,22 +12,24 @@ import { Modal, Group, Button } from '@mantine/core';
   세 번째 모달 (메인 이동, 닫기)
 */
 
-const PopupModal = ({ withCloseButton, title, btnText, btnBgColor, btnColor, duration, children }) => {
+const PopupModal = ({ withCloseButton, title, btnText, btnBgColor, btnColor, duration }) => {
+  const [step, setStep] = useState(2);
   const [isOpened, setIsOpened] = useState(false);
 
   return (
     <>
       <Modal
+        zIndex="9999"
         centered
         size="lg"
         withCloseButton={withCloseButton}
         opened={isOpened}
         onClose={() => setIsOpened(false)}
         title={title}
-        transitionProps={{ transition: 'fade', duration: duration || 300, timingFunction: 'linear' }}>
-        {children}
+        transitionProps={{ transition: 'slide-up', duration: duration || 300, timingFunction: 'linear' }}>
+        {step === 1 && <Vote onClose={() => setIsOpened(false)} />}
+        {step === 2 && <Confirmed onClose={() => setIsOpened(false)} />}
       </Modal>
-
       <Group position="center">
         <Button
           onClick={() => setIsOpened(true)}

@@ -1,21 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
-import Categories from '../main/Categories';
 import Button from '../common/Button';
+import { CategoryBox } from '../common/index';
+import categoryCodes from '../../constants/categoryCodes';
+import categoryInfo from '../../constants/categoryInfo';
 
 const Container = styled.div`
   padding: 2rem 1.2rem;
 `;
 
 const Info = styled.div`
-  margin-bottom: 3rem;
+  margin-bottom: 6rem;
 `;
 
 const Store = styled.h2`
   margin-bottom: 0.4rem;
 `;
 
+const Selector = styled.div`
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  font-size: 10px;
+`;
+
 const Guidance = styled.div`
+  margin-top: 5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,14 +49,8 @@ const Control = styled(Button)`
   width: 70%;
 `;
 
-// const Wrapper = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(6, 1fr);
-//   grid-template-rows: repeat(2, 1fr);
-// `;
-
-const Vote = () => {
-  console.log();
+const Vote = ({ onClose }) => {
+  const [selectedCode, setSelectedCode] = React.useState(null);
 
   return (
     <Container>
@@ -54,9 +58,21 @@ const Vote = () => {
         <Store>오므토토마토 강남본점</Store>
         <span className="address">서울 강남구 테헤란로4길 29 1층 오므토토마토 강남본점</span>
       </Info>
-      {/* <Wrapper>
-        <Categories />
-      </Wrapper> */}
+      <Selector>
+        {categoryCodes.map(code => {
+          if (code === 'AL00') return null;
+
+          return (
+            <CategoryBox
+              categoryName={categoryInfo[code].ko}
+              categoryImgFile={categoryInfo[code].imgFile}
+              colored={selectedCode === code}
+              key={categoryInfo[code].ko}
+              clickHandler={() => setSelectedCode(code)}
+            />
+          );
+        })}
+      </Selector>
       <Guidance>
         <p>카테고리당 1곳만 투표할 수 있습니다.</p>
         <p>
@@ -67,7 +83,9 @@ const Vote = () => {
         <Control red thirty>
           투표하기
         </Control>
-        <Control thirty>취소하기</Control>
+        <Control thirty onClick={onClose}>
+          취소하기
+        </Control>
       </ButtonGroup>
     </Container>
   );
