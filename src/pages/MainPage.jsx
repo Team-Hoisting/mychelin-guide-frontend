@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import fetchStores from '../api/stores';
+import { fetchStores } from '../api/stores';
 import { StoreItem, CategoryTag } from '../components/common';
 import { StoreItemOnHover, Categories } from '../components/main';
 

@@ -8,4 +8,10 @@ const fetchStores = async () => {
   return response.data;
 };
 
-export default fetchStores;
+const fetchStoreItem = async id => {
+  const response = await axios.get(`${url}/${id}`);
+
+  return response.data;
+};
+
+export { fetchStores, fetchStoreItem };
