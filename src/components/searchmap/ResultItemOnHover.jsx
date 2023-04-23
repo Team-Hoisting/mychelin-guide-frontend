@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Link } from 'react-router-dom';
 import { Button } from '../common';
+import { fetchStoreItem } from '../../api/stores';
 
 const Container = styled.main`
   z-index: 9999;
@@ -13,13 +15,6 @@ const Container = styled.main`
   align-items: center;
   justify-content: center;
   border-radius: 20px;
-`;
-
-const HoverItemIcon = styled.img.attrs({
-  src: '/images/fork-spoon.png',
-})`
-  width: 30px;
-  display: none;
 `;
 
 const ButtonContainer = styled.div`
@@ -44,7 +39,19 @@ const InfoText = styled.p`
 `;
 
 const ResultItemOnHover = ({ storeId }) => {
-  const isRegistered = false;
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const storeInfo = await fetchStoreItem(storeId);
+
+        setIsRegistered(!!storeInfo);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
 
   return (
     <Container>
