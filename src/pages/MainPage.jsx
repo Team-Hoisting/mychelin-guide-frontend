@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import fetchStores from '../api/stores';
-// import fetchVotes from '../api/votes';
-import { StoreItem } from '../components/common';
-import Categories from '../components/main/Categories';
-import StoreItemOnHover from '../components/main/StoreItemOnHover';
+import { StoreItem, CategoryTag } from '../components/common';
+import { StoreItemOnHover, Categories } from '../components/main';
 
 const StoresContainer = styled.div`
   padding: 20px;
@@ -49,31 +47,38 @@ const StoreItemContainer = styled.div`
   }
 `;
 
-const MainPage = () => {
-  const [stores, setStores] = React.useState([]);
-  const [topStores, setTopStores] = React.useState([]);
-  const [category, setCategory] = React.useState('AL00');
+const filterFetchedStores = (stores, category, searchInput) => {
+  if (category === 'AL00' && !searchInput) return stores;
 
-  console.log('현재 카테고리:', category);
+  const filteredByCategory = stores.filter(({ votesByCategory }) => Object.keys(votesByCategory).includes(category));
+  const filteredByUserSearch = !searchInput
+    ? filteredByCategory
+    : filteredByCategory.filter(({ storeName }) => storeName.includes(searchInput));
+
+  return filteredByUserSearch;
+};
+
+const MainPage = () => {
+  const [displayedStores, setDisplayedStores] = React.useState({ topThree: [], remaining: [] });
+  const [category, setCategory] = React.useState('AL00');
+  const [searchInput, setSearchInput] = React.useState(''); // Todo: Must lift this state up
 
   React.useEffect(() => {
     (async () => {
       try {
-        const stores = await fetchStores();
-        // const votes = await fetchVotes();
+        const allStores = await fetchStores();
+        const filteredStores = filterFetchedStores(allStores, category, searchInput);
+        const toDisplay = { topThree: filteredStores.splice(0, 3), remaining: filteredStores };
 
-        setTopStores(stores.splice(0, 3));
-        setStores(stores.splice(0, 10));
+        setDisplayedStores(toDisplay);
       } catch (e) {
         console.log(e);
       }
     })();
-  }, []);
+  }, [category, searchInput]);
 
   const changeCategory = newCategory => {
     setCategory(newCategory);
-
-    console.log(newCategory);
   };
 
   return (
@@ -81,7 +86,7 @@ const MainPage = () => {
       <Categories category={category} changeCategory={changeCategory} />
       <StoresContainer>
         <TopStoresContainer>
-          {topStores.map(({ storeId, storeName, imgUrl }) => (
+          {displayedStores.topThree.map(({ storeId, storeName, imgUrl }) => (
             <StoreItemContainer key={storeId}>
               <StoreItemOnHover storeId={storeId} />
               <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} />
@@ -89,7 +94,7 @@ const MainPage = () => {
           ))}
         </TopStoresContainer>
         <RestStoresContainer>
-          {stores.map(({ storeId, storeName, imgUrl }) => (
+          {displayedStores.remaining.map(({ storeId, storeName, imgUrl }) => (
             <StoreItemContainer key={storeId}>
               <StoreItemOnHover storeId={storeId} />
               <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} />
