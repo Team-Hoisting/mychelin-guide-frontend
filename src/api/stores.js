@@ -14,4 +14,10 @@ const fetchStoreItem = async id => {
   return response.data;
 };
 
-export { fetchStores, fetchStoreItem };
+const fetchStore = storeid => async () => {
+  const response = await axios.get(`${url}/${storeid}`);
+
+  return response.data;
+};
+
+export { fetchStores, fetchStore, fetchStoreItem };
