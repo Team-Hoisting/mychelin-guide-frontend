@@ -25,7 +25,7 @@ const buttonStyle = css`
       &:hover {
         background: #a10303;
       }
-    `}
+    `};
 
   ${props =>
     props.gray &&
@@ -36,7 +36,7 @@ const buttonStyle = css`
       &:hover {
         background: #c4c2c2;
       }
-    `}
+    `};
 
   ${props =>
     props.full &&
@@ -45,9 +45,19 @@ const buttonStyle = css`
       padding-bottom: 0.75rem;
       width: 100%;
       font-size: 0.9rem;
-    `}
-  
-    ${props =>
+    `};
+
+  ${props =>
+    props.thirty &&
+    css`
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+      width: 30%;
+      font-size: 0.9rem;
+      margin: 2rem;
+    `};
+
+  ${props =>
     props.small &&
     css`
       padding: 0;
@@ -55,7 +65,7 @@ const buttonStyle = css`
       font-size: 0.1rem;
       width: 60px;
       flex-shrink: 0;
-    `}
+    `};
 
   &:disabled {
     color: #fff;

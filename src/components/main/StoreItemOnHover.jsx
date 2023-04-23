@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Button } from '../common';
+import Modal from '../common/Modal';
+import Vote from '../modal/Vote';
 
 const Container = styled.main`
   z-index: 9999;
@@ -45,7 +47,9 @@ const StoreItemOnHover = ({ storeId }) => (
       <Link to="/detail">
         <RoundedButton gray>상세보기</RoundedButton>
       </Link>
-      <RoundedButton red>투표하기</RoundedButton>
+      <Modal withCloseButton={false} btnText="투표하기" btnBgColor="#d21312" btnColor="#fff" duration={100}>
+        <Vote />
+      </Modal>
     </ButtonContainer>
   </Container>
 );
