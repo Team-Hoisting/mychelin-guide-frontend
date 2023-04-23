@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { MdOutlineKeyboardDoubleArrowDown } from 'react-icons/md';
 
 const Container = styled.div`
   padding: 2rem 2rem;
@@ -13,13 +14,14 @@ const ChangeLog = styled.div``;
 
 const Box = styled.div`
   background: #ababab;
-  padding: 1.5rem;
+  padding: 1.2rem;
   display: flex;
   justify-content: center;
   margin-bottom: 1rem;
-  margin-left: 5rem;
-  margin-right: 5rem;
+  margin-left: 7rem;
+  margin-right: 7rem;
   border-radius: 7px;
+  font-size: 1.3rem;
 `;
 
 const Confirmed = () => {
@@ -32,6 +34,7 @@ const Confirmed = () => {
       </p>
       <ChangeLog>
         <Box>오므토토마토 강남본점</Box>
+        <MdOutlineKeyboardDoubleArrowDown />
         <Box>오레노카츠</Box>
       </ChangeLog>
     </Container>
