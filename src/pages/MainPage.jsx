@@ -72,6 +72,8 @@ const MainPage = () => {
 
   const changeCategory = newCategory => {
     setCategory(newCategory);
+
+    console.log(newCategory);
   };
 
   return (
