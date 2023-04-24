@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { AiOutlineArrowRight } from 'react-icons/ai';
 import { BiMoon, BiSun } from 'react-icons/bi';
 import { useLocation, useParams, Link, useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userState, searchInputState } from '../../recoil/atoms';
 import { logout } from '../../api/auth';
 import Responsive from './Responsive';
+import { SearchBar } from './index';
 
 const Container = styled.div`
   position: fixed;
@@ -27,39 +27,6 @@ const Wrapper = styled(Responsive)`
 const LogoImage = styled.img`
   width: 150px;
   cursor: pointer;
-`;
-
-const SearchForm = styled.form`
-  position: relative;
-  display: flex;
-`;
-
-const SearchBar = styled.input`
-  width: 500px;
-  height: 40px;
-  border-radius: 20px;
-  border: 1px solid #ababab;
-  padding: 15px;
-  :focus {
-    outline: none;
-  }
-`;
-
-const SearchButton = styled.button`
-  background: none;
-  border: none;
-  background-color: #d21312;
-  position: relative;
-  right: 35px;
-  top: 5px;
-  padding: 7px;
-  height: 30px;
-  width: 30px;
-  border-radius: 30px;
-`;
-
-const SearchIcon = styled(AiOutlineArrowRight)`
-  color: #fff;
 `;
 
 const LightModeIcon = styled(BiSun)`
@@ -132,21 +99,13 @@ const Header = () => {
               <LogoImage
                 src="../public/images/mychelin-guide-logo-light.png"
                 alt="마이슐랭 가이드 로고"
-                onClick={() => setSearchInput('')}></LogoImage>
+                onClick={() => {
+                  setSearchInput('');
+                  searchBarRef.current.value = '';
+                }}></LogoImage>
             </Link>
           </div>
-          {searchBarStatus && (
-            <SearchForm onSubmit={e => applySearchResult(e)}>
-              <SearchBar
-                placeholder="맛집을 검색해보세요!"
-                ref={searchBarRef}
-                // onChange={e => setSearchInput(e.target.value)}
-              />
-              <SearchButton>
-                <SearchIcon />
-              </SearchButton>
-            </SearchForm>
-          )}
+          {searchBarStatus && <SearchBar submitHandler={applySearchResult} refName={searchBarRef} />}
           <ConfigsContainer>
             <Link to={user ? '/user' : '/signin'}>MY</Link>
             {user ? (
