@@ -43,7 +43,7 @@ const StoreItemOnHover = ({ storeId }) => (
   <Container>
     <HoverItemIcon />
     <ButtonContainer>
-      <Link to="/detail">
+      <Link to={`/store/${storeId}`}>
         <RoundedButton gray>상세보기</RoundedButton>
       </Link>
       <Modal
