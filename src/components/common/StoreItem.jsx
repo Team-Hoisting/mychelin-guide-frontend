@@ -42,7 +42,7 @@ const Name = styled(Link)`
   text-overflow: ellipsis;
   white-space: nowrap;
   word-wrap: normal;
-  width: 50%;
+  width: 70%;
   overflow: hidden;
 `;
 
