@@ -114,7 +114,7 @@ const MainPage = () => {
             <NoMatchingSearchInput>{`'${searchInput}'`}</NoMatchingSearchInput>에 해당하는 결과가 없습니다.
           </p>
           <p>
-            <Link to={`/searchmap/?=${searchInput}`}>
+            <Link to={`/searchmap?keyword=${searchInput}`}>
               <SearchmapPageDirector>새로운 가게를 추가하고 최초 투표자가 되어보세요!</SearchmapPageDirector>
             </Link>
           </p>
