@@ -1,9 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
-import Button from '../common/Button';
+import styled, { css } from 'styled-components';
 import { CategoryBox } from '../common/index';
 import categoryCodes from '../../constants/categoryCodes';
 import categoryInfo from '../../constants/categoryInfo';
+import ButtonGroup from './ButtonGroup';
 
 const Container = styled.div`
   padding: 2rem 1.2rem;
@@ -14,6 +14,18 @@ const Container = styled.div`
   background: #fff;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+
+  ${props =>
+    props.notFixed &&
+    css`
+      position: static;
+      top: 0;
+      left: 0;
+      transform: none;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+    `}
 `;
 
 const Info = styled.div`
@@ -47,20 +59,11 @@ const Guidance = styled.div`
   }
 `;
 
-const ButtonGroup = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-const Control = styled(Button)`
-  width: 70%;
-`;
-
-const Vote = ({ onClose }) => {
+const Vote = ({ onClose, onNext, notFixed }) => {
   const [selectedCode, setSelectedCode] = React.useState(null);
 
   return (
-    <Container>
+    <Container notFixed={notFixed}>
       <Info>
         <Store>오므토토마토 강남본점</Store>
         <span className="address">서울 강남구 테헤란로4길 29 1층 오므토토마토 강남본점</span>
@@ -86,14 +89,13 @@ const Vote = ({ onClose }) => {
           정말 <span className="em">투표</span>하시겠습니까?
         </p>
       </Guidance>
-      <ButtonGroup>
-        <Control red thirty>
-          투표하기
-        </Control>
-        <Control thirty onClick={onClose}>
-          취소하기
-        </Control>
-      </ButtonGroup>
+      <ButtonGroup
+        isDisable={selectedCode === null}
+        leftText="투표하기"
+        rightText="취소하기"
+        onNext={onNext}
+        onClose={onClose}
+      />
     </Container>
   );
 };

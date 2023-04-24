@@ -1,20 +1,34 @@
-import { useState } from 'react';
+import React from 'react';
 import { Modal, Group, Button } from '@mantine/core';
 import Vote from '../modal/Vote';
 import Confirmed from '../modal/Confirmed';
-
-/*
-  트리거
-  첫 번째 모달 (투표하기, 취소)
-  투표하기 버튼 클릭
-  두 번째 모달 optional? (확인, 취소)
-  확인 버튼 클릭
-  세 번째 모달 (메인 이동, 닫기)
-*/
+import Success from '../modal/Success';
 
 const PopupModal = ({ withCloseButton, title, btnText, btnBgColor, btnColor, duration }) => {
-  const [step, setStep] = useState(2);
-  const [isOpened, setIsOpened] = useState(false);
+  const [step, setStep] = React.useState(1);
+  const [isOpened, setIsOpened] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!isOpened) return;
+
+    setStep(1);
+  }, [isOpened]);
+
+  const onPrev = () => {
+    if (step === 1) return;
+
+    setStep(step - 1);
+  };
+
+  const onNext = () => {
+    if (step === 3) return;
+
+    setStep(step + 1);
+  };
+
+  const onClose = () => {
+    setIsOpened(false);
+  };
 
   return (
     <>
@@ -24,11 +38,12 @@ const PopupModal = ({ withCloseButton, title, btnText, btnBgColor, btnColor, dur
         size="lg"
         withCloseButton={withCloseButton}
         opened={isOpened}
-        onClose={() => setIsOpened(false)}
+        onClose={onClose}
         title={title}
         transitionProps={{ transition: 'slide-up', duration: duration || 300, timingFunction: 'linear' }}>
-        {step === 1 && <Vote onClose={() => setIsOpened(false)} />}
-        {step === 2 && <Confirmed onClose={() => setIsOpened(false)} />}
+        {step === 1 && <Vote notFixed={true} onNext={onNext} onClose={onClose} />}
+        {step === 2 && <Confirmed onNext={onNext} onClose={onPrev} />}
+        {step === 3 && <Success />}
       </Modal>
       <Group position="center">
         <Button

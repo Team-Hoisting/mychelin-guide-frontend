@@ -47,7 +47,7 @@ const StoreItemOnHover = ({ storeId }) => (
       <Link to="/detail">
         <RoundedButton gray>상세보기</RoundedButton>
       </Link>
-      <Modal withCloseButton={false} btnText="투표하기" btnBgColor="#d21312" btnColor="#fff" duration={300} />
+      <Modal withCloseButton={true} btnText="투표하기" btnBgColor="#d21312" btnColor="#fff" duration={300} />
     </ButtonContainer>
   </Container>
 );

@@ -1,42 +1,81 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { MdOutlineKeyboardDoubleArrowDown } from 'react-icons/md';
+import ButtonGroup from './ButtonGroup';
 
 const Container = styled.div`
   padding: 2rem 2rem;
-
-  .em {
-    color: #d21312;
-  }
 `;
 
-const ChangeLog = styled.div``;
+const ChangeLog = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+`;
 
 const Box = styled.div`
   background: #ababab;
   padding: 1.2rem;
   display: flex;
   justify-content: center;
-  margin-bottom: 1rem;
-  margin-left: 7rem;
-  margin-right: 7rem;
+  margin: 1rem 7rem;
   border-radius: 7px;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
+  width: 50%;
+
+  span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;
+  }
 `;
 
-const Confirmed = () => {
+const Text = styled.p`
+  margin: 0;
+  padding: 0;
+
+  .bold {
+    font-weight: 700;
+  }
+
+  .red {
+    color: #d21312;
+  }
+
+  ${props =>
+    props.center &&
+    css`
+      text-align: center;
+    `}
+`;
+
+const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
+  font-size: 1.5rem;
+`;
+
+const Confirmed = ({ onNext, onClose }) => {
   console.log('');
 
   return (
     <Container>
-      <p>
-        현재 <span className="em">한식 카테고리</span>에서
-      </p>
+      <Text>
+        현재 <span className="red">한식 카테고리</span>에서
+      </Text>
       <ChangeLog>
-        <Box>오므토토마토 강남본점</Box>
-        <MdOutlineKeyboardDoubleArrowDown />
-        <Box>오레노카츠</Box>
+        <Box>
+          <span>오므토토마토 강남본점</span>
+        </Box>
+        <ArrowIcon />
+        <Box>
+          <span>오레노카츠</span>
+        </Box>
       </ChangeLog>
+      <Text center>
+        <span className="bold">변경</span>하시겠습니까?
+      </Text>
+      <ButtonGroup leftText="확인" rightText="취소" onNext={onNext} onClose={onClose} mt="2rem" />
     </Container>
   );
 };
