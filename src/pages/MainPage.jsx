@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import searchInputState from '../recoil/atoms/searchInputState';
 import { fetchStores } from '../api/stores';
-import { StoreItem, CategoryTag } from '../components/common';
+import { StoreItem } from '../components/common';
 import { StoreItemOnHover, Categories } from '../components/main';
 
 const StoresContainer = styled.div`
@@ -55,14 +55,9 @@ const filterFetchedStores = (stores, category, searchInput) => {
       ? stores
       : stores.filter(({ votesByCategory }) => Object.keys(votesByCategory).includes(category));
 
-  console.log('[Inside filter func]', filteredByCategory);
-  console.log('[Inside filter func]', searchInput);
-
   const filteredByUserSearch = !searchInput
     ? filteredByCategory
     : filteredByCategory.filter(({ storeName }) => storeName.includes(searchInput));
-
-  console.log('[Inside filter func]', filteredByUserSearch);
 
   return filteredByUserSearch;
 };
@@ -95,18 +90,18 @@ const MainPage = () => {
       <Categories category={category} changeCategory={changeCategory} />
       <StoresContainer>
         <TopStoresContainer>
-          {displayedStores.topThree.map(({ storeId, storeName, imgUrl }) => (
+          {displayedStores.topThree.map(({ storeId, storeName, imgUrl, votesByCategory }) => (
             <StoreItemContainer key={storeId}>
               <StoreItemOnHover storeId={storeId} />
-              <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} />
+              <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} votesByCategory={votesByCategory} />
             </StoreItemContainer>
           ))}
         </TopStoresContainer>
         <RestStoresContainer>
-          {displayedStores.remaining.map(({ storeId, storeName, imgUrl }) => (
+          {displayedStores.remaining.map(({ storeId, storeName, imgUrl, votesByCategory }) => (
             <StoreItemContainer key={storeId}>
               <StoreItemOnHover storeId={storeId} />
-              <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} />
+              <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} votesByCategory={votesByCategory} />
             </StoreItemContainer>
           ))}
         </RestStoresContainer>
