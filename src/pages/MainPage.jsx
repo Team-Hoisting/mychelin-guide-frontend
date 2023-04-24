@@ -73,7 +73,7 @@ const filterFetchedStores = (stores, category, searchInput) => {
       ? stores
       : stores.filter(({ votesByCategory }) => Object.keys(votesByCategory).includes(category));
 
-  const filteredByUserSearch = !searchInput
+  const filteredByUserSearch = !searchInput.length
     ? filteredByCategory
     : filteredByCategory.filter(({ storeName }) => storeName.includes(searchInput));
 
@@ -90,11 +90,10 @@ const MainPage = () => {
       try {
         const allStores = await fetchStores();
         const filteredStores = filterFetchedStores(allStores, category, searchInput);
-        const toDisplay = { topThree: filteredStores.splice(0, 3), remaining: filteredStores };
 
-        setDisplayedStores(toDisplay);
+        setDisplayedStores({ topThree: filteredStores.splice(0, 3), remaining: filteredStores });
       } catch (e) {
-        console.log(e);
+        console.log('[ERROR]: ', e);
       }
     })();
   }, [category, searchInput]);
@@ -103,29 +102,16 @@ const MainPage = () => {
     setCategory(newCategory);
   };
 
-  const hasNoMatchingResults = !displayedStores.length && searchInput;
-
   return (
     <>
       <Categories category={category} changeCategory={changeCategory} />
-      {hasNoMatchingResults ? (
-        <NoResultContainer>
-          <p>
-            <NoMatchingSearchInput>{`'${searchInput}'`}</NoMatchingSearchInput>에 해당하는 결과가 없습니다.
-          </p>
-          <p>
-            <Link to={`/searchmap?keyword=${searchInput}`}>
-              <SearchmapPageDirector>새로운 가게를 추가하고 최초 투표자가 되어보세요!</SearchmapPageDirector>
-            </Link>
-          </p>
-        </NoResultContainer>
-      ) : (
+      {displayedStores.topThree.length ? (
         <StoresContainer>
           <TopStoresContainer>
             {displayedStores.topThree.map(({ storeId, storeName, imgUrl, votesByCategory }) => (
               <StoreItemContainer key={storeId}>
                 <StoreItemOnHover storeId={storeId} />
-                <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} votesByCategory={votesByCategory} />
+                <StoreItem key={storeId} storeName={storeName} imgUrl={imgUrl} votesByCategory={votesByCategory} />
               </StoreItemContainer>
             ))}
           </TopStoresContainer>
@@ -138,6 +124,15 @@ const MainPage = () => {
             ))}
           </RestStoresContainer>
         </StoresContainer>
+      ) : (
+        <NoResultContainer>
+          <p>
+            <NoMatchingSearchInput>{`'${searchInput}'`}</NoMatchingSearchInput>에 해당하는 결과가 없습니다.
+          </p>
+          <Link to={`/searchmap?keyword=${searchInput}`}>
+            <SearchmapPageDirector>새로운 가게를 추가하고 최초 투표자가 되어보세요!</SearchmapPageDirector>
+          </Link>
+        </NoResultContainer>
       )}
     </>
   );
