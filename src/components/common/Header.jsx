@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { BiMoon, BiSun } from 'react-icons/bi';
-import { useRecoilState } from 'recoil';
-import { Link } from 'react-router-dom/dist/index';
-import userState from '../../recoil/atoms/userState';
+import { useLocation, useParams, Link, useNavigate } from 'react-router-dom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { userState, searchInputState } from '../../recoil/atoms';
 import { logout } from '../../api/auth';
 import Responsive from './Responsive';
 
@@ -29,7 +29,7 @@ const LogoImage = styled.img`
   cursor: pointer;
 `;
 
-const SearchContainer = styled.div`
+const SearchForm = styled.form`
   position: relative;
   display: flex;
 `;
@@ -45,11 +45,11 @@ const SearchBar = styled.input`
   }
 `;
 
-const SearchIconContainer = styled.div`
+const SearchButton = styled.button`
+  background: none;
+  border: none;
   background-color: #d21312;
-  display: flex;
   position: relative;
-  cursor: pointer;
   right: 35px;
   top: 5px;
   padding: 7px;
@@ -100,9 +100,28 @@ const Spacer = styled.div`
 
 const Header = () => {
   const [user, setUser] = useRecoilState(userState);
+  const setSearchInput = useSetRecoilState(searchInputState);
+  const searchBarRef = React.useRef(null);
+  const navigate = useNavigate();
+
   const isDark = false;
 
+  const { pathname } = useLocation();
+  const { id } = useParams();
+  const searchBarStatus = pathname === '/' || pathname === `/store/${id}`;
+
   console.log('[Header]', user);
+
+  const applySearchResult = e => {
+    e.preventDefault();
+
+    const searchedContent = searchBarRef.current.value.trim();
+
+    if (!searchedContent) return;
+    if (pathname !== '/') navigate('/');
+
+    setSearchInput(searchedContent);
+  };
 
   return (
     <>
@@ -116,12 +135,18 @@ const Header = () => {
                 to="/"></LogoImage>
             </Link>
           </div>
-          <SearchContainer>
-            <SearchBar placeholder="맛집을 검색해보세요!" />
-            <SearchIconContainer>
-              <SearchIcon />
-            </SearchIconContainer>
-          </SearchContainer>
+          {searchBarStatus && (
+            <SearchForm onSubmit={e => applySearchResult(e)}>
+              <SearchBar
+                placeholder="맛집을 검색해보세요!"
+                ref={searchBarRef}
+                // onChange={e => setSearchInput(e.target.value)}
+              />
+              <SearchButton>
+                <SearchIcon />
+              </SearchButton>
+            </SearchForm>
+          )}
           <ConfigsContainer>
             <Link to={user ? '/user' : '/signin'}>MY</Link>
             {user ? (

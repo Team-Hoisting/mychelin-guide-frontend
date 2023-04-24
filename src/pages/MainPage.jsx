@@ -1,5 +1,7 @@
 import React from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import searchInputState from '../recoil/atoms/searchInputState';
 import { fetchStores } from '../api/stores';
 import { StoreItem, CategoryTag } from '../components/common';
 import { StoreItemOnHover, Categories } from '../components/main';
@@ -48,12 +50,19 @@ const StoreItemContainer = styled.div`
 `;
 
 const filterFetchedStores = (stores, category, searchInput) => {
-  if (category === 'AL00' && !searchInput) return stores;
+  const filteredByCategory =
+    category === 'AL00'
+      ? stores
+      : stores.filter(({ votesByCategory }) => Object.keys(votesByCategory).includes(category));
 
-  const filteredByCategory = stores.filter(({ votesByCategory }) => Object.keys(votesByCategory).includes(category));
+  console.log('[Inside filter func]', filteredByCategory);
+  console.log('[Inside filter func]', searchInput);
+
   const filteredByUserSearch = !searchInput
     ? filteredByCategory
     : filteredByCategory.filter(({ storeName }) => storeName.includes(searchInput));
+
+  console.log('[Inside filter func]', filteredByUserSearch);
 
   return filteredByUserSearch;
 };
@@ -61,7 +70,7 @@ const filterFetchedStores = (stores, category, searchInput) => {
 const MainPage = () => {
   const [displayedStores, setDisplayedStores] = React.useState({ topThree: [], remaining: [] });
   const [category, setCategory] = React.useState('AL00');
-  const [searchInput, setSearchInput] = React.useState(''); // Todo: Must lift this state up
+  const searchInput = useRecoilValue(searchInputState);
 
   React.useEffect(() => {
     (async () => {
