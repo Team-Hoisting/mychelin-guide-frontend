@@ -38,10 +38,11 @@ const SearchBar = ({
   submitHandler = () => {},
   changeHandler = () => {},
   placeholder = '맛집을 검색해보세요!',
+  defaultValue = '',
   refName,
 }) => (
   <SearchForm onSubmit={e => submitHandler(e)}>
-    <Bar placeholder={placeholder} ref={refName} onChange={e => changeHandler(e)} />
+    <Bar placeholder={placeholder} defaultValue={defaultValue} ref={refName} onChange={e => changeHandler(e)} />
     <SearchButton>
       <SearchIcon />
     </SearchButton>
