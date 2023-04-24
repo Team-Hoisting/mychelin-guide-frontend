@@ -9,10 +9,22 @@ import RegisterPage from './pages/RegisterPage';
 import SigninPage from './pages/SigninPage';
 import ErrorPage from './pages/ErrorPage';
 import SearchMapPage from './pages/SearchMapPage';
-import StoreDetailPage from './pages/StoreDetailPage';
+import StoreDetailPage, { storeDetailLoader } from './pages/StoreDetailPage';
 import ProfilePage from './pages/ProfilePage';
 import UserInfoPage from './pages/UserInfoPage';
 import RecommendationPage from './pages/RecommendationPage';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0, // default 3
+      // suspense: true,
+    },
+    mutations: {
+      // useErrorBoundary: true,
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -43,6 +55,7 @@ const router = createBrowserRouter([
       {
         path: 'storedetail/:id',
         element: <StoreDetailPage />,
+        loader: storeDetailLoader(queryClient),
       },
       {
         path: 'userinfo/:id',
@@ -55,18 +68,6 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 0, // default 3
-      // suspense: true,
-    },
-    mutations: {
-      // useErrorBoundary: true,
-    },
-  },
-});
 
 const App = () => (
   <RecoilRoot>
