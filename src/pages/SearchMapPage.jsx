@@ -1,34 +1,28 @@
-import { useState, useRef } from 'react';
+import React from 'react';
 
 import { InputSearch, Result } from '../components/searchmap';
 
-const { kakao } = window;
+import useKeywordSearch from '../hooks/useKeywordSearch';
 
-const SearchMapPage = () => {
-  const inputRef = useRef(null);
-  const [resultList, setResultList] = useState([]);
+const SearchMapPage = ({ keyword = '오므토토마토' }) => {
+  const inputRef = React.useRef(null);
+  const { keywordSearch, result, paginationRef } = useKeywordSearch();
 
-  const ps = new kakao.maps.services.Places();
-
-  const searchStore = () => {
-    ps.keywordSearch(
-      inputRef.current.value,
-      (result, status) => {
-        if (status !== kakao.maps.services.Status.OK) return;
-
-        setResultList([...result]);
-      },
-      {
-        category_group_code: 'FD6',
-        size: 3,
-      }
-    );
-  };
+  React.useEffect(() => {
+    keywordSearch(keyword);
+  }, []);
 
   return (
     <>
-      <InputSearch placeholder="당신의 맛집을 알려주세요!" inputRef={inputRef} submitHandler={searchStore} />
-      <Result resultList={resultList} />
+      <InputSearch
+        placeholder="당신의 맛집을 알려주세요!"
+        defaultValue={keyword}
+        inputRef={inputRef}
+        submitHandler={() => {
+          keywordSearch(inputRef.current.value);
+        }}
+      />
+      <Result result={result} paginationRef={paginationRef} />
     </>
   );
 };

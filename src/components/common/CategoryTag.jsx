@@ -3,11 +3,15 @@ import { categoryInfo } from '../../constants';
 
 const Container = styled.div`
   display: flex;
+  justify-content: space-around;
   padding: 5px 10px;
-  width: fit-content;
-  border-radius: 15px;
-  background-color: #d21312;
+  width: 70px;
+  min-width: 70px;
+  border-radius: 20px;
   opacity: 0.8;
+  background-color: #d9d9d9;
+  scale: 0.8;
+  color: #000000;
 `;
 const CategoryIcon = styled.img`
   margin: auto 2px;
@@ -17,25 +21,24 @@ const CategoryIcon = styled.img`
 
 const CatagoryName = styled.span`
   margin: 3px;
-  color: white;
   font-size: 15px;
   line-height: 1.5;
 `;
 
 const VotedCnt = styled.span`
   margin: 3px;
-  color: white;
-  font-size: 15px;
+  font-size: 18px;
+  font-weight: 700;
   line-height: 1.5;
 `;
 
-const CategoryTag = ({ categoryCode, votedCnt }) => {
+const CategoryTag = ({ categoryCode, votedCnt, renderName = true }) => {
   const imgSrc = `./public/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`;
 
   return (
     <Container>
       <CategoryIcon src={imgSrc} alt="" />
-      <CatagoryName>{categoryInfo[categoryCode].ko}</CatagoryName>
+      {renderName && <CatagoryName>{categoryInfo[categoryCode].ko}</CatagoryName>}
       <VotedCnt>{votedCnt}</VotedCnt>
     </Container>
   );

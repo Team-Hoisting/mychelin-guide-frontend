@@ -132,7 +132,7 @@ const Header = () => {
               <LogoImage
                 src="../public/images/mychelin-guide-logo-light.png"
                 alt="마이슐랭 가이드 로고"
-                to="/"></LogoImage>
+                onClick={() => setSearchInput('')}></LogoImage>
             </Link>
           </div>
           {searchBarStatus && (
