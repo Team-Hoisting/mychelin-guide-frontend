@@ -43,22 +43,6 @@ const SearchIcon = styled(AiOutlineArrowRight)`
   color: #fff;
 `;
 
-<<<<<<< HEAD
-const SearchBar = ({
-  submitHandler = () => {},
-  changeHandler = () => {},
-  placeholder = '맛집을 검색해보세요!',
-  defaultValue = '',
-  refName,
-}) => (
-  <SearchForm onSubmit={e => submitHandler(e)}>
-    <Bar placeholder={placeholder} defaultValue={defaultValue} ref={refName} onChange={e => changeHandler(e)} />
-    <SearchButton>
-      <SearchIcon />
-    </SearchButton>
-  </SearchForm>
-);
-=======
 const Dropdown = styled.ul`
   list-style-type: none;
   padding: 5px;
@@ -84,7 +68,7 @@ const DropdownResult = styled.li`
   }
 `;
 
-const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색해보세요!', refName }) => {
+const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색해보세요!', refName, defaultValue = '' }) => {
   const [dropdownStores, setDropdownStores] = React.useState([]);
   const [renderDropdown, setRenderDropdown] = React.useState(false);
   const dropdownRef = useOnClickOutside(() => setRenderDropdown(false));
@@ -112,7 +96,13 @@ const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색�
   return (
     <Container>
       <SearchForm onSubmit={submitHandler}>
-        <Bar placeholder={placeholder} ref={refName} onChange={debouncedSearchHandler} onFocus={handleRefocus} />
+        <Bar
+          placeholder={placeholder}
+          ref={refName}
+          defaultValue={defaultValue}
+          onChange={debouncedSearchHandler}
+          onFocus={handleRefocus}
+        />
         <SearchButton>
           <SearchIcon />
         </SearchButton>
@@ -131,6 +121,5 @@ const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색�
     </Container>
   );
 };
->>>>>>> 7c80f72bf3623ae367a2fa2f71b2baea110417be
 
 export default SearchBar;
