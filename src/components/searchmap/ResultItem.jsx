@@ -26,7 +26,7 @@ const PhoneNumber = styled.span`
 const ResultItem = ({ storeName, address, phoneNumber }) => (
   <ResultItemContainer>
     <StoreName>{storeName}</StoreName>
-    <Divider size="sm" />
+    <Divider size="sm" color="var(--primary-color)" />
     <Address>{address}</Address>
     <PhoneNumber>{phoneNumber}</PhoneNumber>
   </ResultItemContainer>
