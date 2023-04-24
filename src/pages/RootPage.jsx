@@ -26,7 +26,7 @@ const RootPage = () => {
         setIsLoading(false);
       }
     })();
-  }, []);
+  }, [setUser]);
 
   if (isLoading) <></>;
 

@@ -7,18 +7,12 @@ import Confirmed from '../modal/Confirmed';
 import Success from '../modal/Success';
 import { fetchStore } from '../../api/stores';
 
-const PopupModal = ({ storeId, withCloseButton, title, btnText, btnBgColor, btnColor, duration }) => {
-  const [step, setStep] = React.useState(1);
+const PopupModal = ({ storeId }) => {
+  const [selectedCode, setSelectedCode] = React.useState(() => null);
+  const [step, setStep] = React.useState(() => 1);
   const [isOpened, setIsOpened] = React.useState(false);
-  const [selectedCode, setSelectedCode] = React.useState(null);
 
-  React.useEffect(() => {
-    if (!isOpened) return;
-
-    setStep(1);
-    setSelectedCode(null);
-  }, [isOpened]);
-
+  // 현재 투표할 매장 가져오기
   const {
     data: store,
     isLoading,
@@ -32,18 +26,6 @@ const PopupModal = ({ storeId, withCloseButton, title, btnText, btnBgColor, btnC
   if (isLoading) return <></>;
   if (error) return <pre>{error}</pre>;
 
-  const onPrev = () => {
-    if (step === 1) return;
-
-    setStep(step - 1);
-  };
-
-  const onNext = () => {
-    if (step === 3) return;
-
-    setStep(step + 1);
-  };
-
   const onClose = () => {
     setIsOpened(false);
   };
@@ -51,25 +33,16 @@ const PopupModal = ({ storeId, withCloseButton, title, btnText, btnBgColor, btnC
   return (
     <>
       <Modal
-        zIndex="9999"
-        centered
-        size="lg"
-        withCloseButton={withCloseButton}
         opened={isOpened}
         onClose={onClose}
-        title={title}
-        transitionProps={{ transition: 'slide-up', duration: duration || 300, timingFunction: 'linear' }}>
-        {step === 1 && (
-          <Vote
-            selectedCode={selectedCode}
-            setSelectedCode={setSelectedCode}
-            store={store}
-            notFixed={true}
-            onNext={onNext}
-            onClose={onClose}
-          />
-        )}
-        {step === 2 && (
+        transitionProps={{ transition: 'slide-up', duration: 300, timingFunction: 'linear' }}
+        zIndex="9999"
+        size="lg"
+        centered>
+        {/* {step === 1 && (
+          <Vote selectedCode={selectedCode} setSelectedCode={setSelectedCode} store={store} onClose={onClose} />
+        )} */}
+        {/* {step === 2 && (
           <Confirmed
             selectedCode={selectedCode}
             category={categoryInfo[selectedCode]?.ko}
@@ -78,7 +51,7 @@ const PopupModal = ({ storeId, withCloseButton, title, btnText, btnBgColor, btnC
             onClose={onPrev}
           />
         )}
-        {step === 3 && <Success />}
+        {step === 3 && <Success />} */}
       </Modal>
       <Group position="center">
         <Button
@@ -91,14 +64,14 @@ const PopupModal = ({ storeId, withCloseButton, title, btnText, btnBgColor, btnC
               border: 'none',
               borderRadius: '12px',
               fontSize: '16px',
-              backgroundColor: btnBgColor || '#ababab',
-              color: btnColor || '#000',
+              backgroundColor: '#d21312',
+              color: '#fff',
               '&:not([data-disabled])': theme.fn.hover({
-                backgroundColor: theme.fn.darken(btnBgColor || '#ababab', 0.05),
+                backgroundColor: theme.fn.darken('#d21312', 0.05),
               }),
             },
           })}>
-          {btnText}
+          투표하기
         </Button>
       </Group>
     </>

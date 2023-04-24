@@ -91,7 +91,7 @@ const MainPage = () => {
         const allStores = await fetchStores();
         const filteredStores = filterFetchedStores(allStores, category, searchInput);
 
-        setDisplayedStores({ topThree: filteredStores.splice(0, 3), remaining: filteredStores });
+        setDisplayedStores({ topThree: filteredStores.splice(0, 3), remaining: filteredStores.splice(0, 10) });
       } catch (e) {
         console.log('[Main Page Error]: ', e);
       }
