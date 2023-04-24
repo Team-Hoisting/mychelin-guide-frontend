@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineArrowRight } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { fetchSearchedStores } from '../../api/stores';
-import useDebounce from '../../hooks/useDebounce';
-import useOnClickOutside from '../../hooks/useOnClickOutside';
+import { useDebounce, useOnClickOutside } from '../../hooks';
 
 const Container = styled.div`
   position: relative;
@@ -66,12 +65,18 @@ const DropdownResult = styled.li`
   :hover {
     color: var(--primary-color);
   }
+
+  :focus {
+    outline: 1px solid #e8e8e8;
+    color: var(--primary-color);
+  }
 `;
 
 const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색해보세요!', refName, defaultValue = '' }) => {
   const [dropdownStores, setDropdownStores] = React.useState([]);
   const [renderDropdown, setRenderDropdown] = React.useState(false);
   const dropdownRef = useOnClickOutside(() => setRenderDropdown(false));
+  const navigate = useNavigate();
 
   const handleUserSearch = async e => {
     const userSearch = e.target.value.trim();
@@ -93,6 +98,24 @@ const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색�
     if (e.target.value.trim()) debouncedSearchHandler(e);
   };
 
+  const alterFocus = (e, storeId) => {
+    e.preventDefault();
+
+    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && e.key !== 'Tab' && e.key !== 'Enter') return;
+
+    if (e.key === 'Enter') navigate(`/store/${storeId}`);
+
+    if (e.key === 'ArrowUp') {
+      if (document.activeElement.previousElementSibling) document.activeElement.previousElementSibling.focus();
+      else document.activeElement.parentElement.lastElementChild.focus();
+    }
+
+    if (e.key === 'ArrowDown' || e.key === 'Tab') {
+      if (document.activeElement.nextElementSibling) document.activeElement.nextElementSibling.focus();
+      else document.activeElement.parentElement.firstElementChild.focus();
+    }
+  };
+
   return (
     <Container>
       <SearchForm onSubmit={submitHandler}>
@@ -110,7 +133,7 @@ const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색�
       {renderDropdown && (
         <Dropdown ref={dropdownRef}>
           {dropdownStores.map(({ storeName, storeId }) => (
-            <DropdownResult key={storeName}>
+            <DropdownResult key={storeName} tabIndex="0" onKeyDown={e => alterFocus(e, storeId)}>
               <Link to={`/store/${storeId}`}>
                 <div>{storeName}</div>
               </Link>
