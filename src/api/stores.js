@@ -8,6 +8,12 @@ const fetchStores = async () => {
   return response.data;
 };
 
+const fetchSearchedStores = async userSearch => {
+  const response = await axios.get(`${url}/search?usersearch=${userSearch}`);
+
+  return response.data;
+};
+
 const fetchStoreItem = async id => {
   const response = await axios.get(`${url}/${id}`);
 
@@ -20,4 +26,4 @@ const fetchStore = storeid => async () => {
   return response.data;
 };
 
-export { fetchStores, fetchStore, fetchStoreItem };
+export { fetchStores, fetchSearchedStores, fetchStore, fetchStoreItem };

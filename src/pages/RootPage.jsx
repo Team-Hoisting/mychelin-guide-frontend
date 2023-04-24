@@ -4,6 +4,7 @@ import { useSetRecoilState } from 'recoil';
 import { check } from '../api/auth';
 import { Header } from '../components/common';
 import { userState } from '../recoil/atoms';
+import SideBanner from '../components/common/SideBanner';
 
 const RootPage = () => {
   const setUser = useSetRecoilState(userState);
@@ -32,6 +33,7 @@ const RootPage = () => {
   return (
     <>
       <Header />
+      <SideBanner />
       <div id="detail">
         <Outlet />
       </div>
