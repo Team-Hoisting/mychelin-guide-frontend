@@ -1,17 +1,20 @@
 import React from 'react';
 import { Modal, Group, Button } from '@mantine/core';
+import { categoryInfo } from '../../constants';
 import Vote from '../modal/Vote';
 import Confirmed from '../modal/Confirmed';
 import Success from '../modal/Success';
 
-const PopupModal = ({ withCloseButton, title, btnText, btnBgColor, btnColor, duration }) => {
+const PopupModal = ({ storeId, withCloseButton, title, btnText, btnBgColor, btnColor, duration }) => {
   const [step, setStep] = React.useState(1);
   const [isOpened, setIsOpened] = React.useState(false);
+  const [selectedCode, setSelectedCode] = React.useState(null);
 
   React.useEffect(() => {
     if (!isOpened) return;
 
     setStep(1);
+    setSelectedCode(null);
   }, [isOpened]);
 
   const onPrev = () => {
@@ -41,8 +44,17 @@ const PopupModal = ({ withCloseButton, title, btnText, btnBgColor, btnColor, dur
         onClose={onClose}
         title={title}
         transitionProps={{ transition: 'slide-up', duration: duration || 300, timingFunction: 'linear' }}>
-        {step === 1 && <Vote notFixed={true} onNext={onNext} onClose={onClose} />}
-        {step === 2 && <Confirmed onNext={onNext} onClose={onPrev} />}
+        {step === 1 && (
+          <Vote
+            selectedCode={selectedCode}
+            setSelectedCode={setSelectedCode}
+            storeId={storeId}
+            notFixed={true}
+            onNext={onNext}
+            onClose={onClose}
+          />
+        )}
+        {step === 2 && <Confirmed category={categoryInfo[selectedCode]?.ko} onNext={onNext} onClose={onPrev} />}
         {step === 3 && <Success />}
       </Modal>
       <Group position="center">

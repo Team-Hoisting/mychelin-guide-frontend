@@ -55,13 +55,13 @@ const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
   font-size: 1.5rem;
 `;
 
-const Confirmed = ({ onNext, onClose }) => {
+const Confirmed = ({ category, onNext, onClose }) => {
   console.log('');
 
   return (
     <Container>
       <Text>
-        현재 <span className="red">한식 카테고리</span>에서
+        현재 <span className="red">{category} 카테고리</span>에서
       </Text>
       <ChangeLog>
         <Box>

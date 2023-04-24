@@ -1,12 +1,14 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import styled, { css } from 'styled-components';
 import { CategoryBox } from '../common/index';
 import categoryCodes from '../../constants/categoryCodes';
 import categoryInfo from '../../constants/categoryInfo';
 import ButtonGroup from './ButtonGroup';
+import { fetchStore } from '../../api/stores';
 
 const Container = styled.div`
-  padding: 2rem 1.2rem;
+  padding: 1rem;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -29,7 +31,7 @@ const Container = styled.div`
 `;
 
 const Info = styled.div`
-  margin-bottom: 6rem;
+  margin-bottom: 3.5rem;
 `;
 
 const Store = styled.h2`
@@ -59,15 +61,45 @@ const Guidance = styled.div`
   }
 `;
 
-const Vote = ({ onClose, onNext, notFixed }) => {
-  const [selectedCode, setSelectedCode] = React.useState(null);
+const ImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  margin-bottom: 5em;
+
+  img {
+    width: 20%;
+  }
+`;
+
+const Vote = ({ selectedCode, setSelectedCode, storeId, onClose, onNext, notFixed }) => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['store', storeId],
+    queryFn: fetchStore(storeId),
+    staleTime: 1000,
+  });
+
+  if (isLoading) return <></>;
+  if (error) <pre>{error}</pre>;
 
   return (
     <Container notFixed={notFixed}>
       <Info>
-        <Store>오므토토마토 강남본점</Store>
-        <span className="address">서울 강남구 테헤란로4길 29 1층 오므토토마토 강남본점</span>
+        <Store>{data.storeName}</Store>
+        <span className="address">{data.address}</span>
       </Info>
+      <ImageContainer>
+        {selectedCode ? (
+          <CategoryBox
+            categoryName={categoryInfo[selectedCode].ko}
+            categoryImgFile={categoryInfo[selectedCode].imgFile}
+            colored
+          />
+        ) : (
+          <div>없음</div>
+        )}
+      </ImageContainer>
       <Selector>
         {categoryCodes.map(code => {
           if (code === 'AL00') return null;
