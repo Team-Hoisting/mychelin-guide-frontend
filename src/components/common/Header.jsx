@@ -108,7 +108,7 @@ const Header = () => {
 
   const { pathname } = useLocation();
   const { id } = useParams();
-  const searchBarStatus = pathname === '/' || pathname === `/storedetail/${id}`;
+  const searchBarStatus = pathname === '/' || pathname === `/store/${id}`;
 
   console.log('[Header]', user);
 
