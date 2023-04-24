@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { BiMoon, BiSun } from 'react-icons/bi';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { Link } from 'react-router-dom/dist/index';
 import userState from '../../recoil/atoms/userState';
 import { logout } from '../../api/auth';
 import Responsive from './Responsive';
@@ -100,7 +100,12 @@ const Spacer = styled.div`
 
 const Header = () => {
   const [user, setUser] = useRecoilState(userState);
+
   const isDark = false;
+
+  const { pathname } = useLocation();
+  const { id } = useParams();
+  const searchBarStatus = pathname === '/' || pathname === `/store/${id}`;
 
   console.log('[Header]', user);
 
@@ -116,12 +121,14 @@ const Header = () => {
                 to="/"></LogoImage>
             </Link>
           </div>
-          <SearchContainer>
-            <SearchBar placeholder="맛집을 검색해보세요!" />
-            <SearchIconContainer>
-              <SearchIcon />
-            </SearchIconContainer>
-          </SearchContainer>
+          {searchBarStatus && (
+            <SearchContainer>
+              <SearchBar placeholder="맛집을 검색해보세요!" />
+              <SearchIconContainer>
+                <SearchIcon />
+              </SearchIconContainer>
+            </SearchContainer>
+          )}
           <ConfigsContainer>
             <Link to={user ? '/user' : '/signin'}>MY</Link>
             {user ? (
