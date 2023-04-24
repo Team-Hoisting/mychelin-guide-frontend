@@ -1,14 +1,23 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState, useRef } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
+
+import { useRecoilValue } from 'recoil';
+import { Divider } from '@mantine/core';
+import userState from '../recoil/atoms/userState';
 import { Button, SideBanner } from '../components/common/index';
+
 import categoryCodes from '../constants/categoryCodes';
 import categoryInfo from '../constants/categoryInfo';
 import storeQueryKey from '../constants/storeQueryKey';
+import commentQueryKey from '../constants/commentQueryKey';
+
+import { fetchStore } from '../api/stores';
+import fetchComment from '../api/comment';
+
+import Vote from '../components/modal/Vote';
 
 const Container = styled.div`
   width: 100%;
@@ -19,13 +28,13 @@ const Container = styled.div`
 
 const StoreDetailContainer = styled.div`
   width: 100%;
+  min-width: 1000px;
 `;
 
 const StoreTitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   height: 60px;
-  // width: 90%;
 `;
 
 const StoreTitle = styled.div`
@@ -65,7 +74,7 @@ const Side = styled.div`
   justify-content: space-between;
 `;
 
-const VoteButton = styled(Button)`
+const VoteBtn = styled(Button)`
   background-color: var(--primary-color);
 `;
 
@@ -87,12 +96,11 @@ const ArchivedCnt = styled.span`
 const ImageContainer = styled.div`
   display: flex;
   height: 500px;
-  min-width: 800px;
+  min-width: 1000px;
 `;
 
 const DetailContainer = styled.div`
-  width: 35%;
-  min-width: 330px;
+  width: 37%;
   position: relative;
   background-color: lightgray;
   border-radius: 4px;
@@ -137,10 +145,42 @@ const PhoneTitle = styled.span`
   font-weight: 700;
 `;
 
+const loading = keyframes`
+  0% {
+    transform: translateX(0);
+  }
+
+  50%,
+  100% {
+    transform: translateX(100%);
+  }
+`;
+
+const ImageSkeleton = styled.div`
+  width: 70%;
+  height: 500px;
+  margin-right: 24px;
+  overflow: hidden;
+  position: relative;
+  background-color: #f2f2f2;
+
+  :before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #f2f2f2, #ccc, #f2f2f2);
+    animation: ${loading} 2s infinite linear;
+  }
+`;
+
 const Image = styled.img.attrs({
   alt: 'store',
 })`
-  max-width: 70%;
+  display: ${({ isImgLoading }) => (isImgLoading ? 'none' : 'block')};
+  width: 70%;
   height: 500px;
   margin-right: 24px;
   border-radius: 4px;
@@ -157,6 +197,7 @@ const VoteCategories = styled.div`
 const Category = styled.div`
   display: flex;
   align-items: center;
+  margin: 12px 0;
   margin-right: 12px;
   padding: 4px;
   border-radius: 12px;
@@ -178,6 +219,12 @@ const CategoryText = styled.span`
 
 const CommentsContainer = styled.div`
   font-size: 18px;
+  width: 100%;
+  min-width: 1000px;
+`;
+
+const CommentPostContainer = styled.div`
+  position: relative;
 `;
 
 const Label = styled.label`
@@ -198,10 +245,15 @@ const TextArea = styled.textarea.attrs(({ comment }) => ({
   margin: 12px 0;
 `;
 
+const CommentBtn = styled(Button)`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+`;
+
 const Comments = styled.div``;
 
 const Comment = styled.div`
-  width: 80%;
   position: relative;
   margin: 18px 0;
 `;
@@ -218,8 +270,8 @@ const Profile = styled(CgProfile)`
 
 const CloseBtn = styled(Button)`
   position: absolute;
-  top: 50px;
-  right: 10px;
+  top: 2px;
+  right: 0;
   width: 32px;
   height: 32px;
   display: flex;
@@ -248,48 +300,63 @@ const Center = styled.div`
   width: 80%;
   margin: 0 auto;
 `;
+// 26571895
 
 /**
  * TODO
- * 1. 중앙 정렬
- * 2. 로그인 된 유저 가져오기
- * 3. 로더 변경
- * 4. skeleton
+ * //1. 중앙 정렬
+ * //2. 로그인 된 유저 가져오기(recoilValue)
+ * //3. 로더 변경
+ * // 4. skeleton -> 이미지가 가장 마지막에 로드되는 문제
  * 5. 투표하기, 저장, 댓글 작성
+ * 6. 컴포넌트 분리
+ * //7. 비동기 함수 분리 -> /api/
+ * 8. 사진 비율 1,2번이 다르게 그려짐.
+ * //9. loader에서 data 불러오기
+ * 10. star 받아와서 그리기
  */
-const StoreDetailPage = () => {
-  // 로그인 된 유저
-  const user = {
-    email: 'bin000527@naver.com',
-    password: '1234567',
-    nickname: '웨스트달러예빈',
-    myLink: '',
-    isCertified: true,
-    voteOrder: [],
+
+const storeQuery = storeid => ({ queryKey: [...storeQueryKey, storeid], queryFn: fetchStore(storeid) });
+const commentQuery = storeid => ({ queryKey: [...commentQueryKey, storeid], queryFn: fetchComment(storeid) });
+
+const storeDetailLoader =
+  queryClient =>
+  async ({ params }) => {
+    const store = storeQuery(params.id);
+    const comment = commentQuery(params.id);
+
+    // eslint-disable-next-line no-return-await
+    const storeData = queryClient.getQueryData(store.queryKey) ?? (await queryClient.fetchQuery(store));
+    const commentsData = queryClient.getQueryData(comment.queryKey) ?? (await queryClient.fetchQuery(comment));
+
+    return { storeData, commentsData };
   };
 
-  const { id } = useParams();
+const StoreDetailPage = () => {
+  const [isImgLoading, setisImgLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const textAreaRef = useRef(null);
+  const user = useRecoilValue(userState);
 
-  const { isLoading: storesLoading, data: storeData } = useQuery([...storeQueryKey, id], async () => {
-    const res = await axios.get(`/api/stores/${id}`);
-    return res.data;
-  });
+  const {
+    storeData: { storeName, address, firstVoteUser, phoneNumber, voteCnt, archivedCnt, imgUrl },
+    commentsData,
+  } = useLoaderData();
 
-  const { isLoading: commentsLoading, data: commentsData } = useQuery(['comments', id], async () => {
-    const res = await axios.get(`/api/comments/${id}`);
-    return res.data;
-  });
+  const handleLoad = () => {
+    setisImgLoading(false);
+  };
 
-  if (storesLoading || commentsLoading) return <div>Loading..</div>;
-
-  const { storeid, storeName, address, firstVoteUser, phoneNumber, voteCnt, archivedCnt, imgUrl } = storeData;
+  const handleModalClick = () => {
+    setIsModalOpen(true);
+  };
 
   return (
     <>
       <Container className="container">
-        <Center>
-          <StoreDetailContainer>
-            <StoreTitleContainer>
+        <Center className="center">
+          <StoreDetailContainer className="storedeail">
+            <StoreTitleContainer className="storetitle">
               <StoreTitle>
                 <Title>{storeName}</Title>
                 <StarContainer>
@@ -303,19 +370,21 @@ const StoreDetailPage = () => {
                   <BookmarkIcon />
                   <ArchivedCnt>{archivedCnt}</ArchivedCnt>
                 </Bookmark>
-                <VoteButton>투표하기</VoteButton>
+                <VoteBtn onClick={handleModalClick}>투표하기</VoteBtn>
               </Side>
             </StoreTitleContainer>
             <FirstVoteUser>
               최초 투표자 : <UserName>{firstVoteUser}</UserName>
             </FirstVoteUser>
-            <ImageContainer>
-              <Image src={imgUrl} />
+            <ImageContainer className="imagecontainer">
+              {isImgLoading && <ImageSkeleton />}
+              <Image src={imgUrl} onLoad={handleLoad} isImgLoading={isImgLoading} />
+
               <DetailContainer>
                 <Map>지도 표시</Map>
                 <DetailTextContainer>
                   <Address>
-                    <AddressTitle>주소 </AddressTitle>: {address}
+                    <AddressTitle>주소</AddressTitle>: {address}
                   </Address>
                   <Phone>
                     <PhoneTitle>전화번호</PhoneTitle>: {phoneNumber}
@@ -336,9 +405,13 @@ const StoreDetailPage = () => {
               )}
             </VoteCategories>
           </StoreDetailContainer>
-          <CommentsContainer>
+          <CommentsContainer className="comments-container">
             <Label>댓글</Label>
-            <TextArea></TextArea>
+            <Divider my="sm" />
+            <CommentPostContainer>
+              <TextArea ref={textAreaRef}></TextArea>
+              <CommentBtn>등록하기</CommentBtn>
+            </CommentPostContainer>
             <Comments>
               {commentsData.map(({ commentid, email, nickname, isCertified, comment }) => (
                 <Comment key={commentid}>
@@ -348,16 +421,17 @@ const StoreDetailPage = () => {
                     {isCertified && <CertifiedIcon />}
                   </User>
                   <CommentText>{comment}</CommentText>
-                  {email === user.email && <CloseBtn>X</CloseBtn>}
+                  {user && email === user.email && <CloseBtn>X</CloseBtn>}
                 </Comment>
               ))}
             </Comments>
           </CommentsContainer>
         </Center>
       </Container>
-      {/* <SideBanner /> */}
+      <SideBanner />
+      {isModalOpen && <Vote onClose={() => setIsModalOpen(false)} />}
     </>
   );
 };
-
+export { storeDetailLoader };
 export default StoreDetailPage;
