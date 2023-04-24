@@ -1,9 +1,11 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Modal, Group, Button } from '@mantine/core';
 import { categoryInfo } from '../../constants';
 import Vote from '../modal/Vote';
 import Confirmed from '../modal/Confirmed';
 import Success from '../modal/Success';
+import { fetchStore } from '../../api/stores';
 
 const PopupModal = ({ storeId, withCloseButton, title, btnText, btnBgColor, btnColor, duration }) => {
   const [step, setStep] = React.useState(1);
@@ -16,6 +18,19 @@ const PopupModal = ({ storeId, withCloseButton, title, btnText, btnBgColor, btnC
     setStep(1);
     setSelectedCode(null);
   }, [isOpened]);
+
+  const {
+    data: store,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['store', storeId],
+    queryFn: fetchStore(storeId),
+    staleTime: 1000,
+  });
+
+  if (isLoading) return <></>;
+  if (error) return <pre>{error}</pre>;
 
   const onPrev = () => {
     if (step === 1) return;
@@ -48,7 +63,7 @@ const PopupModal = ({ storeId, withCloseButton, title, btnText, btnBgColor, btnC
           <Vote
             selectedCode={selectedCode}
             setSelectedCode={setSelectedCode}
-            storeId={storeId}
+            store={store}
             notFixed={true}
             onNext={onNext}
             onClose={onClose}
@@ -58,6 +73,7 @@ const PopupModal = ({ storeId, withCloseButton, title, btnText, btnBgColor, btnC
           <Confirmed
             selectedCode={selectedCode}
             category={categoryInfo[selectedCode]?.ko}
+            store={store}
             onNext={onNext}
             onClose={onPrev}
           />

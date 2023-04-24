@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import styled, { css } from 'styled-components';
 import { MdOutlineKeyboardDoubleArrowDown } from 'react-icons/md';
 import userState from '../../recoil/atoms/userState';
-import { fetchVotesByNickname } from '../../api/votes';
+import { checkCategory } from '../../api/votes';
 import ButtonGroup from './ButtonGroup';
 
 const Container = styled.div`
@@ -16,6 +16,14 @@ const ChangeLog = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 1.5rem;
+
+  .red {
+    color: red;
+  }
+
+  .blue {
+    color: green;
+  }
 `;
 
 const Box = styled.div`
@@ -26,6 +34,7 @@ const Box = styled.div`
   margin: 1rem 7rem;
   border-radius: 7px;
   font-size: 1.1rem;
+  font-weight: 500;
   width: 50%;
 
   span {
@@ -59,30 +68,11 @@ const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
   font-size: 1.5rem;
 `;
 
-/*
-  동일 카테고리 변경
-
-  같은 식당
-*/
-
-const Confirmed = ({ selectedCode, category, onNext, onClose }) => {
+const CategoryConfirmed = ({ selectedCode, category, data, store, onNext, onClose }) => {
   const { nickname } = useRecoilValue(userState);
-  const {
-    data: votes,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ['votes'],
-    queryFn: fetchVotesByNickname(nickname),
-    staleTime: 1000,
-  });
+  const { storeId } = store;
 
-  if (isLoading) <div></div>;
-  if (error) <pre>{error}</pre>;
-
-  const duplicatedVote = votes.find(vote => vote.categoryCode === selectedCode);
-
-  console.log(duplicatedVote);
+  const handleVote = () => {};
 
   return (
     <Container>
@@ -91,11 +81,11 @@ const Confirmed = ({ selectedCode, category, onNext, onClose }) => {
       </Text>
       <ChangeLog>
         <Box>
-          <span>오므토토마토 강남본점</span>
+          <span className="red">{data.storeName}</span>
         </Box>
         <ArrowIcon />
         <Box>
-          <span>오레노카츠</span>
+          <span className="blue">{store.storeName}</span>
         </Box>
       </ChangeLog>
       <Text center>
@@ -103,6 +93,43 @@ const Confirmed = ({ selectedCode, category, onNext, onClose }) => {
       </Text>
       <ButtonGroup leftText="확인" rightText="취소" onNext={onNext} onClose={onClose} mt="2rem" />
     </Container>
+  );
+};
+
+const StoreConfirmed = () => {
+  console.log('');
+
+  return (
+    <Container>
+      <Text>
+        현재 <span className="red">카테고리</span>에서
+      </Text>
+    </Container>
+  );
+};
+
+const Confirmed = ({ selectedCode, category, onNext, onClose, store }) => {
+  const { nickname } = useRecoilValue(userState);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['votes'],
+    queryFn: checkCategory(nickname, selectedCode),
+    staleTime: 1000,
+  });
+
+  if (isLoading) return <div></div>;
+  if (error) return <pre>{error}</pre>;
+
+  return data ? (
+    <CategoryConfirmed
+      selectedCode={selectedCode}
+      category={category}
+      data={data}
+      store={store}
+      onNext={onNext}
+      onClose={onClose}
+    />
+  ) : (
+    <div>zz</div>
   );
 };
 

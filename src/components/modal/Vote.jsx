@@ -1,11 +1,9 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
 import styled, { css } from 'styled-components';
 import { CategoryBox } from '../common/index';
 import categoryCodes from '../../constants/categoryCodes';
 import categoryInfo from '../../constants/categoryInfo';
 import ButtonGroup from './ButtonGroup';
-import { fetchStore } from '../../api/stores';
 
 const Container = styled.div`
   padding: 1rem;
@@ -73,27 +71,21 @@ const ImageContainer = styled.div`
   }
 `;
 
-const Vote = ({ selectedCode, setSelectedCode, storeId, onClose, onNext, notFixed }) => {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['store', storeId],
-    queryFn: fetchStore(storeId),
-    staleTime: 1000,
-  });
-
-  if (isLoading) return <></>;
-  if (error) <pre>{error}</pre>;
+const Vote = ({ selectedCode, setSelectedCode, store, onClose, onNext, notFixed }) => {
+  console.log('');
 
   return (
     <Container notFixed={notFixed}>
       <Info>
-        <Store>{data.storeName}</Store>
-        <span className="address">{data.address}</span>
+        <Store>{store.storeName}</Store>
+        <span className="address">{store.address}</span>
       </Info>
       <ImageContainer>
         {selectedCode ? (
           <CategoryBox
             categoryName={categoryInfo[selectedCode].ko}
             categoryImgFile={categoryInfo[selectedCode].imgFile}
+            changeOnHover={false}
             colored
           />
         ) : (
