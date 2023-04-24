@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import searchInputState from '../recoil/atoms/searchInputState';
 import { fetchStores } from '../api/stores';
 import { StoreItem } from '../components/common';
@@ -49,6 +50,23 @@ const StoreItemContainer = styled.div`
   }
 `;
 
+const NoResultContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 500px;
+`;
+
+const SearchmapPageDirector = styled.span`
+  font-style: italic;
+  text-decoration: underline;
+`;
+
+const NoMatchingSearchInput = styled.span`
+  font-weight: 700;
+`;
+
 const filterFetchedStores = (stores, category, searchInput) => {
   const filteredByCategory =
     category === 'AL00'
@@ -85,27 +103,42 @@ const MainPage = () => {
     setCategory(newCategory);
   };
 
+  const hasNoMatchingResults = !displayedStores.length && searchInput;
+
   return (
     <>
       <Categories category={category} changeCategory={changeCategory} />
-      <StoresContainer>
-        <TopStoresContainer>
-          {displayedStores.topThree.map(({ storeId, storeName, imgUrl, votesByCategory }) => (
-            <StoreItemContainer key={storeId}>
-              <StoreItemOnHover storeId={storeId} />
-              <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} votesByCategory={votesByCategory} />
-            </StoreItemContainer>
-          ))}
-        </TopStoresContainer>
-        <RestStoresContainer>
-          {displayedStores.remaining.map(({ storeId, storeName, imgUrl, votesByCategory }) => (
-            <StoreItemContainer key={storeId}>
-              <StoreItemOnHover storeId={storeId} />
-              <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} votesByCategory={votesByCategory} />
-            </StoreItemContainer>
-          ))}
-        </RestStoresContainer>
-      </StoresContainer>
+      {hasNoMatchingResults ? (
+        <NoResultContainer>
+          <p>
+            <NoMatchingSearchInput>{`'${searchInput}'`}</NoMatchingSearchInput>에 해당하는 결과가 없습니다.
+          </p>
+          <p>
+            <Link to={`/searchmap/?=${searchInput}`}>
+              <SearchmapPageDirector>새로운 가게를 추가하고 최초 투표자가 되어보세요!</SearchmapPageDirector>
+            </Link>
+          </p>
+        </NoResultContainer>
+      ) : (
+        <StoresContainer>
+          <TopStoresContainer>
+            {displayedStores.topThree.map(({ storeId, storeName, imgUrl, votesByCategory }) => (
+              <StoreItemContainer key={storeId}>
+                <StoreItemOnHover storeId={storeId} />
+                <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} votesByCategory={votesByCategory} />
+              </StoreItemContainer>
+            ))}
+          </TopStoresContainer>
+          <RestStoresContainer>
+            {displayedStores.remaining.map(({ storeId, storeName, imgUrl, votesByCategory }) => (
+              <StoreItemContainer key={storeId}>
+                <StoreItemOnHover storeId={storeId} />
+                <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} votesByCategory={votesByCategory} />
+              </StoreItemContainer>
+            ))}
+          </RestStoresContainer>
+        </StoresContainer>
+      )}
     </>
   );
 };
