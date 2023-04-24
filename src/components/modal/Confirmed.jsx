@@ -1,6 +1,10 @@
 import React from 'react';
+import { useRecoilValue } from 'recoil';
+import { useQuery } from '@tanstack/react-query';
 import styled, { css } from 'styled-components';
 import { MdOutlineKeyboardDoubleArrowDown } from 'react-icons/md';
+import userState from '../../recoil/atoms/userState';
+import { fetchVotesByNickname } from '../../api/votes';
 import ButtonGroup from './ButtonGroup';
 
 const Container = styled.div`
@@ -55,8 +59,30 @@ const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
   font-size: 1.5rem;
 `;
 
-const Confirmed = ({ category, onNext, onClose }) => {
-  console.log('');
+/*
+  동일 카테고리 변경
+
+  같은 식당
+*/
+
+const Confirmed = ({ selectedCode, category, onNext, onClose }) => {
+  const { nickname } = useRecoilValue(userState);
+  const {
+    data: votes,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['votes'],
+    queryFn: fetchVotesByNickname(nickname),
+    staleTime: 1000,
+  });
+
+  if (isLoading) <div></div>;
+  if (error) <pre>{error}</pre>;
+
+  const duplicatedVote = votes.find(vote => vote.categoryCode === selectedCode);
+
+  console.log(duplicatedVote);
 
   return (
     <Container>

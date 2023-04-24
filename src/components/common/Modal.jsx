@@ -54,7 +54,14 @@ const PopupModal = ({ storeId, withCloseButton, title, btnText, btnBgColor, btnC
             onClose={onClose}
           />
         )}
-        {step === 2 && <Confirmed category={categoryInfo[selectedCode]?.ko} onNext={onNext} onClose={onPrev} />}
+        {step === 2 && (
+          <Confirmed
+            selectedCode={selectedCode}
+            category={categoryInfo[selectedCode]?.ko}
+            onNext={onNext}
+            onClose={onPrev}
+          />
+        )}
         {step === 3 && <Success />}
       </Modal>
       <Group position="center">

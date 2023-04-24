@@ -65,7 +65,7 @@ const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60px;
+  height: 50px;
   margin-bottom: 5em;
 
   img {
