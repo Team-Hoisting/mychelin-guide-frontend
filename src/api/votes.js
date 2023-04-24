@@ -8,4 +8,10 @@ const fetchVotes = async () => {
   return response.data;
 };
 
-export default fetchVotes;
+const fetchVotesByNickname = nickname => async () => {
+  const response = await axios.get(`${url}/${nickname}`);
+
+  return response.data;
+};
+
+export { fetchVotes, fetchVotesByNickname };
