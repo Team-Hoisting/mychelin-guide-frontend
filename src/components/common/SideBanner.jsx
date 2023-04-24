@@ -1,6 +1,17 @@
+import React from 'react';
+import { useRecoilValue } from 'recoil';
+import { useQuery } from '@tanstack/react-query';
+
 import styled from 'styled-components';
 import { Divider } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
+
+import voteQueryKey from '../../constants/voteQueryKey';
+import { fetchVotesByNickname } from '../../api/votes';
+import { fetchStore } from '../../api/stores';
+
+import userState from '../../recoil/atoms/userState';
+
 import categoryCodes from '../../constants/categoryCodes';
 import categoryInfo from '../../constants/categoryInfo';
 
@@ -13,19 +24,36 @@ const StoreItemContainer = styled.div`
   border-radius: 10px;
 `;
 const CircleImgContainer = styled.div`
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+  overflow: hidden;
 `;
+
 const StoreImg = styled.img`
   margin: auto;
-  width: 40x;
-  height: 40px;
+  width: 100%;
+  height: 100%;
   color: black;
 `;
+
 const CategoryName = styled.p`
-  font-size: 10px;
+  font-size: 13px;
 `;
-const CategoryItem = ({ categoryCode, storeid }) => {
-  const imgSrc = `/categoryIcons/${storeid ? '' : 'noColor/'}${categoryInfo[categoryCode].imgFile}.png`;
+
+const CategoryItem = ({ categoryCode, storeId }) => {
+  const [imgSrc, setImgSrc] = React.useState(`/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`);
+
+  const getImgUrl = async () => {
+    const { imgUrl } = await fetchStore(storeId)();
+
+    setImgSrc(imgUrl);
+  };
+
+  if (storeId) {
+    getImgUrl();
+  }
+
   return (
     <StoreItemContainer>
       <CircleImgContainer
@@ -40,14 +68,17 @@ const CategoryItem = ({ categoryCode, storeid }) => {
 };
 const Container = styled.div`
   position: fixed;
-  top: 100px;
-  right: 40px;
+  margin: 0;
   padding: 5px;
+  top: 200px;
+  right: 50px;
   width: 100px;
   height: fit-content;
   border: 1px solid #d21312;
   border-radius: 10px;
   text-align: center;
+  background-color: white;
+  z-index: 999;
 `;
 const Title = styled.h4`
   margin: 8px auto;
@@ -65,41 +96,75 @@ const CarouselContainer = styled(Carousel)`
   margin: 5px;
 `;
 
+const LogoImg = styled.img`
+  margin: 10px auto;
+  width: 80px;
+`;
+
+const Description = styled.p`
+  margin: 3px auto;
+  font-size: 15px;
+`;
+
+const NoUserBanner = () => (
+  <>
+    <LogoImg src="/images/star.png" alt="STAR IMG" />
+    <Description>로그인 후</Description>
+    <Description>당신의 맛집에</Description>
+    <Description>투표해보세요!</Description>
+  </>
+);
+
 const SideBanner = () => {
-  const userVote = {
-    KO01: '26571895',
-    JP03: '26571895',
-    BS05: '26571895',
-    CK07: '26571895',
-  };
+  const user = useRecoilValue(userState);
+
+  const { data: userVoteObj } = useQuery({
+    queryKey: voteQueryKey,
+    queryFn: fetchVotesByNickname(user.nickname),
+    select(userVotes) {
+      const userVote = {};
+
+      userVotes.forEach(vote => {
+        userVote[vote.categoryCode] = vote.storeId;
+      });
+
+      return userVote;
+    },
+  });
 
   return (
     <Container>
-      <Title>투표 현황</Title>
-      <Divider size="sm" />
-      <CarouselContainer
-        slideSize="100%"
-        height={340}
-        orientation="vertical"
-        slideGap="xs"
-        controlsOffset="sm"
-        controlSize={15}
-        loop
-        draggable={false}>
-        {Array.from({ length: categoryCodes.length / PAGEITEMNUM }, (_, i) => i).map(pageIdx => (
-          <Carousel.Slide key={pageIdx}>
-            <SlideContainer>
-              {Array.from({ length: PAGEITEMNUM }, (_, i) => PAGEITEMNUM * pageIdx + i).map(categoryIdx => (
-                <CategoryItem
-                  key={categoryCodes[categoryIdx]}
-                  categoryCode={categoryCodes[categoryIdx]}
-                  storeid={userVote[categoryCodes[categoryIdx]]}
-                />
-              ))}
-            </SlideContainer>
-          </Carousel.Slide>
-        ))}
-      </CarouselContainer>
+      {!user ? (
+        <NoUserBanner />
+      ) : (
+        <>
+          <Title>투표 현황</Title>
+          <Divider size="sm" />
+          <CarouselContainer
+            slideSize="100%"
+            height={340}
+            orientation="vertical"
+            slideGap="xs"
+            controlsOffset="sm"
+            controlSize={15}
+            loop
+            draggable={false}>
+            {Array.from({ length: categoryCodes.length / PAGEITEMNUM }, (_, i) => i).map(pageIdx => (
+              <Carousel.Slide key={pageIdx}>
+                <SlideContainer>
+                  {Array.from({ length: PAGEITEMNUM }, (_, i) => PAGEITEMNUM * pageIdx + i).map(categoryIdx => (
+                    <CategoryItem
+                      key={categoryCodes[categoryIdx]}
+                      categoryCode={categoryCodes[categoryIdx]}
+                      storeId={userVoteObj?.[categoryCodes[categoryIdx]]}
+                    />
+                  ))}
+                </SlideContainer>
+              </Carousel.Slide>
+            ))}
+          </CarouselContainer>
+        </>
+      )}
     </Container>
   );
 };
