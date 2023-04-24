@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { CategoryTag } from '.';
 
 const Container = styled.div`
   width: 100%;
@@ -30,7 +31,7 @@ const Img = styled.img`
 const Contents = styled.section`
   padding: 10px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   background-color: #fff;
   font-weight: 500;
   font-size: 18px;
@@ -53,7 +54,13 @@ const Star = styled.img.attrs({
   width: 28px;
 `;
 
-const StoreItem = ({ storeName = '', imgUrl = '', starCnt = 0 }) => (
+const VotesContainer = styled.div`
+  display: flex;
+  gap: 2px;
+  overflow: hidden;
+`;
+
+const StoreItem = ({ storeName = '', imgUrl = '', starCnt = 0, votesByCategory = {} }) => (
   <>
     <Container>
       <Link to="/detail">
@@ -68,10 +75,19 @@ const StoreItem = ({ storeName = '', imgUrl = '', starCnt = 0 }) => (
             <Star key={val} />
           ))}
         </StarContainer>
+        <VotesContainer>
+          {Object.keys(votesByCategory).map(category => (
+            <CategoryTag
+              key={storeName + category}
+              categoryCode={category}
+              votedCnt={votesByCategory[category]}
+              renderName={false}
+            />
+          ))}
+        </VotesContainer>
       </Contents>
     </Container>
   </>
 );
-// s;
 
 export default StoreItem;

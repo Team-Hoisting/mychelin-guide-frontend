@@ -36,8 +36,8 @@ const SelectedIcon = styled(AiOutlineLine)`
   color: var(--primary-color);
   position: absolute;
   font-size: 20px;
-  top: 70px;
-  left: 39px;
+  top: 90%;
+  left: 40%;
   display: ${({ selected }) => (selected ? 'block' : 'none')};
 `;
 
