@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { check } from '../api/auth';
 import { Header } from '../components/common';
-import userState from '../recoil/atoms/userState';
+import { userState } from '../recoil/atoms';
 
 const RootPage = () => {
   const setUser = useSetRecoilState(userState);
