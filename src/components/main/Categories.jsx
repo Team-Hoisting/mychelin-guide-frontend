@@ -12,9 +12,11 @@ const Container = styled.div`
   grid-template-columns: repeat(13, 1fr);
 `;
 
+const fullCategoryCodes = ['AL00', ...categoryCodes];
+
 const Categories = ({ category, changeCategory }) => (
   <Container>
-    {categoryCodes.map(code => (
+    {fullCategoryCodes.map(code => (
       <CategoryBox
         categoryName={categoryInfo[code].ko}
         categoryImgFile={categoryInfo[code].imgFile}
