@@ -93,7 +93,7 @@ const MainPage = () => {
 
         setDisplayedStores({ topThree: filteredStores.splice(0, 3), remaining: filteredStores });
       } catch (e) {
-        console.log('[ERROR]: ', e);
+        console.log('[Main Page Error]: ', e);
       }
     })();
   }, [category, searchInput]);
