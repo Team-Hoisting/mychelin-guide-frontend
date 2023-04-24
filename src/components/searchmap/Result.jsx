@@ -1,9 +1,9 @@
-import { useRef, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-import { ResultItem } from '.';
-import ResultItemOnHover from './ResultItemOnHover';
-// import { StoreItemOnHover } from '../common/index';
+import { Carousel } from '@mantine/carousel';
+import { RiArrowUpSLine, RiArrowDownSLine } from 'react-icons/ri';
+import { ResultItem, ResultItemOnHover } from '.';
 
 const Container = styled.div`
   position: relative;
@@ -18,21 +18,26 @@ const MapContainer = styled.div`
   border-radius: 30px;
 `;
 
-const ResultList = styled.ul`
+const CarouselContainer = styled(Carousel)`
   position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 999;
+`;
+
+const ResultList = styled.ul`
   margin: 0;
   padding: 0;
   height: 100%;
   right: 0px;
   top: 0px;
-  background-color: rgba(0, 0, 0, 0.7);
   border-radius: 20px;
   z-index: 990;
 `;
 
 const ResultItemContainer = styled.li`
   position: relative;
-  margin: 15px 15px;
+  margin: 13px;
   width: 250px;
   height: 100px;
   background-color: white;
@@ -60,21 +65,58 @@ const ResultItemContainer = styled.li`
   }
 `;
 
+const ButtonContainer = styled.div`
+  width: 20px;
+  height: 20px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  text-align: center;
+  color: white;
+`;
+
+const PreviousPageBtn = ({ hasPrevPage, onClick }) => (
+  <>
+    {hasPrevPage && (
+      <ButtonContainer onClick={onClick}>
+        <RiArrowUpSLine />
+      </ButtonContainer>
+    )}
+  </>
+);
+
+const NextPageBtn = ({ hasNextPage, onClick }) => (
+  <>
+    {hasNextPage && (
+      <ButtonContainer onClick={onClick}>
+        <RiArrowDownSLine />
+      </ButtonContainer>
+    )}
+  </>
+);
+
 const { kakao } = window;
 
-const Result = ({ resultList }) => {
-  const mapRef = useRef(null);
-  const mapContainerRef = useRef(null);
-  const markersRef = useRef([]);
+const Result = ({ resultList, paginationRef }) => {
+  const mapRef = React.useRef(null);
+  const mapContainerRef = React.useRef(null);
+  const markersRef = React.useRef([]);
 
-  useEffect(() => {
+  const gotoPreviousPage = () => {
+    if (paginationRef.current.hasPrevPage) paginationRef.current.prevPage();
+  };
+
+  const gotoNextPage = () => {
+    if (paginationRef.current.hasNextPage) paginationRef.current.nextPage();
+  };
+
+  React.useEffect(() => {
     mapRef.current = new kakao.maps.Map(mapContainerRef.current, {
       center: new kakao.maps.LatLng(37.497934, 127.027616), // 설정한 위도와 경도를 지도의 중심으로 설정
       level: 3, // 지도의 확대 레벨
     });
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     markersRef.current.forEach(({ marker, infowindow }) => {
       marker.setMap(null);
       infowindow.close();
@@ -105,18 +147,40 @@ const Result = ({ resultList }) => {
     mapRef.current.setBounds(bounds, 32, 270, 32, 32);
   });
 
-  // TODO: isRegistered
   return (
     <Container>
-      <MapContainer ref={mapContainerRef}></MapContainer>
-      <ResultList>
-        {resultList.map(({ id, place_name: storeName, road_address_name: address, phone }) => (
-          <ResultItemContainer key={id}>
-            <ResultItemOnHover storeId={id} />
-            <ResultItem key={id} storeName={storeName} address={address} phoneNumber={phone} />
-          </ResultItemContainer>
-        ))}
-      </ResultList>
+      <MapContainer ref={mapContainerRef} />
+      <CarouselContainer
+        slideSize="100%"
+        height={400}
+        orientation="vertical"
+        slideGap="xl"
+        controlsOffset="xs"
+        controlSize={25}
+        draggable={false}
+        nextControlIcon={<NextPageBtn onClick={gotoNextPage} hasNextPage={paginationRef.current?.hasNextPage} />}
+        previousControlIcon={
+          <PreviousPageBtn onClick={gotoPreviousPage} hasPrevPage={paginationRef.current?.hasPrevPage} />
+        }
+        styles={{
+          control: {
+            'background-color': 'rgba(0,0,0,0);',
+            'border-style': 'none',
+            opacity: 'none',
+            'box-shadow': 'none',
+          },
+        }}>
+        <Carousel.Slide>
+          <ResultList>
+            {resultList.map(({ id, place_name: storeName, road_address_name: address, phone }) => (
+              <ResultItemContainer key={id}>
+                <ResultItemOnHover storeId={id} />
+                <ResultItem key={id} storeName={storeName} address={address} phoneNumber={phone} />
+              </ResultItemContainer>
+            ))}
+          </ResultList>
+        </Carousel.Slide>
+      </CarouselContainer>
     </Container>
   );
 };
