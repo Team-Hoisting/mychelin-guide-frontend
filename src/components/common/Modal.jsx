@@ -1,43 +1,28 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 import { Modal, Group, Button } from '@mantine/core';
 import { fetchStore } from '../../api/stores';
-import { fetchPrevStore, vote, fetchVotesByNickname } from '../../api/votes';
+import { fetchPrevStore, vote, fetchVotesByNickname, reVote, removeVote } from '../../api/votes';
 import userState from '../../recoil/atoms/userState';
 import Vote from '../modal/Vote';
 import DuplicateCategory from '../modal/DuplicateCategory';
 import DuplicateStore from '../modal/DuplicateStore';
 import Success from '../modal/Success';
 
-// const useStore = storeId => {
-//   const [store, setStore] = React.useState({});
-//   const [isLoading, setIsLoading] = React.useState(false);
-//   const [error, setError] = React.useState(null);
+/*
+  카테고리 선택, 카테고리 중복, 가게 중복, 성공
 
-//   React.useEffect(() => {
-//     (async () => {
-//       try {
-//         setIsLoading(true);
+  카테고리 중복: 사용자가 기존의 해당 코드로 투표를 한 적이 있음
 
-//         const store = await fetchStore(storeId)();
+  가게 중복: 사용자가 다른 카테고리 표로 해당 가게를 투표한 적이 있음
+*/
 
-//         setStore(store);
-//       } catch (e) {
-//         setError(e);
-//       } finally {
-//         setIsLoading(false);
-//       }
-//     })();
-//   }, [storeId]);
-
-//   return { store, isLoading, error };
-// };
-
-const PopupModal = ({ storeId }) => {
+const PopupModal = ({ storeId, width }) => {
   const [selectedCode, setSelectedCode] = React.useState(null);
-  const [step, setStep] = React.useState(1);
   const [isOpened, setIsOpened] = React.useState(false);
+  const [step, setStep] = React.useState(1);
   const [prevStoreId, setPrevStoreId] = React.useState(null);
   const { email, nickname } = useRecoilValue(userState);
 
@@ -49,7 +34,11 @@ const PopupModal = ({ storeId }) => {
     setStep(1);
   }, [isOpened]);
 
-  const onClose = () => {
+  const onClose = async () => {
+    if (step === 3) {
+      if (prevStoreId) await reVote({ storeId: prevStoreId, nickname, categoryCode: selectedCode })();
+      else await removeVote(nickname, selectedCode)();
+    }
     setIsOpened(false);
   };
 
@@ -107,13 +96,7 @@ const PopupModal = ({ storeId }) => {
             setPrevStoreId={setPrevStoreId}
           />
         ) : step === 3 ? (
-          <DuplicateStore
-            selectedCode={selectedCode}
-            prevStoreId={prevStoreId}
-            store={store}
-            setStep={setStep}
-            onClose={onClose}
-          />
+          <DuplicateStore store={store} setStep={setStep} onClose={onClose} />
         ) : (
           <Success />
         )}
@@ -123,7 +106,7 @@ const PopupModal = ({ storeId }) => {
           onClick={() => setIsOpened(true)}
           styles={theme => ({
             root: {
-              width: '200px',
+              width: width || '200px',
               height: '44px',
               margin: '6px',
               border: 'none',
@@ -143,4 +126,38 @@ const PopupModal = ({ storeId }) => {
   );
 };
 
-export default PopupModal;
+const ModalContainer = ({ storeId, width }) => {
+  const user = useRecoilValue(userState);
+  const navigate = useNavigate();
+
+  if (!user)
+    return (
+      <Group position="center">
+        <Button
+          onClick={() => {
+            navigate('/signin');
+          }}
+          styles={theme => ({
+            root: {
+              width: width || '200px',
+              height: '44px',
+              margin: '6px',
+              border: 'none',
+              borderRadius: '12px',
+              fontSize: '16px',
+              backgroundColor: '#d21312',
+              color: '#fff',
+              '&:not([data-disabled])': theme.fn.hover({
+                backgroundColor: theme.fn.darken('#d21312', 0.05),
+              }),
+            },
+          })}>
+          투표하기
+        </Button>
+      </Group>
+    );
+
+  return <PopupModal storeId={storeId} width={width} />;
+};
+
+export default ModalContainer;
