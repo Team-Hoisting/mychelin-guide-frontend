@@ -45,7 +45,7 @@ const router = createBrowserRouter([
         element: <SigninPage />,
       },
       {
-        path: 'user/:id',
+        path: 'profile/:nickname',
         element: <ProfilePage />,
       },
       {
