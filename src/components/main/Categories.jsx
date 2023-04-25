@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { categoryState } from '../../recoil/atoms';
 import { categoryInfo } from '../../constants';
 import categoryCodes from '../../constants/categoryCodes';
 import { CategoryBox } from '../common';
@@ -14,19 +16,23 @@ const Container = styled.div`
 
 const fullCategoryCodes = ['AL00', ...categoryCodes];
 
-const Categories = ({ category, changeCategory }) => (
-  <Container>
-    {fullCategoryCodes.map(code => (
-      <CategoryBox
-        categoryName={categoryInfo[code].ko}
-        categoryImgFile={categoryInfo[code].imgFile}
-        colored
-        key={categoryInfo[code].ko}
-        clickHandler={() => changeCategory(code)}
-        selected={category === code}
-      />
-    ))}
-  </Container>
-);
+const Categories = () => {
+  const [category, setCategory] = useRecoilState(categoryState);
+
+  return (
+    <Container>
+      {fullCategoryCodes.map(code => (
+        <CategoryBox
+          categoryName={categoryInfo[code].ko}
+          categoryImgFile={categoryInfo[code].imgFile}
+          colored
+          key={categoryInfo[code].ko}
+          clickHandler={() => setCategory(code)}
+          selected={category === code}
+        />
+      ))}
+    </Container>
+  );
+};
 
 export default Categories;
