@@ -77,8 +77,6 @@ const Header = () => {
   const { id } = useParams();
   const searchBarStatus = pathname === '/' || pathname === `/store/${id}`;
 
-  console.log('[Header]', user);
-
   const applySearchResult = e => {
     e.preventDefault();
 
