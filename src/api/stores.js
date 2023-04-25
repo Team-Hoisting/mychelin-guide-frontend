@@ -2,11 +2,15 @@ import axios from 'axios';
 
 const url = `/api/stores`;
 
-const fetchStores = async () => {
-  const response = await axios.get(`${url}`);
+// const fetchStores = async pageParam => {
+//   console.log('매개변수로 받음', pageParam);
 
-  return response.data;
-};
+//   const response = await axios.get(`${url}?category=${}&pageParams=${pageParam}&pageSize=${15}`);
+
+//   console.log(response.data);
+
+//   return response.data;
+// };
 
 const fetchSearchedStores = async userSearch => {
   const response = await axios.get(`${url}/search?usersearch=${userSearch}`);
@@ -26,4 +30,4 @@ const fetchStore = storeid => async () => {
   return response.data;
 };
 
-export { fetchStores, fetchSearchedStores, fetchStore, fetchStoreItem };
+export { fetchSearchedStores, fetchStore, fetchStoreItem };

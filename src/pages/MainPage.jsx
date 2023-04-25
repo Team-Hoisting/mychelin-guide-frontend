@@ -2,10 +2,12 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import searchInputState from '../recoil/atoms/searchInputState';
-import { fetchStores } from '../api/stores';
+// import { Loader } from '@mantine/core';
+import { searchInputState } from '../recoil/atoms';
+// import { fetchStores } from '../api/stores';
 import { StoreItem } from '../components/common';
-import { StoreItemOnHover, Categories } from '../components/main';
+import { StoreItemOnHover, Categories, ScrollObserver } from '../components/main';
+import { useFetchStores } from '../hooks';
 
 const StoresContainer = styled.div`
   padding: 20px;
@@ -67,44 +69,37 @@ const NoMatchingSearchInput = styled.span`
   font-weight: 700;
 `;
 
-const filterFetchedStores = (stores, category, searchInput) => {
-  const filteredByCategory =
-    category === 'AL00'
-      ? stores
-      : stores.filter(({ votesByCategory }) => Object.keys(votesByCategory).includes(category));
+// const filterFetchedStores = (stores, category, searchInput) => {
+//   const filteredByCategory =
+//     category === 'AL00'
+//       ? stores
+//       : stores.filter(({ votesByCategory }) => Object.keys(votesByCategory).includes(category));
 
-  const filteredByUserSearch = !searchInput.length
-    ? filteredByCategory
-    : filteredByCategory.filter(({ storeName }) => storeName.includes(searchInput));
+//   const filteredByUserSearch = !searchInput.length
+//     ? filteredByCategory
+//     : filteredByCategory.filter(({ storeName }) => storeName.includes(searchInput));
 
-  return filteredByUserSearch;
-};
+//   return filteredByUserSearch;
+// };
 
 const MainPage = () => {
   const [displayedStores, setDisplayedStores] = React.useState({ topThree: [], remaining: [] });
-  const [category, setCategory] = React.useState('AL00');
   const searchInput = useRecoilValue(searchInputState);
 
+  const { data, isLoading, fetchNextPage, hasNextPage } = useFetchStores();
+
   React.useEffect(() => {
-    (async () => {
-      try {
-        const allStores = await fetchStores();
-        const filteredStores = filterFetchedStores(allStores, category, searchInput);
+    if (isLoading) return;
 
-        setDisplayedStores({ topThree: filteredStores.splice(0, 3), remaining: filteredStores });
-      } catch (e) {
-        console.log('[Main Page Error]: ', e);
-      }
-    })();
-  }, [category, searchInput]);
+    const topThree = data.pages.flat().splice(0, 3);
+    const remaining = data.pages.flat().splice(4);
 
-  const changeCategory = newCategory => {
-    setCategory(newCategory);
-  };
+    setDisplayedStores({ topThree, remaining });
+  }, [isLoading, data]);
 
   return (
     <>
-      <Categories category={category} changeCategory={changeCategory} />
+      <Categories />
       {displayedStores.topThree.length ? (
         <StoresContainer>
           <TopStoresContainer>
@@ -117,12 +112,13 @@ const MainPage = () => {
           </TopStoresContainer>
           <RestStoresContainer>
             {displayedStores.remaining.map(({ storeId, storeName, imgUrl, votesByCategory }) => (
-              <StoreItemContainer key={storeId}>
+              <StoreItemContainer key={`${Math.random() * Math.random()}_${storeId}`}>
                 <StoreItemOnHover storeId={storeId} />
-                <StoreItem key={storeName} storeName={storeName} imgUrl={imgUrl} votesByCategory={votesByCategory} />
+                <StoreItem storeName={storeName} imgUrl={imgUrl} votesByCategory={votesByCategory} />
               </StoreItemContainer>
             ))}
           </RestStoresContainer>
+          {hasNextPage && <ScrollObserver fetchNextPage={fetchNextPage} />}
         </StoresContainer>
       ) : (
         <NoResultContainer>

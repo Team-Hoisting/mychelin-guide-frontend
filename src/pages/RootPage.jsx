@@ -1,13 +1,12 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { check } from '../api/auth';
-import { Header } from '../components/common';
+import { Header, SideBanner, LogInBanner } from '../components/common';
 import { userState } from '../recoil/atoms';
-import SideBanner from '../components/common/SideBanner';
 
 const RootPage = () => {
-  const setUser = useSetRecoilState(userState);
+  const [user, setUser] = useRecoilState(userState);
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
@@ -16,8 +15,6 @@ const RootPage = () => {
         setIsLoading(true);
 
         const user = await check();
-        console.log(user);
-
         setUser(user);
       } catch (e) {
         console.log(e);
@@ -33,7 +30,7 @@ const RootPage = () => {
   return (
     <>
       <Header />
-      <SideBanner />
+      {!user ? <LogInBanner /> : <SideBanner />}
       <div id="detail">
         <Outlet />
       </div>
