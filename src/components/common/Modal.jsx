@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 import { Modal, Group, Button } from '@mantine/core';
@@ -127,4 +128,38 @@ const PopupModal = ({ storeId, width }) => {
   );
 };
 
-export default PopupModal;
+const ModalContainer = ({ storeId, width }) => {
+  const user = useRecoilValue(userState);
+  const navigate = useNavigate();
+
+  if (!user)
+    return (
+      <Group position="center">
+        <Button
+          onClick={() => {
+            navigate('/signin');
+          }}
+          styles={theme => ({
+            root: {
+              width: width || '200px',
+              height: '44px',
+              margin: '6px',
+              border: 'none',
+              borderRadius: '12px',
+              fontSize: '16px',
+              backgroundColor: '#d21312',
+              color: '#fff',
+              '&:not([data-disabled])': theme.fn.hover({
+                backgroundColor: theme.fn.darken('#d21312', 0.05),
+              }),
+            },
+          })}>
+          투표하기
+        </Button>
+      </Group>
+    );
+
+  return <PopupModal storeId={storeId} width={width} />;
+};
+
+export default ModalContainer;
