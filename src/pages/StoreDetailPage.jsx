@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
@@ -10,7 +10,7 @@ import { Divider } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 
 import userState from '../recoil/atoms/userState';
-import { Button, SideBanner, Modal } from '../components/common/index';
+import { Button, Modal } from '../components/common/index';
 
 import categoryCodes from '../constants/categoryCodes';
 import categoryInfo from '../constants/categoryInfo';
@@ -19,7 +19,7 @@ import commentQueryKey from '../constants/commentQueryKey';
 import archiveQueryKey from '../constants/archiveQueryKey';
 
 import { fetchStore } from '../api/stores';
-import { fetchComment, fetchComments } from '../api/comment';
+import { fetchComment } from '../api/comment';
 
 import useDataMutation from '../hooks/useDataMutaiton';
 import StorePositionMap from '../components/store/StorePositionMap';
@@ -109,7 +109,7 @@ const ImageContainer = styled.div`
 const DetailContainer = styled.div`
   width: 37%;
   position: relative;
-  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 4px;
 `;
 
@@ -246,6 +246,7 @@ const TextArea = styled.textarea.attrs(({ content }) => ({
   border-radius: 12px;
   border: 1px solid #ced4da;
   margin: 12px 0;
+  resize: none;
 `;
 
 const CommentBtn = styled(Button)`
@@ -340,18 +341,16 @@ const StoreDetailPage = () => {
 
   const { data: storeData } = useQuery(storeQuery(id));
   const { data: commentsData } = useQuery(commentQuery(id));
-  console.log('data: ', commentsData);
-  /**
-   * 추가되면 바로 refetch 필요/낙관적 업데이트
-   * comments의 max 아이디 받아서 사용
-   * -> 근데 fetch(post, delete) 할 때마다 새로 받아와서 해야함(onSuccess에서 query를 invalidate하기)
-   * */
+
+  const [archivedCntState, setArchiveCntState] = React.useState(0);
+
+  useEffect(() => {
+    setArchiveCntState(storeData.archivedCnt);
+  }, []);
 
   const [isImgLoading, setisImgLoading] = React.useState(true);
   const [content, setContent] = useState('');
   const [user, setUser] = useRecoilState(userState);
-  console.log('user: ', user);
-  // const [isArchived, setIsArchived] = useState(user.archived?.includes(id));
 
   const handleLoad = () => {
     setisImgLoading(false);
@@ -362,7 +361,7 @@ const StoreDetailPage = () => {
   };
 
   const url = `/api/comments`;
-
+  // 아예 없는 경우 추가 자동으로 안됨
   const { mutate: addComment } = useDataMutation({
     mutationFn: newComment => axios.post(url, newComment),
     onMutate(newComment) {
@@ -381,27 +380,13 @@ const StoreDetailPage = () => {
 
   const archiveURL = '/api/archives';
 
-  // const { mutate: addBookMark } = useDataMutation({
-  //   mutationFn: ({ storeId, email, isLike }) =>
-  //     axios.post(`${archiveURL}/${isLike ? '' : 'dis'}like`, { storeId, email }),
-  //   onMutate(newBookMark) {
-  //     if (newBookMark.isLike) return () => setUser({ ...user, archived: [...user.archived, newBookMark] });
-
-  //     console.log('dislike: ', newBookMark);
-  //     // seq 가져와서 삭제
-
-  //     return () => setUser({ ...user, archived: user.archived?.filter(arc => arc.seq !== newBookMark.seq) });
-  //   },
-  //   queryKey: [...archiveQueryKey, id],
-  // });
-
   const { mutate: addBookMark } = useDataMutation({
-    mutationFn: ({ storeId, email }) => axios.post(`${archiveURL}/like`, { storeId, email }),
+    mutationFn: newBookMark => axios.post(`${archiveURL}/archive`, newBookMark),
     onMutate(newBookMark) {
-      console.log('new: ', newBookMark);
       return () => {
         const newUser = { ...user, archived: [...user.archived, newBookMark] };
         setUser(newUser);
+        setArchiveCntState(prev => prev + 1);
         return newUser;
       };
     },
@@ -409,22 +394,26 @@ const StoreDetailPage = () => {
   });
 
   const { mutate: deleteBookMark } = useDataMutation({
-    mutationFn: seq => axios.post(`${archiveURL}/dislike`, { seq }),
-    onMutate(seq) {
-      console.log('dislike: ', seq);
-
-      // seq 가져와서 삭제
+    mutationFn: bookMarkToDelete => axios.post(`${archiveURL}/unarchive`, bookMarkToDelete),
+    onMutate(bookMarkToDelete) {
       return () => {
-        const newUserData = { ...user, archived: user.archived?.filter(arc => arc.seq !== seq) };
+        const [{ seq: deleteSeq }] = user.archived.filter(
+          arc => arc.storeId === bookMarkToDelete.storeId && arc.email === user.email
+        );
+        const newUserData = { ...user, archived: user?.archived?.filter(arc => arc.seq !== deleteSeq) };
         setUser(newUserData);
+        setArchiveCntState(prev => prev - 1);
+
         return newUserData;
       };
     },
     queryKey: [...archiveQueryKey, id, user.email],
   });
 
-  // store도 refetch 해야되는데..?
+
+
   const { storeId, storeName, address, firstVoteUser, phoneNumber, voteCnt, archivedCnt, imgUrl, x, y } = storeData;
+
 
   return (
     <>
@@ -442,30 +431,20 @@ const StoreDetailPage = () => {
               </StoreTitle>
               <Side>
                 <Bookmark>
-                  {
-                    // 이때 user data 수정
-                    user?.archived?.map(arc => arc.storeId).includes(id) ? (
-                      <FillBookMarkIcon
-                        onClick={() => {
-                          console.log(
-                            'deleted: ', // setUser에는 seq가 없다. 서버 데이터에 있는데.. user 데이터를 다시 가져와야 하나..?
-                            // 그냥 storeid, useremail 받아서 서버에서 처리
-                            user.archived.find(arc => arc.storeId === id)
-                          );
-                          deleteBookMark({ email: user.email, storeId: id });
-                        }}
-                      />
-                    ) : (
-                      <EmtpyBookmarkIcon
-                        onClick={() => {
-                          console.log('included? : ', user?.archived?.map(arc => arc.storeId).includes(id));
-                          console.log('added: ', { storeId, email: user.email });
-                          addBookMark({ storeId, email: user.email });
-                        }}
-                      />
-                    )
-                  }
-                  <ArchivedCnt>{archivedCnt}</ArchivedCnt>
+                  {user?.archived?.map(arc => arc.storeId).includes(id) ? (
+                    <FillBookMarkIcon
+                      onClick={() => {
+                        deleteBookMark({ email: user.email, storeId: id });
+                      }}
+                    />
+                  ) : (
+                    <EmtpyBookmarkIcon
+                      onClick={() => {
+                        addBookMark({ storeId, email: user.email });
+                      }}
+                    />
+                  )}
+                  <ArchivedCnt>{archivedCntState}</ArchivedCnt>
                 </Bookmark>
                 <Modal storeId={storeId} width="120px" />
               </Side>
