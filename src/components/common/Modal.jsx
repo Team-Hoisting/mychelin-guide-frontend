@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 import { Modal, Group, Button } from '@mantine/core';
 import { fetchStore } from '../../api/stores';
-import { fetchPrevStore, vote, fetchVotesByNickname } from '../../api/votes';
+import { fetchPrevStore, vote, fetchVotesByNickname, reVote, removeVote } from '../../api/votes';
 import userState from '../../recoil/atoms/userState';
 import Vote from '../modal/Vote';
 import DuplicateCategory from '../modal/DuplicateCategory';
@@ -21,8 +21,8 @@ import Success from '../modal/Success';
 
 const PopupModal = ({ storeId, width }) => {
   const [selectedCode, setSelectedCode] = React.useState(null);
-  const [step, setStep] = React.useState(1);
   const [isOpened, setIsOpened] = React.useState(false);
+  const [step, setStep] = React.useState(1);
   const [prevStoreId, setPrevStoreId] = React.useState(null);
   const { email, nickname } = useRecoilValue(userState);
 
@@ -34,7 +34,11 @@ const PopupModal = ({ storeId, width }) => {
     setStep(1);
   }, [isOpened]);
 
-  const onClose = () => {
+  const onClose = async () => {
+    if (step === 3) {
+      if (prevStoreId) await reVote({ storeId: prevStoreId, nickname, categoryCode: selectedCode })();
+      else await removeVote(nickname, selectedCode)();
+    }
     setIsOpened(false);
   };
 
@@ -92,13 +96,7 @@ const PopupModal = ({ storeId, width }) => {
             setPrevStoreId={setPrevStoreId}
           />
         ) : step === 3 ? (
-          <DuplicateStore
-            selectedCode={selectedCode}
-            prevStoreId={prevStoreId}
-            store={store}
-            setStep={setStep}
-            onClose={onClose}
-          />
+          <DuplicateStore store={store} setStep={setStep} onClose={onClose} />
         ) : (
           <Success />
         )}
