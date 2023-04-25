@@ -1,23 +1,28 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
-import { useLoaderData } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { Divider } from '@mantine/core';
+import { useQuery } from '@tanstack/react-query';
+
 import userState from '../recoil/atoms/userState';
-import { Button, SideBanner } from '../components/common/index';
+import { Button, SideBanner, Modal } from '../components/common/index';
 
 import categoryCodes from '../constants/categoryCodes';
 import categoryInfo from '../constants/categoryInfo';
 import storeQueryKey from '../constants/storeQueryKey';
 import commentQueryKey from '../constants/commentQueryKey';
+import archiveQueryKey from '../constants/archiveQueryKey';
 
 import { fetchStore } from '../api/stores';
-import fetchComment from '../api/comment';
+import { fetchComment, fetchComments } from '../api/comment';
 
-import Vote from '../components/modal/Vote';
+import useDataMutation from '../hooks/useDataMutaiton';
+import StorePositionMap from '../components/store/StorePositionMap';
 
 const Container = styled.div`
   width: 100%;
@@ -74,12 +79,14 @@ const Side = styled.div`
   justify-content: space-between;
 `;
 
-const VoteBtn = styled(Button)`
-  background-color: var(--primary-color);
+const EmtpyBookmarkIcon = styled(BsBookmark)`
+  width: 40px;
+  cursor: pointer;
 `;
 
-const BookmarkIcon = styled(BsBookmark)`
+const FillBookMarkIcon = styled(BsFillBookmarkFill)`
   width: 40px;
+  cursor: pointer;
 `;
 
 const Bookmark = styled.div`
@@ -102,28 +109,24 @@ const ImageContainer = styled.div`
 const DetailContainer = styled.div`
   width: 37%;
   position: relative;
-  background-color: lightgray;
+  background-color: #fff;
   border-radius: 4px;
 `;
 
 const Map = styled.div`
-  background-color: gray;
   position: absolute;
-  top: 3%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  height: 76%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80%;
   border-radius: 4px;
 `;
 
 const DetailTextContainer = styled.div`
   position: absolute;
-  border: 1px solid black;
-  top: 82%;
-  left: 50%;
-  width: 90%;
-  transform: translateX(-50%);
+  top: 83%;
+  left: 0;
+  width: 100%;
   font-size: 14px;
   padding: 5px;
   border-radius: 4px;
@@ -231,10 +234,10 @@ const Label = styled.label`
   font-weight: 800;
 `;
 
-const TextArea = styled.textarea.attrs(({ comment }) => ({
+const TextArea = styled.textarea.attrs(({ content }) => ({
   rows: 3,
   placeholder: '이 식당 어떠셨나요? 솔직한 후기를 알려주세요.',
-  value: comment,
+  value: content,
 }))`
   display: block;
   padding: 12px;
@@ -307,13 +310,14 @@ const Center = styled.div`
  * //1. 중앙 정렬
  * //2. 로그인 된 유저 가져오기(recoilValue)
  * //3. 로더 변경
- * // 4. skeleton -> 이미지가 가장 마지막에 로드되는 문제
+ * //4. skeleton -> 이미지가 가장 마지막에 로드되는 문제
  * 5. 투표하기, 저장, 댓글 작성
  * 6. 컴포넌트 분리
  * //7. 비동기 함수 분리 -> /api/
- * 8. 사진 비율 1,2번이 다르게 그려짐.
+ * //8. 사진 비율 1,2번이 다르게 그려짐.
  * //9. loader에서 data 불러오기
  * 10. star 받아와서 그리기
+ * 11. user 관련 업데이트 안됨
  */
 
 const storeQuery = storeid => ({ queryKey: [...storeQueryKey, storeid], queryFn: fetchStore(storeid) });
@@ -328,28 +332,97 @@ const storeDetailLoader =
     // eslint-disable-next-line no-return-await
     const storeData = queryClient.getQueryData(store.queryKey) ?? (await queryClient.fetchQuery(store));
     const commentsData = queryClient.getQueryData(comment.queryKey) ?? (await queryClient.fetchQuery(comment));
-
     return { storeData, commentsData };
   };
 
 const StoreDetailPage = () => {
-  const [isImgLoading, setisImgLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const textAreaRef = useRef(null);
-  const user = useRecoilValue(userState);
+  const { id } = useParams();
 
-  const {
-    storeData: { storeName, address, firstVoteUser, phoneNumber, voteCnt, archivedCnt, imgUrl },
-    commentsData,
-  } = useLoaderData();
+  const { data: storeData } = useQuery(storeQuery(id));
+  const { data: commentsData } = useQuery(commentQuery(id));
+  /**
+   * 추가되면 바로 refetch 필요/낙관적 업데이트
+   * comments의 max 아이디 받아서 사용
+   * -> 근데 fetch(post, delete) 할 때마다 새로 받아와서 해야함(onSuccess에서 query를 invalidate하기)
+   * */
+
+  const [isImgLoading, setisImgLoading] = React.useState(true);
+  const [content, setContent] = useState('');
+  const [user, setUser] = useRecoilState(userState);
+  console.log('user: ', user);
+  // const [isArchived, setIsArchived] = useState(user.archived?.includes(id));
 
   const handleLoad = () => {
     setisImgLoading(false);
   };
 
-  const handleModalClick = () => {
-    setIsModalOpen(true);
+  const handleChange = e => {
+    setContent(e.target.value);
   };
+
+  const url = `/api/comments`;
+
+  const { mutate: addComment } = useDataMutation({
+    mutationFn: newComment => axios.post(url, newComment),
+    onMutate(newComment) {
+      return comments => [newComment, ...comments];
+    },
+    queryKey: [...commentQueryKey, id],
+  });
+
+  const { mutate: deleteComment } = useDataMutation({
+    mutationFn: commentId => axios.delete(`${url}/${commentId}`),
+    onMutate(id) {
+      return comments => comments.filter(comment => comment.commentId !== id);
+    },
+    queryKey: [...commentQueryKey, id],
+  });
+
+  const archiveURL = '/api/archives';
+
+  // const { mutate: addBookMark } = useDataMutation({
+  //   mutationFn: ({ storeId, email, isLike }) =>
+  //     axios.post(`${archiveURL}/${isLike ? '' : 'dis'}like`, { storeId, email }),
+  //   onMutate(newBookMark) {
+  //     if (newBookMark.isLike) return () => setUser({ ...user, archived: [...user.archived, newBookMark] });
+
+  //     console.log('dislike: ', newBookMark);
+  //     // seq 가져와서 삭제
+
+  //     return () => setUser({ ...user, archived: user.archived?.filter(arc => arc.seq !== newBookMark.seq) });
+  //   },
+  //   queryKey: [...archiveQueryKey, id],
+  // });
+
+  const { mutate: addBookMark } = useDataMutation({
+    mutationFn: ({ storeId, email }) => axios.post(`${archiveURL}/like`, { storeId, email }),
+    onMutate(newBookMark) {
+      console.log('new: ', newBookMark);
+      return () => {
+        const newUser = { ...user, archived: [...user.archived, newBookMark] };
+        setUser(newUser);
+        return newUser;
+      };
+    },
+    queryKey: [...archiveQueryKey, id, user.email],
+  });
+
+  const { mutate: deleteBookMark } = useDataMutation({
+    mutationFn: seq => axios.post(`${archiveURL}/dislike`, { seq }),
+    onMutate(seq) {
+      console.log('dislike: ', seq);
+
+      // seq 가져와서 삭제
+      return () => {
+        const newUserData = { ...user, archived: user.archived?.filter(arc => arc.seq !== seq) };
+        setUser(newUserData);
+        return newUserData;
+      };
+    },
+    queryKey: [...archiveQueryKey, id, user.email],
+  });
+  // store도 refetch 해야되는데..?
+  const { storeId, storeName, address, firstVoteUser, phoneNumber, voteCnt, archivedCnt, imgUrl, x, y } = storeData;
 
   return (
     <>
@@ -367,10 +440,32 @@ const StoreDetailPage = () => {
               </StoreTitle>
               <Side>
                 <Bookmark>
-                  <BookmarkIcon />
+                  {
+                    // 이때 user data 수정
+                    user?.archived?.map(arc => arc.storeId).includes(id) ? (
+                      <FillBookMarkIcon
+                        onClick={() => {
+                          console.log(
+                            'deleted: ', // setUser에는 seq가 없다. 서버 데이터에 있는데.. user 데이터를 다시 가져와야 하나..?
+                            // 그냥 storeid, useremail 받아서 서버에서 처리
+                            user.archived.find(arc => arc.storeId === id)
+                          );
+                          deleteBookMark({ email: user.email, storeId: id });
+                        }}
+                      />
+                    ) : (
+                      <EmtpyBookmarkIcon
+                        onClick={() => {
+                          console.log('included? : ', user?.archived?.map(arc => arc.storeId).includes(id));
+                          console.log('added: ', { storeId, email: user.email });
+                          addBookMark({ storeId, email: user.email });
+                        }}
+                      />
+                    )
+                  }
                   <ArchivedCnt>{archivedCnt}</ArchivedCnt>
                 </Bookmark>
-                <VoteBtn onClick={handleModalClick}>투표하기</VoteBtn>
+                <Modal withCloseButton={false} btnText="투표하기" btnBgColor="#D21312" btnColor="#fff" duration={300} />
               </Side>
             </StoreTitleContainer>
             <FirstVoteUser>
@@ -380,14 +475,16 @@ const StoreDetailPage = () => {
               {isImgLoading && <ImageSkeleton />}
               <Image src={imgUrl} onLoad={handleLoad} isImgLoading={isImgLoading} />
 
-              <DetailContainer>
-                <Map>지도 표시</Map>
+              <DetailContainer className="detail-container">
+                <Map className="map">
+                  <StorePositionMap x={x} y={y} />
+                </Map>
                 <DetailTextContainer>
                   <Address>
                     <AddressTitle>주소</AddressTitle>: {address}
                   </Address>
                   <Phone>
-                    <PhoneTitle>전화번호</PhoneTitle>: {phoneNumber}
+                    <PhoneTitle>전화번호</PhoneTitle>: {phoneNumber || '없음'}
                   </Phone>
                 </DetailTextContainer>
               </DetailContainer>
@@ -409,27 +506,44 @@ const StoreDetailPage = () => {
             <Label>댓글</Label>
             <Divider my="sm" />
             <CommentPostContainer>
-              <TextArea ref={textAreaRef}></TextArea>
-              <CommentBtn>등록하기</CommentBtn>
+              <TextArea onChange={handleChange} content={content}></TextArea>
+              <CommentBtn
+                onClick={() => {
+                  addComment({
+                    storeId,
+                    content,
+                    email: user.email,
+                    isCertified: true,
+                    nickname: user.nickname,
+                  });
+                  setContent('');
+                }}>
+                등록하기
+              </CommentBtn>
             </CommentPostContainer>
             <Comments>
-              {commentsData.map(({ commentid, email, nickname, isCertified, comment }) => (
-                <Comment key={commentid}>
+              {commentsData.map(({ commentId, email, nickname, isCertified, content }) => (
+                <Comment key={commentId}>
                   <User>
                     <Profile />
                     <NickName>{nickname}</NickName>
                     {isCertified && <CertifiedIcon />}
                   </User>
-                  <CommentText>{comment}</CommentText>
-                  {user && email === user.email && <CloseBtn>X</CloseBtn>}
+                  <CommentText>{content}</CommentText>
+                  {user && email === user.email && (
+                    <CloseBtn
+                      onClick={() => {
+                        deleteComment(commentId);
+                      }}>
+                      X
+                    </CloseBtn>
+                  )}
                 </Comment>
               ))}
             </Comments>
           </CommentsContainer>
         </Center>
       </Container>
-      <SideBanner />
-      {isModalOpen && <Vote onClose={() => setIsModalOpen(false)} />}
     </>
   );
 };

@@ -8,4 +8,15 @@ const fetchComment = storeid => async () => {
   return response.data;
 };
 
-export default fetchComment;
+const postComment =
+  ({ storeId, content, email }) =>
+  async () => {
+    await axios.post(url, { storeId, email, content });
+  };
+
+const fetchComments = () => async () => {
+  const response = await axios.get(url);
+  return response.data;
+};
+
+export { fetchComment, fetchComments, postComment };

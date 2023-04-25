@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import searchInputState from '../recoil/atoms/searchInputState';
 import { fetchStores } from '../api/stores';
-import { StoreItem } from '../components/common';
+import { StoreItem, CategoryTag } from '../components/common';
+
 import { StoreItemOnHover, Categories } from '../components/main';
 
 const StoresContainer = styled.div`
