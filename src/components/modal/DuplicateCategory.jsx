@@ -1,10 +1,11 @@
 import React from 'react';
+import styled, { css } from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
-import styled, { css } from 'styled-components';
 import { MdOutlineKeyboardDoubleArrowDown } from 'react-icons/md';
 import userState from '../../recoil/atoms/userState';
-import { checkCategory } from '../../api/votes';
+import { fetchPrevStore, fetchVotesByNickname, reVote } from '../../api/votes';
+import { categoryInfo } from '../../constants';
 import ButtonGroup from './ButtonGroup';
 
 const Container = styled.div`
@@ -68,20 +69,45 @@ const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
   font-size: 1.5rem;
 `;
 
-const CategoryConfirmed = ({ selectedCode, category, data, store, onNext, onClose }) => {
+const DuplicateCategory = ({ selectedCode, store, setStep, setPrevStoreId }) => {
   const { nickname } = useRecoilValue(userState);
-  const { storeId } = store;
 
-  const handleVote = () => {};
+  // 이전에 투표한 매장 가져오기
+  const { data: prevStore, isLoading } = useQuery({
+    queryKey: ['votes', nickname, selectedCode],
+    queryFn: fetchPrevStore(nickname, selectedCode),
+    staleTime: 1000,
+  });
+
+  const onNext = async () => {
+    // 재투표하기
+    await reVote({
+      nickname,
+      storeId: store.storeId,
+      categoryCode: selectedCode,
+      votedAt: new Date(),
+    })();
+    console.log(prevStore.storeName);
+    setPrevStoreId(prevStore.storeId);
+
+    // 중복 매장 확인
+    const votes = await fetchVotesByNickname(nickname)();
+    const count = votes.filter(vote => vote.storeId === store.storeId).length;
+
+    if (count !== 1) setStep(3);
+    else setStep(4);
+  };
+
+  if (isLoading) return <></>;
 
   return (
     <Container>
       <Text>
-        현재 <span className="red">{category} 카테고리</span>에서
+        현재 <span className="red">{categoryInfo[selectedCode]?.ko} 카테고리</span>에서
       </Text>
       <ChangeLog>
         <Box>
-          <span className="red">{data.storeName}</span>
+          <span className="red">{prevStore.storeName}</span>
         </Box>
         <ArrowIcon />
         <Box>
@@ -91,46 +117,9 @@ const CategoryConfirmed = ({ selectedCode, category, data, store, onNext, onClos
       <Text center>
         <span className="bold">변경</span>하시겠습니까?
       </Text>
-      <ButtonGroup leftText="확인" rightText="취소" onNext={onNext} onClose={onClose} mt="2rem" />
+      <ButtonGroup leftText="확인" rightText="취소" onNext={onNext} onClose={() => setStep(1)} mt="2rem" />
     </Container>
   );
 };
 
-const StoreConfirmed = () => {
-  console.log('');
-
-  return (
-    <Container>
-      <Text>
-        현재 <span className="red">카테고리</span>에서
-      </Text>
-    </Container>
-  );
-};
-
-const Confirmed = ({ selectedCode, category, onNext, onClose, store }) => {
-  const { nickname } = useRecoilValue(userState);
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['votes'],
-    queryFn: checkCategory(nickname, selectedCode),
-    staleTime: 1000,
-  });
-
-  if (isLoading) return <div></div>;
-  if (error) return <pre>{error}</pre>;
-
-  return data ? (
-    <CategoryConfirmed
-      selectedCode={selectedCode}
-      category={category}
-      data={data}
-      store={store}
-      onNext={onNext}
-      onClose={onClose}
-    />
-  ) : (
-    <div>zz</div>
-  );
-};
-
-export default Confirmed;
+export default DuplicateCategory;

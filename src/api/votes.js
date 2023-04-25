@@ -14,16 +14,30 @@ const fetchVotesByNickname = nickname => async () => {
   return response.data;
 };
 
-const checkCategory = (nickname, category) => async () => {
+const fetchPrevStore = (nickname, category) => async () => {
   const response = await axios.get(`${url}/${nickname}/${category}`);
 
   return response.data;
 };
 
-const vote = (nickname, storeId, newCode) => async () => {
-  const response = await axios.patch(`${url}/${nickname}/${storeId}`, { newCode });
+const vote = voteInfo => async () => {
+  const response = await axios.post(url, voteInfo);
 
   return response.data;
 };
 
-export { fetchVotes, fetchVotesByNickname, checkCategory, vote };
+const reVote = voteInfo => async () => {
+  const { storeId, nickname, categoryCode, votedAt } = voteInfo;
+
+  const response = await axios.patch(`${url}/${nickname}/${categoryCode}`, { storeId, votedAt });
+
+  return response.data;
+};
+
+const removeVote = (nickname, categoryCode) => async () => {
+  const response = await axios.delete(`${url}/${nickname}/${categoryCode}`);
+
+  return response.data;
+};
+
+export { fetchVotes, fetchVotesByNickname, fetchPrevStore, vote, reVote, removeVote };
