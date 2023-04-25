@@ -361,7 +361,7 @@ const StoreDetailPage = () => {
   };
 
   const url = `/api/comments`;
-
+  // 아예 없는 경우 추가 자동으로 안됨
   const { mutate: addComment } = useDataMutation({
     mutationFn: newComment => axios.post(url, newComment),
     onMutate(newComment) {
