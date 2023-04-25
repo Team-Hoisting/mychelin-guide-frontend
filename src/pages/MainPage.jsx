@@ -1,12 +1,9 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-// import { Loader } from '@mantine/core';
-import { searchInputState } from '../recoil/atoms';
-// import { fetchStores } from '../api/stores';
-import { StoreItem } from '../components/common';
-import { StoreItemOnHover, Categories, ScrollObserver } from '../components/main';
+import { searchInputState, searchedStoresState } from '../recoil/atoms';
+import { StoreItem, Loader } from '../components/common';
+import { StoreItemOnHover, Categories, ScrollObserver, NoResultMessage } from '../components/main';
 import { useFetchStores } from '../hooks';
 
 const StoresContainer = styled.div`
@@ -52,23 +49,6 @@ const StoreItemContainer = styled.div`
   }
 `;
 
-const NoResultContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  height: 500px;
-`;
-
-const SearchmapPageDirector = styled.span`
-  font-style: italic;
-  text-decoration: underline;
-`;
-
-const NoMatchingSearchInput = styled.span`
-  font-weight: 700;
-`;
-
 // const filterFetchedStores = (stores, category, searchInput) => {
 //   const filteredByCategory =
 //     category === 'AL00'
@@ -82,25 +62,28 @@ const NoMatchingSearchInput = styled.span`
 //   return filteredByUserSearch;
 // };
 
+let displayedStores = { topThree: [], remaining: [] };
+
 const MainPage = () => {
-  const [displayedStores, setDisplayedStores] = React.useState({ topThree: [], remaining: [] });
-  const searchInput = useRecoilValue(searchInputState);
-
   const { data, isLoading, fetchNextPage, hasNextPage } = useFetchStores();
+  const searchInputStores = useRecoilValue(searchedStoresState);
 
-  React.useEffect(() => {
-    if (isLoading) return;
+  if (!isLoading) {
+    const searchedStores = searchInputStores.length ? searchInputStores : data.pages.flat();
 
-    const topThree = data.pages.flat().splice(0, 3);
-    const remaining = data.pages.flat().splice(4);
+    console.log('[MAIN]:', searchedStores);
 
-    setDisplayedStores({ topThree, remaining });
-  }, [isLoading, data]);
+    const topThree = searchedStores.splice(0, 3);
+    const remaining = searchedStores.splice(3);
+
+    displayedStores = { topThree, remaining };
+  }
 
   return (
     <>
       <Categories />
-      {displayedStores.topThree.length ? (
+      {isLoading ? <Loader /> : null}
+      {!isLoading && displayedStores.topThree.length ? (
         <StoresContainer>
           <TopStoresContainer>
             {displayedStores.topThree.map(({ storeId, storeName, imgUrl, votesByCategory }) => (
@@ -121,14 +104,7 @@ const MainPage = () => {
           {hasNextPage && <ScrollObserver fetchNextPage={fetchNextPage} />}
         </StoresContainer>
       ) : (
-        <NoResultContainer>
-          <p>
-            <NoMatchingSearchInput>{`'${searchInput}'`}</NoMatchingSearchInput>에 해당하는 결과가 없습니다.
-          </p>
-          <Link to={`/searchmap?keyword=${searchInput}`}>
-            <SearchmapPageDirector>새로운 가게를 추가하고 최초 투표자가 되어보세요!</SearchmapPageDirector>
-          </Link>
-        </NoResultContainer>
+        <NoResultMessage />
       )}
     </>
   );

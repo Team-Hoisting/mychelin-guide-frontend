@@ -130,7 +130,7 @@ const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색�
           onChange={debouncedSearchHandler}
           onFocus={handleRefocus}
         />
-        <SearchButton>
+        <SearchButton tabIndex={1}>
           <SearchIcon />
         </SearchButton>
       </SearchForm>

@@ -4,7 +4,7 @@ import { Button } from '../common';
 import Modal from '../common/Modal';
 
 const Container = styled.main`
-  z-index: 9999;
+  z-index: 2;
   width: 100%;
   height: 100%;
   position: absolute;
