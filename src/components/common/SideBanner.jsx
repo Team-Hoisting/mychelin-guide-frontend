@@ -96,25 +96,6 @@ const CarouselContainer = styled(Carousel)`
   margin: 5px;
 `;
 
-const LogoImg = styled.img`
-  margin: 10px auto;
-  width: 80px;
-`;
-
-const Description = styled.p`
-  margin: 3px auto;
-  font-size: 15px;
-`;
-
-const NoUserBanner = () => (
-  <>
-    <LogoImg src="/images/star.png" alt="STAR IMG" />
-    <Description>로그인 후</Description>
-    <Description>당신의 맛집에</Description>
-    <Description>투표해보세요!</Description>
-  </>
-);
-
 const SideBanner = () => {
   const user = useRecoilValue(userState);
 
@@ -134,37 +115,31 @@ const SideBanner = () => {
 
   return (
     <Container>
-      {!user ? (
-        <NoUserBanner />
-      ) : (
-        <>
-          <Title>투표 현황</Title>
-          <Divider size="sm" />
-          <CarouselContainer
-            slideSize="100%"
-            height={340}
-            orientation="vertical"
-            slideGap="xs"
-            controlsOffset="sm"
-            controlSize={15}
-            loop
-            draggable={false}>
-            {Array.from({ length: categoryCodes.length / PAGEITEMNUM }, (_, i) => i).map(pageIdx => (
-              <Carousel.Slide key={pageIdx}>
-                <SlideContainer>
-                  {Array.from({ length: PAGEITEMNUM }, (_, i) => PAGEITEMNUM * pageIdx + i).map(categoryIdx => (
-                    <CategoryItem
-                      key={categoryCodes[categoryIdx]}
-                      categoryCode={categoryCodes[categoryIdx]}
-                      storeId={userVoteObj?.[categoryCodes[categoryIdx]]}
-                    />
-                  ))}
-                </SlideContainer>
-              </Carousel.Slide>
-            ))}
-          </CarouselContainer>
-        </>
-      )}
+      <Title>투표 현황</Title>
+      <Divider size="sm" />
+      <CarouselContainer
+        slideSize="100%"
+        height={340}
+        orientation="vertical"
+        slideGap="xs"
+        controlsOffset="sm"
+        controlSize={15}
+        loop
+        draggable={false}>
+        {Array.from({ length: categoryCodes.length / PAGEITEMNUM }, (_, i) => i).map(pageIdx => (
+          <Carousel.Slide key={pageIdx}>
+            <SlideContainer>
+              {Array.from({ length: PAGEITEMNUM }, (_, i) => PAGEITEMNUM * pageIdx + i).map(categoryIdx => (
+                <CategoryItem
+                  key={categoryCodes[categoryIdx]}
+                  categoryCode={categoryCodes[categoryIdx]}
+                  storeId={userVoteObj?.[categoryCodes[categoryIdx]]}
+                />
+              ))}
+            </SlideContainer>
+          </Carousel.Slide>
+        ))}
+      </CarouselContainer>
     </Container>
   );
 };
