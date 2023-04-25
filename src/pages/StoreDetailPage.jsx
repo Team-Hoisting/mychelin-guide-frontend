@@ -340,6 +340,7 @@ const StoreDetailPage = () => {
 
   const { data: storeData } = useQuery(storeQuery(id));
   const { data: commentsData } = useQuery(commentQuery(id));
+  console.log('data: ', commentsData);
   /**
    * 추가되면 바로 refetch 필요/낙관적 업데이트
    * comments의 max 아이디 받아서 사용
