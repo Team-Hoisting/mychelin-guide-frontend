@@ -31,6 +31,7 @@ const RootPage = () => {
     <>
       <Header />
       {!user ? <LogInBanner /> : <SideBanner />}
+
       <div id="detail">
         <Outlet />
       </div>

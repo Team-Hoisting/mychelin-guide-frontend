@@ -105,7 +105,7 @@ const Header = () => {
           </div>
           {searchBarStatus && <SearchBar submitHandler={applySearchResult} refName={searchBarRef} />}
           <ConfigsContainer>
-            <Link to={user ? '/user' : '/signin'}>MY</Link>
+            <Link to={user ? `/profile/${user.nickname}` : '/signin'}>MY</Link>
             {user ? (
               <SignInOutButton
                 onClick={async () => {
