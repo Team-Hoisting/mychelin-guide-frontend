@@ -465,7 +465,7 @@ const StoreDetailPage = () => {
                   }
                   <ArchivedCnt>{archivedCnt}</ArchivedCnt>
                 </Bookmark>
-                <Modal withCloseButton={false} btnText="투표하기" btnBgColor="#D21312" btnColor="#fff" duration={300} />
+                <Modal storeId={storeId} width="120px" />
               </Side>
             </StoreTitleContainer>
             <FirstVoteUser>

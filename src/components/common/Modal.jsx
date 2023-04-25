@@ -10,31 +10,15 @@ import DuplicateCategory from '../modal/DuplicateCategory';
 import DuplicateStore from '../modal/DuplicateStore';
 import Success from '../modal/Success';
 
-// const useStore = storeId => {
-//   const [store, setStore] = React.useState({});
-//   const [isLoading, setIsLoading] = React.useState(false);
-//   const [error, setError] = React.useState(null);
+/*
+  카테고리 선택, 카테고리 중복, 가게 중복, 성공
 
-//   React.useEffect(() => {
-//     (async () => {
-//       try {
-//         setIsLoading(true);
+  카테고리 중복: 사용자가 기존의 해당 코드로 투표를 한 적이 있음
 
-//         const store = await fetchStore(storeId)();
+  가게 중복: 사용자가 다른 카테고리 표로 해당 가게를 투표한 적이 있음
+*/
 
-//         setStore(store);
-//       } catch (e) {
-//         setError(e);
-//       } finally {
-//         setIsLoading(false);
-//       }
-//     })();
-//   }, [storeId]);
-
-//   return { store, isLoading, error };
-// };
-
-const PopupModal = ({ storeId }) => {
+const PopupModal = ({ storeId, width }) => {
   const [selectedCode, setSelectedCode] = React.useState(null);
   const [step, setStep] = React.useState(1);
   const [isOpened, setIsOpened] = React.useState(false);
@@ -123,7 +107,7 @@ const PopupModal = ({ storeId }) => {
           onClick={() => setIsOpened(true)}
           styles={theme => ({
             root: {
-              width: '200px',
+              width: width || '200px',
               height: '44px',
               margin: '6px',
               border: 'none',
