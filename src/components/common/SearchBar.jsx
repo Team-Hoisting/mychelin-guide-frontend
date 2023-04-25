@@ -36,6 +36,10 @@ const SearchButton = styled.button`
   height: 30px;
   width: 30px;
   border-radius: 30px;
+
+  :focus {
+    outline: none;
+  }
 `;
 
 const SearchIcon = styled(AiOutlineArrowRight)`
