@@ -410,13 +410,16 @@ const StoreDetailPage = () => {
     queryKey: [...archiveQueryKey, id, user.email],
   });
 
-  const { storeId, storeName, address, firstVoteUser, phoneNumber, voteCnt, imgUrl, x, y } = storeData;
+
+
+  const { storeId, storeName, address, firstVoteUser, phoneNumber, voteCnt, archivedCnt, imgUrl, x, y } = storeData;
+
 
   return (
     <>
       <Container className="container">
         <Center className="center">
-          <StoreDetailContainer className="storedeail">
+          <StoreDetailContainer className="storedetail">
             <StoreTitleContainer className="storetitle">
               <StoreTitle>
                 <Title>{storeName}</Title>
@@ -525,5 +528,6 @@ const StoreDetailPage = () => {
     </>
   );
 };
+
 export { storeDetailLoader };
 export default StoreDetailPage;
