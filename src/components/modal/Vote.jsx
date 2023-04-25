@@ -1,23 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from '../common/Button';
-import { CategoryBox } from '../common/index';
 import categoryCodes from '../../constants/categoryCodes';
 import categoryInfo from '../../constants/categoryInfo';
+import ButtonGroup from './ButtonGroup';
+import { CategoryBox } from '../common/index';
 
 const Container = styled.div`
-  padding: 2rem 1.2rem;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff;
+  padding: 1rem;
   border-radius: 8px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
 `;
 
 const Info = styled.div`
-  margin-bottom: 6rem;
+  margin-bottom: 3.5rem;
 `;
 
 const Store = styled.h2`
@@ -47,24 +41,39 @@ const Guidance = styled.div`
   }
 `;
 
-const ButtonGroup = styled.div`
+const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 50px;
+  margin-bottom: 5em;
+
+  img {
+    width: 20%;
+  }
 `;
 
-const Control = styled(Button)`
-  width: 70%;
-`;
-
-const Vote = ({ onClose }) => {
-  const [selectedCode, setSelectedCode] = React.useState(null);
+const Vote = ({ selectedCode, setSelectedCode, store, onClose, onNext }) => {
+  console.log('');
 
   return (
     <Container>
       <Info>
-        <Store>오므토토마토 강남본점</Store>
-        <span className="address">서울 강남구 테헤란로4길 29 1층 오므토토마토 강남본점</span>
+        <Store>{store.storeName}</Store>
+        <span className="address">{store.address}</span>
       </Info>
+      <ImageContainer>
+        {selectedCode ? (
+          <CategoryBox
+            categoryName={categoryInfo[selectedCode].ko}
+            categoryImgFile={categoryInfo[selectedCode].imgFile}
+            changeOnHover={false}
+            colored
+          />
+        ) : (
+          <div>없음</div>
+        )}
+      </ImageContainer>
       <Selector>
         {categoryCodes.map(code => {
           if (code === 'AL00') return null;
@@ -86,14 +95,13 @@ const Vote = ({ onClose }) => {
           정말 <span className="em">투표</span>하시겠습니까?
         </p>
       </Guidance>
-      <ButtonGroup>
-        <Control red thirty>
-          투표하기
-        </Control>
-        <Control thirty onClick={onClose}>
-          취소하기
-        </Control>
-      </ButtonGroup>
+      <ButtonGroup
+        isDisable={selectedCode === null}
+        leftText="투표하기"
+        rightText="취소하기"
+        onNext={onNext}
+        onClose={onClose}
+      />
     </Container>
   );
 };
