@@ -2,8 +2,7 @@ import { useRecoilValue } from 'recoil';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { categoryState } from '../recoil/atoms';
-import { storesQueryKey as queryKey, STORES_FETCH_SIZE } from '../constants';
-// import { fetchStores } from '../api/stores';
+import { storesQueryKey, STORES_FETCH_SIZE } from '../constants';
 
 const useFetchStores = () => {
   const category = useRecoilValue(categoryState);
@@ -17,7 +16,7 @@ const useFetchStores = () => {
 
   // prettier-ignore
   const { data, isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: [...queryKey, category], 
+    queryKey: [...storesQueryKey, category], 
     queryFn: ({ pageParam = 1 }) => fetchStores(pageParam),
     getNextPageParam: (lastPage, allPages) =>
     lastPage.length === STORES_FETCH_SIZE ? allPages.length + 1 : undefined,
