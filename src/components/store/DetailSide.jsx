@@ -98,6 +98,7 @@ const DetailSide = ({ store: { imgUrl, x, y, address, phoneNumber } }) => {
   const handleLoad = () => {
     setisImgLoading(false);
   };
+
   return (
     <>
       <ImageContainer className="imagecontainer">
