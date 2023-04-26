@@ -1,7 +1,9 @@
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
+import { searchInputState } from '../../recoil/atoms';
 import { fetchSearchedStores } from '../../api/stores';
 import { useDebounce, useOnClickOutside } from '../../hooks';
 
@@ -80,6 +82,7 @@ const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색�
   const [dropdownStores, setDropdownStores] = React.useState([]);
   const [renderDropdown, setRenderDropdown] = React.useState(false);
   const dropdownRef = useOnClickOutside(() => setRenderDropdown(false));
+  const setSearchInput = useSetRecoilState(searchInputState);
   const navigate = useNavigate();
 
   const handleUserSearch = async e => {
@@ -87,6 +90,8 @@ const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색�
 
     if (!userSearch) {
       setRenderDropdown(false);
+      setSearchInput(null);
+
       return;
     }
 
@@ -122,7 +127,12 @@ const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색�
 
   return (
     <Container>
-      <SearchForm onSubmit={submitHandler}>
+      <SearchForm
+        onSubmit={e => {
+          e.preventDefault();
+
+          submitHandler();
+        }}>
         <Bar
           placeholder={placeholder}
           ref={refName}
@@ -130,7 +140,7 @@ const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색�
           onChange={debouncedSearchHandler}
           onFocus={handleRefocus}
         />
-        <SearchButton tabIndex={1}>
+        <SearchButton>
           <SearchIcon />
         </SearchButton>
       </SearchForm>
