@@ -20,9 +20,6 @@ const Container = styled.div`
 
 const Wrapper = styled(Responsive)`
   height: 5rem;
-  /* background-color: #a1a1a1; */
-  /* display: flex;
-  justify-content: space-between; */
   align-items: center;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -84,7 +81,7 @@ const RegisterButton = styled.button`
   font-size: 14px;
 
   :hover {
-    background-color: #f0f0f0;
+    background-color: #f7f7f7;
   }
 `;
 
@@ -124,7 +121,7 @@ const Header = () => {
           </div>
           {searchBarStatus && <SearchBar hasDropdown inputRef={searchBarRef} />}
           <ConfigsContainer>
-            <RegisterButton>당신의 맛집을 알려주세요!</RegisterButton>
+            <RegisterButton>당신만의 맛집을 알려주세요</RegisterButton>
             {isDark ? <LightModeIcon /> : <DarkModeIcon />}
             <UserIcon />
             {/* <Link to={user ? `/profile/${user.nickname}` : '/signin'}>MY</Link>
