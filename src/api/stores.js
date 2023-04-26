@@ -20,11 +20,11 @@ const fetchSearchedStores = async userSearch => {
   return response.data;
 };
 
-const fetchStoreItem = async id => {
-  const response = await axios.get(`${url}/${id}`);
+// const fetchStoreItem = async id => {
+//   const response = await axios.get(`${url}/${id}`);
 
-  return response.data;
-};
+//   return response.data;
+// };
 
 const fetchStore = storeid => async () => {
   const response = await axios.get(`${url}/${storeid}`);
@@ -32,4 +32,10 @@ const fetchStore = storeid => async () => {
   return response.data;
 };
 
-export { fetchSearchedStores, fetchStore, fetchStoreItem };
+const fetchVotedStoresByNickname = nickname => async () => {
+  const response = await axios.get(`${url}/voted/${nickname}`);
+
+  return response.data;
+};
+
+export { fetchSearchedStores, fetchStore, fetchVotedStoresByNickname };
