@@ -9,7 +9,7 @@ import RegisterPage from './pages/RegisterPage';
 import SigninPage from './pages/SigninPage';
 import ErrorPage from './pages/ErrorPage';
 import SearchMapPage from './pages/SearchMapPage';
-import StoreDetailPage, { storeDetailLoader } from './pages/StoreDetailPage';
+import StoreDetailPage from './pages/StoreDetailPage';
 import ProfilePage from './pages/ProfilePage';
 import UserInfoPage from './pages/UserInfoPage';
 import RecommendationPage from './pages/RecommendationPage';
@@ -59,7 +59,7 @@ const router = createBrowserRouter([
       {
         path: 'store/:id',
         element: <StoreDetailPage />,
-        loader: storeDetailLoader(queryClient),
+        // loader: storeDetailLoader(queryClient),
       },
       {
         path: 'recommendation/:id',
