@@ -13,6 +13,7 @@ const Container = styled.div`
   scale: 0.8;
   color: #000000;
 `;
+
 const CategoryIcon = styled.img`
   margin: auto 2px;
   width: 20x;

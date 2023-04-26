@@ -68,18 +68,29 @@ const MainPage = () => {
       {!isLoading && displayedStores.topThree.length ? (
         <StoresContainer>
           <TopStoresContainer>
-            {displayedStores.topThree.map(({ storeId, storeName, imgUrl, votesByCategory }) => (
+            {displayedStores.topThree.map(({ storeId, storeName, imgUrl, votesByCategory, starCount }) => (
               <StoreItemContainer key={storeId}>
                 <StoreItemOnHover storeId={storeId} />
-                <StoreItem key={storeId} storeName={storeName} imgUrl={imgUrl} votesByCategory={votesByCategory} />
+                <StoreItem
+                  key={storeId}
+                  storeName={storeName}
+                  imgUrl={imgUrl}
+                  votesByCategory={votesByCategory}
+                  starCount={starCount}
+                />
               </StoreItemContainer>
             ))}
           </TopStoresContainer>
           <RestStoresContainer>
-            {displayedStores.remaining.map(({ storeId, storeName, imgUrl, votesByCategory }) => (
+            {displayedStores.remaining.map(({ storeId, storeName, imgUrl, votesByCategory, starCount }) => (
               <StoreItemContainer key={`${Math.random() * Math.random()}_${storeId}`}>
                 <StoreItemOnHover storeId={storeId} />
-                <StoreItem storeName={storeName} imgUrl={imgUrl} votesByCategory={votesByCategory} />
+                <StoreItem
+                  storeName={storeName}
+                  imgUrl={imgUrl}
+                  votesByCategory={votesByCategory}
+                  starCount={starCount}
+                />
               </StoreItemContainer>
             ))}
           </RestStoresContainer>
