@@ -33,7 +33,7 @@ const VotedCnt = styled.span`
 `;
 
 const CategoryTag = ({ categoryCode, votedCnt, renderName = true }) => {
-  const imgSrc = `./public/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`;
+  const imgSrc = `/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`;
 
   return (
     <Container>
