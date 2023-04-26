@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { BiMoon, BiSun } from 'react-icons/bi';
 import { useLocation, useParams, Link, useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userState, searchInputState } from '../../recoil/atoms';
+import { userState, searchInputState, searchedStoresState } from '../../recoil/atoms';
+import { fetchSearchedStores } from '../../api/stores';
 import { logout } from '../../api/auth';
 import Responsive from './Responsive';
 import { SearchBar } from './index';
@@ -66,6 +67,7 @@ const Spacer = styled.div`
 `;
 
 const Header = () => {
+  const setSearchedStores = useSetRecoilState(searchedStoresState);
   const [user, setUser] = useRecoilState(userState);
   const setSearchInput = useSetRecoilState(searchInputState);
   const searchBarRef = React.useRef(null);
@@ -77,15 +79,20 @@ const Header = () => {
   const { id } = useParams();
   const searchBarStatus = pathname === '/' || pathname === `/store/${id}`;
 
-  const applySearchResult = e => {
+  const applySearchResult = async e => {
     e.preventDefault();
 
     const searchedContent = searchBarRef.current.value.trim();
 
     if (!searchedContent) return;
+
+    const toDisplay = await fetchSearchedStores(searchedContent);
+
+    console.log('[inside apply]', toDisplay);
+
     if (pathname !== '/') navigate('/');
 
-    setSearchInput(searchedContent);
+    if (toDisplay.length) setSearchedStores(toDisplay);
   };
 
   return (

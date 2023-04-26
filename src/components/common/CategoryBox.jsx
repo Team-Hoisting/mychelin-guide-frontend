@@ -54,7 +54,7 @@ const CategoryBox = ({ clickHandler, categoryImgFile, categoryName, colored, sel
   const imgSrc = `/categoryIcons/${colored ? '' : 'noColor/'}${categoryImgFile}.png`;
 
   return (
-    <EachCategoryBox onClick={() => clickHandler()} changeOnHover={changeOnHover}>
+    <EachCategoryBox onClick={clickHandler} changeOnHover={changeOnHover}>
       <SelectedIcon selected={selected} />
       <CategoryIcon src={imgSrc} alt={`${categoryName}`} />
       <CategoryName selected={selected}>{categoryName}</CategoryName>
