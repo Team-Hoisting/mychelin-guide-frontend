@@ -55,10 +55,9 @@ const ResultItemOnHover = ({ storeId }) => {
 
   return (
     <Container>
-      {/* <HoverItemIcon /> */}
       <ButtonContainer>
         {isRegistered ? (
-          <Link to="/detail">
+          <Link to={`/store/${storeId}`}>
             <RoundedButton gray>상세보기</RoundedButton>
           </Link>
         ) : (
