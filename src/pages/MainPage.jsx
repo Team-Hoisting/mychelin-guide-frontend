@@ -1,7 +1,5 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { searchInputState, searchedStoresState } from '../recoil/atoms';
 import { StoreItem, Loader } from '../components/common';
 import { StoreItemOnHover, Categories, ScrollObserver, NoResultMessage } from '../components/main';
 import { useFetchStores } from '../hooks';
@@ -49,32 +47,16 @@ const StoreItemContainer = styled.div`
   }
 `;
 
-// const filterFetchedStores = (stores, category, searchInput) => {
-//   const filteredByCategory =
-//     category === 'AL00'
-//       ? stores
-//       : stores.filter(({ votesByCategory }) => Object.keys(votesByCategory).includes(category));
-
-//   const filteredByUserSearch = !searchInput.length
-//     ? filteredByCategory
-//     : filteredByCategory.filter(({ storeName }) => storeName.includes(searchInput));
-
-//   return filteredByUserSearch;
-// };
-
 let displayedStores = { topThree: [], remaining: [] };
 
 const MainPage = () => {
   const { data, isLoading, fetchNextPage, hasNextPage } = useFetchStores();
-  const searchInputStores = useRecoilValue(searchedStoresState);
 
   if (!isLoading) {
-    const searchedStores = searchInputStores.length ? searchInputStores : data.pages.flat();
-
-    console.log('[MAIN]:', searchedStores);
+    const searchedStores = data.pages.flat();
 
     const topThree = searchedStores.splice(0, 3);
-    const remaining = searchedStores.splice(3);
+    const remaining = searchedStores;
 
     displayedStores = { topThree, remaining };
   }
