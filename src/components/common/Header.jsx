@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BiMoon, BiSun } from 'react-icons/bi';
+import { FaUserCircle } from 'react-icons/fa';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userState, searchInputState, categoryState } from '../../recoil/atoms';
@@ -18,10 +19,13 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled(Responsive)`
-  height: 4rem;
-  display: flex;
+  height: 5rem;
+  /* background-color: #a1a1a1; */
+  /* display: flex;
+  justify-content: space-between; */
   align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 `;
 
 const LogoImage = styled.img`
@@ -45,10 +49,19 @@ const DarkModeIcon = styled(BiMoon)`
   cursor: pointer;
 `;
 
+const UserIcon = styled(FaUserCircle)`
+  font-size: 24px;
+  color: black;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+`;
+
 const ConfigsContainer = styled.div`
-  width: 10rem;
+  /* border: 1px solid red; */
   display: flex;
-  justify-content: space-around;
+  justify-content: end;
+  gap: 15px;
   align-items: center;
   font-style: italic;
 `;
@@ -64,10 +77,19 @@ const SignInOutButton = styled.button`
 const RegisterButton = styled.button`
   background: none;
   border: none;
+  border-radius: 15px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+
+  :hover {
+    background-color: #f0f0f0;
+  }
 `;
 
 const Spacer = styled.div`
-  height: 4rem;
+  height: 5rem;
 `;
 
 const Header = () => {
@@ -102,8 +124,10 @@ const Header = () => {
           </div>
           {searchBarStatus && <SearchBar hasDropdown inputRef={searchBarRef} />}
           <ConfigsContainer>
-            {/* <RegisterButton>당신의 최애 식당을 등록해보세요!</RegisterButton> */}
-            <Link to={user ? `/profile/${user.nickname}` : '/signin'}>MY</Link>
+            <RegisterButton>당신의 맛집을 알려주세요!</RegisterButton>
+            {isDark ? <LightModeIcon /> : <DarkModeIcon />}
+            <UserIcon />
+            {/* <Link to={user ? `/profile/${user.nickname}` : '/signin'}>MY</Link>
             {user ? (
               <SignInOutButton
                 onClick={async () => {
@@ -117,8 +141,7 @@ const Header = () => {
               <Link to="/signin">
                 <SignInOutButton>SIGN IN</SignInOutButton>
               </Link>
-            )}
-            {isDark ? <LightModeIcon /> : <DarkModeIcon />}
+            )} */}
           </ConfigsContainer>
         </Wrapper>
       </Container>
