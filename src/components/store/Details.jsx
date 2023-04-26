@@ -39,6 +39,7 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
         <Title
           storeId={storeData.storeId}
           storeName={storeData.storeName}
+          starCnt={storeData.starCnt}
           addBookMark={addBookMark}
           deleteBookMark={deleteBookMark}
           archivedCntState={archivedCntState}
