@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BiMoon, BiSun } from 'react-icons/bi';
-import { useLocation, useParams, Link, useNavigate } from 'react-router-dom';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userState, searchInputState } from '../../recoil/atoms';
-// import { fetchSearchedStores } from '../../api/stores';
+import { userState, searchInputState, categoryState } from '../../recoil/atoms';
 import { logout } from '../../api/auth';
 import Responsive from './Responsive';
 import { SearchBar } from './index';
@@ -69,25 +68,14 @@ const Spacer = styled.div`
 const Header = () => {
   const [user, setUser] = useRecoilState(userState);
   const setSearchInput = useSetRecoilState(searchInputState);
+  const setCategoryState = useSetRecoilState(categoryState);
   const searchBarRef = React.useRef(null);
-  const navigate = useNavigate();
 
   const isDark = false;
 
   const { pathname } = useLocation();
   const { id } = useParams();
   const searchBarStatus = pathname === '/' || pathname === `/store/${id}`;
-
-  const applySearchResult = async () => {
-    const userSearch = searchBarRef.current.value.trim();
-
-    if (!userSearch) return;
-
-    setSearchInput(userSearch);
-    if (pathname !== '/') navigate('/');
-
-    // const toDisplay = await fetchSearchedStores(searchedContent);
-  };
 
   return (
     <>
@@ -101,10 +89,13 @@ const Header = () => {
                 onClick={() => {
                   setSearchInput('');
                   searchBarRef.current.value = '';
-                }}></LogoImage>
+
+                  setCategoryState('AL00');
+                }}
+              />
             </Link>
           </div>
-          {searchBarStatus && <SearchBar submitHandler={applySearchResult} refName={searchBarRef} />}
+          {searchBarStatus && <SearchBar hasDropdown inputRef={searchBarRef} />}
           <ConfigsContainer>
             <Link to={user ? `/profile/${user.nickname}` : '/signin'}>MY</Link>
             {user ? (
