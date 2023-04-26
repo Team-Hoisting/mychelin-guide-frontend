@@ -28,11 +28,10 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
   const { data: storeData, isLoading } = useQuery(storeQuery(id));
 
   React.useEffect(() => {
+    if (isLoading) return;
     setArchiveCntState(storeData?.archivedCnt);
-  }, []);
+  }, [isLoading]);
 
-  if (isLoading) return <Loader />;
-  // suspense 안 됨
   return (
     <React.Suspense fallback={<Loader />}>
       <StoreDetailContainer className="storedetail">
