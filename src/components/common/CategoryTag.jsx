@@ -5,7 +5,6 @@ const Container = styled.div`
   display: flex;
   justify-content: space-around;
   padding: 5px 10px;
-  width: 70px;
   min-width: 70px;
   border-radius: 20px;
   opacity: 0.8;
@@ -13,6 +12,7 @@ const Container = styled.div`
   scale: 0.8;
   color: #000000;
 `;
+
 const CategoryIcon = styled.img`
   margin: auto 2px;
   width: 20x;

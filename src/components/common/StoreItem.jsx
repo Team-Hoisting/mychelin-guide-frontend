@@ -37,6 +37,11 @@ const Contents = styled.section`
   font-size: 18px;
 `;
 
+const StoreInfoMain = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const Name = styled(Link)`
   padding: 8px 2px;
   text-overflow: ellipsis;
@@ -46,7 +51,10 @@ const Name = styled(Link)`
   overflow: hidden;
 `;
 
-const StarContainer = styled.div``;
+const StarContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const Star = styled.img.attrs({
   src: '/images/star.png',
@@ -60,7 +68,7 @@ const VotesContainer = styled.div`
   overflow: hidden;
 `;
 
-const StoreItem = ({ storeName = '', imgUrl = '', starCnt = 0, votesByCategory = {} }) => (
+const StoreItem = ({ storeName = '', imgUrl = '', starCount = 0, votesByCategory = {} }) => (
   <>
     <Container>
       <Link to="/detail">
@@ -69,12 +77,14 @@ const StoreItem = ({ storeName = '', imgUrl = '', starCnt = 0, votesByCategory =
         </ImageContainer>
       </Link>
       <Contents>
-        <Name>{storeName}</Name>
-        <StarContainer>
-          {[...Array(starCnt).keys()].map(val => (
-            <Star key={val} />
-          ))}
-        </StarContainer>
+        <StoreInfoMain>
+          <Name>{storeName}</Name>
+          <StarContainer>
+            {[...Array(starCount).keys()].map(val => (
+              <Star key={val} />
+            ))}
+          </StarContainer>
+        </StoreInfoMain>
         <VotesContainer>
           {Object.keys(votesByCategory).map(category => (
             <CategoryTag
