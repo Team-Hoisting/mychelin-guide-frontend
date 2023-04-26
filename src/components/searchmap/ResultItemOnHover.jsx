@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { Link } from 'react-router-dom';
 import { Button } from '../common';
-import { fetchStoreItem } from '../../api/stores';
+import { fetchStore } from '../../api/stores';
 
 const Container = styled.main`
   z-index: 9999;
@@ -44,7 +44,7 @@ const ResultItemOnHover = ({ storeId }) => {
   useEffect(() => {
     (async () => {
       try {
-        const storeInfo = await fetchStoreItem(storeId);
+        const storeInfo = await fetchStore(storeId)();
 
         setIsRegistered(!!storeInfo);
       } catch (e) {
