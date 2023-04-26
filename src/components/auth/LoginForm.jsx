@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import userState from '../../recoil/atoms/userState';
 import { signIn } from '../../api/auth';
@@ -16,6 +16,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const setUser = useSetRecoilState(userState);
   const [isFailedLogin, setIsFailedLogin] = React.useState(false);
+  const { state } = useLocation();
 
   const onSubmit = async data => {
     try {
@@ -24,7 +25,10 @@ const LoginForm = () => {
       console.log(user);
 
       setUser(user);
-      navigate('/');
+
+      if (state) {
+        navigate(state);
+      } else navigate('/');
     } catch (e) {
       setIsFailedLogin(true);
     }

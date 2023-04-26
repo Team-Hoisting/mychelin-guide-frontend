@@ -4,6 +4,7 @@ import { categoryInfo } from '../../constants';
 const Container = styled.div`
   display: flex;
   justify-content: space-around;
+  align-items: center;
   padding: 5px 10px;
   min-width: 70px;
   border-radius: 20px;
@@ -33,7 +34,8 @@ const VotedCnt = styled.span`
 `;
 
 const CategoryTag = ({ categoryCode, votedCnt, renderName = true }) => {
-  const imgSrc = `./public/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`;
+  console.log('votecnt: ', votedCnt);
+  const imgSrc = `/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`;
 
   return (
     <Container>
