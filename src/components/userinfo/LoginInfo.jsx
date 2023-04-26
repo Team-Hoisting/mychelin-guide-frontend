@@ -20,8 +20,8 @@ const LoginInfo = () => {
   return (
     <Container>
       <Title>로그인 정보</Title>
-      <Unit title="닉네임" />
-      <Unit title="비밀번호" />
+      <Unit type="nickname" title="닉네임" />
+      <Unit type="password" title="비밀번호" />
     </Container>
   );
 };

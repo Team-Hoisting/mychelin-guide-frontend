@@ -4,9 +4,8 @@ import Button from './Button';
 import Editor from './Editor';
 
 const Container = styled.div`
-  padding: 25px 60px 18px 0;
+  padding: 25px 0 18px 0;
   position: relative;
-  border-bottom: 1px solid #ebebeb;
 `;
 
 const Title = styled.h4`
@@ -34,7 +33,7 @@ const ButtonWithPosition = styled(Button)`
   bottom: 16px;
 `;
 
-const Unit = ({ title }) => {
+const Unit = ({ type, title }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -43,10 +42,10 @@ const Unit = ({ title }) => {
       {!isOpen ? (
         <>
           <Content>{title}</Content>
-          <ButtonWithPosition>변경</ButtonWithPosition>
+          <ButtonWithPosition onClick={() => setIsOpen(true)}>변경</ButtonWithPosition>
         </>
       ) : (
-        <Editor />
+        <Editor type={type} onClose={() => setIsOpen(false)} />
       )}
     </Container>
   );
