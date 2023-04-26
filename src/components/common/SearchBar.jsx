@@ -2,7 +2,7 @@ import React from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { AiOutlineArrowRight } from 'react-icons/ai';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { searchInputState } from '../../recoil/atoms';
 import { fetchSearchedStores } from '../../api/stores';
 import { useDebounce, useOnClickOutside } from '../../hooks';
@@ -78,33 +78,54 @@ const DropdownResult = styled.li`
   }
 `;
 
-const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색해보세요!', refName, defaultValue = '' }) => {
+const SearchBar = ({
+  hasDropdown,
+  inputRef,
+  submitHandler = null,
+  placeholder = '맛집을 검색해보세요!',
+  defaultValue = '',
+}) => {
   const [dropdownStores, setDropdownStores] = React.useState([]);
-  const [renderDropdown, setRenderDropdown] = React.useState(false);
-  const dropdownRef = useOnClickOutside(() => setRenderDropdown(false));
+  const [openDropdown, setOpenDropdown] = React.useState(false);
+  const dropdownRef = useOnClickOutside(() => setOpenDropdown(false));
   const setSearchInput = useSetRecoilState(searchInputState);
-  const navigate = useNavigate();
 
-  const handleUserSearch = async e => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const handleSearchSubmit = async () => {
+    const userSearch = inputRef.current.value.trim();
+
+    if (!userSearch) return;
+
+    setSearchInput(userSearch);
+    if (pathname !== '/') navigate('/');
+
+    setOpenDropdown(false);
+  };
+
+  const handleSearchChange = async e => {
     const userSearch = e.target.value.trim();
 
     if (!userSearch) {
-      setRenderDropdown(false);
+      setOpenDropdown(false);
       setSearchInput(null);
 
       return;
     }
 
-    const toDisplay = await fetchSearchedStores(userSearch);
-    if (toDisplay.length) setRenderDropdown(true);
+    const fetched = await fetchSearchedStores(userSearch);
 
-    setDropdownStores(toDisplay);
+    setOpenDropdown(true);
+    setDropdownStores(fetched);
   };
 
-  const debouncedSearchHandler = useDebounce(handleUserSearch, 330);
+  const debouncedSearchHandler = useDebounce(handleSearchChange, 330);
 
   const handleRefocus = e => {
-    if (e.target.value.trim()) debouncedSearchHandler(e);
+    if (e.target.value.trim()) {
+      debouncedSearchHandler(e);
+    }
   };
 
   const alterFocus = (e, storeId) => {
@@ -112,7 +133,11 @@ const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색�
 
     if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown' && e.key !== 'Tab' && e.key !== 'Enter') return;
 
-    if (e.key === 'Enter') navigate(`/store/${storeId}`);
+    if (e.key === 'Enter') {
+      navigate(`/store/${storeId}`);
+
+      setOpenDropdown(false);
+    }
 
     if (e.key === 'ArrowUp') {
       if (document.activeElement.previousElementSibling) document.activeElement.previousElementSibling.focus();
@@ -131,20 +156,24 @@ const SearchBar = ({ submitHandler = () => {}, placeholder = '맛집을 검색�
         onSubmit={e => {
           e.preventDefault();
 
-          submitHandler();
+          if (submitHandler) submitHandler();
+          else handleSearchSubmit();
         }}>
         <Bar
           placeholder={placeholder}
-          ref={refName}
+          ref={inputRef}
           defaultValue={defaultValue}
           onChange={debouncedSearchHandler}
-          onFocus={handleRefocus}
+          onFocus={e => {
+            handleRefocus(e);
+            console.log('BEING FOCUSED!!');
+          }}
         />
         <SearchButton>
           <SearchIcon />
         </SearchButton>
       </SearchForm>
-      {renderDropdown && (
+      {hasDropdown && openDropdown && (
         <Dropdown ref={dropdownRef}>
           {dropdownStores.map(({ storeName, storeId }) => (
             <DropdownResult key={storeName} tabIndex="0" onKeyDown={e => alterFocus(e, storeId)}>
