@@ -7,65 +7,16 @@ import { Divider } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 
 import voteQueryKey from '../../constants/voteQueryKey';
-import { fetchVotesByNickname } from '../../api/votes';
-import { fetchStore } from '../../api/stores';
+import { fetchVotedStoresByNickname } from '../../api/stores';
 
 import userState from '../../recoil/atoms/userState';
 
 import categoryCodes from '../../constants/categoryCodes';
-import categoryInfo from '../../constants/categoryInfo';
+
+import VotedCategoryItem from '../sidebanner/VotedCategoryItem';
 
 const PAGEITEMNUM = 3;
 
-const StoreItemContainer = styled.div`
-  margin: 15px;
-  padding: 3px;
-  height: 80px;
-  border-radius: 10px;
-`;
-const CircleImgContainer = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-`;
-
-const StoreImg = styled.img`
-  margin: auto;
-  width: 100%;
-  height: 100%;
-  color: black;
-`;
-
-const CategoryName = styled.p`
-  font-size: 13px;
-`;
-
-const CategoryItem = ({ categoryCode, storeId }) => {
-  const [imgSrc, setImgSrc] = React.useState(`/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`);
-
-  const getImgUrl = async () => {
-    const { imgUrl } = await fetchStore(storeId)();
-
-    setImgSrc(imgUrl);
-  };
-
-  if (storeId) {
-    getImgUrl();
-  }
-
-  return (
-    <StoreItemContainer>
-      <CircleImgContainer
-        onClick={() => {
-          // 식당 상세 정보 페이지 이동
-        }}>
-        <StoreImg src={imgSrc} />
-      </CircleImgContainer>
-      <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
-    </StoreItemContainer>
-  );
-};
 const Container = styled.div`
   position: fixed;
   margin: 0;
@@ -99,17 +50,17 @@ const CarouselContainer = styled(Carousel)`
 const SideBanner = () => {
   const user = useRecoilValue(userState);
 
-  const { data: userVoteObj } = useQuery({
+  const { data: votedStoresInfo } = useQuery({
     queryKey: voteQueryKey,
-    queryFn: fetchVotesByNickname(user.nickname),
-    select(userVotes) {
-      const userVote = {};
+    queryFn: fetchVotedStoresByNickname(user.nickname),
+    select(voteInfos) {
+      const votedStoresInfo = {};
 
-      userVotes.forEach(vote => {
-        userVote[vote.categoryCode] = vote.storeId;
+      voteInfos.forEach(voteInfo => {
+        votedStoresInfo[voteInfo.categoryCode] = voteInfo.store;
       });
 
-      return userVote;
+      return votedStoresInfo;
     },
   });
 
@@ -130,10 +81,10 @@ const SideBanner = () => {
           <Carousel.Slide key={pageIdx}>
             <SlideContainer>
               {Array.from({ length: PAGEITEMNUM }, (_, i) => PAGEITEMNUM * pageIdx + i).map(categoryIdx => (
-                <CategoryItem
+                <VotedCategoryItem
                   key={categoryCodes[categoryIdx]}
                   categoryCode={categoryCodes[categoryIdx]}
-                  storeId={userVoteObj?.[categoryCodes[categoryIdx]]}
+                  storeImg={votedStoresInfo?.[categoryCodes[categoryIdx]].imgUrl}
                 />
               ))}
             </SlideContainer>
