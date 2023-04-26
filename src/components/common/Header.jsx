@@ -61,6 +61,11 @@ const SignInOutButton = styled.button`
   cursor: pointer;
 `;
 
+const RegisterButton = styled.button`
+  background: none;
+  border: none;
+`;
+
 const Spacer = styled.div`
   height: 4rem;
 `;
@@ -97,6 +102,7 @@ const Header = () => {
           </div>
           {searchBarStatus && <SearchBar hasDropdown inputRef={searchBarRef} />}
           <ConfigsContainer>
+            {/* <RegisterButton>당신의 최애 식당을 등록해보세요!</RegisterButton> */}
             <Link to={user ? `/profile/${user.nickname}` : '/signin'}>MY</Link>
             {user ? (
               <SignInOutButton
