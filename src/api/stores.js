@@ -15,7 +15,7 @@ const url = `/api/stores`;
 const fetchSearchedStores = async userSearch => {
   const response = await axios.get(`${url}/search?usersearch=${userSearch}`);
 
-  console.log('[Inside API func]', response.data);
+  // console.log('[Inside API func]', response.data);
 
   return response.data;
 };
