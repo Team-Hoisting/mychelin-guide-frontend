@@ -12,7 +12,7 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     margin: 0;
-    color: ${palette.gray[8]};
+    color: var(--font-color);
     margin-bottom: 2rem;
   }
 `;
@@ -25,13 +25,18 @@ const Footer = styled.div`
     color: ${palette.gray[6]};
     text-decoration: underline;
     &:hover {
-      color: ${palette.gray[9]};
+      color: var(--font-color);
     }
   }
 `;
 
 const ButtonWithMarginTop = styled(Button)`
   margin-top: 1rem;
+
+  :disabled {
+    background-color: var(--button-disabled-color);
+    color: #fff;
+  }
 `;
 
 const formTitle = {

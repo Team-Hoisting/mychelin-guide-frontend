@@ -8,6 +8,9 @@ import { CategoryBox } from '../common/index';
 const Container = styled.div`
   padding: 1rem;
   border-radius: 8px;
+
+  background-color: var(--bg-color);
+  color: var(--font-color);
 `;
 
 const Info = styled.div`
@@ -53,57 +56,53 @@ const ImageContainer = styled.div`
   }
 `;
 
-const Vote = ({ selectedCode, setSelectedCode, store, onClose, onNext }) => {
-  console.log('');
+const Vote = ({ selectedCode, setSelectedCode, store, onClose, onNext }) => (
+  <Container>
+    <Info>
+      <Store>{store.storeName}</Store>
+      <span className="address">{store.address}</span>
+    </Info>
+    <ImageContainer>
+      {selectedCode ? (
+        <CategoryBox
+          categoryName={categoryInfo[selectedCode].ko}
+          categoryImgFile={categoryInfo[selectedCode].imgFile}
+          changeOnHover={false}
+          colored
+        />
+      ) : (
+        <div>없음</div>
+      )}
+    </ImageContainer>
+    <Selector>
+      {categoryCodes.map(code => {
+        if (code === 'AL00') return null;
 
-  return (
-    <Container>
-      <Info>
-        <Store>{store.storeName}</Store>
-        <span className="address">{store.address}</span>
-      </Info>
-      <ImageContainer>
-        {selectedCode ? (
+        return (
           <CategoryBox
-            categoryName={categoryInfo[selectedCode].ko}
-            categoryImgFile={categoryInfo[selectedCode].imgFile}
-            changeOnHover={false}
-            colored
+            categoryName={categoryInfo[code].ko}
+            categoryImgFile={categoryInfo[code].imgFile}
+            colored={selectedCode === code}
+            key={categoryInfo[code].ko}
+            clickHandler={() => setSelectedCode(code)}
           />
-        ) : (
-          <div>없음</div>
-        )}
-      </ImageContainer>
-      <Selector>
-        {categoryCodes.map(code => {
-          if (code === 'AL00') return null;
-
-          return (
-            <CategoryBox
-              categoryName={categoryInfo[code].ko}
-              categoryImgFile={categoryInfo[code].imgFile}
-              colored={selectedCode === code}
-              key={categoryInfo[code].ko}
-              clickHandler={() => setSelectedCode(code)}
-            />
-          );
-        })}
-      </Selector>
-      <Guidance>
-        <p>카테고리당 1곳만 투표할 수 있습니다.</p>
-        <p>
-          정말 <span className="em">투표</span>하시겠습니까?
-        </p>
-      </Guidance>
-      <ButtonGroup
-        isDisable={selectedCode === null}
-        leftText="투표하기"
-        rightText="취소하기"
-        onNext={onNext}
-        onClose={onClose}
-      />
-    </Container>
-  );
-};
+        );
+      })}
+    </Selector>
+    <Guidance>
+      <p>카테고리당 1곳만 투표할 수 있습니다.</p>
+      <p>
+        정말 <span className="em">투표</span>하시겠습니까?
+      </p>
+    </Guidance>
+    <ButtonGroup
+      isDisable={selectedCode === null}
+      leftText="투표하기"
+      rightText="취소하기"
+      onNext={onNext}
+      onClose={onClose}
+    />
+  </Container>
+);
 
 export default Vote;

@@ -10,6 +10,7 @@ import Vote from '../modal/Vote';
 import DuplicateCategory from '../modal/DuplicateCategory';
 import DuplicateStore from '../modal/DuplicateStore';
 import Success from '../modal/Success';
+import themeState from '../../recoil/atoms/theme';
 
 const PopupModal = ({ storeId, width }) => {
   const [selectedCode, setSelectedCode] = React.useState(null);
@@ -17,6 +18,7 @@ const PopupModal = ({ storeId, width }) => {
   const [step, setStep] = React.useState(1);
   const [prevStoreId, setPrevStoreId] = React.useState(null);
   const { email, nickname } = useRecoilValue(userState);
+  const theme = useRecoilValue(themeState);
 
   React.useEffect(() => {
     if (!isOpened) return;
@@ -71,7 +73,11 @@ const PopupModal = ({ storeId, width }) => {
         transitionProps={{ transition: 'slide-up', duration: 300, timingFunction: 'linear' }}
         zIndex="9999"
         size="lg"
-        centered>
+        centered
+        styles={{
+          header: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}` },
+          body: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}` },
+        }}>
         {step === 1 ? (
           <Vote
             selectedCode={selectedCode}

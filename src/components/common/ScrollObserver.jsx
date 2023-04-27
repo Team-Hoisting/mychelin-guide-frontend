@@ -29,7 +29,7 @@ const ScrollObserver = ({ fetchNextPage }) => {
 
   return (
     <Container ref={observerRef}>
-      <img src="images/scroll-observer.svg" alt="Loading..." />
+      <img src="/images/scroll-observer.svg" alt="Loading..." />
     </Container>
   );
 };

@@ -1,6 +1,52 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
+
+  #root {
+    min-height: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+
+    --primary-color: #d21312;
+
+  }
+
+  body[data-theme='light'] {
+    --bg-color: #fff;
+    --bg-secondary-color: #fff;
+    --font-color: #000;
+    --font-secondary: #d21312;
+
+    --button-color : #fff;
+    --button-disabled-color : #c4bdbd;
+
+    --border: #ababab;
+    --border-primary: #d21312;
+    --border-bottom: #1C2128;
+    
+  }
+
+  body[data-theme='dark'] {
+    --bg-color: #22272e; /* 진한 회색  */
+    --bg-secondary-color: #353C45; /* 연한 회색 */
+    --bg-dark-color: #1C2128; /* 가장 진한 회색 */
+    --bg-dark-sign-color: #161B22;
+    --bg-dark-black-color: #0D1116;
+
+    --font-color: #CDD9E5; /* 연한 글자 회색 */
+    --font-secondary: #549bf5;
+
+    --button-color: #2D333B;  
+    --button-disabled-color : #353C45;
+
+
+    --border: none;
+    --border-primary: #2D333B;
+    --border-secondary: #373E47;
+    --border-bottom:#CDD9E5;
+  }
+
   body {
     margin: 0;
     padding: 0;
@@ -10,26 +56,16 @@ const GlobalStyle = createGlobalStyle`
     -webkit-text-size-adjust: 100%;
     box-sizing: border-box;
     min-height: 100%;
+    
 
-    --primary-color: #d21312;
-    
-    [data-theme='light'] {
-      --bg-color: #fff;
-      --font-color: #000;
-    }
-    
-    [data-theme='dark'] {
-      --bg-color: #22272e;
-      --font-color: #fff;
-    }
+    background-color: var(--bg-color);
+    color: var(--font-color);
+
   }
 
-  #root {
-    min-height: 100%;
-    max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+
+
+
 
   html {
     height: 100%;

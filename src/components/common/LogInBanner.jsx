@@ -29,7 +29,7 @@ const Description = styled.p`
 const LogInBanner = () => (
   <Container>
     <Link to="/signin">
-      <LogoImg src="/images/star.png" alt="STAR IMG" />
+      <LogoImg src="/images/star-light.png" alt="STAR IMG" />
     </Link>
     <Description>로그인 후</Description>
     <Description>당신의 맛집에</Description>

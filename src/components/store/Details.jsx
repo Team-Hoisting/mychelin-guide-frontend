@@ -32,8 +32,9 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
     setArchiveCntState(storeData?.archivedCnt);
   }, [isLoading]);
 
+  if (isLoading) return <Loader />;
+
   return (
-    // <React.Suspense fallback={<Loader />}>
     <StoreDetailContainer className="storedetail">
       <Title
         storeId={storeData.storeId}
@@ -49,7 +50,6 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
       <DetailSide store={storeData} />
       <Votes voteCnt={storeData.voteCnt} />
     </StoreDetailContainer>
-    // </React.Suspense>
   );
 };
 

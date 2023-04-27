@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { Divider } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
+import { Loader } from './index';
 
 import voteQueryKey from '../../constants/voteQueryKey';
 import { fetchVotedStoresByNickname } from '../../api/stores';
@@ -25,18 +26,21 @@ const Container = styled.div`
   right: 50px;
   width: 100px;
   height: fit-content;
-  border: 1px solid #d21312;
+
   border-radius: 10px;
   text-align: center;
-  background-color: white;
   z-index: 999;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  background-color: var(--bg-secondary-color);
+  color: var(--font-color);
+
+  // border: 1px solid var(--border-primary);
 `;
 const Title = styled.h4`
   margin: 8px auto;
   width: 60px;
   font-size: 15px;
   text-align: center;
-  color: #d21312;
 `;
 
 const SlideContainer = styled.div`
@@ -50,7 +54,7 @@ const CarouselContainer = styled(Carousel)`
 const SideBanner = () => {
   const user = useRecoilValue(userState);
 
-  const { data: votedStoresInfo } = useQuery({
+  const { data: votedStoresInfo, isLoading } = useQuery({
     queryKey: voteQueryKey,
     queryFn: fetchVotedStoresByNickname(user.nickname),
     select(voteInfos) {
@@ -63,6 +67,8 @@ const SideBanner = () => {
       return votedStoresInfo;
     },
   });
+
+  if (isLoading) return <Loader />;
 
   return (
     <Container>
@@ -80,13 +86,16 @@ const SideBanner = () => {
         {Array.from({ length: categoryCodes.length / PAGEITEMNUM }, (_, i) => i).map(pageIdx => (
           <Carousel.Slide key={pageIdx}>
             <SlideContainer>
-              {Array.from({ length: PAGEITEMNUM }, (_, i) => PAGEITEMNUM * pageIdx + i).map(categoryIdx => (
-                <VotedCategoryItem
-                  key={categoryCodes[categoryIdx]}
-                  categoryCode={categoryCodes[categoryIdx]}
-                  storeImg={votedStoresInfo?.[categoryCodes[categoryIdx]].imgUrl}
-                />
-              ))}
+              {Array.from({ length: PAGEITEMNUM }, (_, i) => PAGEITEMNUM * pageIdx + i).map(categoryIdx => {
+                console.log('img: ', votedStoresInfo[categoryCodes[categoryIdx]]);
+                return (
+                  <VotedCategoryItem
+                    key={categoryCodes[categoryIdx]}
+                    categoryCode={categoryCodes[categoryIdx]}
+                    storeImg={votedStoresInfo?.[categoryCodes[categoryIdx]].imgUrl}
+                  />
+                );
+              })}
             </SlideContainer>
           </Carousel.Slide>
         ))}

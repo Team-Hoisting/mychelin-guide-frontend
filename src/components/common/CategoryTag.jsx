@@ -9,9 +9,10 @@ const Container = styled.div`
   min-width: 70px;
   border-radius: 20px;
   opacity: 0.8;
-  background-color: #d9d9d9;
+  background-color: var(--border-secondary);
+  color: var(--font-color);
   scale: 0.8;
-  color: #000000;
+  // background-color: #347d39;
 `;
 
 const CategoryIcon = styled.img`
