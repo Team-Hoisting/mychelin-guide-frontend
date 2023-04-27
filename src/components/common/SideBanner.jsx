@@ -25,18 +25,21 @@ const Container = styled.div`
   right: 50px;
   width: 100px;
   height: fit-content;
-  border: 1px solid #d21312;
+
   border-radius: 10px;
   text-align: center;
-  background-color: white;
   z-index: 999;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  background-color: var(--bg-secondary-color);
+  color: var(--font-color);
+
+  // border: 1px solid var(--border-primary);
 `;
 const Title = styled.h4`
   margin: 8px auto;
   width: 60px;
   font-size: 15px;
   text-align: center;
-  color: #d21312;
 `;
 
 const SlideContainer = styled.div`

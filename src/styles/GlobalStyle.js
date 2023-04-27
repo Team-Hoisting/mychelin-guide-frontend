@@ -2,20 +2,37 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
 
+  #root {
+    min-height: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+
+    --primary-color: #d21312;
+
+  }
+
   body[data-theme='light'] {
     --bg-color: #fff;
+    --bg-secondary-color: #fff;
     --font-color: #000;
+
     --button-color : #fff;
+
     --border: #ababab;
-   
+    --border-primary: #d21312;
   }
 
   body[data-theme='dark'] {
-    --bg-color: #22272e;
-    --bg-secondary-color: #2D333B;
-    --font-color: #CDD9E5;
+    --bg-color: #22272e; /* 진한 회색  */
+    --bg-secondary-color: #353C45; /* 연한 회색 */
+    --font-color: #CDD9E5; /* 연한 글자 회색 */
+
     --button-color: #2D333B;
+
+
     --border: none;
+    --border-primary: #2D333B;
     --border-secondary: #373E47;
   }
 
@@ -37,15 +54,7 @@ const GlobalStyle = createGlobalStyle`
 
 
 
-  #root {
-    min-height: 100%;
-    max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto;
 
-    --primary-color: #d21312;
-
-  }
 
   html {
     height: 100%;
