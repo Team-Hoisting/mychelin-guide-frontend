@@ -50,6 +50,10 @@ const router = createBrowserRouter([
         element: <ProfilePage />,
       },
       {
+        path: 'info',
+        element: <UserInfoPage />,
+      },
+      {
         path: 'searchmap',
         element: <SearchMapPage />,
       },

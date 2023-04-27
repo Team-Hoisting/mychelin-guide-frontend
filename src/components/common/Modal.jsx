@@ -12,14 +12,6 @@ import DuplicateStore from '../modal/DuplicateStore';
 import Success from '../modal/Success';
 import themeState from '../../recoil/atoms/theme';
 
-/*
-  카테고리 선택, 카테고리 중복, 가게 중복, 성공
-
-  카테고리 중복: 사용자가 기존의 해당 코드로 투표를 한 적이 있음
-
-  가게 중복: 사용자가 다른 카테고리 표로 해당 가게를 투표한 적이 있음
-*/
-
 const PopupModal = ({ storeId, width }) => {
   const [selectedCode, setSelectedCode] = React.useState(null);
   const [isOpened, setIsOpened] = React.useState(false);
