@@ -33,23 +33,23 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
   }, [isLoading]);
 
   return (
-    <React.Suspense fallback={<Loader />}>
-      <StoreDetailContainer className="storedetail">
-        <Title
-          storeId={storeData.storeId}
-          storeName={storeData.storeName}
-          starCnt={storeData.starCnt}
-          addBookMark={addBookMark}
-          deleteBookMark={deleteBookMark}
-          archivedCntState={archivedCntState}
-        />
-        <FirstVoteUser>
-          최초 투표자 : <UserName>{storeData.firstVoteUser}</UserName>
-        </FirstVoteUser>
-        <DetailSide store={storeData} />
-        <Votes voteCnt={storeData.voteCnt} />
-      </StoreDetailContainer>
-    </React.Suspense>
+    // <React.Suspense fallback={<Loader />}>
+    <StoreDetailContainer className="storedetail">
+      <Title
+        storeId={storeData.storeId}
+        storeName={storeData.storeName}
+        starCnt={storeData.starCnt}
+        addBookMark={addBookMark}
+        deleteBookMark={deleteBookMark}
+        archivedCntState={archivedCntState}
+      />
+      <FirstVoteUser>
+        최초 투표자 : <UserName>{storeData.firstVoteUser}</UserName>
+      </FirstVoteUser>
+      <DetailSide store={storeData} />
+      <Votes voteCnt={storeData.voteCnt} />
+    </StoreDetailContainer>
+    // </React.Suspense>
   );
 };
 

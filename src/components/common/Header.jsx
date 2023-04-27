@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BiMoon, BiSun } from 'react-icons/bi';
-import { useLocation, useParams, Link } from 'react-router-dom';
+import { FaUserCircle } from 'react-icons/fa';
+import { useLocation, useParams, Link, useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userState, searchInputState, categoryState } from '../../recoil/atoms';
 import { logout } from '../../api/auth';
 import Responsive from './Responsive';
 import { SearchBar } from './index';
+import { useOnClickOutside } from '../../hooks';
 
 const Container = styled.div`
   position: fixed;
@@ -18,10 +20,18 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled(Responsive)`
-  height: 4rem;
-  display: flex;
+  height: 5rem;
   align-items: center;
-  justify-content: space-between;
+  ${({ hasSearchBar }) =>
+    hasSearchBar
+      ? `
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    `
+      : `
+      display: flex;
+      justify-content: space-between;
+    `}
 `;
 
 const LogoImage = styled.img`
@@ -31,61 +41,103 @@ const LogoImage = styled.img`
 
 const LightModeIcon = styled(BiSun)`
   font-size: 30px;
-  color: black;
+  color: #3c3c3c;
   margin: 0;
   padding: 0;
   cursor: pointer;
 `;
 
 const DarkModeIcon = styled(BiMoon)`
-  font-size: 25px;
-  color: black;
+  font-size: 30px;
+  color: #3c3c3c;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+`;
+
+const UserIcon = styled(FaUserCircle)`
+  font-size: 30px;
+  color: #3c3c3c;
   margin: 0;
   padding: 0;
   cursor: pointer;
 `;
 
 const ConfigsContainer = styled.div`
-  width: 10rem;
+  position: relative;
   display: flex;
-  justify-content: space-around;
+  justify-content: end;
+  gap: 15px;
+  padding-right: 5px;
   align-items: center;
   font-style: italic;
-`;
-
-const SignInOutButton = styled.button`
-  font-style: italic;
-  background-color: #fff;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
 `;
 
 const RegisterButton = styled.button`
   background: none;
   border: none;
+  border-radius: 15px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+
+  :hover {
+    background-color: #f7f7f7;
+  }
+`;
+
+const UserDropdown = styled.nav`
+  display: ${({ opened }) => (opened ? 'block' : 'none')};
+  border: 1px solid #ababab;
+  border-radius: 5px;
+  background-color: #fff;
+  position: absolute;
+  padding: 5px;
+  min-height: 10rem;
+  width: 12rem;
+  top: 105%;
+`;
+
+const DropdownButton = styled.div`
+  font-style: normal;
+  font-size: 18px;
+  padding: 5px;
+  cursor: pointer;
+
+  :hover {
+    background-color: #f7f7f7;
+  }
+`;
+
+const SignoutButton = styled(DropdownButton)`
+  border-top: 1px solid #e0e0e0;
 `;
 
 const Spacer = styled.div`
-  height: 4rem;
+  height: 5rem;
 `;
 
 const Header = () => {
   const [user, setUser] = useRecoilState(userState);
   const setSearchInput = useSetRecoilState(searchInputState);
   const setCategoryState = useSetRecoilState(categoryState);
+  const [openDropdown, setOpenDropdown] = React.useState(false);
   const searchBarRef = React.useRef(null);
+  const navigate = useNavigate();
 
   const isDark = false;
 
   const { pathname } = useLocation();
   const { id } = useParams();
-  const searchBarStatus = pathname === '/' || pathname === `/store/${id}`;
+  const hasSearchBar = pathname === '/' || pathname === `/store/${id}`;
+
+  const userDropdownRef = useOnClickOutside(() => setOpenDropdown(false));
 
   return (
     <>
       <Container>
-        <Wrapper>
+        <Wrapper hasSearchBar={hasSearchBar}>
           <div>
             <Link to="/">
               <LogoImage
@@ -100,25 +152,42 @@ const Header = () => {
               />
             </Link>
           </div>
-          {searchBarStatus && <SearchBar hasDropdown inputRef={searchBarRef} />}
+          {hasSearchBar && <SearchBar hasDropdown inputRef={searchBarRef} />}
           <ConfigsContainer>
-            {/* <RegisterButton>당신의 최애 식당을 등록해보세요!</RegisterButton> */}
-            <Link to={user ? `/profile/${user.nickname}` : '/signin'}>MY</Link>
-            {user ? (
-              <SignInOutButton
+            <Link to="/searchmap">
+              <RegisterButton>당신만의 맛집을 알려주세요</RegisterButton>
+            </Link>
+            {isDark ? <LightModeIcon /> : <DarkModeIcon />}
+            <UserIcon
+              onClick={e => {
+                e.stopPropagation();
+
+                if (user) setOpenDropdown(!openDropdown);
+                else navigate('/signin');
+              }}
+            />
+            <UserDropdown opened={openDropdown} ref={userDropdownRef}>
+              <Link to={`/profile/${user?.nickname}`}>
+                <DropdownButton onClick={() => setOpenDropdown(false)}>마이페이지</DropdownButton>
+              </Link>
+              <Link to="/info">
+                <DropdownButton onClick={() => setOpenDropdown(false)}>회원정보 수정</DropdownButton>
+              </Link>
+              <Link to="/searchmap">
+                <DropdownButton onClick={() => setOpenDropdown(false)}>맛집 등록</DropdownButton>
+              </Link>
+              <SignoutButton
                 onClick={async () => {
                   await logout();
 
                   setUser(null);
+                  setOpenDropdown(false);
+
+                  navigate('/');
                 }}>
-                SIGN OUT
-              </SignInOutButton>
-            ) : (
-              <Link to="/signin">
-                <SignInOutButton>SIGN IN</SignInOutButton>
-              </Link>
-            )}
-            {isDark ? <LightModeIcon /> : <DarkModeIcon />}
+                Sign Out
+              </SignoutButton>
+            </UserDropdown>
           </ConfigsContainer>
         </Wrapper>
       </Container>
