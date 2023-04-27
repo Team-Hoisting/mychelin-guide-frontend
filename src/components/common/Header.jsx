@@ -79,8 +79,8 @@ const RegisterButton = styled.button`
   border-radius: 15px;
   padding: 10px;
   cursor: pointer;
-  font-weight: 700;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 16px;
 
   :hover {
     background-color: #f7f7f7;
