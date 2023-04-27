@@ -18,23 +18,30 @@ const GlobalStyle = createGlobalStyle`
     --font-color: #000;
 
     --button-color : #fff;
+    --button-disabled-color : #c4bdbd;
 
     --border: #ababab;
     --border-primary: #d21312;
+    --border-bottom: #1C2128;
+    
   }
 
   body[data-theme='dark'] {
     --bg-color: #22272e; /* 진한 회색  */
     --bg-secondary-color: #353C45; /* 연한 회색 */
-    --bg-dark-color : #1C2128; /* 가장 진한 회색 */
+    --bg-dark-color: #1C2128; /* 가장 진한 회색 */
+    --bg-dark-sign-color: #161B22;
+    --bg-dark-black-color: #0D1116;
     --font-color: #CDD9E5; /* 연한 글자 회색 */
 
-    --button-color: #2D333B;
+    --button-color: #2D333B;  
+    --button-disabled-color : #353C45;
 
 
     --border: none;
     --border-primary: #2D333B;
     --border-secondary: #373E47;
+    --border-bottom:#CDD9E5;
   }
 
   body {
