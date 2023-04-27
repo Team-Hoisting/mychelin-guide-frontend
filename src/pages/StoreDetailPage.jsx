@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import useStoreDetailMutations from '../hooks/useStoreDetailMutations';
 import { Comments, Details } from '../components/store/index';
+import { SkinnyContainer } from '../components/common';
 
 const Container = styled.div`
   width: 100%;
   padding: 12px 0;
-  margin: 0 auto;
   font-size: 20px;
 `;
 
@@ -26,7 +26,7 @@ const StoreDetailPage = () => {
   });
 
   return (
-    <>
+    <SkinnyContainer>
       <Container className="container">
         <Center className="center">
           <Details
@@ -38,7 +38,7 @@ const StoreDetailPage = () => {
           <Comments addComment={addComment} deleteComment={deleteComment} />
         </Center>
       </Container>
-    </>
+    </SkinnyContainer>
   );
 };
 

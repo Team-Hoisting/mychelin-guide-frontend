@@ -42,7 +42,7 @@ const useMapwithMarkers = (result = []) => {
       bounds.extend(new kakao.maps.LatLng(data.y, data.x));
     });
 
-    mapRef.current.setBounds(bounds, 32, 270, 32, 32);
+    mapRef.current.setBounds(bounds, 32, 225, 32, 32);
   });
 
   return mapContainerRef;

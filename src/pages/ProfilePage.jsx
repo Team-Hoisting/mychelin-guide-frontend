@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { Tabs } from '@mantine/core';
 
 import ProfileHeader from '../components/profile/ProfileHeader';
-import { StoreItem, Button } from '../components/common';
+import { StoreItem, Button, SkinnyContainer } from '../components/common';
 import useUserProfile from '../hooks/useUserProfile';
 
 import userState from '../recoil/atoms/userState';
@@ -71,7 +71,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <>
+    <SkinnyContainer>
       <ProfileHeader nickname={nickname} isCertified={profileInfo?.user.isCertified} />
       <TabsContainer color="grape" variant="outline" radius="md" defaultValue="voted">
         <TabsList>
@@ -131,7 +131,7 @@ const ProfilePage = () => {
 
         <Tabs.Panel value="archived" pt="sm"></Tabs.Panel>
       </TabsContainer>
-    </>
+    </SkinnyContainer>
   );
 };
 
