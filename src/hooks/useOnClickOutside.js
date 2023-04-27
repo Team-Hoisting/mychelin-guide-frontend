@@ -10,12 +10,12 @@ const useOnClickOutside = handler => {
       handler(e);
     };
 
-    document.addEventListener('click', listener);
+    window.addEventListener('click', listener);
 
     return () => {
-      document.addEventListener('click', listener);
+      window.removeEventListener('click', listener);
     };
-  }, [ref]);
+  }, [ref, handler]);
 
   return ref;
 };

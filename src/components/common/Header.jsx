@@ -8,6 +8,7 @@ import { userState, searchInputState, categoryState } from '../../recoil/atoms';
 import { logout } from '../../api/auth';
 import Responsive from './Responsive';
 import { SearchBar } from './index';
+import { useOnClickOutside } from '../../hooks';
 
 const Container = styled.div`
   position: fixed;
@@ -131,6 +132,8 @@ const Header = () => {
   const { id } = useParams();
   const hasSearchBar = pathname === '/' || pathname === `/store/${id}`;
 
+  const userDropdownRef = useOnClickOutside(() => setOpenDropdown(false));
+
   return (
     <>
       <Container>
@@ -155,22 +158,31 @@ const Header = () => {
               <RegisterButton>당신만의 맛집을 알려주세요</RegisterButton>
             </Link>
             {isDark ? <LightModeIcon /> : <DarkModeIcon />}
-            <UserIcon onClick={() => (user ? setOpenDropdown(!openDropdown) : navigate('/signin'))} />
-            <UserDropdown opened={openDropdown}>
-              <Link to={`/profile/${user.nickname}`}>
-                <DropdownButton>마이페이지</DropdownButton>
+            <UserIcon
+              onClick={e => {
+                e.stopPropagation();
+
+                if (user) setOpenDropdown(!openDropdown);
+                else navigate('/signin');
+              }}
+            />
+            <UserDropdown opened={openDropdown} ref={userDropdownRef}>
+              <Link to={`/profile/${user?.nickname}`}>
+                <DropdownButton onClick={() => setOpenDropdown(false)}>마이페이지</DropdownButton>
               </Link>
               <Link to="/info">
-                <DropdownButton>회원정보 수정</DropdownButton>
+                <DropdownButton onClick={() => setOpenDropdown(false)}>회원정보 수정</DropdownButton>
               </Link>
               <Link to="/searchmap">
-                <DropdownButton>맛집 등록</DropdownButton>
+                <DropdownButton onClick={() => setOpenDropdown(false)}>맛집 등록</DropdownButton>
               </Link>
               <SignoutButton
                 onClick={async () => {
                   await logout();
 
                   setUser(null);
+                  setOpenDropdown(false);
+                  navigate('/');
                 }}>
                 Sign Out
               </SignoutButton>
