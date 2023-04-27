@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import fetchUserAllInfoByNickname from '../api/users';
+import { fetchUserAllInfoByNickname } from '../api/users';
 import userQueryKey from '../constants/userQueryKey';
 
 const useUserProfile = nickname => {

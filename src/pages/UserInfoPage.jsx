@@ -6,6 +6,7 @@ import LoginInfo from '../components/userinfo/LoginInfo';
 const Container = styled.div`
   padding-left: 1rem;
   padding-right: 1rem;
+  padding-bottom: 2rem;
   width: 1024px;
   margin: 0 auto;
 

@@ -8,4 +8,10 @@ const fetchUserAllInfoByNickname = nickname => async () => {
   return response.data;
 };
 
-export default fetchUserAllInfoByNickname;
+const editUserInfo = (nickname, content) => async () => {
+  const response = await axios.patch(`${url}/${nickname}`, content);
+
+  return response.data;
+};
+
+export { fetchUserAllInfoByNickname, editUserInfo };

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { nicknameSchema, passwordSchema } from '../../schema';
 import Unit from './Unit';
 
 const Container = styled.div`
@@ -14,14 +15,23 @@ const Title = styled.h3`
   letter-spacing: -0.27px;
 `;
 
+const defaultValuesForNickname = {
+  nickname: '',
+};
+
+const defaultValuesForPassword = {
+  password: '',
+  confirmPassword: '',
+};
+
 const LoginInfo = () => {
   console.log('');
 
   return (
     <Container>
       <Title>로그인 정보</Title>
-      <Unit type="nickname" title="닉네임" />
-      <Unit type="password" title="비밀번호" />
+      <Unit type="nickname" title="닉네임" formSchema={nicknameSchema} defaultValues={defaultValuesForNickname} />
+      <Unit type="password" title="비밀번호" formSchema={passwordSchema} defaultValues={defaultValuesForPassword} />
     </Container>
   );
 };

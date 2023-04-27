@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../recoil/atoms';
 import Button from './Button';
 
 const Container = styled.div`
@@ -44,7 +46,7 @@ const NicknameBox = styled.div`
 `;
 
 const Information = () => {
-  console.log('');
+  const user = useRecoilValue(userState);
 
   return (
     <Container>
@@ -52,7 +54,7 @@ const Information = () => {
       <AvatarWrapper>
         <Avatar src="https://via.placeholder.com/100" alt="avatar" />
         <NicknameBox>
-          <div className="nickname">박경민</div>
+          <div className="nickname">{user.nickname}</div>
           <div className="btn-group">
             <Button>이미지 변경</Button>
             <Button>삭제</Button>

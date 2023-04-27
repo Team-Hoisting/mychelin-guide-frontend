@@ -1,33 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../recoil/atoms';
+import { editUserInfo } from '../../api/users';
+import { logout } from '../../api/auth';
 import Button from '../common/Button';
+import FormInput from './FormInput';
 
-const Container = styled.div`
+const Form = styled.form`
   padding-top: 1.5rem;
   position: relative;
-`;
-
-const Title = styled.h4`
-  margin: 0;
-  padding: 0;
-  font-weight: 500;
-  font-size: 13px;
-  letter-spacing: -0.07px;
-  color: rgba(34, 34, 34, 0.5);
-`;
-
-const Input = styled.input`
-  width: 100%;
-  margin-top: 0.5rem;
-  padding: 0.5rem 0;
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #000;
-  font-size: 1rem;
-
-  & + & {
-    margin-top: 0.5rem;
-  }
 `;
 
 const Buttons = styled.div`
@@ -40,19 +25,82 @@ const Buttons = styled.div`
   }
 `;
 
-const Editor = ({ type, onClose }) => {
-  console.log('');
+const ButtonWithIncreased = styled(Button)`
+  font-size: 0.9rem;
+`;
+
+const Editor = ({ type, onClose, formSchema, defaultValues }) => {
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    trigger,
+    formState: { isValid },
+  } = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues,
+  });
+  const [user, setUser] = useRecoilState(userState);
+  const navigate = useNavigate();
+
+  const [isSamePrevious, setIsSamePrevious] = React.useState(false);
+  const [isNicknameDuplicate, setIsNicknameDuplicate] = React.useState(null);
+
+  const onSubmit = async () => {
+    const values = getValues();
+
+    delete values.confirmPassword;
+
+    await editUserInfo(user.nickname, values)();
+    await logout();
+    setUser(null);
+    navigate('/signin');
+  };
 
   return (
-    <Container>
-      <Title>{type === 'nickname' ? '새로운 닉네임' : '새로운 비밀번호'}</Title>
-      <Input placeholder={type === 'nickname' ? '닉네임 입력' : '비밀번호 입력'} />
-      {type === 'password' && <Input placeholder="비밀번호 확인" />}
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      {type === 'nickname' ? (
+        <FormInput
+          type="text"
+          title="새로운 닉네임"
+          placeholder="원하는 닉네임을 입력하세요"
+          name="nickname"
+          control={control}
+          trigger={trigger}
+          isSamePrevious={isSamePrevious}
+          setIsSamePrevious={setIsSamePrevious}
+          isNicknameDuplicate={isNicknameDuplicate}
+          setIsNicknameDuplicate={setIsNicknameDuplicate}
+        />
+      ) : (
+        <FormInput
+          type="password"
+          title="새로운 비밀번호"
+          placeholder="변경할 비밀번호를 입력하세요"
+          name="password"
+          control={control}
+          trigger={trigger}
+        />
+      )}
+      {type === 'password' && (
+        <FormInput
+          type="password"
+          title="비밀번호 확인"
+          placeholder="비밀번호를 확인해주세요"
+          name="confirmPassword"
+          control={control}
+          trigger={trigger}
+        />
+      )}
       <Buttons>
-        <Button red>확인</Button>
-        <Button onClick={onClose}>취소</Button>
+        <ButtonWithIncreased red disabled={!isValid || isSamePrevious || (type === 'nickname' && !isNicknameDuplicate)}>
+          확인
+        </ButtonWithIncreased>
+        <ButtonWithIncreased type="button" onClick={onClose}>
+          취소
+        </ButtonWithIncreased>
       </Buttons>
-    </Container>
+    </Form>
   );
 };
 

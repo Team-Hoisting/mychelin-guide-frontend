@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../recoil/atoms';
 import Button from './Button';
 import Editor from './Editor';
 
@@ -20,7 +22,7 @@ const Title = styled.h4`
 const Content = styled.div`
   color: rgba(34, 34, 34, 0.5);
   padding-top: 6px;
-  font-size: 16px;
+  font-size: 1rem;
   letter-spacing: -0.16px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -33,19 +35,20 @@ const ButtonWithPosition = styled(Button)`
   bottom: 16px;
 `;
 
-const Unit = ({ type, title }) => {
+const Unit = ({ type, title, formSchema, defaultValues }) => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const user = useRecoilValue(userState);
 
   return (
     <Container>
       <Title>{title}</Title>
       {!isOpen ? (
         <>
-          <Content>{title}</Content>
+          <Content>{type === 'nickname' ? user.nickname : '●●●●●●●●●'}</Content>
           <ButtonWithPosition onClick={() => setIsOpen(true)}>변경</ButtonWithPosition>
         </>
       ) : (
-        <Editor type={type} onClose={() => setIsOpen(false)} />
+        <Editor type={type} onClose={() => setIsOpen(false)} formSchema={formSchema} defaultValues={defaultValues} /> // form
       )}
     </Container>
   );
