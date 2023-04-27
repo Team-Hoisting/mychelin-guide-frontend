@@ -165,10 +165,7 @@ const SearchBar = ({
           ref={inputRef}
           defaultValue={defaultValue}
           onChange={debouncedSearchHandler}
-          onFocus={e => {
-            handleRefocus(e);
-            console.log('BEING FOCUSED!!');
-          }}
+          onFocus={handleRefocus}
         />
         <SearchButton>
           <SearchIcon />
