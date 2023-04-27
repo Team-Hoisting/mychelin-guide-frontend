@@ -47,7 +47,7 @@ const RecommendationLink = styled.span`
 // imgUrl, nickname, isCertified, link
 const ProfileHeader = ({ nickname, isCertified }) => (
   <Container>
-    <ProfileImg src="/images/star.png" />
+    <ProfileImg src="/images/star-light.png" />
     <ProfileInfoBox>
       <NickName>
         {nickname}

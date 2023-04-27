@@ -5,6 +5,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { Modal } from '../common/index';
 import userState from '../../recoil/atoms/userState';
+import useTheme from '../../hooks/useTheme';
 
 const Container = styled.div`
   display: flex;
@@ -22,10 +23,9 @@ const TitleText = styled.h2`
   margin-right: 12px;
 `;
 
-const Star = styled.img.attrs({
-  src: '/images/star.png',
-})`
-  width: 36px;
+const Star = styled.img`
+  width: 32px;
+  margin: 4px;
   display: block;
 `;
 
@@ -78,6 +78,8 @@ const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archi
     deleteBookMark({ email: user?.email, storeId: id });
   };
 
+  const [theme] = useTheme();
+
   return (
     <>
       <Container className="storetitle">
@@ -85,7 +87,7 @@ const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archi
           <TitleText>{storeName}</TitleText>
           <StarContainer>
             {[...Array(starCnt).keys()].map(val => (
-              <Star key={val} />
+              <Star key={val} src={`/images/star-${theme}.png`} />
             ))}
           </StarContainer>
         </StoreTitle>

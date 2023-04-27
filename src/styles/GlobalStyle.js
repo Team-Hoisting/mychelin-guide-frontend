@@ -26,6 +26,7 @@ const GlobalStyle = createGlobalStyle`
   body[data-theme='dark'] {
     --bg-color: #22272e; /* 진한 회색  */
     --bg-secondary-color: #353C45; /* 연한 회색 */
+    --bg-dark-color : #1C2128; /* 가장 진한 회색 */
     --font-color: #CDD9E5; /* 연한 글자 회색 */
 
     --button-color: #2D333B;
