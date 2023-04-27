@@ -10,6 +10,7 @@ import { StoreItem, Button } from '../components/common';
 import useUserProfile from '../hooks/useUserProfile';
 
 import userState from '../recoil/atoms/userState';
+import { changeVotedCategoryOrder } from '../api/users';
 
 const TabsContainer = styled(Tabs)`
   margin: 20px;
@@ -44,9 +45,14 @@ const Draggable = styled.div``;
 const ProfilePage = () => {
   const user = useRecoilValue(userState);
   const { nickname } = useParams();
-  const profileUserInfo = useUserProfile(nickname);
+  const { profileInfo, isLoading } = useUserProfile(nickname);
+  const [isEditing, setIsEditing] = React.useState(false);
   const [votedStoreOrder, setVotedStoreOrder] = React.useState([]);
   const dragTargetIdx = React.useRef(null);
+
+  React.useEffect(() => {
+    if (!isLoading) setVotedStoreOrder(profileInfo.voteStores);
+  }, [isLoading, profileInfo.voteStores]);
 
   const swap = idx => {
     if (dragTargetIdx.current === idx) return;
@@ -66,7 +72,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <ProfileHeader nickname={nickname} isCertified={profileUserInfo?.user.isCertified} />
+      <ProfileHeader nickname={nickname} isCertified={profileInfo?.user.isCertified} />
       <TabsContainer color="grape" variant="outline" radius="md" defaultValue="voted">
         <TabsList>
           <Tab value="voted">Voted</Tab>
@@ -74,19 +80,35 @@ const ProfilePage = () => {
         </TabsList>
         <Tabs.Panel value="voted" pt="sm">
           {user.nickname === nickname && (
-            <Button onClick={() => setVotedStoreOrder(profileUserInfo.voteStores)} red>
-              순서 변경
-            </Button>
+            <>
+              {isEditing ? (
+                <Button
+                  onClick={() => {
+                    changeVotedCategoryOrder(
+                      nickname,
+                      votedStoreOrder.map(({ categoryCode }) => categoryCode)
+                    );
+                    setIsEditing(false);
+                  }}
+                  gray>
+                  수정
+                </Button>
+              ) : (
+                <Button onClick={() => setIsEditing(true)} red>
+                  순서 변경
+                </Button>
+              )}
+            </>
           )}
-          {votedStoreOrder.length < 2 ? (
+          {!isEditing ? (
             <StoresGrid>
-              {profileUserInfo?.voteStores.map(({ categoryCode, store }) => (
+              {votedStoreOrder.map(({ categoryCode, store }) => (
                 <StoreItem key={categoryCode} storeName={store.storeName} imgUrl={store.imgUrl} />
               ))}
             </StoresGrid>
           ) : (
             <StoresGrid>
-              {profileUserInfo?.voteStores.map(({ categoryCode, store }, idx) => (
+              {votedStoreOrder.map(({ categoryCode, store }, idx) => (
                 <Draggable
                   key={categoryCode}
                   draggable="true"
@@ -96,11 +118,11 @@ const ProfilePage = () => {
                   }}
                   onDragEnter={() => {}}
                   onDragLeave={() => {}}
-                  onDragOver={() => {}}
+                  onDragOver={e => e.preventDefault()}
                   onDrop={() => {
                     swap(idx);
                   }}>
-                  <StoreItem storeName={store.storeName} imgUrl={store.imgUrl} />
+                  <StoreItem draggable="true" storeName={store.storeName} imgUrl={store.imgUrl} />
                 </Draggable>
               ))}
             </StoresGrid>
