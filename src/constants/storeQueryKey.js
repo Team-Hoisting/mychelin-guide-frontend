@@ -1,3 +1,3 @@
-const userQueryKey = ['store'];
+const storeQueryKey = ['store'];
 
-export default userQueryKey;
+export default storeQueryKey;

@@ -4,7 +4,6 @@ import { BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { Modal } from '../common/index';
-import useStoreDetailMutations from '../../hooks/useStoreDetailMutations';
 import userState from '../../recoil/atoms/userState';
 
 const Container = styled.div`
@@ -24,10 +23,9 @@ const TitleText = styled.h2`
 `;
 
 const Star = styled.img.attrs({
-  src: '/images/fork-spoon.png',
+  src: '/images/star.png',
 })`
   width: 36px;
-  height: 36px;
   display: block;
 `;
 
@@ -62,14 +60,13 @@ const ArchivedCnt = styled.span`
   left: 36px;
 `;
 
-const Title = ({ storeName, storeId, addBookMark, deleteBookMark, archivedCntState }) => {
+const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archivedCntState }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useRecoilValue(userState);
 
   const handleAddArchiveClick = () => {
-    // 로그인 안 된 상태면 login page로
     if (!user) {
       navigate('/signin', { state: pathname });
       return;
@@ -87,9 +84,9 @@ const Title = ({ storeName, storeId, addBookMark, deleteBookMark, archivedCntSta
         <StoreTitle>
           <TitleText>{storeName}</TitleText>
           <StarContainer>
-            <Star />
-            <Star />
-            <Star />
+            {[...Array(starCnt).keys()].map(val => (
+              <Star key={val} />
+            ))}
           </StarContainer>
         </StoreTitle>
         <Side>
