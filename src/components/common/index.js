@@ -8,5 +8,4 @@ export { default as StoreItem } from './StoreItem';
 export { default as CategoryBox } from './CategoryBox';
 export { default as SearchBar } from './SearchBar';
 export { default as Loader } from './Loader';
-
 export { default as Responsive } from './Responsive';

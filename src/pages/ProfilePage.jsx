@@ -52,7 +52,7 @@ const ProfilePage = () => {
 
   React.useEffect(() => {
     if (!isLoading) setVotedStoreOrder(profileInfo.voteStores);
-  }, [isLoading, profileInfo.voteStores]);
+  }, [isLoading, profileInfo?.voteStores]);
 
   const swap = idx => {
     if (dragTargetIdx.current === idx) return;

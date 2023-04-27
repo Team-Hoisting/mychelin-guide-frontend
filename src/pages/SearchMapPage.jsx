@@ -27,10 +27,12 @@ const SearchMapPage = () => {
     <>
       <SearchBarContainer>
         <SearchBar
+          hasDropdown={false}
           placeholder="당신의 맛집을 알려주세요!"
           defaultValue={keyword}
-          refName={inputRef}
+          inputRef={inputRef}
           submitHandler={() => {
+            console.log('에빈아....');
             keywordSearch(inputRef.current.value);
           }}
         />

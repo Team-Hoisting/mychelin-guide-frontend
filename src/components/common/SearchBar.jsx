@@ -38,6 +38,7 @@ const SearchButton = styled.button`
   height: 30px;
   width: 30px;
   border-radius: 30px;
+  cursor: pointer;
 
   :focus {
     outline: none;
