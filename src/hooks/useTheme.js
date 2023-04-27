@@ -26,7 +26,7 @@ const useTheme = () => {
     setTheme(nextTheme);
   };
 
-  return toggleTheme;
+  return [theme, toggleTheme];
 };
 
 export default useTheme;

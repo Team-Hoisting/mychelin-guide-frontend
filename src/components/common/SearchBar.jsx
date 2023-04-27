@@ -20,8 +20,10 @@ const Bar = styled.input`
   width: 500px;
   height: 40px;
   border-radius: 20px;
-  border: 1px solid #ababab;
+  border: 1px solid var(--border);
   padding: 15px;
+  background-color: var(--bg-color);
+
   :focus {
     outline: none;
   }

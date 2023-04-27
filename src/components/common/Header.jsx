@@ -7,14 +7,15 @@ import { userState, searchInputState, categoryState } from '../../recoil/atoms';
 import { logout } from '../../api/auth';
 import Responsive from './Responsive';
 import { SearchBar } from './index';
+import { useTheme } from '../../hooks/index';
 
 const Container = styled.div`
   position: fixed;
   left: 0;
   width: 100%;
-  background: #fff;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
   z-index: 10;
+  background-color: var(--bg-secondary-color);
 `;
 
 const Wrapper = styled(Responsive)`
@@ -31,7 +32,7 @@ const LogoImage = styled.img`
 
 const LightModeIcon = styled(BiSun)`
   font-size: 30px;
-  color: black;
+  color: #fff;
   margin: 0;
   padding: 0;
   cursor: pointer;
@@ -59,6 +60,9 @@ const SignInOutButton = styled.button`
   border: none;
   font-size: 16px;
   cursor: pointer;
+
+  background: none;
+  color: var(--font-color);
 `;
 
 const RegisterButton = styled.button`
@@ -76,7 +80,12 @@ const Header = () => {
   const setCategoryState = useSetRecoilState(categoryState);
   const searchBarRef = React.useRef(null);
 
-  const isDark = false;
+  // const isDark = false;
+  const [theme, toggleTheme] = useTheme();
+  const handleThemeIconClick = () => {
+    toggleTheme();
+  };
+  console.log('theme: ', theme);
 
   const { pathname } = useLocation();
   const { id } = useParams();
@@ -89,7 +98,7 @@ const Header = () => {
           <div>
             <Link to="/">
               <LogoImage
-                src="/images/mychelin-guide-logo-light.png"
+                src={`/images/mychelin-guide-logo-${theme}.png`}
                 alt="마이슐랭 가이드 로고"
                 onClick={() => {
                   setSearchInput('');
@@ -118,7 +127,12 @@ const Header = () => {
                 <SignInOutButton>SIGN IN</SignInOutButton>
               </Link>
             )}
-            {isDark ? <LightModeIcon /> : <DarkModeIcon />}
+
+            {theme === 'dark' ? (
+              <LightModeIcon onClick={handleThemeIconClick} />
+            ) : (
+              <DarkModeIcon onClick={handleThemeIconClick} />
+            )}
           </ConfigsContainer>
         </Wrapper>
       </Container>

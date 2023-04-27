@@ -2,20 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { CategoryTag } from '.';
+import useTheme from '../../hooks/useTheme';
 
 const Container = styled.div`
   width: 100%;
   overflow: hidden;
-  height: 350px;
-  background-color: #fff;
-  border-radius: 10px;
+  height: 360px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 30px;
   position: relative;
   transition: 0.1s ease-in-out;
+  background-color: #fff;
+  color: var(--font-color);
 `;
 
 const ImageContainer = styled.div`
-  background-color: #ababab;
   width: 400px;
   height: 250px;
   overflow: hidden;
@@ -32,7 +32,7 @@ const Contents = styled.section`
   padding: 10px;
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: var(--bg-color);
   font-weight: 500;
   font-size: 18px;
 `;
@@ -56,10 +56,9 @@ const StarContainer = styled.div`
   align-items: center;
 `;
 
-const Star = styled.img.attrs({
-  src: '/images/star.png',
-})`
+const Star = styled.img`
   width: 28px;
+  margin: 1.2px;
 `;
 
 const VotesContainer = styled.div`
@@ -68,36 +67,40 @@ const VotesContainer = styled.div`
   overflow: hidden;
 `;
 
-const StoreItem = ({ storeName = '', imgUrl = '', starCount = 0, votesByCategory = {} }) => (
-  <>
-    <Container>
-      <Link to="/detail">
-        <ImageContainer imgUrl={imgUrl}>
-          <Img src={imgUrl} />
-        </ImageContainer>
-      </Link>
-      <Contents>
-        <StoreInfoMain>
-          <Name>{storeName}</Name>
-          <StarContainer>
-            {[...Array(starCount).keys()].map(val => (
-              <Star key={val} />
+const StoreItem = ({ storeName = '', imgUrl = '', starCount = 0, votesByCategory = {} }) => {
+  const [theme] = useTheme();
+
+  return (
+    <>
+      <Container>
+        <Link to="/detail">
+          <ImageContainer imgUrl={imgUrl}>
+            <Img src={imgUrl} />
+          </ImageContainer>
+        </Link>
+        <Contents>
+          <StoreInfoMain>
+            <Name>{storeName}</Name>
+            <StarContainer>
+              {[...Array(starCount).keys()].map(val => (
+                <Star key={val} src={`/images/star-${theme}.png`} />
+              ))}
+            </StarContainer>
+          </StoreInfoMain>
+          <VotesContainer>
+            {Object.keys(votesByCategory).map(category => (
+              <CategoryTag
+                key={storeName + category}
+                categoryCode={category}
+                votedCnt={votesByCategory[category]}
+                renderName={false}
+              />
             ))}
-          </StarContainer>
-        </StoreInfoMain>
-        <VotesContainer>
-          {Object.keys(votesByCategory).map(category => (
-            <CategoryTag
-              key={storeName + category}
-              categoryCode={category}
-              votedCnt={votesByCategory[category]}
-              renderName={false}
-            />
-          ))}
-        </VotesContainer>
-      </Contents>
-    </Container>
-  </>
-);
+          </VotesContainer>
+        </Contents>
+      </Container>
+    </>
+  );
+};
 
 export default StoreItem;
