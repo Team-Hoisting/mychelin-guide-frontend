@@ -2,10 +2,10 @@ import axios from 'axios';
 
 const url = `/api/users`;
 
-const fetchUserByNickname = nickname => async () => {
-  const response = await axios.get(`${url}/${nickname}`);
+const fetchUserAllInfoByNickname = nickname => async () => {
+  const response = await axios.get(`${url}/all/${nickname}`);
 
   return response.data;
 };
 
-export default fetchUserByNickname;
+export default fetchUserAllInfoByNickname;
