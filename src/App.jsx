@@ -3,16 +3,17 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import RootPage from './pages/RootPage';
-import MainPage from './pages/MainPage';
-import RegisterPage from './pages/RegisterPage';
-import SigninPage from './pages/SigninPage';
-import ErrorPage from './pages/ErrorPage';
-import SearchMapPage from './pages/SearchMapPage';
-import StoreDetailPage from './pages/StoreDetailPage';
-import ProfilePage from './pages/ProfilePage';
-import UserInfoPage from './pages/UserInfoPage';
-import RecommendationPage from './pages/RecommendationPage';
+import {
+  RootPage,
+  MainPage,
+  RegisterPage,
+  SigninPage,
+  ErrorPage,
+  SearchMapPage,
+  StoreDetailPage,
+  ProfilePage,
+  UserInfoPage,
+} from './pages';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -62,8 +63,8 @@ const router = createBrowserRouter([
         // loader: storeDetailLoader(queryClient),
       },
       {
-        path: 'recommendation/:id',
-        element: <RecommendationPage />,
+        path: 'userinfo/:id',
+        element: <UserInfoPage />,
       },
     ],
   },

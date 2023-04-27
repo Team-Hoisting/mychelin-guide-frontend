@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { StoreItem, Loader, ScrollObserver } from '../components/common';
+import { StoreItem, Loader, SkinnyContainer, ScrollObserver } from '../components/common';
 import { StoreItemOnHover, Categories, NoResultMessage } from '../components/main';
 import { useFetchStores } from '../hooks';
 
@@ -65,7 +65,7 @@ const MainPage = () => {
   }
 
   return (
-    <>
+    <SkinnyContainer>
       <Categories />
       {isLoading ? <Loader /> : null}
       {!isLoading && displayedStores.topThree.length ? (
@@ -102,7 +102,7 @@ const MainPage = () => {
       ) : (
         <NoResultMessage />
       )}
-    </>
+    </SkinnyContainer>
   );
 };
 

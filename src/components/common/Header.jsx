@@ -58,7 +58,7 @@ const DarkModeIcon = styled(BiMoon)`
 
 const UserIcon = styled(FaUserCircle)`
   font-size: 30px;
-  color: #3c3c3c;
+  color: var(--font-secondary);
   margin: 0;
   padding: 0;
   cursor: pointer;
@@ -74,25 +74,14 @@ const ConfigsContainer = styled.div`
   font-style: italic;
 `;
 
-const SignInOutButton = styled.button`
-  font-style: italic;
-  background-color: #fff;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-
-  background: none;
-  color: var(--font-color);
-`;
-
 const RegisterButton = styled.button`
   background: none;
   border: none;
   border-radius: 15px;
   padding: 10px;
   cursor: pointer;
-  font-weight: 700;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 16px;
 
   :hover {
     background-color: #f7f7f7;
@@ -173,7 +162,7 @@ const Header = () => {
                 alt="마이슐랭 가이드 로고"
                 onClick={() => {
                   setSearchInput('');
-                  searchBarRef.current.value = '';
+                  if (searchBarRef.current.value) searchBarRef.current.value = '';
                   setCategoryState('AL00');
                 }}
               />

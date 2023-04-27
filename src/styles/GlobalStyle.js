@@ -63,6 +63,12 @@ const GlobalStyle = createGlobalStyle`
 
   }
 
+#root {
+    min-height: 100%;
+    /* max-width: 1280px;
+    margin: 0 auto; */
+  }
+
 
 
 

@@ -8,10 +8,19 @@ import { SearchBar } from '../components/common';
 
 import useKeywordSearch from '../hooks/useKeywordSearch';
 
-const SearchBarContainer = styled.div`
-  margin: 30px auto;
-  width: fit-content;
+const Container = styled.main`
+  position: relative;
 `;
+
+const SearchBarContainer = styled.div`
+  position: absolute;
+  top: 3rem;
+  width: 100%;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+`;
+
 const SearchMapPage = () => {
   const [params] = useSearchParams();
   const keyword = params.get('keyword');
@@ -24,20 +33,21 @@ const SearchMapPage = () => {
   }, []);
 
   return (
-    <>
+    <Container>
       <SearchBarContainer>
         <SearchBar
+          hasDropdown={false}
           placeholder="당신의 맛집을 알려주세요!"
           defaultValue={keyword}
-          refName={inputRef}
+          inputRef={inputRef}
+          width="600px"
           submitHandler={() => {
             keywordSearch(inputRef.current.value);
           }}
         />
       </SearchBarContainer>
-
       <Result result={result} paginationRef={paginationRef} />
-    </>
+    </Container>
   );
 };
 

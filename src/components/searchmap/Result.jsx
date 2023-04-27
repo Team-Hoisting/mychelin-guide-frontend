@@ -7,24 +7,25 @@ import useMapwithMarkers from '../../hooks/useMapwithMarkers';
 
 const Container = styled.div`
   position: relative;
-  margin: 10px auto;
-  width: fit-content;
 `;
 
 const MapContainer = styled.div`
-  margin: auto;
-  width: 900px;
-  height: 400px;
-  border-radius: 30px;
+  border: 1px solid red;
+  width: 100vw;
+  height: calc(100vh - 5rem);
+  z-index: 1;
+  position: relative;
 `;
 
 const ResultListContainer = styled.div`
   position: absolute;
-  padding: 0;
-  height: fit-content;
+  padding: 10px;
+  height: 100%;
+  width: 400px;
+  background-color: rgba(0, 0, 0, 0.5);
   top: 0;
   right: 0;
-  z-index: 999;
+  z-index: 1;
 `;
 
 const ResultList = styled.ul`
@@ -32,12 +33,17 @@ const ResultList = styled.ul`
   padding: 0;
   height: fit-content;
   border-radius: 20px;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 `;
 
 const ResultItemContainer = styled.li`
   position: relative;
   margin: 13px;
-  width: 250px;
+  width: 80%;
   height: 100px;
   background-color: white;
   opacity: 0.9;
@@ -103,21 +109,25 @@ const Result = ({ result, paginationRef }) => {
     if (paginationRef.current.hasNextPage) paginationRef.current.nextPage();
   };
 
+  console.log(result);
+
   return (
     <Container>
       <MapContainer ref={mapContainerRef} />
-      <ResultListContainer>
-        <PreviousPageBtn clickHandler={gotoPreviousPage} hasPrevPage={paginationRef.current?.hasPrevPage} />
-        <ResultList>
-          {result.map(({ id, place_name: storeName, road_address_name: address, phone }) => (
-            <ResultItemContainer key={id}>
-              <ResultItemOnHover storeId={id} />
-              <ResultItem key={id} storeName={storeName} address={address} phoneNumber={phone} />
-            </ResultItemContainer>
-          ))}
-        </ResultList>
-        <NextPageBtn clickHandler={gotoNextPage} hasNextPage={paginationRef.current?.hasNextPage} />
-      </ResultListContainer>
+      {result.length && (
+        <ResultListContainer className="이거나오냐">
+          <PreviousPageBtn clickHandler={gotoPreviousPage} hasPrevPage={paginationRef.current?.hasPrevPage} />
+          <ResultList>
+            {result.map(({ id, place_name: storeName, road_address_name: address, phone }) => (
+              <ResultItemContainer key={id}>
+                <ResultItemOnHover storeId={id} />
+                <ResultItem key={id} storeName={storeName} address={address} phoneNumber={phone} />
+              </ResultItemContainer>
+            ))}
+          </ResultList>
+          <NextPageBtn clickHandler={gotoNextPage} hasNextPage={paginationRef.current?.hasNextPage} />
+        </ResultListContainer>
+      )}
     </Container>
   );
 };

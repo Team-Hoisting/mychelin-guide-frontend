@@ -2,7 +2,7 @@ import React from 'react';
 
 const { kakao } = window;
 
-const useKeywordSearch = (size = 3, page = 1) => {
+const useKeywordSearch = (size = 6, page = 1) => {
   const [result, setResult] = React.useState([]);
   const paginationRef = React.useRef(null);
 

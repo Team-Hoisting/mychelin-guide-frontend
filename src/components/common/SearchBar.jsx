@@ -17,7 +17,7 @@ const SearchForm = styled.form`
 `;
 
 const Bar = styled.input`
-  width: 500px;
+  width: ${({ width }) => width};
   height: 40px;
   border-radius: 20px;
   border: 1px solid var(--border);
@@ -41,6 +41,7 @@ const SearchButton = styled.button`
   height: 30px;
   width: 30px;
   border-radius: 30px;
+  cursor: pointer;
 
   :focus {
     outline: none;
@@ -84,6 +85,7 @@ const DropdownResult = styled.li`
 const SearchBar = ({
   hasDropdown,
   inputRef,
+  width = '500px',
   submitHandler = null,
   placeholder = '맛집을 검색해보세요!',
   defaultValue = '',
@@ -163,14 +165,12 @@ const SearchBar = ({
           else handleSearchSubmit();
         }}>
         <Bar
+          width={width}
           placeholder={placeholder}
           ref={inputRef}
           defaultValue={defaultValue}
           onChange={debouncedSearchHandler}
-          onFocus={e => {
-            handleRefocus(e);
-            console.log('BEING FOCUSED!!');
-          }}
+          onFocus={handleRefocus}
         />
         <SearchButton>
           <SearchIcon />
