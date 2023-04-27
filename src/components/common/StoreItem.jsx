@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
 import { CategoryTag } from '.';
-import useTheme from '../../hooks/useTheme';
+import themeState from '../../recoil/atoms/theme';
 
 const Container = styled.div`
   width: 100%;
@@ -68,7 +69,7 @@ const VotesContainer = styled.div`
 `;
 
 const StoreItem = ({ storeName = '', imgUrl = '', starCount = 0, votesByCategory = {} }) => {
-  const [theme] = useTheme();
+  const theme = useRecoilValue(themeState);
 
   return (
     <>

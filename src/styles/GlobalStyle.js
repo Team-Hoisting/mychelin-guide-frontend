@@ -16,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
     --bg-color: #fff;
     --bg-secondary-color: #fff;
     --font-color: #000;
+    --font-secondary: #d21312;
 
     --button-color : #fff;
     --button-disabled-color : #c4bdbd;
@@ -32,7 +33,9 @@ const GlobalStyle = createGlobalStyle`
     --bg-dark-color: #1C2128; /* 가장 진한 회색 */
     --bg-dark-sign-color: #161B22;
     --bg-dark-black-color: #0D1116;
+
     --font-color: #CDD9E5; /* 연한 글자 회색 */
+    --font-secondary: #549bf5;
 
     --button-color: #2D333B;  
     --button-disabled-color : #353C45;

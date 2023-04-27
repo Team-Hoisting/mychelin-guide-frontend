@@ -7,7 +7,7 @@ import { userState, searchInputState, categoryState } from '../../recoil/atoms';
 import { logout } from '../../api/auth';
 import Responsive from './Responsive';
 import { SearchBar } from './index';
-import { useTheme } from '../../hooks/index';
+import themeState from '../../recoil/atoms/theme';
 
 const Container = styled.div`
   position: fixed;
@@ -79,12 +79,23 @@ const Header = () => {
   const setSearchInput = useSetRecoilState(searchInputState);
   const setCategoryState = useSetRecoilState(categoryState);
   const searchBarRef = React.useRef(null);
+  const [theme, setTheme] = useRecoilState(themeState);
 
-  // const isDark = false;
-  const [theme, toggleTheme] = useTheme();
+  React.useEffect(() => {
+    document.body.dataset.theme = theme;
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+
+    setTheme(nextTheme);
+  };
+
   const handleThemeIconClick = () => {
     toggleTheme();
   };
+
   console.log('theme: ', theme);
 
   const { pathname } = useLocation();
@@ -103,7 +114,6 @@ const Header = () => {
                 onClick={() => {
                   setSearchInput('');
                   searchBarRef.current.value = '';
-
                   setCategoryState('AL00');
                 }}
               />

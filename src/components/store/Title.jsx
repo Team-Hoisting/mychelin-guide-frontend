@@ -5,7 +5,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { Modal } from '../common/index';
 import userState from '../../recoil/atoms/userState';
-import useTheme from '../../hooks/useTheme';
+import themeState from '../../recoil/atoms/theme';
 
 const Container = styled.div`
   display: flex;
@@ -78,7 +78,7 @@ const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archi
     deleteBookMark({ email: user?.email, storeId: id });
   };
 
-  const [theme] = useTheme();
+  const theme = useRecoilValue(themeState);
 
   return (
     <>

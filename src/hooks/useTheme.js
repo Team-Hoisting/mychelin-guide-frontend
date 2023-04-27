@@ -1,21 +1,23 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
+import { useRecoilState } from 'recoil';
+import themeState from '../recoil/atoms/theme';
 
 // theme 변경할 때 toggleTheme 사용
 const useTheme = () => {
-  const getInitialState = () => {
-    let initialTheme = localStorage.getItem('theme');
+  // const getInitialState = () => {
+  //   let initialTheme = localStorage.getItem('theme');
 
-    if (!initialTheme) {
-      initialTheme = window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
-      localStorage.setItem('theme', initialTheme);
-    }
+  //   if (!initialTheme) {
+  //     initialTheme = window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+  //     localStorage.setItem('theme', initialTheme);
+  //   }
 
-    return initialTheme;
-  };
+  //   return initialTheme;
+  // };
 
-  const [theme, setTheme] = useState(getInitialState);
+  const [theme, setTheme] = useRecoilState(themeState);
 
-  useEffect(() => {
+  React.useEffect(() => {
     document.body.dataset.theme = theme;
     localStorage.setItem('theme', theme);
   }, [theme]);

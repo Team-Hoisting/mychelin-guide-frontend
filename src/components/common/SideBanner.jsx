@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { Divider } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
+import { Loader } from './index';
 
 import voteQueryKey from '../../constants/voteQueryKey';
 import { fetchVotedStoresByNickname } from '../../api/stores';
@@ -53,7 +54,7 @@ const CarouselContainer = styled(Carousel)`
 const SideBanner = () => {
   const user = useRecoilValue(userState);
 
-  const { data: votedStoresInfo } = useQuery({
+  const { data: votedStoresInfo, isLoading } = useQuery({
     queryKey: voteQueryKey,
     queryFn: fetchVotedStoresByNickname(user.nickname),
     select(voteInfos) {
@@ -66,6 +67,8 @@ const SideBanner = () => {
       return votedStoresInfo;
     },
   });
+
+  if (isLoading) return <Loader />;
 
   return (
     <Container>
@@ -83,13 +86,16 @@ const SideBanner = () => {
         {Array.from({ length: categoryCodes.length / PAGEITEMNUM }, (_, i) => i).map(pageIdx => (
           <Carousel.Slide key={pageIdx}>
             <SlideContainer>
-              {Array.from({ length: PAGEITEMNUM }, (_, i) => PAGEITEMNUM * pageIdx + i).map(categoryIdx => (
-                <VotedCategoryItem
-                  key={categoryCodes[categoryIdx]}
-                  categoryCode={categoryCodes[categoryIdx]}
-                  storeImg={votedStoresInfo?.[categoryCodes[categoryIdx]].imgUrl}
-                />
-              ))}
+              {Array.from({ length: PAGEITEMNUM }, (_, i) => PAGEITEMNUM * pageIdx + i).map(categoryIdx => {
+                console.log('img: ', votedStoresInfo[categoryCodes[categoryIdx]]);
+                return (
+                  <VotedCategoryItem
+                    key={categoryCodes[categoryIdx]}
+                    categoryCode={categoryCodes[categoryIdx]}
+                    storeImg={votedStoresInfo?.[categoryCodes[categoryIdx]].imgUrl}
+                  />
+                );
+              })}
             </SlideContainer>
           </Carousel.Slide>
         ))}
