@@ -24,10 +24,13 @@ const StoreItemContainer = styled.div`
   overflow: hidden;
   height: 350px;
   background-color: #fff;
+  color: #22272e;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 30px;
   position: relative;
   transition: 0.1s ease-in-out;
+
+  border: 2px solid var(--border-secondary);
 
   :hover {
     scale: 1.02;

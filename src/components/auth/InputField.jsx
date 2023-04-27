@@ -32,9 +32,12 @@ const Input = styled.input`
   padding-bottom: 0.5rem;
   outline: none;
   width: ${[props => (props.full ? '100%' : '80%')]};
+  background-color: var(--ba-color);
+  color: var(--font-color);
+
   &:focus {
     color: $oc-teal-7;
-    border-bottom: 1px solid ${palette.gray[9]};
+    border-bottom: 1px solid var(--border-bottom);
   }
 
   & ~ ${Label} {
@@ -51,6 +54,11 @@ const ErrorMessage = styled.div`
 
 const DoubleCheckButton = styled(Button)`
   width: 20%;
+
+  :disabled {
+    background-color: var(--button-disabled-color);
+    color: #fff;
+  }
 `;
 
 const InputField = ({ control, trigger, name, autoComplete, label, type, doubleCheck, setIsDuplicateField }) => {
