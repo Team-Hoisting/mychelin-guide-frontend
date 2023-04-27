@@ -11,5 +11,10 @@ const fetchUserProfileInfoByNickname = nickname => async () => {
 const changeVotedCategoryOrder = (nickname, newOrder) => {
   axios.post(`${url}/${nickname}/votedcategoryorder`, { votedCategoryOrder: newOrder });
 };
+const editUserInfo = (nickname, content) => async () => {
+  const response = await axios.patch(`${url}/${nickname}`, content);
 
-export { fetchUserProfileInfoByNickname, changeVotedCategoryOrder };
+  return response.data;
+};
+
+export { fetchUserProfileInfoByNickname, editUserInfo, changeVotedCategoryOrder };

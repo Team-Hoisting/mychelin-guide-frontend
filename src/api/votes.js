@@ -14,8 +14,13 @@ const fetchVotesByNickname = nickname => async () => {
   return response.data;
 };
 
-const fetchPrevStore = (nickname, category) => async () => {
-  const response = await axios.get(`${url}/${nickname}/${category}`);
+const fetchPrevStore = (nickname, categoryCode) => async () => {
+  if (categoryCode === null)
+    return new Promise(resolve => {
+      resolve(null);
+    });
+
+  const response = await axios.get(`${url}/${nickname}/${categoryCode}`);
 
   return response.data;
 };
@@ -40,4 +45,12 @@ const removeVote = (nickname, categoryCode) => async () => {
   return response.data;
 };
 
-export { fetchVotes, fetchVotesByNickname, fetchPrevStore, vote, reVote, removeVote };
+const fetchCategotySelectorData =
+  ({ storeId, nickname, categoryCode }) =>
+  async () => {
+    const response = await axios.get(`${url}/${storeId}/${nickname}/${categoryCode}`);
+    console.log(storeId, nickname, categoryCode);
+    return response.data;
+  };
+
+export { fetchVotes, fetchVotesByNickname, fetchPrevStore, vote, reVote, removeVote, fetchCategotySelectorData };

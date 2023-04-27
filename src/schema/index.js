@@ -1,5 +1,22 @@
 import z from 'zod';
 
+const nicknameSchema = z.object({
+  nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
+});
+
+const passwordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(1, '패스워드를 입력해 주세요')
+      .regex(/^[A-Za-z0-9]{6,20}$/, { message: '영문 또는 숫자를 6~20자 입력하세요.' }),
+    confirmPassword: z.string().min(1, { message: '패스워드를 확인해 주세요' }),
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    path: ['confirmPassword'],
+    message: '패스워드가 일치하지 않습니다.',
+  });
+
 const signinSchema = z.object({
   email: z
     .string()
@@ -14,7 +31,7 @@ const signinSchema = z.object({
 const signupSchema = signinSchema
   .and(
     z.object({
-      nickname: z.string().min(1, { message: '이름을 입력해주세요.' }),
+      nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
       confirmPassword: z.string().min(1, { message: '패스워드를 확인해 주세요' }),
     })
   )
@@ -23,4 +40,4 @@ const signupSchema = signinSchema
     message: '패스워드가 일치하지 않습니다.',
   });
 
-export { signinSchema, signupSchema };
+export { nicknameSchema, passwordSchema, signinSchema, signupSchema };

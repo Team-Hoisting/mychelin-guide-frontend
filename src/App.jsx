@@ -49,6 +49,10 @@ const router = createBrowserRouter([
         element: <ProfilePage />,
       },
       {
+        path: 'info',
+        element: <UserInfoPage />,
+      },
+      {
         path: 'searchmap',
         element: <SearchMapPage />,
       },
@@ -56,10 +60,6 @@ const router = createBrowserRouter([
         path: 'store/:id',
         element: <StoreDetailPage />,
         // loader: storeDetailLoader(queryClient),
-      },
-      {
-        path: 'userinfo/:id',
-        element: <UserInfoPage />,
       },
       {
         path: 'recommendation/:id',
