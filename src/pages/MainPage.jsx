@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { StoreItem, Loader } from '../components/common';
-import { StoreItemOnHover, Categories, ScrollObserver, NoResultMessage } from '../components/main';
+import { StoreItem, Loader, ScrollObserver } from '../components/common';
+import { StoreItemOnHover, Categories, NoResultMessage } from '../components/main';
 import { useFetchStores } from '../hooks';
 
 const StoresContainer = styled.div`
