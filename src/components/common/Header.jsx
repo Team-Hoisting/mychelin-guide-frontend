@@ -8,15 +8,16 @@ import { userState, searchInputState, categoryState } from '../../recoil/atoms';
 import { logout } from '../../api/auth';
 import Responsive from './Responsive';
 import { SearchBar } from './index';
+import themeState from '../../recoil/atoms/theme';
 import { useOnClickOutside } from '../../hooks';
 
 const Container = styled.div`
   position: fixed;
   left: 0;
   width: 100%;
-  background: #fff;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
   z-index: 10;
+  background-color: var(--bg-secondary-color);
 `;
 
 const Wrapper = styled(Responsive)`
@@ -41,7 +42,7 @@ const LogoImage = styled.img`
 
 const LightModeIcon = styled(BiSun)`
   font-size: 30px;
-  color: #3c3c3c;
+  color: #fff;
   margin: 0;
   padding: 0;
   cursor: pointer;
@@ -71,6 +72,17 @@ const ConfigsContainer = styled.div`
   padding-right: 5px;
   align-items: center;
   font-style: italic;
+`;
+
+const SignInOutButton = styled.button`
+  font-style: italic;
+  background-color: #fff;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+
+  background: none;
+  color: var(--font-color);
 `;
 
 const RegisterButton = styled.button`
@@ -124,9 +136,25 @@ const Header = () => {
   const setCategoryState = useSetRecoilState(categoryState);
   const [openDropdown, setOpenDropdown] = React.useState(false);
   const searchBarRef = React.useRef(null);
+  const [theme, setTheme] = useRecoilState(themeState);
   const navigate = useNavigate();
 
-  const isDark = false;
+  React.useEffect(() => {
+    document.body.dataset.theme = theme;
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+
+    setTheme(nextTheme);
+  };
+
+  const handleThemeIconClick = () => {
+    toggleTheme();
+  };
+
+  console.log('theme: ', theme);
 
   const { pathname } = useLocation();
   const { id } = useParams();
@@ -141,12 +169,11 @@ const Header = () => {
           <div>
             <Link to="/">
               <LogoImage
-                src="/images/mychelin-guide-logo-light.png"
+                src={`/images/mychelin-guide-logo-${theme}.png`}
                 alt="마이슐랭 가이드 로고"
                 onClick={() => {
                   setSearchInput('');
                   if (searchBarRef.current.value) searchBarRef.current.value = '';
-
                   setCategoryState('AL00');
                 }}
               />
@@ -157,7 +184,11 @@ const Header = () => {
             <Link to="/searchmap">
               <RegisterButton>당신만의 맛집을 알려주세요</RegisterButton>
             </Link>
-            {isDark ? <LightModeIcon /> : <DarkModeIcon />}
+            {theme === 'dark' ? (
+              <LightModeIcon onClick={handleThemeIconClick} />
+            ) : (
+              <DarkModeIcon onClick={handleThemeIconClick} />
+            )}
             <UserIcon
               onClick={e => {
                 e.stopPropagation();

@@ -10,6 +10,9 @@ import ButtonGroup from './ButtonGroup';
 
 const Container = styled.div`
   padding: 2rem 2rem;
+
+  background-color: var(--bg-color);
+  color: var(--font-color);
 `;
 
 const ChangeLog = styled.div`
@@ -19,24 +22,23 @@ const ChangeLog = styled.div`
   margin-top: 1.5rem;
 
   .red {
-    color: red;
+    color: #d21312;
   }
 
   .blue {
-    color: green;
+    color: var(--font-secondary);
   }
 `;
 
 const Box = styled.div`
-  background: #ababab;
+  // background: var(--button-disabled-color);
   padding: 1.2rem;
   display: flex;
   justify-content: center;
   margin: 1rem 7rem;
-  border-radius: 7px;
-  font-size: 1.1rem;
-  font-weight: 500;
-  width: 50%;
+  font-size: 1.8rem;
+  font-weight: 600;
+  width: 60%;
 
   span {
     text-overflow: ellipsis;
@@ -103,15 +105,15 @@ const DuplicateCategory = ({ selectedCode, store, setStep, setPrevStoreId }) => 
   return (
     <Container>
       <Text>
-        현재 <span className="red">{categoryInfo[selectedCode]?.ko} 카테고리</span>에서
+        현재 <span className="bold">{categoryInfo[selectedCode]?.ko} 카테고리</span>에서
       </Text>
       <ChangeLog>
         <Box>
-          <span className="red">{prevStore.storeName}</span>
+          <span className="bold">{prevStore.storeName}</span>
         </Box>
         <ArrowIcon />
         <Box>
-          <span className="blue">{store.storeName}</span>
+          <span className="blue bold">{store.storeName}</span>
         </Box>
       </ChangeLog>
       <Text center>

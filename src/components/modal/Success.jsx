@@ -10,6 +10,8 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 4rem 0;
+  background-color: var(--bg-color);
+  color: var(--font-color);
 
   img {
     width: 60px;

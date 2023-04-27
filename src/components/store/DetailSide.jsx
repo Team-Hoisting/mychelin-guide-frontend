@@ -13,6 +13,8 @@ const DetailContainer = styled.div`
   position: relative;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 4px;
+
+  background-color: var(--bg-secondary-color);
 `;
 
 const Map = styled.div`

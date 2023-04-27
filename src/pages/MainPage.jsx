@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { StoreItem, Loader, SkinnyContainer } from '../components/common';
-import { StoreItemOnHover, Categories, ScrollObserver, NoResultMessage } from '../components/main';
+import { StoreItem, Loader, SkinnyContainer, ScrollObserver } from '../components/common';
+import { StoreItemOnHover, Categories, NoResultMessage } from '../components/main';
 import { useFetchStores } from '../hooks';
 
 const StoresContainer = styled.div`
@@ -24,10 +24,13 @@ const StoreItemContainer = styled.div`
   overflow: hidden;
   height: 350px;
   background-color: #fff;
+  color: #22272e;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 30px;
   position: relative;
   transition: 0.1s ease-in-out;
+
+  border: 2px solid var(--border-secondary);
 
   :hover {
     scale: 1.02;

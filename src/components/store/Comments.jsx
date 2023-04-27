@@ -34,9 +34,17 @@ const TextArea = styled.textarea.attrs(({ content }) => ({
   width: 100%;
   font-size: 16px;
   border-radius: 12px;
-  border: 1px solid #ced4da;
+
   margin: 12px 0;
   resize: none;
+  background-color: var(--bg-dark-color);
+  color: var(--font-color);
+  border: 2px solid var(--border-primary);
+
+  :focus {
+    border: none;
+    outline: none;
+  }
 `;
 
 const CommentBtn = styled(Button)`

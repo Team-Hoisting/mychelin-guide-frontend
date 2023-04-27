@@ -20,8 +20,11 @@ const Bar = styled.input`
   width: ${({ width }) => width};
   height: 40px;
   border-radius: 20px;
-  border: 1px solid #ababab;
+  border: 1px solid var(--border);
   padding: 15px;
+  background-color: var(--bg-color);
+  color: var(--font-color);
+
   :focus {
     outline: none;
   }
@@ -60,7 +63,7 @@ const Dropdown = styled.ul`
   top: 30px;
   border: 1px solid #ababab;
   border-radius: 15px;
-  background-color: #fff;
+  background-color: var(--bg-secondary-color);
   overflow-y: scroll;
 `;
 

@@ -13,15 +13,19 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  background-color: var(--bg-dark-black-color);
 `;
 
 const WhiteArea = styled.div`
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
   padding: 2rem 5rem;
   width: 500px;
-  background: white;
   border-radius: 2px;
   margin-top: 1rem;
+
+  background-color: var(--bg-dark-sign-color);
+  // border: 1px solid var(--border);
 `;
 
 const AuthTemplate = ({ children }) => (
