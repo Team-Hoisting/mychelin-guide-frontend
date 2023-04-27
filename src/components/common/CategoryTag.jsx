@@ -35,7 +35,6 @@ const VotedCnt = styled.span`
 `;
 
 const CategoryTag = ({ categoryCode, votedCnt, renderName = true }) => {
-  console.log('votecnt: ', votedCnt);
   const imgSrc = `/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`;
 
   return (
