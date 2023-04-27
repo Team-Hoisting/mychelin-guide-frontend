@@ -36,4 +36,10 @@ const fetchVotedStoresByNickname = nickname => async () => {
   return response.data;
 };
 
-export { fetchSearchedStores, fetchStore, fetchVotedStoresByNickname };
+const fetchArchivedStoreByNickname = (nickname, page, pageSize) => async () => {
+  const response = await axios.get(`${url}/archived/${nickname}?page=${page}&page_size=${pageSize}`);
+
+  return response.data;
+};
+
+export { fetchSearchedStores, fetchStore, fetchVotedStoresByNickname, fetchArchivedStoreByNickname };
