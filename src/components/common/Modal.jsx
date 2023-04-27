@@ -11,46 +11,6 @@ import DuplicateCategory from '../modal/DuplicateCategory';
 import DuplicateStore from '../modal/DuplicateStore';
 import Success from '../modal/Success';
 
-/*
-  카테고리 선택, 카테고리 중복, 가게 중복, 성공
-
-  카테고리 중복: 사용자가 기존의 해당 코드로 투표를 한 적이 있음
-
-  가게 중복: 사용자가 다른 카테고리 표로 해당 가게를 투표한 적이 있음
-
-  1. VotingCategorySelector
-    - data: store(투표할 매장), prevStore(동일 카테고리의 이전 매장), votes(사용자 투표 현황)
-
-    - 동일 카테고리의 이전 매장 존재 -> SameCategorySolver(2)
-
-    - 동일 카테고리의 이전 매장 없음 -> vote(storeId, email, categoryCode, votedAt)
-      - 투표 현황에 현재 투표를 진행한 매장 존재 -> DuplicateStoreSolver(3)
-      - 투표 현황에 현재 투표를 진행한 매장 없음 -> VotingSuccessIndicator(4)
-  
-  2. SameCategorySolver
-    - data: store(투표할 매장), prevStore(동일 카테고리의 이전 매장)
-
-    - 확인 버튼 클릭 -> reVote(storeId, nickname, categoryCode, votedAt)
-      - 투표 현황에 재투표를 진행한 매장 존재 -> DuplicateStoreSolver(3)
-      - 투표 현황에 재투표를 진행한 매장 없음 -> VotingSuccessIndicator(4)
-    
-    - 취소 버튼 클릭 -> VotingCategorySelector(1)
-  
-  3. DuplicateStoreSolver
-    - data: store(투표할 매장), votesOfVoteStores(중복된 매장에 투표한 목록)
-
-    - 확인 버튼 클릭 -> removeVote(nickname, votesOfVoteStores[0].categoryCode) -> VotingSuccessIndicator(4)
-
-    - 취소 버튼 클릭 -> vote, reVote 취소 -> 닫기
-  
-  4. VotingSuccessIndicator
-    - vote, reVote, removeVote 수행
-
-    - 닫기 버튼 or 오버레이 클릭 -> 모달 닫기
-
-    - 마이 페이지 이동 버튼 클릭 -> 모달 닫기 후 마이 페이지 이동
-*/
-
 const PopupModal = ({ storeId, width }) => {
   const [selectedCode, setSelectedCode] = React.useState(null);
   const [isOpened, setIsOpened] = React.useState(false);
