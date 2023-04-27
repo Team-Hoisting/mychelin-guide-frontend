@@ -182,6 +182,7 @@ const Header = () => {
 
                   setUser(null);
                   setOpenDropdown(false);
+
                   navigate('/');
                 }}>
                 Sign Out
