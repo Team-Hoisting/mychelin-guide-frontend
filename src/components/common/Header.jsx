@@ -58,7 +58,7 @@ const DarkModeIcon = styled(BiMoon)`
 
 const UserIcon = styled(FaUserCircle)`
   font-size: 30px;
-  color: #3c3c3c;
+  color: var(--font-secondary);
   margin: 0;
   padding: 0;
   cursor: pointer;
@@ -72,17 +72,6 @@ const ConfigsContainer = styled.div`
   padding-right: 5px;
   align-items: center;
   font-style: italic;
-`;
-
-const SignInOutButton = styled.button`
-  font-style: italic;
-  background-color: #fff;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-
-  background: none;
-  color: var(--font-color);
 `;
 
 const RegisterButton = styled.button`
