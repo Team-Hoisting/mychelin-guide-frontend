@@ -42,7 +42,7 @@ const LogoImage = styled.img`
 
 const LightModeIcon = styled(BiSun)`
   font-size: 30px;
-  color: #fff;
+  color: #cdd9e5;
   margin: 0;
   padding: 0;
   cursor: pointer;
@@ -58,7 +58,7 @@ const DarkModeIcon = styled(BiMoon)`
 
 const UserIcon = styled(FaUserCircle)`
   font-size: 30px;
-  color: var(--font-secondary);
+  color: var(--font-color);
   margin: 0;
   padding: 0;
   cursor: pointer;
@@ -82,9 +82,10 @@ const RegisterButton = styled.button`
   cursor: pointer;
   font-weight: 500;
   font-size: 16px;
+  color: var(--font-color);
 
   :hover {
-    background-color: #f7f7f7;
+    background-color: var(--button-hover-color);
   }
 `;
 
@@ -142,8 +143,6 @@ const Header = () => {
   const handleThemeIconClick = () => {
     toggleTheme();
   };
-
-  console.log('theme: ', theme);
 
   const { pathname } = useLocation();
   const { id } = useParams();
