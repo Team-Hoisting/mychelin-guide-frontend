@@ -3,7 +3,7 @@ import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { searchInputState } from '../../recoil/atoms';
+import { searchInputState, categoryState } from '../../recoil/atoms';
 import { fetchSearchedStores } from '../../api/stores';
 import { useDebounce, useOnClickOutside } from '../../hooks';
 
@@ -124,6 +124,7 @@ const SearchBar = ({
   const [openDropdown, setOpenDropdown] = React.useState(false);
   const dropdownRef = useOnClickOutside(() => setOpenDropdown(false));
   const setSearchInput = useSetRecoilState(searchInputState);
+  const setCategory = useSetRecoilState(categoryState);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -136,6 +137,7 @@ const SearchBar = ({
     setSearchInput(userSearch);
     if (pathname !== '/') navigate('/');
 
+    setCategory('AL00');
     setOpenDropdown(false);
   };
 
@@ -144,7 +146,7 @@ const SearchBar = ({
 
     if (!userSearch) {
       setOpenDropdown(false);
-      setSearchInput(null);
+      setSearchInput('');
 
       return;
     }
@@ -158,9 +160,7 @@ const SearchBar = ({
   const debouncedSearchHandler = useDebounce(handleSearchChange, 330);
 
   const handleRefocus = e => {
-    if (e.target.value.trim()) {
-      debouncedSearchHandler(e);
-    }
+    if (e.target.value.trim()) debouncedSearchHandler(e);
   };
 
   const alterFocus = (e, storeId) => {
