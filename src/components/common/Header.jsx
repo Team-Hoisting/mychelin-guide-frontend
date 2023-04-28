@@ -144,8 +144,6 @@ const Header = () => {
     toggleTheme();
   };
 
-  console.log('theme: ', theme);
-
   const { pathname } = useLocation();
   const { id } = useParams();
   const hasSearchBar = pathname === '/' || pathname === `/store/${id}`;
