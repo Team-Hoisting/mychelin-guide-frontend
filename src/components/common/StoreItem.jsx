@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { CategoryTag } from '.';
-import themeState from '../../recoil/atoms/theme';
+import themeState from '../../recoil/atoms/themeState';
 
 const Container = styled.div`
   width: 100%;
@@ -12,7 +12,7 @@ const Container = styled.div`
   box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 30px;
   position: relative;
   transition: 0.1s ease-in-out;
-  background-color: #fff;
+  /* background-color: #fff; */
   color: var(--font-color);
 `;
 
@@ -68,6 +68,12 @@ const VotesContainer = styled.div`
   overflow: hidden;
 `;
 
+const Placeholder = styled.div`
+  background-color: inherit;
+  height: 100px;
+  width: 100px;
+`;
+
 const StoreItem = ({ storeName = '', imgUrl = '', starCount = 0, votesByCategory = {} }) => {
   const theme = useRecoilValue(themeState);
 
@@ -89,14 +95,18 @@ const StoreItem = ({ storeName = '', imgUrl = '', starCount = 0, votesByCategory
             </StarContainer>
           </StoreInfoMain>
           <VotesContainer>
-            {Object.keys(votesByCategory).map(category => (
-              <CategoryTag
-                key={storeName + category}
-                categoryCode={category}
-                votedCnt={votesByCategory[category]}
-                renderName={false}
-              />
-            ))}
+            {Object.keys(votesByCategory).length ? (
+              Object.keys(votesByCategory).map(category => (
+                <CategoryTag
+                  key={storeName + category}
+                  categoryCode={category}
+                  votedCnt={votesByCategory[category]}
+                  renderName={false}
+                />
+              ))
+            ) : (
+              <Placeholder></Placeholder>
+            )}
           </VotesContainer>
         </Contents>
       </Container>

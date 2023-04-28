@@ -5,7 +5,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { Modal } from '../common/index';
 import userState from '../../recoil/atoms/userState';
-import themeState from '../../recoil/atoms/theme';
+import themeState from '../../recoil/atoms/themeState';
 
 const Container = styled.div`
   display: flex;

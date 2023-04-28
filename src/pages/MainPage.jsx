@@ -9,8 +9,9 @@ const StoresContainer = styled.div`
 `;
 
 const TopStoresContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
 `;
 
 const RestStoresContainer = styled.div`

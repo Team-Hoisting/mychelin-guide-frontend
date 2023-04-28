@@ -4,12 +4,7 @@ const GlobalStyle = createGlobalStyle`
 
   #root {
     min-height: 100%;
-    /* max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto; */
-
     --primary-color: #d21312;
-
   }
 
   body[data-theme='light'] {
