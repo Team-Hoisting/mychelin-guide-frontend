@@ -111,15 +111,15 @@ const ButtonGroup = styled.div`
 `;
 
 const PageButton = styled(Button)`
-  width: cal(100%/)
+  width: 40px;
   height: 40px;
   display: flex;
 
   align-items: center;
   justify-content: center;
- 
+
   font-size: 17px;
-  background: ${({ clicked }) => (clicked ? 'var(--button-hover-color);' : 'none;')}
+  background: ${({ clicked }) => (clicked ? 'var(--button-hover-color);' : 'none;')};
   color: var(--font-color);
   flex-wrap: nowrap;
 
