@@ -26,16 +26,28 @@ const Text = styled.div`
 `;
 
 const SuccessVerifier = ({ taskQueue }) => {
-  const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
+  const [user, setUser] = useRecoilState(userState);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
-    Promise.all(taskQueue).then(res => {
-      console.log('here', res);
+    (() => {
+      try {
+        setIsLoading(true);
 
-      setUser({ ...user, ...res });
-    });
-  }, [taskQueue, user, setUser]);
+        taskQueue.forEach(async task => {
+          const voteStatus = await task();
+          setUser(user => ({ ...user, voteStatus }));
+        });
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
+
+  if (isLoading) return <></>;
 
   return (
     <Container>

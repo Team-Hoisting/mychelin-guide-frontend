@@ -20,13 +20,13 @@ const fetchPrevStore = (nickname, categoryCode) => async () => {
   return response.data;
 };
 
-const vote = voteInfo => async () => {
+const vote = async voteInfo => {
   const response = await axios.post(url, voteInfo);
 
   return response.data;
 };
 
-const reVote = voteInfo => async () => {
+const reVote = async voteInfo => {
   const { storeId, nickname, categoryCode, votedAt } = voteInfo;
 
   const response = await axios.patch(`${url}/${nickname}/${categoryCode}`, { storeId, votedAt });
@@ -34,7 +34,7 @@ const reVote = voteInfo => async () => {
   return response.data;
 };
 
-const removeVote = (nickname, categoryCode) => async () => {
+const removeVote = async (nickname, categoryCode) => {
   const response = await axios.delete(`${url}/${nickname}/${categoryCode}`);
 
   return response.data;

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { Modal, Group, Button } from '@mantine/core';
 import userState from '../../recoil/atoms/userState';
-import themeState from '../../recoil/atoms/theme';
+import themeState from '../../recoil/atoms/themeState';
 import CategorySelector from '../modal/CategorySelector';
 import SameCategoryChecker from '../modal/SameCategoryChecker';
 import SameStoreChecker from '../modal/SameStoreChecker';
@@ -13,10 +13,6 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId }) 
   const theme = useRecoilValue(themeState);
   const [categoryCode, setCategoryCode] = React.useState('none'); // 선택한 카테고리
   const [taskQueue, setTaskQueue] = React.useState([]);
-
-  React.useEffect(() => {
-    console.log(taskQueue);
-  }, [taskQueue]);
 
   return (
     <>
@@ -60,7 +56,7 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId }) 
             storeId={storeId}
           />
         )}
-        {phase === 'success' && <SuccessVerifier taskQueue={taskQueue} />}
+        {phase === 'success' && <SuccessVerifier setTaskQueue={setTaskQueue} taskQueue={taskQueue} />}
       </Modal>
       <Group position="center">
         <Button

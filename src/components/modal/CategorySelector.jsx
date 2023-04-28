@@ -60,6 +60,7 @@ const Selected = styled.div`
 
 const CategorySelector = ({ setIsOpened, setPhase, setTaskQueue, storeId, categoryCode, setCategoryCode }) => {
   const { email, voteStatus } = useRecoilValue(userState);
+  console.log(voteStatus);
 
   const { data: store, isLoading } = useQuery({
     queryKey: ['store', storeId],
