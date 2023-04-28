@@ -1,13 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-
 import styled from 'styled-components';
 import { Tabs } from '@mantine/core';
-
 import ProfileHeader from '../components/profile/ProfileHeader';
 import { SkinnyContainer } from '../components/common';
 import useUserProfile from '../hooks/useUserProfile';
-
 import SortedStores from '../components/profile/SortedStores';
 import ArchivedStores from '../components/profile/ArchivedStores';
 

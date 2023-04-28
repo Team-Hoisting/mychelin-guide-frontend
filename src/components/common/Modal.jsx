@@ -10,7 +10,7 @@ import Vote from '../modal/Vote';
 import DuplicateCategory from '../modal/DuplicateCategory';
 import DuplicateStore from '../modal/DuplicateStore';
 import Success from '../modal/Success';
-import themeState from '../../recoil/atoms/theme';
+import themeState from '../../recoil/atoms/themeState';
 
 const PopupModal = ({ storeId, width }) => {
   const [selectedCode, setSelectedCode] = React.useState(null);
