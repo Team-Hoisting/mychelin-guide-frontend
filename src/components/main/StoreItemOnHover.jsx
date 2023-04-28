@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Button } from '../common';
-import Modal from '../common/Modal';
+import NewModal from '../common/NewModal';
+// import Modal from '../common/Modal';
 
 const Container = styled.main`
   z-index: 2;
@@ -46,7 +47,7 @@ const StoreItemOnHover = ({ storeId }) => (
       <Link to={`/store/${storeId}`}>
         <RoundedButton gray>상세보기</RoundedButton>
       </Link>
-      <Modal storeId={storeId} />
+      <NewModal storeId={storeId} />
     </ButtonContainer>
   </Container>
 );
