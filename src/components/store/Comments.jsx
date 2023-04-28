@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { CgProfile } from 'react-icons/cg';
 import { Divider } from '@mantine/core';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
-import { Button } from '../common/index';
+import axios from 'axios';
+import { Button, Loader } from '../common/index';
 import userState from '../../recoil/atoms/userState';
-import { commentQueryKey } from '../../constants/index';
-import { fetchComment } from '../../api/comment';
+import { commentQueryKey, COMMENTS_FETCH_SIZE } from '../../constants/index';
 
 const CommentsContainer = styled.div`
   font-size: 18px;
@@ -42,7 +42,7 @@ const TextArea = styled.textarea.attrs(({ content }) => ({
   border: 2px solid var(--border-primary);
 
   :focus {
-    border: none;
+    border: 2px solid var(--border-primary);
     outline: none;
   }
 `;
@@ -53,11 +53,11 @@ const CommentBtn = styled(Button)`
   right: 10px;
 `;
 
-// const Comments = styled.div``;
-
 const Comment = styled.div`
   position: relative;
   margin: 18px 0;
+  padding: 4px 0;
+  border: 2px soild white;
 `;
 
 const User = styled.div`
@@ -99,27 +99,98 @@ const NickName = styled.p`
   font-weight: 600;
 `;
 
-const commentQuery = storeid => ({ queryKey: [...commentQueryKey, storeid], queryFn: fetchComment(storeid) });
+const ButtonContainer = styled.div`
+  width: 100%;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  width: 30%;
+  justify-content: flex-start;
+  margin: 0 auto;
+`;
+
+const PageButton = styled(Button)`
+  width: cal(100%/)
+  height: 40px;
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+ 
+  font-size: 17px;
+  background: ${({ clicked }) => (clicked ? 'var(--button-hover-color);' : 'none;')}
+  color: var(--font-color);
+  flex-wrap: nowrap;
+
+  :hover {
+    background: var(--border-primary);
+  }
+`;
+
+const PrevButton = styled(PageButton)`
+  width: 40px;
+  margin: 0 10px;
+  padding: 0 4px;
+`;
+
+const NextButton = styled(PageButton)`
+  width: 40px;
+  margin: 0 4px;
+  padding: 0 4px;
+`;
 
 const Comments = ({ addComment, deleteComment }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [user, setUser] = useRecoilState(userState);
+  const user = useRecoilValue(userState);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [page, setPage] = React.useState(1);
 
+  // ref로 ?
   const [content, setContent] = React.useState('');
-  const { data: commentsData } = useQuery(commentQuery(id));
+
+  const fetchComments =
+    (pageParam = 1) =>
+    async () => {
+      const url = `/api/comments/${id}?page=${pageParam}&pageSize=${COMMENTS_FETCH_SIZE}`;
+
+      const { data } = await axios.get(url);
+
+      return data;
+    };
+
+  const commentQuery = storeid => ({
+    queryKey: [...commentQueryKey, storeid, currentPage],
+    queryFn: fetchComments(currentPage),
+  });
+
+  const { data, isLoading } = useQuery(commentQuery(id));
+  if (isLoading) return <Loader />;
+
+  const { data: commentsData, totalPages } = data;
+
+  const startIndex = (page - 1) * COMMENTS_FETCH_SIZE; // 0
+  const endIndex = startIndex + +COMMENTS_FETCH_SIZE; // 5
+
+  const currentPages = Array.from(
+    { length: totalPages < 5 ? totalPages : endIndex - startIndex },
+    (_, i) => startIndex + 1 + i
+  );
 
   const handleChange = e => {
     setContent(e.target.value);
   };
 
   const handleCommentBtnClick = () => {
-    // 로그인 안 된 상태면 login page로
+    if (!content) return;
+
     if (!user) {
       navigate('/signin', { state: pathname });
       return;
     }
+
     addComment({
       storeId: id,
       content,
@@ -136,7 +207,22 @@ const Comments = ({ addComment, deleteComment }) => {
   };
 
   const handleProfileClick = nickname => () => {
-    navigate(`/profile/:${nickname}`, { state: pathname });
+    navigate(`/profile/${nickname}`, { state: pathname });
+  };
+
+  const handlePageBtnClick = page => () => {
+    setCurrentPage(page);
+  };
+
+  const handlePrevBtnClick = () => {
+    setPage(page - 1);
+
+    setCurrentPage(startIndex);
+  };
+
+  const handleNextBtnClick = () => {
+    setPage(page + 1);
+    setCurrentPage(endIndex + 1);
   };
 
   return (
@@ -149,7 +235,7 @@ const Comments = ({ addComment, deleteComment }) => {
           <CommentBtn onClick={handleCommentBtnClick}>등록하기</CommentBtn>
         </CommentPostContainer>
         <div>
-          {commentsData?.map(({ commentId, email, nickname, isCertified, content }) => (
+          {commentsData.map(({ commentId, email, nickname, isCertified, content }) => (
             <Comment key={commentId}>
               <User>
                 <Profile onClick={handleProfileClick(nickname)} />
@@ -161,6 +247,22 @@ const Comments = ({ addComment, deleteComment }) => {
             </Comment>
           ))}
         </div>
+        <ButtonContainer className="container">
+          <ButtonGroup className="buttoncontainer">
+            {page !== 1 && <PrevButton onClick={handlePrevBtnClick}>Prev</PrevButton>}
+            {currentPages.map(
+              pageNum =>
+                pageNum <= totalPages && (
+                  <PageButton key={pageNum} onClick={handlePageBtnClick(pageNum)} clicked={pageNum === currentPage}>
+                    {pageNum}
+                  </PageButton>
+                )
+            )}
+            {page !== Math.ceil(totalPages / COMMENTS_FETCH_SIZE) && (
+              <NextButton onClick={handleNextBtnClick}>Next</NextButton>
+            )}
+          </ButtonGroup>
+        </ButtonContainer>
       </CommentsContainer>
     </>
   );

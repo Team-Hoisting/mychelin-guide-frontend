@@ -3,26 +3,39 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import userState from '../../recoil/atoms/userState';
 
-import { StoreItem, Button } from '../common';
+import { Button } from '../common';
 import Draggable from './Draggable';
+import VotedStoreItem from './VotedStoreItem';
 
 import { changeVotedCategoryOrder } from '../../api/users';
+import EmptyStoreItem from './EmptyStoreItem';
+
+const Container = styled.div`
+  text-align: right;
+`;
+const EditButton = styled(Button)`
+  margin: 5px 5px 15px 5px;
+  width: 100px;
+  height: 40px;
+  font-size: 15px;
+  font-weight: 450;
+`;
 
 const StoresGrid = styled.div`
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 `;
 
-const SortedStores = ({ profileUserNickname, initialOrder }) => {
+const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
   const user = useRecoilValue(userState);
   const [votedStoreOrder, setVotedStoreOrder] = React.useState([]);
   const [isEditing, setIsEditing] = React.useState(false);
   const dragTargetIdx = React.useRef(null);
 
   React.useEffect(() => {
-    if (initialOrder) setVotedStoreOrder(initialOrder);
-  }, [initialOrder]);
+    if (voteStores) setVotedStoreOrder(voteStores);
+  }, [voteStores]);
 
   const setDragTargetIdx = idx => {
     dragTargetIdx.current = idx;
@@ -41,11 +54,11 @@ const SortedStores = ({ profileUserNickname, initialOrder }) => {
   };
 
   return (
-    <>
+    <Container>
       {user.nickname === profileUserNickname && (
         <>
           {isEditing ? (
-            <Button
+            <EditButton
               onClick={() => {
                 changeVotedCategoryOrder(
                   profileUserNickname,
@@ -55,37 +68,50 @@ const SortedStores = ({ profileUserNickname, initialOrder }) => {
               }}
               gray>
               수정
-            </Button>
+            </EditButton>
           ) : (
-            <Button onClick={() => setIsEditing(true)} red>
+            <EditButton onClick={() => setIsEditing(true)} red>
               순서 변경
-            </Button>
+            </EditButton>
           )}
         </>
       )}
-      {!isEditing ? (
+      {
         <StoresGrid>
-          {votedStoreOrder.map(({ categoryCode, store }) => (
-            <StoreItem key={categoryCode} storeName={store.storeName} imgUrl={store.imgUrl} />
+          {!isEditing
+            ? votedStoreOrder.map(({ categoryCode, store }) => (
+                <VotedStoreItem
+                  key={categoryCode}
+                  categoryCode={categoryCode}
+                  storeId={store.storeId}
+                  storeName={store.storeName}
+                  imgUrl={store.imgUrl}
+                />
+              ))
+            : votedStoreOrder.map(({ categoryCode, store }, idx) => (
+                <Draggable
+                  key={categoryCode}
+                  dragStartHandler={() => {
+                    setDragTargetIdx(idx);
+                  }}
+                  dropHandler={() => {
+                    swap(idx);
+                  }}>
+                  <VotedStoreItem
+                    categoryCode={categoryCode}
+                    storeId={store.storeId}
+                    storeName={store.storeName}
+                    imgUrl={store.imgUrl}
+                    isEditing={true}
+                  />
+                </Draggable>
+              ))}
+          {emptyCategories?.map(code => (
+            <EmptyStoreItem key={code} categoryCode={code} />
           ))}
         </StoresGrid>
-      ) : (
-        <StoresGrid>
-          {votedStoreOrder.map(({ categoryCode, store }, idx) => (
-            <Draggable
-              key={categoryCode}
-              dragStartHandler={() => {
-                setDragTargetIdx(idx);
-              }}
-              dropHandler={() => {
-                swap(idx);
-              }}>
-              <StoreItem storeName={store.storeName} imgUrl={store.imgUrl} />
-            </Draggable>
-          ))}
-        </StoresGrid>
-      )}
-    </>
+      }
+    </Container>
   );
 };
 
