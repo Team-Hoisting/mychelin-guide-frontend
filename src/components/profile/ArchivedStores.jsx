@@ -7,7 +7,7 @@ import { StoreItem, ScrollObserver } from '../common';
 const StoresGrid = styled.div`
   display: grid;
   grid-gap: 20px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
 `;
 
 const ArchivedStores = ({ profileUserNickname }) => {
@@ -19,7 +19,7 @@ const ArchivedStores = ({ profileUserNickname }) => {
     <>
       <StoresGrid>
         {data.pages.flat().map(({ storeId, storeName, imgUrl }) => (
-          <StoreItem key={storeId} storeName={storeName} imgUrl={imgUrl} />
+          <StoreItem key={storeId} storeId={storeId} storeName={storeName} imgUrl={imgUrl} />
         ))}
       </StoresGrid>
       {hasNextPage && <ScrollObserver fetchNextPage={fetchNextPage} />}
