@@ -10,29 +10,30 @@ import ArchivedStores from '../components/profile/ArchivedStores';
 
 const TabsContainer = styled(Tabs)`
   margin: 20px;
-  border-color: var(--primary-color);
 `;
 
 const TabsList = styled(Tabs.List)`
-  border-color: var(--primary-color);
+  border-bottom: 1px solid var(--primary-color);
 `;
 
 const Tab = styled(Tabs.Tab)`
   margin-right: 2px;
-  border-color: var(--primary-color);
-  background-color: var(--primary-color);
-  color: white;
+  width: 150px;
+  height: 50px;
+  color: #ababab;
+  font-size: 20px;
+  font-weight: 600;
 
   &[data-active] {
-    background-color: var(--bg-color);
+    color: var(--primary-color);
     border-color: var(--primary-color);
-    color: var(--font-color);
+    border-bottom: none;
   }
 `;
 
 const ProfilePage = () => {
   const { nickname: profileUserNickname } = useParams();
-  const { profileInfo } = useUserProfile(profileUserNickname);
+  const profileInfo = useUserProfile(profileUserNickname);
 
   return (
     <SkinnyContainer>
@@ -43,7 +44,11 @@ const ProfilePage = () => {
           <Tab value="archived">Archived</Tab>
         </TabsList>
         <Tabs.Panel value="voted" pt="sm">
-          <SortedStores profileUserNickname={profileUserNickname} initialOrder={profileInfo?.voteStores} />
+          <SortedStores
+            profileUserNickname={profileUserNickname}
+            voteStores={profileInfo?.voteStores}
+            emptyCategories={profileInfo?.emptyCategories}
+          />
         </Tabs.Panel>
         <Tabs.Panel value="archived" pt="sm">
           <ArchivedStores profileUserNickname={profileUserNickname} />
