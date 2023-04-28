@@ -45,12 +45,14 @@ const removeVote = (nickname, categoryCode) => async () => {
   return response.data;
 };
 
-const fetchCategotySelectorData =
+const fetchCategorySelectorData =
   ({ storeId, nickname, categoryCode }) =>
   async () => {
-    const response = await axios.get(`${url}/${storeId}/${nickname}/${categoryCode}`);
     console.log(storeId, nickname, categoryCode);
+
+    const response = await axios.get(`${url}/${storeId}/${nickname}/${categoryCode}`);
+
     return response.data;
   };
 
-export { fetchVotes, fetchVotesByNickname, fetchPrevStore, vote, reVote, removeVote, fetchCategotySelectorData };
+export { fetchVotes, fetchVotesByNickname, fetchPrevStore, vote, reVote, removeVote, fetchCategorySelectorData };
