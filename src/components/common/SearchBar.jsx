@@ -86,6 +86,32 @@ const DropdownResult = styled.li`
   }
 `;
 
+const NoMatch = styled.div`
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+`;
+
+const NoMatchMessage = styled.p`
+  margin: 0;
+  font-weight: 300;
+`;
+
+const RegisterSuggestion = styled.p`
+  margin: 10px 0 0 0;
+  font-weight: 400;
+  text-decoration: underline;
+  cursor: pointer;
+
+  :hover {
+    font-weight: 500;
+  }
+`;
+
 const SearchBar = ({
   hasDropdown,
   inputRef,
@@ -182,13 +208,20 @@ const SearchBar = ({
       </SearchForm>
       {hasDropdown && openDropdown && (
         <Dropdown ref={dropdownRef}>
-          {dropdownStores.map(({ storeName, storeId }) => (
-            <DropdownResult key={storeName} tabIndex="0" onKeyDown={e => alterFocus(e, storeId)}>
-              <Link to={`/store/${storeId}`}>
-                <div>{storeName}</div>
-              </Link>
-            </DropdownResult>
-          ))}
+          {dropdownStores.length ? (
+            dropdownStores.map(({ storeName, storeId }) => (
+              <DropdownResult key={storeName} tabIndex="0" onKeyDown={e => alterFocus(e, storeId)}>
+                <Link to={`/store/${storeId}`}>
+                  <div>{storeName}</div>
+                </Link>
+              </DropdownResult>
+            ))
+          ) : (
+            <NoMatch>
+              <NoMatchMessage>결과가 없습니다.</NoMatchMessage>
+              <RegisterSuggestion>맛집을 공유하고 최초 투표자가 되어보세요!</RegisterSuggestion>
+            </NoMatch>
+          )}
         </Dropdown>
       )}
     </Container>
