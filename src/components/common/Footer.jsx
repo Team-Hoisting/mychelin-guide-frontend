@@ -1,0 +1,38 @@
+import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { themeState } from '../../recoil/atoms';
+
+const Container = styled.footer`
+  height: 4rem;
+  padding: 0.5rem;
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-secondary-color);
+`;
+
+const Copyright = styled.p`
+  font-size: 12px;
+  margin: 0;
+`;
+
+const GithubLink = styled.img`
+  width: 25px;
+  ${({ theme }) => theme === 'dark' && 'filter: invert(100%) brightness(120%)'};
+`;
+
+const Footer = () => {
+  const theme = useRecoilValue(themeState);
+
+  return (
+    <Container>
+      <a href="https://github.com/Team-Hoisting/mychelin-guide-frontend" target="_blank" rel="noreferrer noreopener">
+        <GithubLink src="/images/github-logo.svg" alt="Github" theme={theme} />
+      </a>
+      <Copyright>Copyright © 2023 Team Hoisting All Rights Reserved</Copyright>
+    </Container>
+  );
+};
+
+export default Footer;
