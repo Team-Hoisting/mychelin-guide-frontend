@@ -37,7 +37,7 @@ const SearchMapPage = () => {
       <SearchBarContainer>
         <SearchBar
           hasDropdown={false}
-          placeholder="당신의 맛집을 알려주세요!"
+          placeholder="당신만의 맛집을 알려주세요!"
           defaultValue={keyword}
           inputRef={inputRef}
           width="600px"
