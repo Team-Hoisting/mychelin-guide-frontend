@@ -54,9 +54,7 @@ let displayedStores = { topThree: [], remaining: [] };
 
 const InfiniteStoreList = ({ data, fetchNextPage, hasNextPage }) => {
   const searchedStores = data.pages.flat();
-
-  const topThree = searchedStores.splice(0, 3);
-  const remaining = searchedStores;
+  const [topThree, remaining] = [searchedStores.slice(0, 3), searchedStores.slice(3)];
 
   displayedStores = { topThree, remaining };
 
@@ -65,9 +63,9 @@ const InfiniteStoreList = ({ data, fetchNextPage, hasNextPage }) => {
       {displayedStores.topThree.length ? (
         <StoresContainer>
           <TopStoresContainer>
-            {displayedStores.topThree.map(({ storeId, storeName, imgUrl, votesByCategory, starCount }) => (
+            {displayedStores.topThree.map(({ storeId, storeName, imgUrl, votesByCategory, address, starCount }) => (
               <StoreItemContainer key={storeId}>
-                <StoreItemOnHover storeId={storeId} />
+                <StoreItemOnHover storeId={storeId} storeName={storeName} address={address} />
                 <StoreItem
                   key={storeId}
                   storeName={storeName}

@@ -23,7 +23,7 @@ const EachCategoryBox = styled.div`
           font-weight: 600;
           transition: 0.1s ease-in-out;
         }
-    `}
+    `};
 `;
 
 const CategoryIcon = styled.img`

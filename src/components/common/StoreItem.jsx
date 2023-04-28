@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { MychelinStars } from '../main';
 import { CategoryTag } from '.';
-import themeState from '../../recoil/atoms/themeState';
 
 const Container = styled.div`
   width: 100%;
@@ -12,7 +11,6 @@ const Container = styled.div`
   box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 30px;
   position: relative;
   transition: 0.1s ease-in-out;
-  /* background-color: #fff; */
   color: var(--font-color);
 `;
 
@@ -52,16 +50,6 @@ const Name = styled(Link)`
   overflow: hidden;
 `;
 
-const StarContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Star = styled.img`
-  width: 28px;
-  margin: 1.2px;
-`;
-
 const VotesContainer = styled.div`
   display: flex;
   gap: 2px;
@@ -74,44 +62,36 @@ const Placeholder = styled.div`
   width: 100px;
 `;
 
-const StoreItem = ({ storeName = '', imgUrl = '', starCount = 0, votesByCategory = {} }) => {
-  const theme = useRecoilValue(themeState);
-
-  return (
-    <>
-      <Container>
-        <Link to="/detail">
-          <ImageContainer imgUrl={imgUrl}>
-            <Img src={imgUrl} />
-          </ImageContainer>
-        </Link>
-        <Contents>
-          <StoreInfoMain>
-            <Name>{storeName}</Name>
-            <StarContainer>
-              {[...Array(starCount).keys()].map(val => (
-                <Star key={val} src={`/images/star-${theme}.png`} />
-              ))}
-            </StarContainer>
-          </StoreInfoMain>
-          <VotesContainer>
-            {Object.keys(votesByCategory).length ? (
-              Object.keys(votesByCategory).map(category => (
-                <CategoryTag
-                  key={storeName + category}
-                  categoryCode={category}
-                  votedCnt={votesByCategory[category]}
-                  renderName={false}
-                />
-              ))
-            ) : (
-              <Placeholder></Placeholder>
-            )}
-          </VotesContainer>
-        </Contents>
-      </Container>
-    </>
-  );
-};
+const StoreItem = ({ storeName = '', imgUrl = '', starCount = 0, votesByCategory = {} }) => (
+  <>
+    <Container>
+      <Link to="/detail">
+        <ImageContainer imgUrl={imgUrl}>
+          <Img src={imgUrl} />
+        </ImageContainer>
+      </Link>
+      <Contents>
+        <StoreInfoMain>
+          <Name>{storeName}</Name>
+          <MychelinStars starCount={starCount} />
+        </StoreInfoMain>
+        <VotesContainer>
+          {Object.keys(votesByCategory).length ? (
+            Object.keys(votesByCategory).map(category => (
+              <CategoryTag
+                key={storeName + category}
+                categoryCode={category}
+                votedCnt={votesByCategory[category]}
+                renderName={false}
+              />
+            ))
+          ) : (
+            <Placeholder />
+          )}
+        </VotesContainer>
+      </Contents>
+    </Container>
+  </>
+);
 
 export default StoreItem;
