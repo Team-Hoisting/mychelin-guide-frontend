@@ -27,7 +27,8 @@ const MapContainer = styled.div`
 const ResultListContainer = styled.div`
   position: absolute;
   padding: 10px;
-  height: 100%;
+  max-height: 100%;
+  overflow-y: scroll;
   width: 400px;
   background-color: rgba(0, 0, 0, 0.5);
   top: 0;
@@ -117,7 +118,7 @@ const Result = ({ result, paginationRef }) => {
   return (
     <Container>
       <MapContainer ref={mapContainerRef} />
-      {result.length && (
+      {!!result.length && (
         <ResultListContainer>
           <PreviousPageBtn clickHandler={gotoPreviousPage} hasPrevPage={paginationRef.current?.hasPrevPage} />
           <ResultList>
