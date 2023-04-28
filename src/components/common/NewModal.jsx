@@ -5,10 +5,18 @@ import { Modal, Group, Button } from '@mantine/core';
 import userState from '../../recoil/atoms/userState';
 import themeState from '../../recoil/atoms/theme';
 import CategorySelector from '../modal/CategorySelector';
+import SameCategoryChecker from '../modal/SameCategoryChecker';
+import SameStoreChecker from '../modal/SameStoreChecker';
+import SuccessVerifier from '../modal/SuccessVerifier';
 
 const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId }) => {
   const theme = useRecoilValue(themeState);
   const [categoryCode, setCategoryCode] = React.useState('none'); // 선택한 카테고리
+  const [taskQueue, setTaskQueue] = React.useState([]);
+
+  React.useEffect(() => {
+    console.log(taskQueue);
+  }, [taskQueue]);
 
   return (
     <>
@@ -26,27 +34,33 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId }) 
           header: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}` },
           body: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}` },
         }}>
-        {phase === 'select' && <CategorySelector storeId={storeId} categoryCode={categoryCode} />}
-        {/* {step === 1 ? (
-          <Vote
-            selectedCode={selectedCode}
-            setSelectedCode={setSelectedCode}
-            store={store}
-            onClose={onClose}
-            onNext={onSelect}
+        {phase === 'select' && (
+          <CategorySelector
+            setIsOpened={setIsOpened}
+            setPhase={setPhase}
+            setTaskQueue={setTaskQueue}
+            storeId={storeId}
+            categoryCode={categoryCode}
+            setCategoryCode={setCategoryCode}
           />
-        ) : step === 2 ? (
-          <DuplicateCategory
-            selectedCode={selectedCode}
-            store={store}
-            setStep={setStep}
-            setPrevStoreId={setPrevStoreId}
+        )}
+        {phase === 'category' && (
+          <SameCategoryChecker
+            setPhase={setPhase}
+            setTaskQueue={setTaskQueue}
+            storeId={storeId}
+            categoryCode={categoryCode}
           />
-        ) : step === 3 ? (
-          <DuplicateStore store={store} setStep={setStep} onClose={onClose} />
-        ) : (
-          <Success />
-        )} */}
+        )}
+        {phase === 'store' && (
+          <SameStoreChecker
+            setPhase={setPhase}
+            setIsOpened={setIsOpened}
+            setTaskQueue={setTaskQueue}
+            storeId={storeId}
+          />
+        )}
+        {phase === 'success' && <SuccessVerifier taskQueue={taskQueue} />}
       </Modal>
       <Group position="center">
         <Button

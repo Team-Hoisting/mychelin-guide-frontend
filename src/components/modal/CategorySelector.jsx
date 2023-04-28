@@ -5,7 +5,8 @@ import { useRecoilValue } from 'recoil';
 import userState from '../../recoil/atoms/userState';
 import categoryInfo from '../../constants/categoryInfo';
 import categoryCodes from '../../constants/categoryCodes';
-import { fetchCategorySelectorData } from '../../api/votes';
+import { fetchStore } from '../../api/stores';
+import { vote } from '../../api/votes';
 import ButtonGroup from './ButtonGroup';
 import { CategoryBox } from '../common/index';
 
@@ -57,28 +58,78 @@ const Selected = styled.div`
   }
 `;
 
-const CategorySelector = ({ storeId, categoryCode }) => {
-  const { nickname } = useRecoilValue(userState);
-  console.log(storeId, categoryCode);
+const CategorySelector = ({ setIsOpened, setPhase, setTaskQueue, storeId, categoryCode, setCategoryCode }) => {
+  const { email, voteStatus } = useRecoilValue(userState);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['categorySelectorData', storeId, nickname, categoryCode],
-    queryFn: fetchCategorySelectorData({ storeId, nickname, categoryCode }),
+  const { data: store, isLoading } = useQuery({
+    queryKey: ['store', storeId],
+    queryFn: fetchStore(storeId),
     staleTime: 1000 * 3,
   });
 
   if (isLoading) return <></>;
 
-  console.log(data);
+  const onNext = () => {
+    const sameCategoryCount = voteStatus.filter(vote => vote.categoryCode === categoryCode).length;
+    const sameStoreCount = voteStatus.filter(vote => vote.storeId === storeId).length;
+
+    if (sameCategoryCount !== 0) setPhase('category');
+    else {
+      setTaskQueue(taskQueue => [
+        ...taskQueue,
+        () => vote({ storeId, email, categoryCode, votedAt: new Date().valueOf() }),
+      ]);
+
+      setPhase(sameStoreCount !== 0 ? 'store' : 'success');
+    }
+  };
 
   return (
     <Container>
       <StoreInfo>
-        {/* <StoreName>{store.storeName}</StoreName> */}
-        <StoreName>매장</StoreName>
-        {/* <span className="address">{store.address}</span> */}
-        <span className="address">주소</span>
+        <StoreName>{store.storeName}</StoreName>
+        <span className="address">{store.address}</span>
       </StoreInfo>
+      <Selected>
+        {categoryCode !== 'none' ? (
+          <CategoryBox
+            categoryName={categoryInfo[categoryCode].ko}
+            categoryImgFile={categoryInfo[categoryCode].imgFile}
+            changeOnHover={false}
+            colored
+          />
+        ) : (
+          <div>없음</div>
+        )}
+      </Selected>
+      <Selector>
+        {categoryCodes.map(code => {
+          if (code === 'AL00') return null;
+
+          return (
+            <CategoryBox
+              categoryName={categoryInfo[code].ko}
+              categoryImgFile={categoryInfo[code].imgFile}
+              colored={categoryCode === code}
+              key={categoryInfo[code].ko}
+              clickHandler={() => setCategoryCode(code)}
+            />
+          );
+        })}
+      </Selector>
+      <TextBox>
+        <p>카테고리당 1곳만 투표할 수 있습니다.</p>
+        <p>
+          정말 <span className="em">투표</span>하시겠습니까?
+        </p>
+      </TextBox>
+      <ButtonGroup
+        isDisable={categoryCode === 'none'}
+        leftText="투표하기"
+        rightText="취소하기"
+        onNext={onNext}
+        onClose={() => setIsOpened(false)}
+      />
     </Container>
   );
 };
