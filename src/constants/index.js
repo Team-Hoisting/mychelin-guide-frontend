@@ -8,3 +8,4 @@ export { default as ARCHIVED_STORES_FETCH_SIZE } from './archivedStoresFetchSize
 export { default as commentQueryKey } from './commentQueryKey';
 export { default as storeQueryKey } from './storeQueryKey';
 export { default as archiveQueryKey } from './archiveQueryKey';
+export { default as COMMENTS_FETCH_SIZE } from './commentsFetchSize';

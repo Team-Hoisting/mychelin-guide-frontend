@@ -11,8 +11,8 @@ const Container = styled.div`
   opacity: 0.8;
   background-color: var(--border-secondary);
   color: var(--font-color);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   scale: 0.8;
-  // background-color: #347d39;
 `;
 
 const CategoryIcon = styled.img`

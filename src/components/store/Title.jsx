@@ -47,6 +47,7 @@ const EmtpyBookmarkIcon = styled(BsBookmark)`
 const FillBookMarkIcon = styled(BsFillBookmarkFill)`
   width: 40px;
   cursor: pointer;
+  color: #fe9602;
 `;
 
 const Bookmark = styled.div`
