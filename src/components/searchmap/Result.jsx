@@ -4,12 +4,20 @@ import { RiArrowUpSLine, RiArrowDownSLine } from 'react-icons/ri';
 import { ResultItem, ResultItemOnHover } from '.';
 import useMapwithMarkers from '../../hooks/useMapwithMarkers';
 
+const resultCodes = {
+  0: 'A',
+  1: 'B',
+  2: 'C',
+  3: 'D',
+  4: 'E',
+  5: 'F',
+};
+
 const Container = styled.div`
   position: relative;
 `;
 
 const MapContainer = styled.div`
-  border: 1px solid red;
   width: 100vw;
   height: calc(100vh - 5rem);
   z-index: 1;
@@ -29,26 +37,21 @@ const ResultListContainer = styled.div`
 
 const ResultList = styled.ul`
   margin: auto;
-  padding: 0;
+  padding: 10px;
   height: fit-content;
   border-radius: 20px;
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 25px;
 `;
 
 const ResultItemContainer = styled.li`
   position: relative;
-  margin: 13px;
-  width: 80%;
-  height: 100px;
-  background-color: white;
-  opacity: 0.9;
-  border-radius: 20px;
-  box-shadow: 3px 3px 3px #ababab;
-  list-style: none;
+  width: 100%;
+  height: 110px;
+  background-color: #fff;
+
   overflow: hidden;
 
   :hover {
@@ -70,15 +73,16 @@ const ResultItemContainer = styled.li`
 `;
 
 const ButtonContainer = styled.div`
-  margin: 5px auto;
-  width: 20px;
-  height: 20px;
-  background-color: var(--primary-color);
-  border-radius: 50%;
+  margin: 0 auto;
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
   text-align: center;
   color: white;
 
-  ${props => !props.hasPage && 'visibility: hidden;'}
+  ${({ hasPage }) => !hasPage && 'visibility: hidden;'}
 `;
 
 const PreviousPageBtn = ({ hasPrevPage, clickHandler }) => (
@@ -117,10 +121,16 @@ const Result = ({ result, paginationRef }) => {
         <ResultListContainer>
           <PreviousPageBtn clickHandler={gotoPreviousPage} hasPrevPage={paginationRef.current?.hasPrevPage} />
           <ResultList>
-            {result.map(({ id, place_name: storeName, road_address_name: address, phone }) => (
+            {result.map(({ id, place_name: storeName, road_address_name: address, phone }, idx) => (
               <ResultItemContainer key={id}>
                 <ResultItemOnHover storeId={id} />
-                <ResultItem key={id} storeName={storeName} address={address} phoneNumber={phone} />
+                <ResultItem
+                  key={id}
+                  currentIdx={resultCodes[idx]}
+                  storeName={storeName}
+                  address={address}
+                  phoneNumber={phone}
+                />
               </ResultItemContainer>
             ))}
           </ResultList>

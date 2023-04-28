@@ -14,7 +14,7 @@ const Container = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 20px;
+  /* border-radius: 20px; */
 `;
 
 const ButtonContainer = styled.div`
