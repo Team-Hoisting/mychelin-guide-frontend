@@ -3,7 +3,6 @@ import { useRecoilValue } from 'recoil';
 import { themeState } from '../../recoil/atoms';
 
 const Container = styled.footer`
-  position: fixed;
   bottom: 0;
   width: 100%;
   height: 4rem;
