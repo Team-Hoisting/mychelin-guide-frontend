@@ -3,10 +3,9 @@ import { useRecoilValue } from 'recoil';
 import { themeState } from '../../recoil/atoms';
 
 const Container = styled.footer`
-  bottom: 0;
   width: 100%;
   height: 4rem;
-  margin-top: 50px;
+  /* margin-top: 50px; */
   padding: 0.5rem;
   display: flex;
   gap: 40px;
