@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import { RiArrowUpSLine, RiArrowDownSLine } from 'react-icons/ri';
 import { ResultItem, ResultItemOnHover } from '.';
 import useMapwithMarkers from '../../hooks/useMapwithMarkers';
@@ -115,7 +114,7 @@ const Result = ({ result, paginationRef }) => {
     <Container>
       <MapContainer ref={mapContainerRef} />
       {result.length && (
-        <ResultListContainer className="이거나오냐">
+        <ResultListContainer>
           <PreviousPageBtn clickHandler={gotoPreviousPage} hasPrevPage={paginationRef.current?.hasPrevPage} />
           <ResultList>
             {result.map(({ id, place_name: storeName, road_address_name: address, phone }) => (
