@@ -27,7 +27,7 @@ const MapContainer = styled.div`
 const ResultListContainer = styled.div`
   position: absolute;
   padding: 10px;
-  max-height: 100%;
+  height: calc(100vh - 5rem - 4rem);
   overflow-y: scroll;
   width: 400px;
   background-color: rgba(0, 0, 0, 0.5);
@@ -39,18 +39,17 @@ const ResultListContainer = styled.div`
 const ResultList = styled.ul`
   margin: auto;
   padding: 10px;
-  height: fit-content;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
+  gap: 20px;
 `;
 
 const ResultItemContainer = styled.li`
   position: relative;
   width: 100%;
-  height: 110px;
+  height: 100px;
   background-color: #fff;
 
   overflow: hidden;
@@ -82,8 +81,13 @@ const ButtonContainer = styled.div`
   justify-content: center;
   text-align: center;
   color: white;
+  cursor: pointer;
 
   ${({ hasPage }) => !hasPage && 'visibility: hidden;'}
+
+  :hover {
+    color: #c5c5c5;
+  }
 `;
 
 const PreviousPageBtn = ({ hasPrevPage, clickHandler }) => (

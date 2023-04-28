@@ -14,7 +14,7 @@ const StoreName = styled.h5`
 `;
 
 const AdditionalInfoWrapper = styled.div`
-  margin-top: 15px;
+  margin-top: 8px;
   color: #353535;
   font-size: 14px;
 `;

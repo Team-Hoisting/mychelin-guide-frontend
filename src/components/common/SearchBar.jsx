@@ -219,7 +219,9 @@ const SearchBar = ({
           ) : (
             <NoMatch>
               <NoMatchMessage>결과가 없습니다.</NoMatchMessage>
-              <RegisterSuggestion>맛집을 공유하고 최초 투표자가 되어보세요!</RegisterSuggestion>
+              <Link to={`/searchmap?keyword=${inputRef.current.value.trim()}`}>
+                <RegisterSuggestion>맛집을 공유하고 최초 투표자가 되어보세요!</RegisterSuggestion>
+              </Link>
             </NoMatch>
           )}
         </Dropdown>
