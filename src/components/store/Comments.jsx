@@ -42,7 +42,7 @@ const TextArea = styled.textarea.attrs(({ content }) => ({
   border: 2px solid var(--border-primary);
 
   :focus {
-    border: none;
+    border: 2px solid var(--border-primary);
     outline: none;
   }
 `;
@@ -53,11 +53,11 @@ const CommentBtn = styled(Button)`
   right: 10px;
 `;
 
-// const Comments = styled.div``;
-
 const Comment = styled.div`
   position: relative;
   margin: 18px 0;
+  padding: 4px 0;
+  border: 2px soild white;
 `;
 
 const User = styled.div`
@@ -107,6 +107,7 @@ const Comments = ({ addComment, deleteComment }) => {
   const { pathname } = useLocation();
   const [user, setUser] = useRecoilState(userState);
 
+  // ref로 ?
   const [content, setContent] = React.useState('');
   const { data: commentsData } = useQuery(commentQuery(id));
 
@@ -115,6 +116,7 @@ const Comments = ({ addComment, deleteComment }) => {
   };
 
   const handleCommentBtnClick = () => {
+    if (!content) return;
     // 로그인 안 된 상태면 login page로
     if (!user) {
       navigate('/signin', { state: pathname });
