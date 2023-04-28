@@ -1,34 +1,44 @@
 import styled from 'styled-components';
 
-import { Divider } from '@mantine/core';
-
 const ResultItemContainer = styled.div`
   padding: 10px;
 `;
 
+const Number = styled.span`
+  color: var(--primary-color);
+`;
+
 const StoreName = styled.h5`
   margin: 5px 0;
+  font-size: 18px;
+`;
+
+const AdditionalInfoWrapper = styled.div`
+  margin-top: 15px;
+  color: #353535;
+  font-size: 14px;
 `;
 
 const Address = styled.span`
   display: block;
   margin: 5px 0;
-  font-size: 12px;
 `;
 
 const PhoneNumber = styled.span`
   display: block;
   margin: 5px 0;
-  font-size: 10px;
-  font-style: italic;
 `;
 
-const ResultItem = ({ storeName, address, phoneNumber }) => (
+const ResultItem = ({ storeName, address, phoneNumber, currentIdx }) => (
   <ResultItemContainer>
-    <StoreName>{storeName}</StoreName>
-    <Divider size="sm" color="var(--primary-color)" />
-    <Address>{address}</Address>
-    <PhoneNumber>{phoneNumber}</PhoneNumber>
+    <StoreName>
+      <Number>{`${currentIdx}. `}</Number>
+      {storeName}
+    </StoreName>
+    <AdditionalInfoWrapper>
+      <Address>{address}</Address>
+      <PhoneNumber>{phoneNumber}</PhoneNumber>
+    </AdditionalInfoWrapper>
   </ResultItemContainer>
 );
 
