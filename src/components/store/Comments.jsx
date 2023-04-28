@@ -207,7 +207,7 @@ const Comments = ({ addComment, deleteComment }) => {
   };
 
   const handleProfileClick = nickname => () => {
-    navigate(`/profile/:${nickname}`, { state: pathname });
+    navigate(`/profile/${nickname}`, { state: pathname });
   };
 
   const handlePageBtnClick = page => () => {

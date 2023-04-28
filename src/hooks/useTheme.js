@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import themeState from '../recoil/atoms/theme';
+import themeState from '../recoil/atoms/themeState';
 
 // theme 변경할 때 toggleTheme 사용
 const useTheme = () => {

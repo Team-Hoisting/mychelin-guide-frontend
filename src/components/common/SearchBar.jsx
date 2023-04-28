@@ -3,7 +3,7 @@ import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { searchInputState } from '../../recoil/atoms';
+import { searchInputState, categoryState } from '../../recoil/atoms';
 import { fetchSearchedStores } from '../../api/stores';
 import { useDebounce, useOnClickOutside } from '../../hooks';
 
@@ -72,6 +72,10 @@ const DropdownResult = styled.li`
   font-size: 18px;
   border-bottom: 0.5px solid #e8e8e8;
 
+  :last-of-type {
+    border-bottom: none;
+  }
+
   :hover {
     color: var(--primary-color);
   }
@@ -79,6 +83,32 @@ const DropdownResult = styled.li`
   :focus {
     outline: 1px solid #e8e8e8;
     color: var(--primary-color);
+  }
+`;
+
+const NoMatch = styled.div`
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+`;
+
+const NoMatchMessage = styled.p`
+  margin: 0;
+  font-weight: 300;
+`;
+
+const RegisterSuggestion = styled.p`
+  margin: 10px 0 0 0;
+  font-weight: 400;
+  text-decoration: underline;
+  cursor: pointer;
+
+  :hover {
+    font-weight: 500;
   }
 `;
 
@@ -94,6 +124,7 @@ const SearchBar = ({
   const [openDropdown, setOpenDropdown] = React.useState(false);
   const dropdownRef = useOnClickOutside(() => setOpenDropdown(false));
   const setSearchInput = useSetRecoilState(searchInputState);
+  const setCategory = useSetRecoilState(categoryState);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -106,6 +137,7 @@ const SearchBar = ({
     setSearchInput(userSearch);
     if (pathname !== '/') navigate('/');
 
+    setCategory('AL00');
     setOpenDropdown(false);
   };
 
@@ -114,7 +146,7 @@ const SearchBar = ({
 
     if (!userSearch) {
       setOpenDropdown(false);
-      setSearchInput(null);
+      setSearchInput('');
 
       return;
     }
@@ -128,9 +160,7 @@ const SearchBar = ({
   const debouncedSearchHandler = useDebounce(handleSearchChange, 330);
 
   const handleRefocus = e => {
-    if (e.target.value.trim()) {
-      debouncedSearchHandler(e);
-    }
+    if (e.target.value.trim()) debouncedSearchHandler(e);
   };
 
   const alterFocus = (e, storeId) => {
@@ -178,13 +208,20 @@ const SearchBar = ({
       </SearchForm>
       {hasDropdown && openDropdown && (
         <Dropdown ref={dropdownRef}>
-          {dropdownStores.map(({ storeName, storeId }) => (
-            <DropdownResult key={storeName} tabIndex="0" onKeyDown={e => alterFocus(e, storeId)}>
-              <Link to={`/store/${storeId}`}>
-                <div>{storeName}</div>
-              </Link>
-            </DropdownResult>
-          ))}
+          {dropdownStores.length ? (
+            dropdownStores.map(({ storeName, storeId }) => (
+              <DropdownResult key={storeName} tabIndex="0" onKeyDown={e => alterFocus(e, storeId)}>
+                <Link to={`/store/${storeId}`}>
+                  <div>{storeName}</div>
+                </Link>
+              </DropdownResult>
+            ))
+          ) : (
+            <NoMatch>
+              <NoMatchMessage>결과가 없습니다.</NoMatchMessage>
+              <RegisterSuggestion>맛집을 공유하고 최초 투표자가 되어보세요!</RegisterSuggestion>
+            </NoMatch>
+          )}
         </Dropdown>
       )}
     </Container>

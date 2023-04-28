@@ -8,7 +8,7 @@ import { userState, searchInputState, categoryState } from '../../recoil/atoms';
 import { logout } from '../../api/auth';
 import Responsive from './Responsive';
 import { SearchBar } from './index';
-import themeState from '../../recoil/atoms/theme';
+import themeState from '../../recoil/atoms/themeState';
 import { useOnClickOutside } from '../../hooks';
 
 const Container = styled.div`

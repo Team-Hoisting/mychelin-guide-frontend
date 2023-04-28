@@ -40,7 +40,7 @@ const SearchMapPage = () => {
           placeholder="당신만의 맛집을 알려주세요!"
           defaultValue={keyword}
           inputRef={inputRef}
-          width="600px"
+          width="500px"
           submitHandler={() => {
             keywordSearch(inputRef.current.value);
           }}
