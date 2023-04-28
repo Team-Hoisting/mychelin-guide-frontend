@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BiLink } from 'react-icons/bi';
 
 const Container = styled.div`
   display: flex;
@@ -9,55 +8,31 @@ const Container = styled.div`
 
 const ProfileImg = styled.img`
   margin: 15px;
-  width: 100px;
+  width: 130px;
   height: 100%;
 `;
 
-const ProfileInfoBox = styled.div``;
-
-const NickName = styled.h4`
+const NickName = styled.div`
   display: flex;
-  margin: 30px 0 5px;
-  font-size: 20px;
+  margin: auto 5px;
+  font-size: 30px;
+  font-weight: 500;
   line-height: 100%;
 `;
 
 const CertifiedIcon = styled.img.attrs({ src: '/images/certified.png' })`
-  margin: auto 2px;
-  height: 20px;
-`;
-
-const RecommendationLinkBox = styled.div`
-  display: flex;
-`;
-
-const LinkIcon = styled(BiLink)`
-  margin: auto 0;
-  width: 20px;
-  height: 20px;
-`;
-
-const RecommendationLink = styled.span`
-  margin: 5px;
-  height: 15px;
-  font-size: 15px;
-  line-height: 100%;
+  margin: auto 5px;
+  height: 30px;
 `;
 
 // imgUrl, nickname, isCertified, link
 const ProfileHeader = ({ profileUserNickname, isCertified }) => (
   <Container>
     <ProfileImg src="/images/star-light.png" />
-    <ProfileInfoBox>
-      <NickName>
-        {profileUserNickname}
-        {isCertified && <CertifiedIcon />}
-      </NickName>
-      <RecommendationLinkBox>
-        <LinkIcon />
-        <RecommendationLink>link</RecommendationLink>
-      </RecommendationLinkBox>
-    </ProfileInfoBox>
+    <NickName>
+      {profileUserNickname}
+      {isCertified && <CertifiedIcon />}
+    </NickName>
   </Container>
 );
 

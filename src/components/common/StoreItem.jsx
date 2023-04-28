@@ -74,13 +74,13 @@ const Placeholder = styled.div`
   width: 100px;
 `;
 
-const StoreItem = ({ storeName = '', imgUrl = '', starCount = 0, votesByCategory = {} }) => {
+const StoreItem = ({ storeId = '', storeName = '', imgUrl = '', starCount = 0, votesByCategory = {} }) => {
   const theme = useRecoilValue(themeState);
 
   return (
     <>
       <Container>
-        <Link to="/detail">
+        <Link to={`/store/${storeId}`}>
           <ImageContainer imgUrl={imgUrl}>
             <Img src={imgUrl} />
           </ImageContainer>
