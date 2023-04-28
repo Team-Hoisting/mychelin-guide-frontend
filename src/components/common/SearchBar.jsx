@@ -72,6 +72,10 @@ const DropdownResult = styled.li`
   font-size: 18px;
   border-bottom: 0.5px solid #e8e8e8;
 
+  :last-of-type {
+    border-bottom: none;
+  }
+
   :hover {
     color: var(--primary-color);
   }
