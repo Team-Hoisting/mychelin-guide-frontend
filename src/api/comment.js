@@ -1,12 +1,17 @@
 import axios from 'axios';
+import COMMENTS_FETCH_SIZE from '../constants/commentsFetchSize';
 
 const url = `/api/comments`;
 
-const fetchComment = storeid => async () => {
-  const response = await axios.get(`${url}/${storeid}`);
+const fetchComments =
+  (id, pageParam = 1) =>
+  async () => {
+    const url = `/api/comments/${id}?page=${pageParam}&pageSize=${COMMENTS_FETCH_SIZE}`;
 
-  return response.data;
-};
+    const { data } = await axios.get(url);
+
+    return data;
+  };
 
 const postComment =
   ({ storeId, content, email }) =>
@@ -14,9 +19,4 @@ const postComment =
     await axios.post(url, { storeId, email, content });
   };
 
-const fetchComments = () => async () => {
-  const response = await axios.get(url);
-  return response.data;
-};
-
-export { fetchComment, fetchComments, postComment };
+export { fetchComments, postComment };

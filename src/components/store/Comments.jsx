@@ -2,13 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { CgProfile } from 'react-icons/cg';
 import { Divider } from '@mantine/core';
+
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { Button, Loader } from '../common/index';
 import userState from '../../recoil/atoms/userState';
+
 import { commentQueryKey, COMMENTS_FETCH_SIZE } from '../../constants/index';
+import { fetchComments } from '../../api/comment';
 
 const CommentsContainer = styled.div`
   font-size: 18px;
@@ -142,31 +144,21 @@ const NextButton = styled(PageButton)`
 
 const Comments = ({ addComment, deleteComment }) => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const user = useRecoilValue(userState);
+
   const [currentPage, setCurrentPage] = React.useState(1);
   const [page, setPage] = React.useState(1);
-
-  // ref로 ?
   const [content, setContent] = React.useState('');
-
-  const fetchComments =
-    (pageParam = 1) =>
-    async () => {
-      const url = `/api/comments/${id}?page=${pageParam}&pageSize=${COMMENTS_FETCH_SIZE}`;
-
-      const { data } = await axios.get(url);
-
-      return data;
-    };
 
   const commentQuery = storeid => ({
     queryKey: [...commentQueryKey, storeid, currentPage],
-    queryFn: fetchComments(currentPage),
+    queryFn: fetchComments(id, currentPage),
   });
 
   const { data, isLoading } = useQuery(commentQuery(id));
+
   if (isLoading) return <Loader />;
 
   const { data: commentsData, totalPages } = data;
@@ -235,7 +227,7 @@ const Comments = ({ addComment, deleteComment }) => {
           <CommentBtn onClick={handleCommentBtnClick}>등록하기</CommentBtn>
         </CommentPostContainer>
         <div>
-          {commentsData.map(({ commentId, email, nickname, isCertified, content }) => (
+          {commentsData?.map(({ commentId, email, nickname, isCertified, content }) => (
             <Comment key={commentId}>
               <User>
                 <Profile onClick={handleProfileClick(nickname)} />
@@ -249,7 +241,7 @@ const Comments = ({ addComment, deleteComment }) => {
         </div>
         <ButtonContainer className="container">
           <ButtonGroup className="buttoncontainer">
-            {page !== 1 && <PrevButton onClick={handlePrevBtnClick}>Prev</PrevButton>}
+            {commentsData.length > 0 && page !== 1 && <PrevButton onClick={handlePrevBtnClick}>Prev</PrevButton>}
             {currentPages.map(
               pageNum =>
                 pageNum <= totalPages && (
@@ -258,7 +250,7 @@ const Comments = ({ addComment, deleteComment }) => {
                   </PageButton>
                 )
             )}
-            {page !== Math.ceil(totalPages / COMMENTS_FETCH_SIZE) && (
+            {commentsData.length > 0 && page !== Math.ceil(totalPages / COMMENTS_FETCH_SIZE) && (
               <NextButton onClick={handleNextBtnClick}>Next</NextButton>
             )}
           </ButtonGroup>
