@@ -4,12 +4,14 @@ import { themeState } from '../../recoil/atoms';
 
 const Container = styled.footer`
   height: 4rem;
+  margin-top: 50px;
   padding: 0.5rem;
   display: flex;
   gap: 40px;
   justify-content: center;
   align-items: center;
   background-color: var(--bg-secondary-color);
+  box-shadow: 0px -0.1rem 4px rgba(0, 0, 0, 0.08);
 `;
 
 const Copyright = styled.p`
