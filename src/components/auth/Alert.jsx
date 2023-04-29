@@ -14,7 +14,7 @@ const Text = styled.span`
   padding: 0 2rem;
 `;
 
-const LoginFailAlert = ({ close }) => {
+const AlertContainer = ({ close, type }) => {
   React.useEffect(() => {
     setTimeout(close, 2000);
   }, [close]);
@@ -31,10 +31,10 @@ const LoginFailAlert = ({ close }) => {
             // border: '1px solid #d21312',
           },
         })}>
-        <Text>이메일 또는 비밀번호를 확인해주세요!</Text>
+        <Text>{type === 'login' ? '이메일 또는 비밀번호를 확인해주세요!' : '회원정보 수정이 완료되었습니다!'}</Text>
       </Alert>
     </Container>
   );
 };
 
-export default LoginFailAlert;
+export default AlertContainer;
