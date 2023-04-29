@@ -15,7 +15,7 @@ const Title = styled.h2`
   padding-bottom: 1rem;
   font-size: 1.5rem;
   margin-bottom: 3rem;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid #d21312;
 `;
 
 const AvatarWrapper = styled.div`

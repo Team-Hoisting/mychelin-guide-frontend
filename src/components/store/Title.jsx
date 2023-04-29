@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { Modal } from '../common/index';
+// import { Modal } from '../common/index';
+import NewModal from '../common/NewModal';
 import userState from '../../recoil/atoms/userState';
 import themeState from '../../recoil/atoms/themeState';
 
@@ -101,7 +102,7 @@ const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archi
             )}
             <ArchivedCnt>{archivedCntState}</ArchivedCnt>
           </Bookmark>
-          <Modal storeId={storeId} width="120px" />
+          <NewModal storeId={storeId} width="120px" />
         </Side>
       </Container>
     </>
