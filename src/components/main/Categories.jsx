@@ -7,7 +7,7 @@ import categoryCodes from '../../constants/categoryCodes';
 import { CategoryBox } from '../common';
 
 const Container = styled.div`
-  height: 100px;
+  height: 80px;
   padding: 15px;
   margin: 20px 0 20px 0;
   display: grid;
@@ -29,6 +29,7 @@ const Categories = () => {
           key={categoryInfo[code].ko}
           clickHandler={() => setCategory(code)}
           selected={category === code}
+          iconWidth="35%"
         />
       ))}
     </Container>

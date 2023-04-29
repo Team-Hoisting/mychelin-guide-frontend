@@ -10,10 +10,6 @@ const EachCategoryBox = styled.div`
   ${({ changeOnHover }) =>
     changeOnHover &&
     `
-      :hover::after {
-          content: ;
-        }
-
         :hover > img {
           scale: 1.1;
           transition: 0.1s ease-in-out;
@@ -27,7 +23,7 @@ const EachCategoryBox = styled.div`
 `;
 
 const CategoryIcon = styled.img`
-  width: 50%;
+  width: ${({ width }) => width && width};
   transition: 0.1s ease-in-out;
 `;
 
@@ -50,13 +46,21 @@ const SelectedIcon = styled(AiOutlineLine)`
  * @param {} Props: Required: { categoryImgFile, categoryName, colored }, Optional: { selected, clickHandler, changeOnHover }
  * @returns Component that contains the appropriate icon and name of the category
  */
-const CategoryBox = ({ clickHandler, categoryImgFile, categoryName, colored, selected, changeOnHover = true }) => {
+const CategoryBox = ({
+  clickHandler,
+  categoryImgFile,
+  categoryName,
+  colored,
+  selected,
+  changeOnHover = true,
+  iconWidth = '50%',
+}) => {
   const imgSrc = `/categoryIcons/${colored ? '' : 'noColor/'}${categoryImgFile}.png`;
 
   return (
     <EachCategoryBox onClick={clickHandler} changeOnHover={changeOnHover}>
       <SelectedIcon selected={selected} />
-      <CategoryIcon src={imgSrc} alt={`${categoryName}`} />
+      <CategoryIcon src={imgSrc} alt={`${categoryName}`} width={iconWidth} />
       <CategoryName selected={selected}>{categoryName}</CategoryName>
     </EachCategoryBox>
   );
