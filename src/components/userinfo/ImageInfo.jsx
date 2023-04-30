@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
+import axios from 'axios';
 import { userState } from '../../recoil/atoms';
 import Button from './Button';
 
@@ -47,16 +48,41 @@ const NicknameBox = styled.div`
 
 const Information = () => {
   const user = useRecoilValue(userState);
+  const imageRef = React.useRef(null);
+
+  const uploadImage = async e => {
+    try {
+      const [fileToUpload] = e.target.files;
+      const formData = new FormData();
+      formData.append('img', fileToUpload);
+
+      const res = await axios.post('/api/upload', formData);
+
+      console.log(res);
+      if (res.status !== 200) throw new Error(res.statusText);
+
+      const { success, file } = res.data;
+
+      console.log(file);
+
+      if (success) {
+        console.log('이미지 업로드 완료', file);
+        imageRef.current.src = `/img/${file.originalname}`;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <Container>
       <Title>프로필 정보</Title>
       <AvatarWrapper>
-        <Avatar src="https://via.placeholder.com/100" alt="avatar" />
+        <Avatar src="https://via.placeholder.com/100" alt="avatar" ref={imageRef} />
         <NicknameBox>
           <div className="nickname">{user.nickname}</div>
           <div className="btn-group">
-            <Button>이미지 변경</Button>
+            <input type="file" accept="image/*" onChange={uploadImage} />
             <Button>삭제</Button>
           </div>
         </NicknameBox>
