@@ -8,17 +8,11 @@ const fetchStores = async url => {
   return response.data;
 };
 
-const fetchSearchedStores = async userSearch => {
-  const response = await axios.get(`${url}/search?usersearch=${userSearch}`);
+const fetchSearchedStores = async keyword => {
+  const response = await axios.get(`${url}/search?keyword=${keyword}`);
 
   return response.data;
 };
-
-// const fetchStoreItem = async id => {
-//   const response = await axios.get(`${url}/${id}`);
-
-//   return response.data;
-// };
 
 const fetchStore = storeid => async () => {
   const response = await axios.get(`${url}/${storeid}`);

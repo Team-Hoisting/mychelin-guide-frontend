@@ -100,8 +100,8 @@ const SideBanner = () => {
                 <VotedCategoryItem
                   key={categoryCodes[categoryIdx]}
                   categoryCode={categoryCodes[categoryIdx]}
-                  storeId={votedStoresInfo?.[categoryCodes[categoryIdx]].storeId}
-                  storeImg={votedStoresInfo?.[categoryCodes[categoryIdx]].imgUrl}
+                  storeId={votedStoresInfo?.[categoryCodes[categoryIdx]]?.storeId}
+                  storeImg={votedStoresInfo?.[categoryCodes[categoryIdx]]?.imgUrl}
                 />
               ))}
             </SlideContainer>

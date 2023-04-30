@@ -14,15 +14,16 @@ const StorePositionMap = ({ x, y }) => {
   useEffect(() => {
     const storePosition = new kakao.maps.LatLng(y, x);
 
+    mapRef.current = new kakao.maps.Map(mapContainerRef.current, {
+      center: storePosition,
+      level: 3,
+    });
+
     const marker = new kakao.maps.Marker({
       position: storePosition,
     });
 
-    mapRef.current = new kakao.maps.StaticMap(mapContainerRef.current, {
-      center: storePosition,
-      level: 3,
-      marker,
-    });
+    marker.setMap(mapRef.current);
   }, []);
 
   return <Container ref={mapContainerRef} />;

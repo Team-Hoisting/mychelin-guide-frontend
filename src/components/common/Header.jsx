@@ -161,7 +161,7 @@ const Header = () => {
                 alt="마이슐랭 가이드 로고"
                 onClick={() => {
                   setSearchInput('');
-                  if (searchBarRef.current.value) searchBarRef.current.value = '';
+                  if (searchBarRef.current?.value) searchBarRef.current.value = '';
                   setCategoryState('AL00');
                 }}
               />
