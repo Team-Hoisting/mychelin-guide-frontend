@@ -29,7 +29,7 @@ const ButtonWithIncreased = styled(Button)`
   font-size: 0.9rem;
 `;
 
-const Editor = ({ type, onClose, formSchema, defaultValues }) => {
+const Editor = ({ type, onClose, formSchema, defaultValues, setIsSuccess }) => {
   const {
     control,
     handleSubmit,
@@ -48,13 +48,27 @@ const Editor = ({ type, onClose, formSchema, defaultValues }) => {
 
   const onSubmit = async () => {
     const values = getValues();
-
     delete values.confirmPassword;
 
-    await editUserInfo(user.nickname, values)();
-    await logout();
-    setUser(null);
-    navigate('/signin');
+    try {
+      const editedUser = await editUserInfo(user.nickname, values);
+
+      if (type !== 'nickname') {
+        await logout();
+
+        setTimeout(() => {
+          navigate('/signin');
+          setUser(null);
+        }, 500);
+      } else {
+        setUser(editedUser);
+      }
+      setIsSuccess(true);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      onClose();
+    }
   };
 
   return (

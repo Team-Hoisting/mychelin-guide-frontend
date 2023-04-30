@@ -5,7 +5,7 @@ import userState from '../../recoil/atoms/userState';
 import { signIn } from '../../api/auth';
 import { signinSchema } from '../../schema';
 import AuthForm from './AuthForm';
-import LoginFailAlert from './LoginFailAlert';
+import LoginFailAlert from './Alert';
 
 const defaultValues = {
   email: '',
@@ -37,7 +37,7 @@ const LoginForm = () => {
   return (
     <>
       <AuthForm type="login" formSchema={signinSchema} defaultValues={defaultValues} request={onSubmit} />
-      {isFailedLogin && <LoginFailAlert close={() => setIsFailedLogin(false)} />}
+      {isFailedLogin && <LoginFailAlert type="login" close={() => setIsFailedLogin(false)} />}
     </>
   );
 };
