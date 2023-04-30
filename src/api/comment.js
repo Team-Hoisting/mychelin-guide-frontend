@@ -6,7 +6,7 @@ const url = `/api/comments`;
 const fetchComments =
   (storeId, pageParam = 1) =>
   async () => {
-    const url = `/api/comments/${storeId}?page=${pageParam}&pageSize=${COMMENTS_FETCH_SIZE}`;
+    const url = `/api/comments/${storeId}?page=${pageParam}&page_size=${COMMENTS_FETCH_SIZE}`;
 
     const { data } = await axios.get(url);
 

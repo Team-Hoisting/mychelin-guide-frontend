@@ -17,13 +17,7 @@ const useCommentsMutation = ({ id, currentPage }) => {
   const { mutate: deleteComment } = useDataMutation({
     mutationFn: commentId => axios.delete(`${url}/${commentId}`),
     onMutate(id) {
-      return comments => {
-        console.log(
-          'in delete mutation: ',
-          comments.data.filter(comment => comment.commentId !== id)
-        );
-        return comments.data.filter(comment => comment.commentId !== id);
-      };
+      return comments => comments.data.filter(comment => comment.commentId !== id);
     },
     queryKey: [...commentQueryKey, id, currentPage],
   });

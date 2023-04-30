@@ -3,38 +3,15 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import useDataMutation from './useDataMutaiton';
 import userState from '../recoil/atoms/userState';
-import { commentQueryKey, archiveQueryKey } from '../constants/index';
+import { archiveQueryKey } from '../constants/index';
 
-const url = `/api/comments`;
 const archiveURL = '/api/archives';
 
-const useStoreDetailMutations = ({ id, setArchiveCntState }) => {
+const useArchivesMutation = ({ id, setArchiveCntState }) => {
   const [user, setUser] = useRecoilState(userState);
 
-  const { mutate: addComment } = useDataMutation({
-    mutationFn: newComment => axios.post(url, newComment),
-    onMutate(newComment) {
-      return comments => [newComment, ...comments.data];
-    },
-    queryKey: [...commentQueryKey, id],
-  });
-
-  const { mutate: deleteComment } = useDataMutation({
-    mutationFn: commentId => axios.delete(`${url}/${commentId}`),
-    onMutate(id) {
-      return comments => {
-        console.log(
-          'in delete mutation: ',
-          comments.data.filter(comment => comment.commentId !== id)
-        );
-        return comments.data.filter(comment => comment.commentId !== id);
-      };
-    },
-    queryKey: [...commentQueryKey, id],
-  });
-
   const { mutate: addBookMark } = useDataMutation({
-    mutationFn: newBookMark => axios.post(`${archiveURL}/archive`, newBookMark),
+    mutationFn: newBookMark => axios.post(`${archiveURL}`, newBookMark),
     onMutate(newBookMark) {
       return () => {
         // eslint-disable-next-line no-unsafe-optional-chaining
@@ -48,7 +25,7 @@ const useStoreDetailMutations = ({ id, setArchiveCntState }) => {
   });
 
   const { mutate: deleteBookMark } = useDataMutation({
-    mutationFn: bookMarkToDelete => axios.post(`${archiveURL}/unarchive`, bookMarkToDelete),
+    mutationFn: bookMarkToDelete => axios.delete(`${archiveURL}`, bookMarkToDelete),
     onMutate(bookMarkToDelete) {
       return () => {
         // eslint-disable-next-line no-unsafe-optional-chaining
@@ -65,7 +42,7 @@ const useStoreDetailMutations = ({ id, setArchiveCntState }) => {
     queryKey: [...archiveQueryKey, id, user?.email],
   });
 
-  return { addComment, deleteComment, addBookMark, deleteBookMark };
+  return { addBookMark, deleteBookMark };
 };
 
-export default useStoreDetailMutations;
+export default useArchivesMutation;

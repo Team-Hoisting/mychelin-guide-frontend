@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { CgProfile } from 'react-icons/cg';
 
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import Skeleton from 'react-loading-skeleton';
 import { Button } from '../common/index';
