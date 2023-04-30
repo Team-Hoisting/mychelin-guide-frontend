@@ -19,15 +19,11 @@ const Container = styled.div`
   }
 `;
 
-const UserInfoPage = () => {
-  console.log('');
-
-  return (
-    <Container>
-      <ImageInfo />
-      <LoginInfo />
-    </Container>
-  );
-};
+const UserInfoPage = () => (
+  <Container>
+    <ImageInfo />
+    <LoginInfo />
+  </Container>
+);
 
 export default UserInfoPage;

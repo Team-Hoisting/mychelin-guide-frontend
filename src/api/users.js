@@ -3,13 +3,13 @@ import axios from 'axios';
 const url = `/api/users`;
 
 const fetchUserProfileInfoByNickname = nickname => async () => {
-  const response = await axios.get(`${url}/${nickname}/profile`);
+  const response = await axios.get(`${url}/${nickname}`);
 
   return response.data;
 };
 
 const changeVotedCategoryOrder = (nickname, newOrder) => {
-  axios.post(`${url}/${nickname}/votedcategoryorder`, { votedCategoryOrder: newOrder });
+  axios.patch(`${url}/${nickname}/votedcategoryorder`, { votedCategoryOrder: newOrder });
 };
 const editUserInfo = async (nickname, content) => {
   const response = await axios.patch(`${url}/${nickname}`, content);
