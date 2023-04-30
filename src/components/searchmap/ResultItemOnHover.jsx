@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Button } from '../common';
 import { fetchStore } from '../../api/stores';
+import NewModal from '../common/NewModal';
 
 const Container = styled.main`
   z-index: 9999;
@@ -64,7 +65,9 @@ const ResultItemOnHover = ({ storeId }) => {
           <InfoText>등록되지 않은 식당입니다.</InfoText>
         )}
 
-        <RoundedButton red>투표하기</RoundedButton>
+        <NewModal storeId={storeId} width="120px">
+          투표하기
+        </NewModal>
       </ButtonContainer>
     </Container>
   );

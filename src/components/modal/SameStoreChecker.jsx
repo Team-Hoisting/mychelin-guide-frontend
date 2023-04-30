@@ -20,11 +20,31 @@ const Container = styled.div`
 
 const Title = styled.h3`
   color: red;
+  font-size: 1.5rem;
+  font-weight: 700;
 `;
 
-const Text = styled.p`
-  margin: 1rem 0;
+const MessageBox = styled.div``;
+
+const Message = styled.p`
+  margin: 0;
   padding: 0;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+
+  .main-color {
+    color: #d21312;
+  }
+
+  .red {
+    color: red;
+    font-size: 1.2rem;
+  }
+
+  .em {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
 `;
 
 const SameStoreChecker = ({ storeId, setIsOpened, setTaskQueue, setPhase }) => {
@@ -48,11 +68,19 @@ const SameStoreChecker = ({ storeId, setIsOpened, setTaskQueue, setPhase }) => {
   return (
     <Container>
       <Title>매장 중복</Title>
-      <Text>하나의 매장에는 하나의 투표만 부여할 수 있습니다.</Text>
-      <Text>
-        {store.storeName}은 이미 {categoryInfo[prevCategoryCode]?.ko} 카테고리로 투표되어 있습니다.
-      </Text>
-      <Text>기존 투표를 삭제하시겠습니까?</Text>
+      <MessageBox>
+        <Message>
+          <span className="main-color">마이슐랭 가이드</span>는 <span className="em">하나의 매장</span>에{' '}
+          <span className="em">하나의 투표</span>만 부여할 수 있습니다.
+        </Message>
+        <Message>
+          <span className="em">&quot;{store.storeName}&quot;</span>은{' '}
+          <span className="em">&quot;{categoryInfo[prevCategoryCode]?.ko}&quot;</span> 카테고리로 투표되어 있습니다.
+        </Message>
+        <Message>
+          <span className="red">기존 투표를 삭제하시겠습니까?</span>
+        </Message>
+      </MessageBox>
       <ButtonGroup
         leftText="확인"
         rightText="취소"

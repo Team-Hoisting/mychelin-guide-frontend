@@ -30,8 +30,17 @@ const Selector = styled.div`
   font-size: 10px;
 `;
 
+const ErrorMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+  height: 50px;
+  color: red;
+  font-weight: 700;
+`;
+
 const TextBox = styled.div`
-  margin-top: 5rem;
+  margin-top: 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,6 +48,7 @@ const TextBox = styled.div`
   p {
     margin: 0;
     margin-bottom: 1rem;
+    font-size: 1.2rem;
   }
 
   .em {
@@ -84,6 +94,9 @@ const CategorySelector = ({ setIsOpened, setPhase, setTaskQueue, storeId, catego
     }
   };
 
+  const isDuplicate = storeId === voteStatus.find(vote => vote.categoryCode === categoryCode)?.storeId;
+  console.log('[isDuplicate]: ', isDuplicate);
+
   return (
     <Container>
       <StoreInfo>
@@ -117,6 +130,7 @@ const CategorySelector = ({ setIsOpened, setPhase, setTaskQueue, storeId, catego
           );
         })}
       </Selector>
+      <ErrorMessage>{isDuplicate && '중복'}</ErrorMessage>
       <TextBox>
         <p>카테고리당 1곳만 투표할 수 있습니다.</p>
         <p>
@@ -124,7 +138,7 @@ const CategorySelector = ({ setIsOpened, setPhase, setTaskQueue, storeId, catego
         </p>
       </TextBox>
       <ButtonGroup
-        isDisable={categoryCode === 'none'}
+        isDisable={categoryCode === 'none' || isDuplicate}
         leftText="투표하기"
         rightText="취소하기"
         onNext={onNext}
