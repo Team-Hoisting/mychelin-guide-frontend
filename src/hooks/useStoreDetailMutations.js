@@ -14,7 +14,7 @@ const useStoreDetailMutations = ({ id, setArchiveCntState }) => {
   const { mutate: addComment } = useDataMutation({
     mutationFn: newComment => axios.post(url, newComment),
     onMutate(newComment) {
-      return comments => [newComment, ...comments];
+      return comments => [newComment, ...comments.data];
     },
     queryKey: [...commentQueryKey, id],
   });
@@ -22,7 +22,13 @@ const useStoreDetailMutations = ({ id, setArchiveCntState }) => {
   const { mutate: deleteComment } = useDataMutation({
     mutationFn: commentId => axios.delete(`${url}/${commentId}`),
     onMutate(id) {
-      return comments => comments.filter(comment => comment.commentId !== id);
+      return comments => {
+        console.log(
+          'in delete mutation: ',
+          comments.data.filter(comment => comment.commentId !== id)
+        );
+        return comments.data.filter(comment => comment.commentId !== id);
+      };
     },
     queryKey: [...commentQueryKey, id],
   });
@@ -31,6 +37,7 @@ const useStoreDetailMutations = ({ id, setArchiveCntState }) => {
     mutationFn: newBookMark => axios.post(`${archiveURL}/archive`, newBookMark),
     onMutate(newBookMark) {
       return () => {
+        // eslint-disable-next-line no-unsafe-optional-chaining
         const newUser = { ...user, archived: [...user?.archived, newBookMark] };
         setUser(newUser);
         setArchiveCntState(prev => prev + 1);
@@ -44,6 +51,7 @@ const useStoreDetailMutations = ({ id, setArchiveCntState }) => {
     mutationFn: bookMarkToDelete => axios.post(`${archiveURL}/unarchive`, bookMarkToDelete),
     onMutate(bookMarkToDelete) {
       return () => {
+        // eslint-disable-next-line no-unsafe-optional-chaining
         const [{ seq: deleteSeq }] = user?.archived.filter(
           arc => arc.storeId === bookMarkToDelete.storeId && arc.email === user?.email
         );

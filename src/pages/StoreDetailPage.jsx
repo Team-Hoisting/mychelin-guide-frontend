@@ -35,7 +35,7 @@ const StoreDetailPage = () => {
             archivedCntState={archivedCntState}
             setArchiveCntState={setArchiveCntState}
           />
-          <Comments addComment={addComment} deleteComment={deleteComment} />
+          <Comments />
         </Center>
       </Container>
     </SkinnyContainer>
