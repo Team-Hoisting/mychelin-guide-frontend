@@ -14,6 +14,7 @@ const fetchVotesByNickname = nickname => async () => {
   return response.data;
 };
 
+// 구 모달 api
 const fetchPrevStore = (nickname, categoryCode) => async () => {
   const response = await axios.get(`${url}/${nickname}/${categoryCode}`);
 

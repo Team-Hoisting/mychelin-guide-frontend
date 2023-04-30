@@ -13,19 +13,15 @@ const Control = styled(Button)`
   width: 70%;
 `;
 
-const ButtonGroup = ({ onNext, onClose, leftText, rightText, mt, isDisable }) => {
-  console.log('');
-
-  return (
-    <Container mt={mt}>
-      <Control red thirty onClick={onNext} disabled={isDisable}>
-        {leftText}
-      </Control>
-      <Control thirty onClick={onClose}>
-        {rightText}
-      </Control>
-    </Container>
-  );
-};
+const ButtonGroup = ({ onNext, onClose, leftText, rightText, mt, isDisable }) => (
+  <Container mt={mt}>
+    <Control red thirty onClick={onNext} disabled={isDisable}>
+      {leftText}
+    </Control>
+    <Control thirty onClick={onClose}>
+      {rightText}
+    </Control>
+  </Container>
+);
 
 export default ButtonGroup;
