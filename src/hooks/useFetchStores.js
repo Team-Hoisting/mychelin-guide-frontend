@@ -6,10 +6,10 @@ import { storesQueryKey, STORES_FETCH_SIZE } from '../constants';
 
 const useFetchStores = () => {
   const category = useRecoilValue(categoryState);
-  const userSearch = useRecoilValue(searchInputState);
+  const keyword = useRecoilValue(searchInputState);
 
   const storeFetcher = async pageParams => {
-    const url = `/api/stores?usersearch=${userSearch}&category=${
+    const url = `/api/stores?keyword=${keyword}&categoryCode=${
       category === 'AL00' ? '' : category
     }&page=${pageParams}&page_size=${STORES_FETCH_SIZE}`;
 
@@ -20,13 +20,11 @@ const useFetchStores = () => {
 
   // prettier-ignore
   const { data, isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: [...storesQueryKey, category, userSearch], 
+    queryKey: [...storesQueryKey, category, keyword], 
     queryFn: ({ pageParam = 1 }) => storeFetcher(pageParam),
     getNextPageParam: (lastPage, allPages) =>
     lastPage.length === STORES_FETCH_SIZE ? allPages.length + 1 : undefined,
   });
-
-  console.log('[CUSTOM HOOK]', data);
 
   return { data, isLoading, fetchNextPage, hasNextPage };
 };

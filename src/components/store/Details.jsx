@@ -29,7 +29,7 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
 
   React.useEffect(() => {
     if (isLoading) return;
-    setArchiveCntState(storeData?.archivedCnt);
+    setArchiveCntState(storeData?.archivesCount);
   }, [isLoading]);
 
   if (isLoading) return <Loader />;
@@ -39,7 +39,7 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
       <Title
         storeId={storeData.storeId}
         storeName={storeData.storeName}
-        starCnt={storeData.starCnt}
+        starCnt={storeData.starsCount}
         addBookMark={addBookMark}
         deleteBookMark={deleteBookMark}
         archivedCntState={archivedCntState}
@@ -48,7 +48,7 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
         최초 투표자 : <UserName>{storeData.firstVoteUser}</UserName>
       </FirstVoteUser>
       <DetailSide store={storeData} />
-      <Votes voteCnt={storeData.voteCnt} />
+      <Votes voteCnt={storeData.votesCount} />
     </StoreDetailContainer>
   );
 };
