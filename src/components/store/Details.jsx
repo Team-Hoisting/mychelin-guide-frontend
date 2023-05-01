@@ -21,19 +21,9 @@ const UserName = styled.span`
   font-weight: 700;
 `;
 
-/*
-  const { data: store, isLoading } = useQuery({
-    queryKey: ['store', storeId],
-    queryFn: fetchStore(storeId),
-    staleTime: 1000 * 3,
-  });
-
-*/
-
 const storeQuery = storeid => ({
   queryKey: [...storeQueryKey, storeid],
   queryFn: fetchStore(storeid),
-  staleTime: 1000 * 3,
 });
 
 const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBookMark }) => {

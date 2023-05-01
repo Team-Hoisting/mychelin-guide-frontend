@@ -58,7 +58,7 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId, st
             storeId={storeId}
           />
         )}
-        {phase === 'success' && <SuccessVerifier setTaskQueue={setTaskQueue} taskQueue={taskQueue} />}
+        {phase === 'success' && <SuccessVerifier storeId={storeId} setTaskQueue={setTaskQueue} taskQueue={taskQueue} />}
       </Modal>
       <Group position="center">
         <Button

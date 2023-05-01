@@ -80,9 +80,8 @@ const CategorySelector = ({
   const { email, voteStatus } = useRecoilValue(userState);
 
   const { data: store, isLoading } = useQuery({
-    queryKey: ['store', storeId],
+    queryKey: ['storeInfo', storeId],
     queryFn: fetchStore(storeId),
-    staleTime: 1000 * 3,
   });
 
   if (isLoading) return <></>;

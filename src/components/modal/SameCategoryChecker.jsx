@@ -78,8 +78,8 @@ const SameCategoryChecker = ({ storeId, store: storeInfo, categoryCode, setPhase
 
   const results = useQueries({
     queries: [
-      { queryKey: ['store', storeId], queryFn: fetchStore(storeId), staleTime: 1000 * 3 },
-      { queryKey: ['store', votedPrevStoreId], queryFn: fetchStore(votedPrevStoreId), staleTime: 1000 * 3 },
+      { queryKey: ['storeInfo', storeId], queryFn: fetchStore(storeId) },
+      { queryKey: ['storeInfo', votedPrevStoreId], queryFn: fetchStore(votedPrevStoreId) },
     ],
   });
 
