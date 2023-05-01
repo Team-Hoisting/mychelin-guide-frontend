@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Link } from 'react-router-dom';
 import { Button } from '../common';
-import { fetchStore } from '../../api/stores';
 import NewModal from '../common/NewModal';
 
 const Container = styled.main`
@@ -40,20 +38,6 @@ const InfoText = styled.p`
 `;
 
 const ResultItemOnHover = ({ storeId, isRegistered }) => (
-  // const [isRegistered, setIsRegistered] = useState(false);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const storeInfo = await fetchStore(storeId)();
-
-  //       setIsRegistered(!!storeInfo);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   })();
-  // }, []);
-
   <Container>
     <ButtonContainer>
       {isRegistered ? (
