@@ -94,7 +94,7 @@ const Image = styled.img.attrs({
   object-fit: cover;
 `;
 
-const DetailSide = ({ store: { imgUrl, x, y, address, phoneNumber } }) => {
+const DetailSide = ({ store: { storeId, x, y, address, phoneNumber } }) => {
   const [isImgLoading, setisImgLoading] = React.useState(true);
 
   const handleLoad = () => {
@@ -105,7 +105,7 @@ const DetailSide = ({ store: { imgUrl, x, y, address, phoneNumber } }) => {
     <>
       <ImageContainer className="imagecontainer">
         {isImgLoading && <ImageSkeleton />}
-        <Image src={imgUrl} onLoad={handleLoad} isImgLoading={isImgLoading} />
+        <Image src={`/img/stores/${storeId}`} onLoad={handleLoad} isImgLoading={isImgLoading} />
         <DetailContainer className="detail-container">
           <Map className="map">
             <StorePositionMap x={x} y={y} />
