@@ -2,7 +2,7 @@ import React from 'react';
 
 const { kakao } = window;
 
-const useMapwithMarkers = (result = []) => {
+const useMarkeredMap = (result = []) => {
   const mapRef = React.useRef(null);
   const mapContainerRef = React.useRef(null);
   const markersRef = React.useRef([]);
@@ -48,4 +48,4 @@ const useMapwithMarkers = (result = []) => {
   return mapContainerRef;
 };
 
-export default useMapwithMarkers;
+export default useMarkeredMap;

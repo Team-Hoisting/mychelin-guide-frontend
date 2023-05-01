@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { RiArrowUpSLine, RiArrowDownSLine } from 'react-icons/ri';
 import { ResultItem, ResultItemOnHover } from '.';
-import useMapwithMarkers from '../../hooks/useMapwithMarkers';
+import useMarkeredMap from '../../hooks/useMarkeredMap';
 
 const resultCodes = {
   0: 'A',
@@ -91,23 +91,19 @@ const ButtonContainer = styled.div`
 `;
 
 const PreviousPageBtn = ({ hasPrevPage, clickHandler }) => (
-  <>
-    <ButtonContainer onClick={clickHandler} hasPage={hasPrevPage}>
-      <RiArrowUpSLine />
-    </ButtonContainer>
-  </>
+  <ButtonContainer onClick={clickHandler} hasPage={hasPrevPage}>
+    <RiArrowUpSLine />
+  </ButtonContainer>
 );
 
 const NextPageBtn = ({ hasNextPage, clickHandler }) => (
-  <>
-    <ButtonContainer onClick={clickHandler} hasPage={hasNextPage}>
-      <RiArrowDownSLine />
-    </ButtonContainer>
-  </>
+  <ButtonContainer onClick={clickHandler} hasPage={hasNextPage}>
+    <RiArrowDownSLine />
+  </ButtonContainer>
 );
 
 const Result = ({ result, paginationRef }) => {
-  const mapContainerRef = useMapwithMarkers(result);
+  const mapContainerRef = useMarkeredMap(result);
 
   const gotoPreviousPage = () => {
     if (paginationRef.current.hasPrevPage) paginationRef.current.prevPage();
@@ -116,8 +112,6 @@ const Result = ({ result, paginationRef }) => {
   const gotoNextPage = () => {
     if (paginationRef.current.hasNextPage) paginationRef.current.nextPage();
   };
-
-  console.log(result);
 
   return (
     <Container>
