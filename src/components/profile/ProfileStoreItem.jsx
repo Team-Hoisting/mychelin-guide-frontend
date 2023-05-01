@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+// import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import styled, { keyframes, css } from 'styled-components';
 import { categoryInfo } from '../../constants';
 
@@ -69,15 +70,18 @@ const Img = styled.img`
 `;
 
 const StoreName = styled.p`
+  /* border: 1px solid red; */
   margin: 0;
   font-weight: 500;
   font-size: 20px;
+  overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 70%;
   white-space: nowrap;
   word-wrap: normal;
 `;
 
-const VotedStoreItem = ({ categoryCode, storeId, storeName, imgUrl, isEditing = false }) => (
+const ProfileStoreItem = ({ categoryCode, storeId, storeName, imgUrl, isEditing = false }) => (
   <Container isEditing={isEditing}>
     <Link to={`/store/${storeId}`}>
       <ImageContainer>
@@ -85,13 +89,15 @@ const VotedStoreItem = ({ categoryCode, storeId, storeName, imgUrl, isEditing = 
       </ImageContainer>
     </Link>
     <NonImageContents>
-      <CategoryTitle>
-        <CategoryIcon src={`/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`} />
-        <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
-      </CategoryTitle>
+      {categoryCode && (
+        <CategoryTitle>
+          <CategoryIcon src={`/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`} />
+          <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
+        </CategoryTitle>
+      )}
       <StoreName>{storeName}</StoreName>
     </NonImageContents>
   </Container>
 );
 
-export default VotedStoreItem;
+export default ProfileStoreItem;

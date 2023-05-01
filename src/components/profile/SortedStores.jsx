@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import userState from '../../recoil/atoms/userState';
 import { Button } from '../common';
 import Draggable from './Draggable';
-import VotedStoreItem from './VotedStoreItem';
+import ProfileStoreItem from './ProfileStoreItem';
 import { changeVotedCategoryOrder } from '../../api/users';
 import EmptyStoreItem from './EmptyStoreItem';
 
@@ -79,7 +79,7 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
         <StoresGrid>
           {!isEditing
             ? votedStoreOrder.map(({ categoryCode, store }) => (
-                <VotedStoreItem
+                <ProfileStoreItem
                   key={categoryCode}
                   categoryCode={categoryCode}
                   storeId={store.storeId}
@@ -96,7 +96,7 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
                   dropHandler={() => {
                     swap(idx);
                   }}>
-                  <VotedStoreItem
+                  <ProfileStoreItem
                     categoryCode={categoryCode}
                     storeId={store.storeId}
                     storeName={store.storeName}

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import useArchivedInfiniteQuery from '../../hooks/useArchivedInfiniteQuery';
-import { StoreItem, ScrollObserver } from '../common';
+import { ScrollObserver } from '../common';
+import ProfileStoreItem from './ProfileStoreItem';
 
 const StoresGrid = styled.div`
   display: grid;
@@ -19,7 +19,7 @@ const ArchivedStores = ({ profileUserNickname }) => {
     <>
       <StoresGrid>
         {data.pages.flat().map(({ storeId, storeName, imgUrl }) => (
-          <StoreItem key={storeId} storeId={storeId} storeName={storeName} imgUrl={imgUrl} />
+          <ProfileStoreItem key={storeId} storeId={storeId} storeName={storeName} imgUrl={imgUrl} />
         ))}
       </StoresGrid>
       {hasNextPage && <ScrollObserver fetchNextPage={fetchNextPage} />}
