@@ -8,6 +8,13 @@ import Button from './Button';
 const Container = styled.div`
   padding: 50px 0 38px;
   border-bottom: 1px solid #ebebeb;
+
+  .hidden {
+    position: absolute;
+    opacity: 0;
+    width: 90px;
+    height: 35px;
+  }
 `;
 
 const Title = styled.h2`
@@ -56,21 +63,27 @@ const Information = () => {
       const formData = new FormData();
       formData.append('img', fileToUpload);
 
-      const res = await axios.post('/api/upload', formData);
+      const res = await axios.post('/api/upload/user', formData);
 
-      console.log(res);
       if (res.status !== 200) throw new Error(res.statusText);
 
-      const { success, file } = res.data;
-
-      console.log(file);
+      const { success } = res.data;
 
       if (success) {
-        console.log('이미지 업로드 완료', file);
-        imageRef.current.src = `/img/${file.originalname}`;
+        imageRef.current.src = `/img/users/${user.nickname}`;
       }
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  const deleteUserImage = async () => {
+    const res = await axios.delete('/api/upload/user');
+
+    const { success } = res.data;
+
+    if (success) {
+      imageRef.current.src = 'https://via.placeholder.com/100';
     }
   };
 
@@ -78,12 +91,19 @@ const Information = () => {
     <Container>
       <Title>프로필 정보</Title>
       <AvatarWrapper>
-        <Avatar src="https://via.placeholder.com/100" alt="avatar" ref={imageRef} />
+        <Avatar
+          src={`/img/users/${user.nickname}`}
+          onError={e => {
+            e.target.src = 'https://via.placeholder.com/100';
+          }}
+          ref={imageRef}
+        />
         <NicknameBox>
           <div className="nickname">{user.nickname}</div>
           <div className="btn-group">
-            <input type="file" accept="image/*" onChange={uploadImage} />
-            <Button>삭제</Button>
+            <input type="file" accept="image/*" onChange={uploadImage} className="hidden" />
+            <Button>이미지 변경</Button>
+            <Button onClick={deleteUserImage}>삭제</Button>
           </div>
         </NicknameBox>
       </AvatarWrapper>
