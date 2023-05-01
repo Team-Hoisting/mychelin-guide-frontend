@@ -30,7 +30,7 @@ const useUserProfile = nickname => {
       const newVoteStores = [...user.votedCategoryOrder].reverse().reduce(
         (acc, categoryCode) => {
           const idx = acc.findIndex(res => res.categoryCode === categoryCode);
-          const result = idx ? [acc[idx], ...acc.slice(0, idx), ...acc.slice(idx + 1)] : acc;
+          const result = idx !== -1 ? [acc[idx], ...acc.slice(0, idx), ...acc.slice(idx + 1)] : acc;
 
           return result;
         },

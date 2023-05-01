@@ -6,8 +6,8 @@ import { StoreItem, ScrollObserver } from '../common';
 
 const StoresGrid = styled.div`
   display: grid;
-  grid-gap: 20px;
-  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
 `;
 
 const ArchivedStores = ({ profileUserNickname }) => {
