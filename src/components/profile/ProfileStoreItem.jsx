@@ -86,7 +86,12 @@ const ProfileStoreItem = ({ categoryCode, storeId, storeName, imgUrl, isEditing 
   <Container isEditing={isEditing}>
     <Link to={`/store/${storeId}`}>
       <ImageContainer>
-        <Img src={imgUrl} />
+        <Img
+          src={imgUrl}
+          onError={e => {
+            e.target.src = '/images/defaultstore.png';
+          }}
+        />
       </ImageContainer>
     </Link>
     <NonImageContents>

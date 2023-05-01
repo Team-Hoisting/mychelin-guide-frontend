@@ -57,12 +57,29 @@ const DarkModeIcon = styled(BsMoon)`
   cursor: pointer;
 `;
 
+const UserIconWrapper = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const UserIcon = styled(FaRegUser)`
   font-size: 27px;
   color: var(--font-color);
   margin: 0;
   padding: 0;
   cursor: pointer;
+`;
+
+const UserImage = styled.img`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ConfigsContainer = styled.div`
@@ -180,14 +197,24 @@ const Header = () => {
             ) : (
               <DarkModeIcon onClick={handleThemeIconClick} />
             )}
-            <UserIcon
+            <UserIconWrapper
               onClick={e => {
                 e.stopPropagation();
 
                 if (user) setOpenDropdown(!openDropdown);
                 else navigate('/signin');
-              }}
-            />
+              }}>
+              {!user ? (
+                <UserIcon />
+              ) : (
+                <UserImage
+                  src={`/img/users/${user.nickname}`}
+                  onError={e => {
+                    e.target.src = '/images/default-user-image.png';
+                  }}
+                />
+              )}
+            </UserIconWrapper>
             <UserDropdown opened={openDropdown} ref={userDropdownRef}>
               <Link to={`/profile/${user?.nickname}`}>
                 <DropdownButton onClick={() => setOpenDropdown(false)}>마이페이지</DropdownButton>
