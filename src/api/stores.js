@@ -32,4 +32,19 @@ const fetchArchivedStoreByNickname = (nickname, page, pageSize) => async () => {
   return response.data;
 };
 
-export { fetchStores, fetchSearchedStores, fetchStore, fetchVotedStoresByNickname, fetchArchivedStoreByNickname };
+const fetchIsRegisteredByStoreIds = storeIds => async () => {
+  const urlString = `${url}/searchMap/isRegistered?${storeIds.map((id, idx) => `idx${idx}=${id}&`).join('')}`;
+
+  const response = await axios.get(urlString.slice(0, -1));
+
+  return response.data;
+};
+
+export {
+  fetchStores,
+  fetchSearchedStores,
+  fetchStore,
+  fetchVotedStoresByNickname,
+  fetchArchivedStoreByNickname,
+  fetchIsRegisteredByStoreIds,
+};

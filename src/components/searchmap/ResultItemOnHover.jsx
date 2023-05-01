@@ -39,47 +39,43 @@ const InfoText = styled.p`
   color: white;
 `;
 
-const ResultItemOnHover = ({ storeId, storeName, address, phoneNumber, x, y }) => {
-  const [isRegistered, setIsRegistered] = useState(false);
+const ResultItemOnHover = ({ storeId, isRegistered, storeName, address, phoneNumber, x, y }) => (
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const storeInfo = await fetchStore(storeId)();
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const storeInfo = await fetchStore(storeId)();
+  //       setIsRegistered(!!storeInfo);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   })();
+  // }, []);
 
-        setIsRegistered(!!storeInfo);
-      } catch (e) {
-        console.log(e);
-      }
-    })();
-  }, []);
+  <Container>
+    <ButtonContainer>
+      {isRegistered ? (
+        <Link to={`/store/${storeId}`}>
+          <RoundedButton gray>상세보기</RoundedButton>
+        </Link>
+      ) : (
+        <InfoText>등록되지 않은 식당입니다.</InfoText>
+      )}
 
-  return (
-    <Container>
-      <ButtonContainer>
-        {isRegistered ? (
-          <Link to={`/store/${storeId}`}>
-            <RoundedButton gray>상세보기</RoundedButton>
-          </Link>
-        ) : (
-          <InfoText>등록되지 않은 식당입니다.</InfoText>
-        )}
-
-        <NewModal
-          store={{
-            storeName,
-            address,
-            phoneNumber,
-            x,
-            y,
-          }}
-          storeId={storeId}
-          width="120px">
-          투표하기
-        </NewModal>
-      </ButtonContainer>
-    </Container>
-  );
-};
+      <NewModal
+        store={{
+          storeName,
+          address,
+          phoneNumber,
+          x,
+          y,
+        }}
+        storeId={storeId}
+        width="120px">
+        투표하기
+      </NewModal>
+    </ButtonContainer>
+  </Container>
+);
 
 export default ResultItemOnHover;
