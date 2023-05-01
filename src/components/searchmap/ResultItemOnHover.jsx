@@ -39,7 +39,7 @@ const InfoText = styled.p`
   color: white;
 `;
 
-const ResultItemOnHover = ({ storeId }) => {
+const ResultItemOnHover = ({ storeId, storeName, address, phoneNumber, x, y }) => {
   const [isRegistered, setIsRegistered] = useState(false);
 
   useEffect(() => {
@@ -65,7 +65,16 @@ const ResultItemOnHover = ({ storeId }) => {
           <InfoText>등록되지 않은 식당입니다.</InfoText>
         )}
 
-        <NewModal storeId={storeId} width="120px">
+        <NewModal
+          store={{
+            storeName,
+            address,
+            phoneNumber,
+            x,
+            y,
+          }}
+          storeId={storeId}
+          width="120px">
           투표하기
         </NewModal>
       </ButtonContainer>

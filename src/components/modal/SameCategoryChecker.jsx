@@ -72,7 +72,7 @@ const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
   font-size: 1.5rem;
 `;
 
-const SameCategoryChecker = ({ storeId, categoryCode, setPhase, setTaskQueue }) => {
+const SameCategoryChecker = ({ storeId, store: storeInfo, categoryCode, setPhase, setTaskQueue }) => {
   const { nickname, voteStatus } = useRecoilValue(userState);
   const { storeId: votedPrevStoreId } = voteStatus.find(vote => vote.categoryCode === categoryCode);
 
@@ -90,7 +90,7 @@ const SameCategoryChecker = ({ storeId, categoryCode, setPhase, setTaskQueue }) 
   const onNext = () => {
     setTaskQueue(taskQueue => [
       ...taskQueue,
-      () => reVote({ storeId, nickname, categoryCode, votedAt: new Date().valueOf() }),
+      () => reVote({ storeId, nickname, categoryCode, votedAt: new Date().valueOf(), storeInfo }),
     ]);
 
     const sameStoreCount = voteStatus.filter(vote => vote.storeId === storeId).length;
@@ -109,7 +109,7 @@ const SameCategoryChecker = ({ storeId, categoryCode, setPhase, setTaskQueue }) 
         </Box>
         <ArrowIcon />
         <Box>
-          <span className="blue bold">{store.data.storeName}</span>
+          <span className="blue bold">{store.data.storeName ?? storeInfo.storeName}</span>
         </Box>
       </ChangeLog>
       <Text center>

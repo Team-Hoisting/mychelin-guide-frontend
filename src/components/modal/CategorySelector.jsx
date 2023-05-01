@@ -11,7 +11,7 @@ import ButtonGroup from './ButtonGroup';
 import { CategoryBox } from '../common/index';
 
 const Container = styled.div`
-  padding: 1rem;
+  padding: 0rem 0.5rem;
   border-radius: 8px;
 `;
 
@@ -40,14 +40,14 @@ const ErrorMessage = styled.div`
 `;
 
 const TextBox = styled.div`
-  margin-top: 3rem;
+  margin-top: 0.7rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 
   p {
     margin: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 0.7rem;
     font-size: 1.2rem;
   }
 
@@ -60,15 +60,23 @@ const Selected = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
-  margin-bottom: 5em;
+  height: 40px;
+  margin-bottom: 4rem;
 
   img {
-    width: 20%;
+    width: 10%;
   }
 `;
 
-const CategorySelector = ({ setIsOpened, setPhase, setTaskQueue, storeId, categoryCode, setCategoryCode }) => {
+const CategorySelector = ({
+  setIsOpened,
+  setPhase,
+  setTaskQueue,
+  storeId,
+  store: storeInfo,
+  categoryCode,
+  setCategoryCode,
+}) => {
   const { email, voteStatus } = useRecoilValue(userState);
 
   const { data: store, isLoading } = useQuery({
@@ -79,6 +87,8 @@ const CategorySelector = ({ setIsOpened, setPhase, setTaskQueue, storeId, catego
 
   if (isLoading) return <></>;
 
+  console.log(storeInfo);
+
   const onNext = () => {
     const sameCategoryCount = voteStatus.filter(vote => vote.categoryCode === categoryCode).length;
     const sameStoreCount = voteStatus.filter(vote => vote.storeId === storeId).length;
@@ -87,7 +97,7 @@ const CategorySelector = ({ setIsOpened, setPhase, setTaskQueue, storeId, catego
     else {
       setTaskQueue(taskQueue => [
         ...taskQueue,
-        () => vote({ storeId, email, categoryCode, votedAt: new Date().valueOf() }),
+        () => vote({ storeId, email, categoryCode, votedAt: new Date().valueOf(), storeInfo }),
       ]);
 
       setPhase(sameStoreCount !== 0 ? 'store' : 'success');
@@ -95,13 +105,12 @@ const CategorySelector = ({ setIsOpened, setPhase, setTaskQueue, storeId, catego
   };
 
   const isDuplicate = storeId === voteStatus.find(vote => vote.categoryCode === categoryCode)?.storeId;
-  console.log('[isDuplicate]: ', isDuplicate);
 
   return (
     <Container>
       <StoreInfo>
-        <StoreName>{store.storeName}</StoreName>
-        <span className="address">{store.address}</span>
+        <StoreName>{store.storeName ?? storeInfo.storeName}</StoreName>
+        <span className="address">{store.address ?? storeInfo.address}</span>
       </StoreInfo>
       <Selected>
         {categoryCode !== 'none' ? (

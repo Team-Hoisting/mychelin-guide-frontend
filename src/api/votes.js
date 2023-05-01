@@ -28,9 +28,9 @@ const vote = async voteInfo => {
 };
 
 const reVote = async voteInfo => {
-  const { storeId, nickname, categoryCode, votedAt } = voteInfo;
+  const { storeId, nickname, categoryCode, votedAt, storeInfo } = voteInfo;
 
-  const response = await axios.patch(`${url}/${nickname}/${categoryCode}`, { storeId, votedAt });
+  const response = await axios.patch(`${url}/${nickname}/${categoryCode}`, { storeId, votedAt, storeInfo });
 
   return response.data;
 };

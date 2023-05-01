@@ -126,9 +126,16 @@ const Result = ({ result, paginationRef }) => {
         <ResultListContainer>
           <PreviousPageBtn clickHandler={gotoPreviousPage} hasPrevPage={paginationRef.current?.hasPrevPage} />
           <ResultList>
-            {result.map(({ id, place_name: storeName, road_address_name: address, phone }, idx) => (
+            {result.map(({ id, place_name: storeName, road_address_name: address, phone, x, y }, idx) => (
               <ResultItemContainer key={id}>
-                <ResultItemOnHover storeId={id} />
+                <ResultItemOnHover
+                  storeId={id}
+                  storeName={storeName}
+                  address={address}
+                  phoneNumber={phone}
+                  x={x}
+                  y={y}
+                />
                 <ResultItem
                   key={id}
                   currentIdx={resultCodes[idx]}
