@@ -28,6 +28,7 @@ const Selector = styled.div`
   grid-template-columns: repeat(6, 1fr);
   gap: 10px;
   font-size: 10px;
+  height: 170px;
 `;
 
 const ErrorMessage = styled.div`
