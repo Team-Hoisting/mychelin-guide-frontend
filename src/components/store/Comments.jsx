@@ -40,7 +40,6 @@ const Comments = () => {
 
   if (isSuccess) {
     const { data: commentsData, totalPages } = data;
-    console.log('comments: ', commentsData);
     return (
       <>
         <CommentsContainer className="comments-container">

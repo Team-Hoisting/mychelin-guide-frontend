@@ -60,7 +60,6 @@ const CommentsData = ({ commentData, deleteComment }) => {
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
 
-  console.log('commentData: ', commentData);
   const handleCommentCloseBtnClick = commentId => () => {
     deleteComment(commentId);
   };
@@ -88,7 +87,6 @@ const CommentsData = ({ commentData, deleteComment }) => {
           <CloseBtn onClick={handleCommentCloseBtnClick(commentId)}>X</CloseBtn>
         ) : undefined}
       </Comment>
-      )
     </div>
   );
 };

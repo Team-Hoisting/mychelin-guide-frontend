@@ -65,8 +65,6 @@ const CommentsTextArea = ({ addComment }) => {
       nickname: user?.nickname,
     };
 
-    console.log('newcomment: ', newComment);
-
     addComment(newComment);
     setContent('');
   };

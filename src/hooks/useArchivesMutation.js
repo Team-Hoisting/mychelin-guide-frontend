@@ -25,14 +25,18 @@ const useArchivesMutation = ({ id, setArchiveCntState }) => {
   });
 
   const { mutate: deleteBookMark } = useDataMutation({
-    mutationFn: bookMarkToDelete => axios.delete(`${archiveURL}`, bookMarkToDelete),
+    mutationFn: bookMarkToDelete => axios.delete(`${archiveURL}`, { data: bookMarkToDelete }),
     onMutate(bookMarkToDelete) {
       return () => {
         // eslint-disable-next-line no-unsafe-optional-chaining
-        const [{ seq: deleteSeq }] = user?.archived.filter(
+        const [{ archiveId: deleteSeq }] = user?.archived.filter(
           arc => arc.storeId === bookMarkToDelete.storeId && arc.email === user?.email
         );
-        const newUserData = { ...user, archived: user?.archived?.filter(arc => arc.seq !== deleteSeq) };
+
+        const newUserData = {
+          ...user,
+          archived: user?.archived?.filter(({ archiveId }) => archiveId !== deleteSeq),
+        };
         setUser(newUserData);
         setArchiveCntState(prev => prev - 1);
 
