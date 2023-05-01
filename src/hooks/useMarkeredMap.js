@@ -2,7 +2,7 @@ import React from 'react';
 
 const { kakao } = window;
 
-const useMarkeredMap = (result = []) => {
+const useMarkeredMap = () => {
   const mapRef = React.useRef(null);
   const mapContainerRef = React.useRef(null);
   const markersRef = React.useRef([]);
@@ -14,38 +14,50 @@ const useMarkeredMap = (result = []) => {
     });
   }, []);
 
-  React.useEffect(() => {
+  const drawMarkers = (markerInfos = []) => {
     markersRef.current.forEach(({ marker, infowindow }) => {
       marker.setMap(null);
       infowindow.close();
     });
 
     // TODO: 검색 결과 없는 경우 처리
-    if (result.length === 0) return;
+    if (markerInfos.length === 0) return;
 
     const bounds = new kakao.maps.LatLngBounds();
 
     markersRef.current = [];
 
-    result.forEach(data => {
+    markerInfos.forEach(({ store, isRegistered }, idx) => {
       const infowindow = new kakao.maps.InfoWindow();
       const marker = new kakao.maps.Marker({
         map: mapRef.current,
-        position: new kakao.maps.LatLng(data.y, data.x),
+        position: new kakao.maps.LatLng(store.y, store.x),
+        image: new kakao.maps.MarkerImage(
+          `/images/marker${isRegistered ? '' : '_nocolor'}.png`,
+          new kakao.maps.Size(45, 45)
+        ),
       });
 
-      infowindow.setContent(`<div style="padding:5px;font-size:12px;">${data.place_name}</div>`);
+      infowindow.setContent(
+        `<div style="
+          padding: 5px;
+          font-size: 15px;
+          color: #353535;"><span style="color: var(--primary-color);">${String.fromCharCode(idx + 65)}. </span>${
+          store.place_name
+        }</div>`
+      );
+
       infowindow.open(mapRef.current, marker);
 
       markersRef.current = [...markersRef.current, { marker, infowindow }];
 
-      bounds.extend(new kakao.maps.LatLng(data.y, data.x));
+      bounds.extend(new kakao.maps.LatLng(store.y, store.x));
     });
 
     mapRef.current.setBounds(bounds, 32, 225, 32, 32);
-  });
+  };
 
-  return mapContainerRef;
+  return { mapContainerRef, drawMarkers };
 };
 
 export default useMarkeredMap;
