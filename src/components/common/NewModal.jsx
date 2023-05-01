@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { Modal, Group, Button } from '@mantine/core';
 import userState from '../../recoil/atoms/userState';
@@ -9,7 +9,7 @@ import SameCategoryChecker from '../modal/SameCategoryChecker';
 import SameStoreChecker from '../modal/SameStoreChecker';
 import SuccessVerifier from '../modal/SuccessVerifier';
 
-const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId }) => {
+const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId, store }) => {
   const theme = useRecoilValue(themeState);
   const [categoryCode, setCategoryCode] = React.useState('none'); // 선택한 카테고리
   const [taskQueue, setTaskQueue] = React.useState([]);
@@ -36,6 +36,7 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId }) 
             setPhase={setPhase}
             setTaskQueue={setTaskQueue}
             storeId={storeId}
+            store={store}
             categoryCode={categoryCode}
             setCategoryCode={setCategoryCode}
           />
@@ -45,6 +46,7 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId }) 
             setPhase={setPhase}
             setTaskQueue={setTaskQueue}
             storeId={storeId}
+            store={store}
             categoryCode={categoryCode}
           />
         )}
@@ -56,7 +58,7 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId }) 
             storeId={storeId}
           />
         )}
-        {phase === 'success' && <SuccessVerifier setTaskQueue={setTaskQueue} taskQueue={taskQueue} />}
+        {phase === 'success' && <SuccessVerifier storeId={storeId} setTaskQueue={setTaskQueue} taskQueue={taskQueue} />}
       </Modal>
       <Group position="center">
         <Button
@@ -83,19 +85,20 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId }) 
   );
 };
 
-const ModalContainer = ({ storeId, width }) => {
+const ModalContainer = ({ store, storeId, width }) => {
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-  const [isOpened, setIsOpened] = React.useState(false); // 모달 토글
-  const [phase, setPhase] = React.useState('none'); // none -> select -> category -> store -> success
+  const [isOpened, setIsOpened] = React.useState(false);
+  const [phase, setPhase] = React.useState('none');
 
   if (!user || !isOpened)
     return (
       <Group position="center">
         <Button
           onClick={() => {
-            if (!user) navigate('/signin');
+            if (!user) navigate('/signin', { state: pathname });
             else {
               setIsOpened(true);
               setPhase('select');
@@ -129,6 +132,7 @@ const ModalContainer = ({ storeId, width }) => {
       phase={phase}
       setPhase={setPhase}
       storeId={storeId}
+      store={store}
     />
   );
 };

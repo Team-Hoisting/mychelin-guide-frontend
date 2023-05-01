@@ -84,7 +84,7 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
                   categoryCode={categoryCode}
                   storeId={store.storeId}
                   storeName={store.storeName}
-                  imgUrl={store.imgUrl}
+                  imgUrl={`/img/stores/${store.storeId}`}
                 />
               ))
             : votedStoreOrder.map(({ categoryCode, store }, idx) => (

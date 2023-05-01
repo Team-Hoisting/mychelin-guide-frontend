@@ -52,10 +52,11 @@ const SameStoreChecker = ({ storeId, setIsOpened, setTaskQueue, setPhase }) => {
   const { categoryCode: prevCategoryCode } = voteStatus.find(vote => vote.storeId === storeId);
 
   const { data: store, isLoading } = useQuery({
-    queryKey: ['store', storeId],
+    queryKey: ['storeInfo', storeId],
     queryFn: fetchStore(storeId),
-    staleTime: 1000 * 3,
   });
+
+  console.log(store);
 
   if (isLoading) return <></>;
 

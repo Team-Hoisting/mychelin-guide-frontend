@@ -110,7 +110,15 @@ const ResultList = ({ result, paginationRef, drawMarkers }) => {
       <List>
         {resultList?.map(({ store, isRegistered }, idx) => (
           <ResultItemContainer key={store.id}>
-            <ResultItemOnHover storeId={store} isRegistered={isRegistered} />
+            <ResultItemOnHover
+              storeId={store.id}
+              storeName={store.place_name}
+              isRegistered={isRegistered}
+              address={store.road_address_name}
+              phoneNumber={store.phone}
+              x={store.x}
+              y={store.y}
+            />
             <ResultItem
               key={store.id}
               currentIdx={String.fromCharCode(idx + 65)}

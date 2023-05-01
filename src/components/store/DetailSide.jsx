@@ -83,9 +83,7 @@ const ImageSkeleton = styled.div`
   }
 `;
 
-const Image = styled.img.attrs({
-  alt: 'store',
-})`
+const Image = styled.img`
   display: ${({ isImgLoading }) => (isImgLoading ? 'none' : 'block')};
   width: 70%;
   height: 500px;
@@ -105,7 +103,14 @@ const DetailSide = ({ store: { imgUrl, x, y, address, phoneNumber } }) => {
     <>
       <ImageContainer className="imagecontainer">
         {isImgLoading && <ImageSkeleton />}
-        <Image src={imgUrl} onLoad={handleLoad} isImgLoading={isImgLoading} />
+        <Image
+          src={imgUrl}
+          onLoad={handleLoad}
+          onError={e => {
+            e.target.src = '/images/defaultstore.png';
+          }}
+          isImgLoading={isImgLoading}
+        />
         <DetailContainer className="detail-container">
           <Map className="map">
             <StorePositionMap x={x} y={y} />

@@ -21,7 +21,10 @@ const UserName = styled.span`
   font-weight: 700;
 `;
 
-const storeQuery = storeid => ({ queryKey: [...storeQueryKey, storeid], queryFn: fetchStore(storeid) });
+const storeQuery = storeid => ({
+  queryKey: [...storeQueryKey, storeid],
+  queryFn: fetchStore(storeid),
+});
 
 const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBookMark }) => {
   const { id } = useParams();

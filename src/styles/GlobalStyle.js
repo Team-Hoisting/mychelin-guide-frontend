@@ -92,7 +92,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   code {
-    font-family: monospace;
+    font-family: monospace; 
   }
 `;
 

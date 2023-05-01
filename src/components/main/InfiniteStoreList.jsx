@@ -79,28 +79,26 @@ const InfiniteStoreList = ({ data, fetchNextPage, hasNextPage }) => {
       {displayedStores.topThree.length ? (
         <StoresContainer>
           <TopStoresContainer>
-            {displayedStores.topThree.map(
-              ({ storeId, storeName, imgUrl, votesByCategory, address, starsCount }, idx) => (
-                <StoreItemContainer key={storeId} place={idx + 1}>
-                  <StoreItemOnHover storeId={storeId} storeName={storeName} address={address} />
-                  <StoreItem
-                    key={storeId}
-                    storeName={storeName}
-                    imgUrl={imgUrl}
-                    votesByCategory={votesByCategory}
-                    starCount={starsCount}
-                  />
-                </StoreItemContainer>
-              )
-            )}
+            {displayedStores.topThree.map(({ storeId, storeName, votesByCategory, address, starsCount }, idx) => (
+              <StoreItemContainer key={storeId} place={idx + 1}>
+                <StoreItemOnHover storeId={storeId} storeName={storeName} address={address} />
+                <StoreItem
+                  key={storeId}
+                  storeName={storeName}
+                  imgUrl={`/img/stores/${storeId}`}
+                  votesByCategory={votesByCategory}
+                  starCount={starsCount}
+                />
+              </StoreItemContainer>
+            ))}
           </TopStoresContainer>
           <RestStoresContainer>
-            {displayedStores.remaining.map(({ storeId, storeName, imgUrl, votesByCategory, starsCount }) => (
+            {displayedStores.remaining.map(({ storeId, storeName, votesByCategory, starsCount }) => (
               <StoreItemContainer key={`${Math.random() * Math.random()}_${storeId}`}>
                 <StoreItemOnHover storeId={storeId} />
                 <StoreItem
                   storeName={storeName}
-                  imgUrl={imgUrl}
+                  imgUrl={`/img/stores/${storeId}`}
                   votesByCategory={votesByCategory}
                   starCount={starsCount}
                 />
