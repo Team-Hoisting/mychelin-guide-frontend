@@ -8,10 +8,11 @@ import { CategoryBox } from '../common';
 
 const Container = styled.div`
   height: 80px;
-  padding: 15px;
   margin: 20px 0 20px 0;
   display: grid;
   grid-template-columns: repeat(13, 1fr);
+  position: relative;
+  align-items: center;
 `;
 
 const fullCategoryCodes = ['AL00', ...categoryCodes];

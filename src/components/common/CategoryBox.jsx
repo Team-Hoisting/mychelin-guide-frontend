@@ -1,11 +1,26 @@
 import styled from 'styled-components';
-import { AiOutlineLine } from 'react-icons/ai';
 
 const EachCategoryBox = styled.div`
+  padding: 5px;
   text-align: center;
   cursor: pointer;
   transition: 0.3s ease-in;
   position: relative;
+
+  ${({ selected }) =>
+    selected &&
+    `
+      border-bottom: 2px solid var(--primary-color);
+    `}
+
+  :hover {
+    ${({ selected }) =>
+      !selected &&
+      `
+      transition: none;
+      border-bottom: 2px solid #ababab;
+    `}
+  }
 
   ${({ changeOnHover }) =>
     changeOnHover &&
@@ -32,15 +47,6 @@ const CategoryName = styled.p`
   font-weight: ${({ selected }) => selected && '600'};
 `;
 
-const SelectedIcon = styled(AiOutlineLine)`
-  color: var(--primary-color);
-  position: absolute;
-  font-size: 20px;
-  top: 90%;
-  left: 40%;
-  display: ${({ selected }) => (selected ? 'block' : 'none')};
-`;
-
 /**
  *
  * @param {} Props: Required: { categoryImgFile, categoryName, colored }, Optional: { selected, clickHandler, changeOnHover }
@@ -58,8 +64,8 @@ const CategoryBox = ({
   const imgSrc = `/categoryIcons/${colored ? '' : 'noColor/'}${categoryImgFile}.png`;
 
   return (
-    <EachCategoryBox onClick={clickHandler} changeOnHover={changeOnHover}>
-      <SelectedIcon selected={selected} />
+    <EachCategoryBox selected={selected} onClick={clickHandler} changeOnHover={changeOnHover}>
+      {/* <SelectedIcon /> */}
       <CategoryIcon src={imgSrc} alt={`${categoryName}`} width={iconWidth} />
       <CategoryName selected={selected}>{categoryName}</CategoryName>
     </EachCategoryBox>

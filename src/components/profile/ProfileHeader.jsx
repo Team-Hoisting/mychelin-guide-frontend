@@ -3,13 +3,12 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
-  margin: 50px;
+  margin: 30px 0;
 `;
 
-const ProfileImg = styled.img`
+const ProfileImg = styled.img.attrs({ src: '/images/default-user-image.png' })`
   margin: 15px;
-  width: 130px;
-  height: 100%;
+  width: 120px;
 `;
 
 const NickName = styled.div`
@@ -17,7 +16,6 @@ const NickName = styled.div`
   margin: auto 5px;
   font-size: 30px;
   font-weight: 500;
-  line-height: 100%;
 `;
 
 const CertifiedIcon = styled.img.attrs({ src: '/images/certified.png' })`
@@ -28,7 +26,7 @@ const CertifiedIcon = styled.img.attrs({ src: '/images/certified.png' })`
 // imgUrl, nickname, isCertified, link
 const ProfileHeader = ({ profileUserNickname, isCertified }) => (
   <Container>
-    <ProfileImg src="/images/star-light.png" />
+    <ProfileImg />
     <NickName>
       {profileUserNickname}
       {isCertified && <CertifiedIcon />}

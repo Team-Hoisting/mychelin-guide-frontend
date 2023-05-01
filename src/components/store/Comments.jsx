@@ -4,7 +4,7 @@ import { Divider } from '@mantine/core';
 
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import Skeleton from 'react-loading-skeleton';
+// import Skeleton from 'react-loading-skeleton';
 import { CgProfile } from 'react-icons/cg';
 import { useRecoilValue } from 'recoil';
 import { Button, Loader } from '../common/index';
@@ -15,7 +15,7 @@ import { commentQueryKey } from '../../constants/index';
 import { fetchComments } from '../../api/comment';
 import useCommentsMutation from '../../hooks/useCommentsMutation';
 import CommentsButtons from './CommentsButtons';
-import 'react-loading-skeleton/dist/skeleton.css';
+// import 'react-loading-skeleton/dist/skeleton.css';
 
 import userState from '../../recoil/atoms/userState';
 
