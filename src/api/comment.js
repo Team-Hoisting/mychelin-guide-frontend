@@ -4,9 +4,9 @@ import COMMENTS_FETCH_SIZE from '../constants/commentsFetchSize';
 const url = `/api/comments`;
 
 const fetchComments =
-  (id, pageParam = 1) =>
+  (storeId, pageParam = 1) =>
   async () => {
-    const url = `/api/comments/${id}?page=${pageParam}&pageSize=${COMMENTS_FETCH_SIZE}`;
+    const url = `/api/comments/${storeId}?page=${pageParam}&page_size=${COMMENTS_FETCH_SIZE}`;
 
     const { data } = await axios.get(url);
 

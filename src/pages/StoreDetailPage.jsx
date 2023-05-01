@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import useStoreDetailMutations from '../hooks/useStoreDetailMutations';
+import { useArchivesMutation } from '../hooks/index';
 import { Comments, Details } from '../components/store/index';
 import { SkinnyContainer } from '../components/common';
 
@@ -20,7 +20,7 @@ const StoreDetailPage = () => {
   const [archivedCntState, setArchiveCntState] = React.useState(0);
   const { id } = useParams();
 
-  const { addComment, deleteComment, addBookMark, deleteBookMark } = useStoreDetailMutations({
+  const { addBookMark, deleteBookMark } = useArchivesMutation({
     id,
     setArchiveCntState,
   });
@@ -35,7 +35,7 @@ const StoreDetailPage = () => {
             archivedCntState={archivedCntState}
             setArchiveCntState={setArchiveCntState}
           />
-          <Comments addComment={addComment} deleteComment={deleteComment} />
+          <Comments />
         </Center>
       </Container>
     </SkinnyContainer>
