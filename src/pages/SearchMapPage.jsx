@@ -29,7 +29,7 @@ const SearchMapPage = () => {
   const { keywordSearch, result, paginationRef } = useKeywordSearch();
 
   React.useEffect(() => {
-    keywordSearch(keyword);
+    if (keyword) keywordSearch(keyword);
   }, []);
 
   return (

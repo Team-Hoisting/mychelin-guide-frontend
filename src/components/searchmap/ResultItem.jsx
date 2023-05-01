@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 const ResultItemContainer = styled.div`
   padding: 10px;
+  background-color: var(--bg-color);
+  color: var(--font-color);
 `;
 
 const Number = styled.span`
@@ -15,7 +17,6 @@ const StoreName = styled.h5`
 
 const AdditionalInfoWrapper = styled.div`
   margin-top: 8px;
-  color: #353535;
   font-size: 14px;
 `;
 
