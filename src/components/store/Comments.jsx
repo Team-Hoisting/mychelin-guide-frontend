@@ -2,50 +2,76 @@ import React from 'react';
 import styled from 'styled-components';
 import { Divider } from '@mantine/core';
 
-import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import Skeleton from 'react-loading-skeleton';
+import { CgProfile } from 'react-icons/cg';
+import { useRecoilValue } from 'recoil';
+import { Button, Loader } from '../common/index';
+
 import { CommentsTextArea, CommentsData } from './index';
 
-import { Loader } from '../common/index';
 import { commentQueryKey } from '../../constants/index';
 import { fetchComments } from '../../api/comment';
 import useCommentsMutation from '../../hooks/useCommentsMutation';
 import CommentsButtons from './CommentsButtons';
+import 'react-loading-skeleton/dist/skeleton.css';
+
+import userState from '../../recoil/atoms/userState';
 
 const CommentsContainer = styled.div`
   font-size: 18px;
   width: 100%;
   min-width: 1000px;
+  height: 700;
+  /* height: 100vh; */
 `;
 
 const Label = styled.label`
   font-weight: 800;
 `;
 
+const Comment = styled.div`
+  position: relative;
+  margin: 18px 0;
+  padding: 4px 0;
+`;
+
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  height: 30px;
+`;
+
+const Box = styled.div`
+  height: 500px;
+`;
+
+const Loading = styled.div`
+  height: 700;
+`;
+
 // eslint-disable-next-line consistent-return
 const Comments = () => {
   const { id } = useParams();
   const [currentPage, setCurrentPage] = React.useState(1);
-
-  // comment만 리렌더되서 그런가 ? -> 데이터가 로딩되는 동안 컴포넌트가 렌더되지 않기 때문.
-  // 로더로 변경하는 것도 고려해보기
   const { addComment, deleteComment } = useCommentsMutation({ id, currentPage });
 
-  const { data, isLoading, isSuccess } = useQuery({
-    queryKey: [...commentQueryKey, id, currentPage],
-    queryFn: fetchComments(id, currentPage),
+  const { data, isLoading } = useQuery([...commentQueryKey, id, currentPage], fetchComments(id, currentPage), {
+    keepPreviousData: true,
   });
 
-  // if (isLoading) return <Loader />;
+  if (isLoading) return <Loading />;
 
-  if (isSuccess) {
-    const { data: commentsData, totalPages } = data;
-    return (
-      <>
-        <CommentsContainer className="comments-container">
-          <Label>댓글</Label>
-          <Divider my="sm" />
-          <CommentsTextArea addComment={addComment} />
+  const { data: commentsData, totalPages } = data;
+
+  return (
+    <>
+      <CommentsContainer className="comments-container">
+        <Label>댓글</Label>
+        <Divider my="sm" />
+        <CommentsTextArea addComment={addComment} setCurrentPage={setCurrentPage} />
+        <Box>
           {commentsData?.map(commentData => (
             <CommentsData
               className="comments"
@@ -60,10 +86,10 @@ const Comments = () => {
             commentsData={commentsData}
             totalPages={totalPages}
           />
-        </CommentsContainer>
-      </>
-    );
-  }
+        </Box>
+      </CommentsContainer>
+    </>
+  );
 };
 
 export default Comments;

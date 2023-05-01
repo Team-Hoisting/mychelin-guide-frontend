@@ -36,9 +36,11 @@ const CommentBtn = styled(Button)`
   position: absolute;
   bottom: 10px;
   right: 10px;
+  width: 100px;
+  font-size: 14px;
 `;
 
-const CommentsTextArea = ({ addComment }) => {
+const CommentsTextArea = ({ addComment, setCurrentPage }) => {
   const [content, setContent] = React.useState('');
   const { id } = useParams();
   const { pathname } = useLocation();
@@ -67,13 +69,16 @@ const CommentsTextArea = ({ addComment }) => {
 
     addComment(newComment);
     setContent('');
+    setCurrentPage(1);
   };
 
   return (
     <>
       <Container>
         <TextArea onChange={handleChange} content={content}></TextArea>
-        <CommentBtn onClick={handleCommentBtnClick}>등록하기</CommentBtn>
+        <CommentBtn onClick={handleCommentBtnClick} disabled={!content.length}>
+          등록하기
+        </CommentBtn>
       </Container>
     </>
   );

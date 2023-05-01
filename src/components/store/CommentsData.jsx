@@ -4,7 +4,6 @@ import { CgProfile } from 'react-icons/cg';
 
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import Skeleton from 'react-loading-skeleton';
 import { Button } from '../common/index';
 import userState from '../../recoil/atoms/userState';
 
@@ -12,7 +11,6 @@ const Comment = styled.div`
   position: relative;
   margin: 18px 0;
   padding: 4px 0;
-  border: 2px dashed salmon;
 `;
 
 const User = styled.div`
@@ -72,20 +70,12 @@ const CommentsData = ({ commentData, deleteComment }) => {
     <div>
       <Comment>
         <User>
-          {nickname ? (
-            <Profile onClick={handleProfileClick(nickname)} />
-          ) : (
-            <Skeleton circle={true} height={50} width={50} className="profileskeleton" />
-          )}
-          <NickName>{nickname || <Skeleton />}</NickName>
-          {isCertified ? <CertifiedIcon /> : <Skeleton circle={true} height={50} width={50} />}
+          <Profile onClick={handleProfileClick(nickname)} />
+          <NickName>{nickname}</NickName>
+          {isCertified && <CertifiedIcon />}
         </User>
         <CommentText>{content}</CommentText>
-        {!user ? (
-          <Skeleton height={32} width={32} />
-        ) : email === user?.email ? (
-          <CloseBtn onClick={handleCommentCloseBtnClick(commentId)}>X</CloseBtn>
-        ) : undefined}
+        {user && email === user?.email && <CloseBtn onClick={handleCommentCloseBtnClick(commentId)}>X</CloseBtn>}
       </Comment>
     </div>
   );

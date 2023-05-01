@@ -44,7 +44,7 @@ const NextButton = styled(PageButton)`
   padding: 0 4px;
 `;
 
-const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages }) => {
+const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages, bottomRef }) => {
   const page = Math.ceil(currentPage / COMMENTS_FETCH_SIZE);
   const startIndex = (page - 1) * COMMENTS_FETCH_SIZE;
   const endIndex = startIndex + +COMMENTS_FETCH_SIZE;
