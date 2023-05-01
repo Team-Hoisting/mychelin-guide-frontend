@@ -94,12 +94,14 @@ const UserDropdown = styled.nav`
   display: ${({ opened }) => (opened ? 'block' : 'none')};
   border: 1px solid #ababab;
   border-radius: 5px;
-  background-color: #fff;
   position: absolute;
   padding: 5px;
   min-height: 10rem;
   width: 12rem;
   top: 105%;
+
+  color: var(--font-color);
+  background-color: var(--bg-color);
 `;
 
 const DropdownButton = styled.div`
@@ -109,7 +111,7 @@ const DropdownButton = styled.div`
   cursor: pointer;
 
   :hover {
-    background-color: #f7f7f7;
+    background-color: var(--button-hover-color);
   }
 `;
 

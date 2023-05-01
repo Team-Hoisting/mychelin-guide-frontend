@@ -1,16 +1,10 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { useQuery } from '@tanstack/react-query';
 
 import styled from 'styled-components';
 import { Divider } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
-import { TbTriangleFilled, TbTriangleInvertedFilled } from 'react-icons/tb';
-
-import { Loader } from './index';
-
-import voteQueryKey from '../../constants/voteQueryKey';
-import { fetchVotedStoresByNickname } from '../../api/stores';
+import { RiArrowUpSLine, RiArrowDownSLine } from 'react-icons/ri';
 
 import userState from '../../recoil/atoms/userState';
 
@@ -18,13 +12,13 @@ import categoryCodes from '../../constants/categoryCodes';
 
 import VotedCategoryItem from '../sidebanner/VotedCategoryItem';
 
-const PAGEITEMNUM = 3;
+const PAGEITEMNUM = 4;
 
 const Container = styled.div`
   position: fixed;
   margin: 0;
   padding: 5px;
-  top: 200px;
+  top: 140px;
   right: 50px;
   width: 100px;
   height: fit-content;
@@ -43,32 +37,37 @@ const Title = styled.h4`
   text-align: center;
 `;
 
-const SlideContainer = styled.div`
-  padding: auto;
-`;
-
 const CarouselContainer = styled(Carousel)`
   margin: 5px;
 `;
 
+const Slide = styled(Carousel.Slide)`
+  display: flex;
+  height: 100%;
+  line-height: 100%;
+`;
+
+const SlideContainer = styled.div`
+  margin: auto;
+`;
+
+const NextPageBtn = styled(RiArrowDownSLine)`
+  width: 30px;
+  height: 30px;
+`;
+
+const PrevPageBtn = styled(RiArrowUpSLine)`
+  width: 30px;
+  height: 30px;
+`;
+
 const SideBanner = () => {
-  const user = useRecoilValue(userState);
+  const { voteStatus } = useRecoilValue(userState);
 
-  const { data: votedStoresInfo, isLoading } = useQuery({
-    queryKey: voteQueryKey,
-    queryFn: fetchVotedStoresByNickname(user.nickname),
-    select(voteInfos) {
-      const votedStoresInfo = {};
-
-      voteInfos.forEach(voteInfo => {
-        votedStoresInfo[voteInfo.categoryCode] = voteInfo.store;
-      });
-
-      return votedStoresInfo;
-    },
-  });
-
-  if (isLoading) return <Loader />;
+  const voteStoreId = voteStatus.reduce((acc, { storeId, categoryCode }) => {
+    acc[categoryCode] = storeId;
+    return acc;
+  }, {});
 
   return (
     <Container>
@@ -76,36 +75,34 @@ const SideBanner = () => {
       <Divider size="sm" />
       <CarouselContainer
         slideSize="100%"
-        height="380"
+        height="500"
         align="center"
         orientation="vertical"
-        slideGap="xs"
-        controlsOffset="sm"
+        controlsOffset="xl"
         controlSize={30}
         loop
         draggable={false}
-        previousControlIcon={<TbTriangleFilled />}
-        nextControlIcon={<TbTriangleInvertedFilled />}
+        previousControlIcon={<PrevPageBtn />}
+        nextControlIcon={<NextPageBtn />}
         styles={{
           control: {
-            color: 'var(--primary-color)',
+            color: 'var(--font-color)',
             background: 'none',
             border: 'none',
           },
         }}>
         {Array.from({ length: categoryCodes.length / PAGEITEMNUM }, (_, i) => i).map(pageIdx => (
-          <Carousel.Slide key={pageIdx} size="80%">
+          <Slide key={pageIdx} size="100%">
             <SlideContainer>
               {Array.from({ length: PAGEITEMNUM }, (_, i) => PAGEITEMNUM * pageIdx + i).map(categoryIdx => (
                 <VotedCategoryItem
                   key={categoryCodes[categoryIdx]}
                   categoryCode={categoryCodes[categoryIdx]}
-                  storeId={votedStoresInfo?.[categoryCodes[categoryIdx]]?.storeId}
-                  storeImg={votedStoresInfo?.[categoryCodes[categoryIdx]]?.imgUrl}
+                  storeId={voteStoreId[categoryCodes[categoryIdx]]}
                 />
               ))}
             </SlideContainer>
-          </Carousel.Slide>
+          </Slide>
         ))}
       </CarouselContainer>
     </Container>
