@@ -27,6 +27,7 @@ const Container = styled.div`
   background-color: var(--bg-color);
   color: var(--font-color);
   border-radius: 5px;
+  border: 2px solid var(--border-secondary);
 
   :hover {
     scale: 1.01;
