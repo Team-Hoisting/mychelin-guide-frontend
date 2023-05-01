@@ -25,15 +25,20 @@ const CategoryName = styled.p`
   font-weight: 500;
 `;
 
-const VotedCategoryItem = ({ categoryCode, storeId, storeImg }) => {
-  const imgSrc = storeImg ?? `/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`;
+const VotedCategoryItem = ({ categoryCode, storeId }) => {
+  const imgSrc = storeId
+    ? `/img/stores/${storeId}`
+    : `/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`;
 
   return (
     <Container>
-      <Link to={`/store/${storeId}`}>
+      {storeId ? (
+        <Link to={`/store/${storeId}`}>
+          <StoreImg src={imgSrc} />
+        </Link>
+      ) : (
         <StoreImg src={imgSrc} />
-      </Link>
-
+      )}
       <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
     </Container>
   );
