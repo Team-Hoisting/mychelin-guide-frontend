@@ -22,7 +22,7 @@ const RestStoresContainer = styled.div`
 
 const StoreItemContainer = styled.div`
   overflow: hidden;
-  height: 350px;
+  height: 360px;
   background-color: #fff;
   color: #22272e;
   border-radius: 10px;
@@ -48,6 +48,22 @@ const StoreItemContainer = styled.div`
       display: block;
     }
   }
+
+  :before {
+    ${({ place }) =>
+      place &&
+      `
+      content: '';
+      position: absolute;
+      z-index: 3;
+      top: 5px;
+      background-image: url('/medals/${place}-medal.png');
+      background-size: 80px;
+      background-repeat: no-repeat;
+      width: 100px; 
+      height: 200px;
+    `}
+  }
 `;
 
 let displayedStores = { topThree: [], remaining: [] };
@@ -63,28 +79,30 @@ const InfiniteStoreList = ({ data, fetchNextPage, hasNextPage }) => {
       {displayedStores.topThree.length ? (
         <StoresContainer>
           <TopStoresContainer>
-            {displayedStores.topThree.map(({ storeId, storeName, imgUrl, votesByCategory, address, starCount }) => (
-              <StoreItemContainer key={storeId}>
-                <StoreItemOnHover storeId={storeId} storeName={storeName} address={address} />
-                <StoreItem
-                  key={storeId}
-                  storeName={storeName}
-                  imgUrl={imgUrl}
-                  votesByCategory={votesByCategory}
-                  starCount={starCount}
-                />
-              </StoreItemContainer>
-            ))}
+            {displayedStores.topThree.map(
+              ({ storeId, storeName, imgUrl, votesByCategory, address, starsCount }, idx) => (
+                <StoreItemContainer key={storeId} place={idx + 1}>
+                  <StoreItemOnHover storeId={storeId} storeName={storeName} address={address} />
+                  <StoreItem
+                    key={storeId}
+                    storeName={storeName}
+                    imgUrl={imgUrl}
+                    votesByCategory={votesByCategory}
+                    starCount={starsCount}
+                  />
+                </StoreItemContainer>
+              )
+            )}
           </TopStoresContainer>
           <RestStoresContainer>
-            {displayedStores.remaining.map(({ storeId, storeName, imgUrl, votesByCategory, starCount }) => (
+            {displayedStores.remaining.map(({ storeId, storeName, imgUrl, votesByCategory, starsCount }) => (
               <StoreItemContainer key={`${Math.random() * Math.random()}_${storeId}`}>
                 <StoreItemOnHover storeId={storeId} />
                 <StoreItem
                   storeName={storeName}
                   imgUrl={imgUrl}
                   votesByCategory={votesByCategory}
-                  starCount={starCount}
+                  starCount={starsCount}
                 />
               </StoreItemContainer>
             ))}

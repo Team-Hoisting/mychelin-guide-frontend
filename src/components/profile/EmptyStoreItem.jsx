@@ -9,13 +9,17 @@ const Container = styled.div`
   position: relative;
   transition: 0.1s ease-in-out;
   color: var(--font-color);
-  border: thick dashed #ababab;
-  border-radius: 30px;
+  border: 2px dashed #ababab;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CategoryTitle = styled.div`
   display: flex;
-  margin-bottom: 10px;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const CategoryIcon = styled.img`
@@ -30,14 +34,12 @@ const CategoryName = styled.h5`
 `;
 
 const EmptyStoreItem = ({ categoryCode }) => (
-  <>
-    <Container>
-      <CategoryTitle>
-        <CategoryIcon src={`/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`} />
-        <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
-      </CategoryTitle>
-    </Container>
-  </>
+  <Container>
+    <CategoryTitle>
+      <CategoryIcon src={`/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`} />
+      <CategoryName>아직 최애 {categoryInfo[categoryCode].ko} 식당이 없습니다.</CategoryName>
+    </CategoryTitle>
+  </Container>
 );
 
 export default EmptyStoreItem;
