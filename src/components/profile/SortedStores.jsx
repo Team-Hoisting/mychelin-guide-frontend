@@ -2,17 +2,16 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import userState from '../../recoil/atoms/userState';
-
 import { Button } from '../common';
 import Draggable from './Draggable';
 import VotedStoreItem from './VotedStoreItem';
-
 import { changeVotedCategoryOrder } from '../../api/users';
 import EmptyStoreItem from './EmptyStoreItem';
 
 const Container = styled.div`
   text-align: right;
 `;
+
 const EditButton = styled(Button)`
   margin: 5px 5px 15px 5px;
   width: 100px;
@@ -23,7 +22,7 @@ const EditButton = styled(Button)`
 
 const StoresGrid = styled.div`
   display: grid;
-  grid-gap: 20px;
+  grid-gap: 10px;
   grid-template-columns: repeat(3, 1fr);
 `;
 
@@ -67,7 +66,7 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
                 setIsEditing(false);
               }}
               gray>
-              수정
+              확인
             </EditButton>
           ) : (
             <EditButton onClick={() => setIsEditing(true)} red>

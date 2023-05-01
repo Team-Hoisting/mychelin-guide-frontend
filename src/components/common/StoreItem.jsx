@@ -32,6 +32,7 @@ const Contents = styled.section`
   display: flex;
   flex-direction: column;
   background-color: var(--bg-color);
+  height: 100%;
   font-weight: 500;
   font-size: 18px;
 `;
