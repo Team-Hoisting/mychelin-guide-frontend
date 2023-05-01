@@ -84,29 +84,27 @@ const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archi
   const theme = useRecoilValue(themeState);
 
   return (
-    <>
-      <Container className="storetitle">
-        <StoreTitle>
-          <TitleText>{storeName}</TitleText>
-          <StarContainer>
-            {[...Array(starCnt).keys()].map(val => (
-              <Star key={val} src={`/images/star-${theme}.png`} />
-            ))}
-          </StarContainer>
-        </StoreTitle>
-        <Side>
-          <Bookmark>
-            {user?.archived?.map(({ storeId }) => storeId).includes(id) ? (
-              <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
-            ) : (
-              <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />
-            )}
-            <ArchivedCnt>{archivedCntState}</ArchivedCnt>
-          </Bookmark>
-          <NewModal storeId={storeId} width="120px" />
-        </Side>
-      </Container>
-    </>
+    <Container className="storetitle">
+      <StoreTitle>
+        <TitleText>{storeName}</TitleText>
+        <StarContainer>
+          {[...Array(starCnt).keys()].map(val => (
+            <Star key={val} src={`/images/star-${theme}.png`} />
+          ))}
+        </StarContainer>
+      </StoreTitle>
+      <Side>
+        <Bookmark>
+          {user?.archived?.map(({ storeId }) => storeId).includes(id) ? (
+            <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
+          ) : (
+            <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />
+          )}
+          <ArchivedCnt>{archivedCntState}</ArchivedCnt>
+        </Bookmark>
+        <NewModal storeId={storeId} width="120px" />
+      </Side>
+    </Container>
   );
 };
 

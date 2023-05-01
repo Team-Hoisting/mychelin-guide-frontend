@@ -22,7 +22,6 @@ const Container = styled.div`
   overflow: hidden;
   height: 360px;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px;
-  position: relative;
   transition: 0.1s ease-in;
   background-color: var(--bg-color);
   color: var(--font-color);
@@ -41,6 +40,7 @@ const NonImageContents = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 5px;
+  height: 20%;
 `;
 
 const CategoryTitle = styled.div`
