@@ -64,6 +64,7 @@ const ArchivedCnt = styled.span`
 
 const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archivedCntState }) => {
   const { id } = useParams();
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useRecoilValue(userState);
