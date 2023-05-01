@@ -5,16 +5,16 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
 `;
+
 const { kakao } = window;
 
 const StorePositionMap = ({ x, y }) => {
-  const mapRef = useRef(null);
   const mapContainerRef = useRef(null);
 
   useEffect(() => {
     const storePosition = new kakao.maps.LatLng(y, x);
 
-    mapRef.current = new kakao.maps.Map(mapContainerRef.current, {
+    const map = new kakao.maps.Map(mapContainerRef.current, {
       center: storePosition,
       level: 3,
     });
@@ -23,7 +23,7 @@ const StorePositionMap = ({ x, y }) => {
       position: storePosition,
     });
 
-    marker.setMap(mapRef.current);
+    marker.setMap(map);
   }, []);
 
   return <Container ref={mapContainerRef} />;
