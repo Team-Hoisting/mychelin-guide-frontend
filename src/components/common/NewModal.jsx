@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { Modal, Group, Button } from '@mantine/core';
 import userState from '../../recoil/atoms/userState';
@@ -88,6 +88,7 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId, st
 const ModalContainer = ({ store, storeId, width }) => {
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const [isOpened, setIsOpened] = React.useState(false);
   const [phase, setPhase] = React.useState('none');
@@ -97,7 +98,7 @@ const ModalContainer = ({ store, storeId, width }) => {
       <Group position="center">
         <Button
           onClick={() => {
-            if (!user) navigate('/signin');
+            if (!user) navigate('/signin', { state: pathname });
             else {
               setIsOpened(true);
               setPhase('select');
