@@ -5,31 +5,31 @@ import { Button } from '../common';
 import NewModal from '../common/NewModal';
 
 const Container = styled.main`
-  z-index: 9999;
+  display: flex;
+  position: absolute;
   width: 100%;
   height: 100%;
-  position: absolute;
-  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   /* border-radius: 20px; */
+  z-index: 9999;
 `;
 
 const ButtonContainer = styled.div`
-  width: 250px;
   display: none;
+  width: 250px;
   flex-direction: column;
   align-items: center;
 `;
 
 const RoundedButton = styled(Button)`
   margin: 5px;
-  width: 130px;
-  height: 34px;
+  width: 120px;
+  height: 45px;
   border: none;
   border-radius: 12px;
-  font-size: 13px;
+  font-size: 16px;
 `;
 
 const InfoText = styled.p`

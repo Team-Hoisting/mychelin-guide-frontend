@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const { kakao } = window;
 
@@ -7,7 +6,6 @@ const useMarkeredMap = markerClickHandler => {
   const mapRef = React.useRef(null);
   const mapContainerRef = React.useRef(null);
   const markersRef = React.useRef([]);
-  const navigate = useNavigate();
 
   React.useEffect(() => {
     mapRef.current = new kakao.maps.Map(mapContainerRef.current, {
@@ -38,8 +36,7 @@ const useMarkeredMap = markerClickHandler => {
       });
 
       kakao.maps.event.addListener(marker, 'click', () => {
-        if (isRegistered) navigate(`/store/${store.id}`);
-        else markerClickHandler();
+        markerClickHandler(idx);
       });
 
       const infowindow = new kakao.maps.InfoWindow({
