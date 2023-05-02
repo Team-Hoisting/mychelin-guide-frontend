@@ -14,13 +14,18 @@ const Container = styled.div`
 
   background-color: var(--bg-color);
   color: var(--font-color);
+
+  .up {
+    font-size: 1.2rem;
+  }
 `;
 
-const ChangeLog = styled.div`
+const Changes = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 1.5rem;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
 
   .red {
     color: #d21312;
@@ -32,14 +37,15 @@ const ChangeLog = styled.div`
 `;
 
 const Box = styled.div`
-  // background: var(--button-disabled-color);
   padding: 1.2rem;
   display: flex;
   justify-content: center;
-  margin: 1rem 7rem;
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   font-weight: 600;
-  width: 60%;
+  width: 300px;
+  background-color: #ababab;
+  overflow: hidden;
+  border-radius: 5px;
 
   span {
     text-overflow: ellipsis;
@@ -69,7 +75,10 @@ const Text = styled.p`
 `;
 
 const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
-  font-size: 1.5rem;
+  font-size: 2rem;
+  transform: rotate(-90deg);
+  margin-left: 1rem;
+  margin-right: 1rem;
 `;
 
 const SameCategoryChecker = ({ storeId, store: storeInfo, categoryCode, setPhase, setTaskQueue }) => {
@@ -100,10 +109,10 @@ const SameCategoryChecker = ({ storeId, store: storeInfo, categoryCode, setPhase
 
   return (
     <Container>
-      <Text>
-        현재 <span className="bold">{categoryInfo[categoryCode]?.ko} 카테고리</span>에서
+      <Text className="up">
+        현재 <span className="bold red">{categoryInfo[categoryCode]?.ko} 카테고리</span> 표를
       </Text>
-      <ChangeLog>
+      <Changes>
         <Box>
           <span className="bold">{votedPrevStore.data.storeName}</span>
         </Box>
@@ -111,7 +120,7 @@ const SameCategoryChecker = ({ storeId, store: storeInfo, categoryCode, setPhase
         <Box>
           <span className="blue bold">{store.data.storeName ?? storeInfo.storeName}</span>
         </Box>
-      </ChangeLog>
+      </Changes>
       <Text center>
         <span className="bold">변경</span>하시겠습니까?
       </Text>

@@ -26,7 +26,7 @@ const StoreName = styled.h2`
 const Selector = styled.div`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
+  gap: 5px;
   font-size: 10px;
   height: 170px;
 `;
@@ -34,14 +34,13 @@ const Selector = styled.div`
 const ErrorMessage = styled.div`
   display: flex;
   justify-content: center;
-  padding: 1rem 0;
-  height: 50px;
+  height: 30px;
   color: red;
   font-weight: 700;
 `;
 
 const TextBox = styled.div`
-  margin-top: 0.7rem;
+  margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,7 +48,7 @@ const TextBox = styled.div`
   p {
     margin: 0;
     margin-bottom: 0.7rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   .em {
@@ -62,7 +61,7 @@ const Selected = styled.div`
   justify-content: center;
   align-items: center;
   height: 40px;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 
   img {
     width: 10%;
@@ -120,7 +119,7 @@ const CategorySelector = ({
             colored
           />
         ) : (
-          <div>없음</div>
+          <div>카테고리를 선택하세요!</div>
         )}
       </Selected>
       <Selector>
