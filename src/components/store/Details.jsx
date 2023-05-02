@@ -41,6 +41,8 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
     setArchiveCntState(storeData?.archivesCount);
   }, [isLoading]);
 
+  console.log('store: ', storeData);
+
   if (isLoading) return <Loader />;
 
   return (
@@ -61,7 +63,7 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
         <ImgUploadModal />
       </SubTitle>
       <DetailSide store={storeData} />
-      <Votes voteCnt={storeData.votesCount} />
+      <Votes voteCnt={storeData.voteCnt} />
     </StoreDetailContainer>
   );
 };
