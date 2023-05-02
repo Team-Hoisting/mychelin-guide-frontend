@@ -46,7 +46,7 @@ const SearchMapPage = () => {
           }}
         />
       </SearchBarContainer>
-      <Result result={result} paginationRef={paginationRef} />
+      <Result keyword={inputRef.current?.value} result={result} paginationRef={paginationRef} />
     </Container>
   );
 };
