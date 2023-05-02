@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { storeQueryKey } from '../../constants/index';
 import { fetchStore } from '../../api/stores';
-import { Title, DetailSide, Votes } from './index';
+import { Title, DetailSide, Votes, StoreImgUpload } from './index';
 import { Loader } from '../common/index';
+import ImgUploadModal from './ImgUploadModal';
 
 const StoreDetailContainer = styled.div`
   width: 100%;
@@ -19,6 +20,13 @@ const FirstVoteUser = styled.div`
 
 const UserName = styled.span`
   font-weight: 700;
+`;
+
+const SubTitle = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const storeQuery = storeid => ({ queryKey: [...storeQueryKey, storeid], queryFn: fetchStore(storeid) });
@@ -44,9 +52,13 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
         deleteBookMark={deleteBookMark}
         archivedCntState={archivedCntState}
       />
-      <FirstVoteUser>
-        최초 투표자 : <UserName>{storeData.firstVoteUser}</UserName>
-      </FirstVoteUser>
+      <SubTitle>
+        <FirstVoteUser>
+          최초 투표자 : <UserName>{storeData.firstVoteUser}</UserName>
+        </FirstVoteUser>
+
+        <ImgUploadModal />
+      </SubTitle>
       <DetailSide store={storeData} />
       <Votes voteCnt={storeData.votesCount} />
     </StoreDetailContainer>
