@@ -4,8 +4,8 @@ import { CgProfile } from 'react-icons/cg';
 
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { Button } from '../common/index';
 import userState from '../../recoil/atoms/userState';
+import { Button } from '../common/index';
 
 const Comment = styled.div`
   position: relative;
@@ -19,8 +19,9 @@ const User = styled.div`
   height: 30px;
 `;
 
-const Profile = styled(CgProfile)`
+const Profile = styled.img`
   width: 36px;
+  border-radius: 50%;
   cursor: pointer;
 `;
 
@@ -50,6 +51,7 @@ const CertifiedIcon = styled.img.attrs({
 const NickName = styled.p`
   font-size: 16px;
   font-weight: 600;
+  margin: 0 4px;
 `;
 
 const CommentsData = ({ commentData, deleteComment }) => {
@@ -70,7 +72,7 @@ const CommentsData = ({ commentData, deleteComment }) => {
     <div>
       <Comment>
         <User>
-          <Profile onClick={handleProfileClick(nickname)} />
+          <Profile src={`/img/users/${commentData?.nickname}`} onClick={handleProfileClick(nickname)} />
           <NickName>{nickname}</NickName>
           {isCertified && <CertifiedIcon />}
         </User>
