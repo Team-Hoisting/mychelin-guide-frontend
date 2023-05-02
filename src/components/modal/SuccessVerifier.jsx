@@ -31,28 +31,31 @@ const SuccessVerifier = ({ taskQueue, storeId }) => {
   const queryClient = useQueryClient();
   const [user, setUser] = useRecoilState(userState);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isStart, setIsStart] = React.useState(false);
 
   React.useEffect(() => {
-    (() => {
-      try {
-        setIsLoading(true);
+    if (!isStart) {
+      setIsStart(true);
+      return;
+    }
 
-        taskQueue.forEach(async task => {
-          const data = await task();
-          setUser(user => ({ ...user, voteStatus: data.voteStatus }));
+    try {
+      setIsLoading(true);
 
-          if (data.newStore) {
-            console.log('[new store]', data.newStore);
-            queryClient.setQueryData(['storeInfo', storeId], data.newStore);
-          }
-        });
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, []);
+      taskQueue.forEach(async task => {
+        const data = await task();
+        setUser(user => ({ ...user, voteStatus: data.voteStatus }));
+
+        if (data.newStore) {
+          queryClient.setQueryData(['storeInfo', storeId], data.newStore);
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isStart]);
 
   if (isLoading) return <></>;
 

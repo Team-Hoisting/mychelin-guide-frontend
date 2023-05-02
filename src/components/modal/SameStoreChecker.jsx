@@ -79,8 +79,6 @@ const SameStoreChecker = ({ storeId, categoryCode, setIsOpened, setTaskQueue, se
     setPhase('success');
   };
 
-  console.log(`/categoryIcons/${categoryInfo[categoryCode].imgFile}`);
-
   return (
     <Container>
       <Title>매장 중복</Title>
