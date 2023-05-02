@@ -9,6 +9,11 @@ const Container = styled.div`
   padding: 50px 0 38px;
   border-bottom: 1px solid #ebebeb;
 
+  input[type='file'],
+  input[type='file']::-webkit-file-upload-button {
+    cursor: pointer;
+  }
+
   .hidden {
     position: absolute;
     opacity: 0;
@@ -34,6 +39,7 @@ const Avatar = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 50%;
+  object-fit: cover;
 `;
 
 const NicknameBox = styled.div`
@@ -70,10 +76,10 @@ const Information = () => {
       const { success } = res.data;
 
       if (success) {
-        imageRef.current.src = `/img/users/${user.nickname}`;
+        window.location.reload();
       }
     } catch (e) {
-      console.error(e);
+      throw new Error(e);
     }
   };
 
@@ -83,7 +89,7 @@ const Information = () => {
     const { success } = res.data;
 
     if (success) {
-      imageRef.current.src = 'https://via.placeholder.com/100';
+      window.location.reload();
     }
   };
 
@@ -94,7 +100,7 @@ const Information = () => {
         <Avatar
           src={`/img/users/${user.nickname}`}
           onError={e => {
-            e.target.src = 'https://via.placeholder.com/100';
+            e.target.src = '/images/default-user-image.png';
           }}
           ref={imageRef}
         />

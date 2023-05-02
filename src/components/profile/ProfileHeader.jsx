@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
-import { userState } from '../../recoil/atoms';
 
 const Container = styled.div`
   display: flex;
@@ -27,23 +25,19 @@ const CertifiedIcon = styled.img.attrs({ src: '/images/certified.png' })`
 `;
 
 // imgUrl, nickname, isCertified, link
-const ProfileHeader = ({ profileUserNickname, isCertified }) => {
-  const user = useRecoilValue(userState);
-
-  return (
-    <Container>
-      <ProfileImg
-        src={`/img/users/${user.nickname}`}
-        onError={e => {
-          e.target.src = '/images/default-user-image.png';
-        }}
-      />
-      <NickName>
-        {profileUserNickname}
-        {isCertified && <CertifiedIcon />}
-      </NickName>
-    </Container>
-  );
-};
+const ProfileHeader = ({ profileUserNickname, isCertified }) => (
+  <Container>
+    <ProfileImg
+      src={`/img/users/${profileUserNickname}`}
+      onError={e => {
+        e.target.src = '/images/default-user-image.png';
+      }}
+    />
+    <NickName>
+      {profileUserNickname}
+      {isCertified && <CertifiedIcon />}
+    </NickName>
+  </Container>
+);
 
 export default ProfileHeader;
