@@ -41,8 +41,6 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
     setArchiveCntState(storeData?.archivesCount);
   }, [isLoading]);
 
-  console.log('store: ', storeData);
-
   if (isLoading) return <Loader />;
 
   return (

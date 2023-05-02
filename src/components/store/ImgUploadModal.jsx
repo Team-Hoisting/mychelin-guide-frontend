@@ -68,8 +68,17 @@ const ImgUploadModal = () => {
       formData.append('img', file);
       formData.append('filename', id);
 
-      await axios.post('/api/upload/store', formData);
-      close();
+      const res = await axios.post('/api/upload/store', formData);
+
+      if (res.status !== 200) throw new Error(res.statusText);
+
+      const { success } = res.data;
+
+      if (success) {
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
+        close();
+      }
     } catch (e) {
       console.error(e);
     }
