@@ -8,22 +8,32 @@ const Container = styled.div`
   bottom: 10px;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 9999;
 `;
 
 const Text = styled.span`
   padding: 0 2rem;
+  color: white;
 `;
 
-const AlertContainer = ({ close, type }) => {
+const color = {
+  success: 'blue',
+  warning: 'orange',
+  error: 'red',
+};
+
+const Toast = ({ text, type = 'error', closeHandler = () => {}, delay = 2000 }) => {
   React.useEffect(() => {
-    setTimeout(close, 2000);
-  }, [close]);
+    const timerId = setTimeout(closeHandler, delay);
+
+    return () => clearTimeout(timerId);
+  }, []);
 
   return (
     <Container>
       <Alert
         icon={<BiErrorCircle size="1rem" />}
-        color="gray"
+        color={color[type]}
         variant="filled"
         radius="md"
         styles={() => ({
@@ -31,10 +41,10 @@ const AlertContainer = ({ close, type }) => {
             // border: '1px solid #d21312',
           },
         })}>
-        <Text>{type === 'login' ? '이메일 또는 비밀번호를 확인해주세요!' : '회원정보 수정이 완료되었습니다!'}</Text>
+        <Text>{text}</Text>
       </Alert>
     </Container>
   );
 };
 
-export default AlertContainer;
+export default Toast;

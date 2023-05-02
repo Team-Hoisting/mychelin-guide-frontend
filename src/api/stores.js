@@ -33,7 +33,7 @@ const fetchArchivedStoreByNickname = (nickname, page, pageSize) => async () => {
 };
 
 const fetchIsRegisteredByStoreIds = storeIds => async () => {
-  const urlString = `${url}/searchMap/isRegistered?${storeIds.map((id, idx) => `idx${idx}=${id}&`).join('')}`;
+  const urlString = `${url}/searchMap/isRegistered?${storeIds.map((id, idx) => `${idx}=${id}&`).join('')}`;
 
   const response = await axios.get(urlString.slice(0, -1));
 

@@ -62,10 +62,6 @@ const router = createBrowserRouter([
         element: <StoreDetailPage />,
         // loader: storeDetailLoader(queryClient),
       },
-      {
-        path: 'userinfo/:id',
-        element: <UserInfoPage />,
-      },
     ],
   },
 ]);

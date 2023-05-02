@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ResultItem, ResultItemOnHover } from '.';
 
 import { fetchIsRegisteredByStoreIds } from '../../api/stores';
+import { Loader } from '../common/index';
 
 const Container = styled.div`
   position: absolute;
@@ -73,6 +74,11 @@ const ButtonContainer = styled.div`
   }
 `;
 
+const ZeroResultText = styled.span`
+  color: white;
+  font-size: 20px;
+`;
+
 const PreviousPageBtn = ({ hasPrevPage, clickHandler }) => (
   <ButtonContainer onClick={clickHandler} hasPage={hasPrevPage}>
     <RiArrowUpSLine />
@@ -94,13 +100,15 @@ const ResultList = ({ result, paginationRef, drawMarkers }) => {
     if (paginationRef.current.hasNextPage) paginationRef.current.nextPage();
   };
 
-  const { data: resultList } = useQuery({
+  const { data: resultList, isLoading } = useQuery({
     queryKey: ['isRegistered', paginationRef.current?.current],
     queryFn: fetchIsRegisteredByStoreIds(result.map(({ id }) => id)),
     select(data) {
-      return result.map(store => ({ store, isRegistered: data[store.id] }));
+      return result.map((store, idx) => ({ store, isRegistered: data[idx] }));
     },
   });
+
+  if (isLoading) return <Loader />;
 
   drawMarkers(resultList);
 
@@ -108,26 +116,30 @@ const ResultList = ({ result, paginationRef, drawMarkers }) => {
     <Container>
       <PreviousPageBtn clickHandler={gotoPreviousPage} hasPrevPage={paginationRef.current?.hasPrevPage} />
       <List>
-        {resultList?.map(({ store, isRegistered }, idx) => (
-          <ResultItemContainer key={store.id}>
-            <ResultItemOnHover
-              storeId={store.id}
-              storeName={store.place_name}
-              isRegistered={isRegistered}
-              address={store.road_address_name}
-              phoneNumber={store.phone}
-              x={store.x}
-              y={store.y}
-            />
-            <ResultItem
-              key={store.id}
-              currentIdx={String.fromCharCode(idx + 65)}
-              storeName={store.place_name}
-              address={store.road_address_name}
-              phoneNumber={store.phone}
-            />
-          </ResultItemContainer>
-        ))}
+        {resultList?.length !== 0 ? (
+          resultList?.map(({ store, isRegistered }, idx) => (
+            <ResultItemContainer key={store.id}>
+              <ResultItemOnHover
+                storeId={store.id}
+                storeName={store.place_name}
+                isRegistered={isRegistered}
+                address={store.road_address_name}
+                phoneNumber={store.phone}
+                x={store.x}
+                y={store.y}
+              />
+              <ResultItem
+                key={store.id}
+                currentIdx={String.fromCharCode(idx + 65)}
+                storeName={store.place_name}
+                address={store.road_address_name}
+                phoneNumber={store.phone}
+              />
+            </ResultItemContainer>
+          ))
+        ) : (
+          <ZeroResultText>검색 결과가 없습니다.</ZeroResultText>
+        )}
       </List>
       <NextPageBtn clickHandler={gotoNextPage} hasNextPage={paginationRef.current?.hasNextPage} />
     </Container>

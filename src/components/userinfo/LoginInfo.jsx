@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { nicknameSchema, passwordSchema } from '../../schema';
 import Unit from './Unit';
-import SuccessAlert from '../auth/Alert';
+import Toast from '../common/Toast';
 
 const Container = styled.div`
   padding-top: 38px;
@@ -45,7 +45,9 @@ const LoginInfo = () => {
         formSchema={passwordSchema}
         defaultValues={defaultValuesForPassword}
       />
-      {isSuccess && <SuccessAlert type="edit" close={() => setIsSuccess(false)} />}
+      {isSuccess && (
+        <Toast type="success" text="회원정보 수정이 완료되었습니다!" closeHandler={() => setIsSuccess(false)} />
+      )}
     </Container>
   );
 };
