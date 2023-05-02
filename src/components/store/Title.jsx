@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-// import { Modal } from '../common/index';
 import NewModal from '../common/NewModal';
 import userState from '../../recoil/atoms/userState';
 import themeState from '../../recoil/atoms/themeState';
+import ImgUploadModal from './ImgUploadModal';
 
 const Container = styled.div`
   display: flex;
@@ -74,6 +74,8 @@ const ArchivedCntMsg = styled.p`
 const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archivedCntState }) => {
   const { id } = useParams();
 
+  console.log(starCnt);
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useRecoilValue(userState);
@@ -111,6 +113,7 @@ const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archi
             <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />
           )}
         </Bookmark>
+        <ImgUploadModal />
         <NewModal storeId={storeId} width="120px" />
       </Side>
     </Container>

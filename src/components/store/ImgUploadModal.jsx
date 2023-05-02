@@ -45,6 +45,19 @@ const Right = styled.div`
   display: flex;
 `;
 
+const BeforeUploadButton = styled(Button)`
+  width: 120px;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: #000;
+
+  background: #e3e3e3;
+  &:hover {
+    background: #cfcfcf;
+  }
+`;
+
 const ImgUploadModal = () => {
   const [opened, { open, close }] = useDisclosure(false, {
     onClose: () => setFile(null),
@@ -113,21 +126,19 @@ const ImgUploadModal = () => {
               </Group>
               <div>
                 <Text size="xl" inline>
-                  Drop images here
+                  Drop image here
                 </Text>
               </div>
             </>
           )}
         </Dropzone>
-
         {file && (
           <Right>
             <UploadButton onClick={handleUploadButtonClick}>확인</UploadButton>
           </Right>
         )}
       </Modal>
-
-      <Button onClick={open}>가게 사진 업로드</Button>
+      <BeforeUploadButton onClick={open}>사진 업로드</BeforeUploadButton>
     </>
   );
 };
