@@ -115,6 +115,7 @@ const CategorySelector = ({
             categoryName={categoryInfo[categoryCode].ko}
             categoryImgFile={categoryInfo[categoryCode].imgFile}
             changeOnHover={false}
+            underlineOnHover={false}
             colored
           />
         ) : (
@@ -132,6 +133,7 @@ const CategorySelector = ({
               colored={categoryCode === code}
               key={categoryInfo[code].ko}
               clickHandler={() => setCategoryCode(code)}
+              underlineOnHover={false}
             />
           );
         })}
