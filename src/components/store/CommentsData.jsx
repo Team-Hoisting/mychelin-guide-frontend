@@ -42,6 +42,11 @@ const CloseBtn = styled(Button)`
   background: none;
   color: var(--font-color);
   font-weight: 500;
+
+  :hover {
+    color: var(--font-color);
+    background: none;
+  }
 `;
 
 const CommentText = styled.p`

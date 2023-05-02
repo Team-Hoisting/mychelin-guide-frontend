@@ -17,34 +17,35 @@ const ButtonGroup = styled.div`
 const PageButton = styled(Button)`
   width: 40px;
   height: 40px;
-  display: flex;
+  padding: 0;
+  visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
 
   align-items: center;
   justify-content: center;
 
   font-size: 17px;
-  background: ${({ clicked }) => (clicked ? 'var(--button-click-color);' : 'none;')};
+  background-color: ${({ clicked }) => (clicked ? 'var(--button-click-color)' : 'var(--bg-color)')};
   color: var(--font-color);
-  flex-wrap: nowrap;
 
   :hover {
-    background: var(--border-primary);
+    background-color: var(--button-click-color);
+    color: var(--font-color);
   }
 `;
 
 const PrevButton = styled(PageButton)`
-  width: 40px;
+  width: 50px;
   margin: 0 10px;
   padding: 0 4px;
 `;
 
 const NextButton = styled(PageButton)`
-  width: 40px;
+  width: 50px;
   margin: 0 4px;
   padding: 0 4px;
 `;
 
-const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages, bottomRef }) => {
+const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages }) => {
   const page = Math.ceil(currentPage / COMMENTS_FETCH_SIZE);
   const startIndex = (page - 1) * COMMENTS_FETCH_SIZE;
   const endIndex = startIndex + +COMMENTS_FETCH_SIZE;
@@ -69,18 +70,24 @@ const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages
   return (
     <ButtonContainer className="container">
       <ButtonGroup className="buttoncontainer">
-        {commentsData?.length > 0 && page !== 1 && <PrevButton onClick={handlePrevBtnClick}>Prev</PrevButton>}
-        {currentPages.map(
-          pageNum =>
-            pageNum <= totalPages && (
-              <PageButton key={pageNum} onClick={handlePageBtnClick(pageNum)} clicked={pageNum === currentPage}>
-                {pageNum}
-              </PageButton>
-            )
-        )}
-        {commentsData?.length > 0 && page !== Math.ceil(totalPages / COMMENTS_FETCH_SIZE) && (
-          <NextButton onClick={handleNextBtnClick}>Next</NextButton>
-        )}
+        <PrevButton onClick={handlePrevBtnClick} show={commentsData?.length > 0 && page !== 1}>
+          Prev
+        </PrevButton>
+        {currentPages.map(pageNum => (
+          <PageButton
+            key={pageNum}
+            onClick={handlePageBtnClick(pageNum)}
+            clicked={pageNum === currentPage}
+            show={pageNum <= totalPages}>
+            {pageNum}
+          </PageButton>
+        ))}
+
+        <NextButton
+          onClick={handleNextBtnClick}
+          show={commentsData?.length > 0 && page !== Math.ceil(totalPages / COMMENTS_FETCH_SIZE)}>
+          Next
+        </NextButton>
       </ButtonGroup>
     </ButtonContainer>
   );
