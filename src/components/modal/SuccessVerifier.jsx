@@ -58,7 +58,7 @@ const SuccessVerifier = ({ taskQueue, storeId }) => {
 
   return (
     <Container>
-      <img src="/images/success.png" alt="" />
+      <img src="/images/success.png" alt="success" />
       <Text>투표가 성공적으로 완료되었습니다</Text>
       <Button red thirty onClick={() => navigate(`/profile/${user.nickname}`)}>
         마이페이지로 이동하기

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
+import { MdOutlineKeyboardDoubleArrowDown } from 'react-icons/md';
 import userState from '../../recoil/atoms/userState';
 import { fetchStore } from '../../api/stores';
 import { removeVote } from '../../api/votes';
@@ -24,30 +25,44 @@ const Title = styled.h3`
   font-weight: 700;
 `;
 
-const MessageBox = styled.div``;
-
-const Message = styled.p`
-  margin: 0;
-  padding: 0;
-  margin-top: 2rem;
+const Text = styled.span`
   font-size: 1.1rem;
 
-  .main-color {
-    color: #d21312;
-  }
-
-  .red {
-    color: red;
-    font-size: 1.2rem;
+  & + & {
+    margin-top: 0.5rem;
   }
 
   .em {
-    font-size: 1.2rem;
     font-weight: 700;
   }
 `;
 
-const SameStoreChecker = ({ storeId, setIsOpened, setTaskQueue, setPhase }) => {
+const Changes = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 3rem;
+`;
+
+const Box = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Image = styled.img`
+  width: 50px;
+`;
+
+const ArrowIcon = styled(MdOutlineKeyboardDoubleArrowDown)`
+  font-size: 1.5rem;
+  transform: rotate(-90deg);
+  margin-left: 4rem;
+  margin-right: 4rem;
+`;
+
+const SameStoreChecker = ({ storeId, categoryCode, setIsOpened, setTaskQueue, setPhase }) => {
   const { nickname, voteStatus } = useRecoilValue(userState);
   const { categoryCode: prevCategoryCode } = voteStatus.find(vote => vote.storeId === storeId);
 
@@ -55,8 +70,6 @@ const SameStoreChecker = ({ storeId, setIsOpened, setTaskQueue, setPhase }) => {
     queryKey: ['storeInfo', storeId],
     queryFn: fetchStore(storeId),
   });
-
-  console.log(store);
 
   if (isLoading) return <></>;
 
@@ -66,22 +79,28 @@ const SameStoreChecker = ({ storeId, setIsOpened, setTaskQueue, setPhase }) => {
     setPhase('success');
   };
 
+  console.log(`/categoryIcons/${categoryInfo[categoryCode].imgFile}`);
+
   return (
     <Container>
       <Title>매장 중복</Title>
-      <MessageBox>
-        <Message>
-          <span className="main-color">마이슐랭 가이드</span>는 <span className="em">하나의 매장</span>에{' '}
-          <span className="em">하나의 투표</span>만 부여할 수 있습니다.
-        </Message>
-        <Message>
-          <span className="em">&quot;{store.storeName}&quot;</span>은{' '}
-          <span className="em">&quot;{categoryInfo[prevCategoryCode]?.ko}&quot;</span> 카테고리로 투표되어 있습니다.
-        </Message>
-        <Message>
-          <span className="red">기존 투표를 삭제하시겠습니까?</span>
-        </Message>
-      </MessageBox>
+      <Text>
+        하나의 매장에는 <span className="em">하나의 투표만</span> 부여할 수 있습니다.
+      </Text>
+      <Text>
+        <span className="em">&quot;{store.storeName}&quot;</span> 의 투표 카테고리를 변경합니다.
+      </Text>
+      <Changes>
+        <Box>
+          <Image src={`/categoryIcons/${categoryInfo[prevCategoryCode].imgFile}.png`} alt="logo" />
+          {categoryInfo[prevCategoryCode].ko}
+        </Box>
+        <ArrowIcon />
+        <Box>
+          <Image src={`/categoryIcons/${categoryInfo[categoryCode].imgFile}.png`} alt="logo" />
+          {categoryInfo[categoryCode].ko}
+        </Box>
+      </Changes>
       <ButtonGroup
         leftText="확인"
         rightText="취소"
