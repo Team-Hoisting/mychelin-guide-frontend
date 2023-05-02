@@ -42,24 +42,33 @@ const Side = styled.div`
 
 const EmtpyBookmarkIcon = styled(BsBookmark)`
   width: 40px;
+  scale: 1.6;
   cursor: pointer;
+
+  :hover {
+    color: #858585;
+  }
 `;
 
 const FillBookMarkIcon = styled(BsFillBookmarkFill)`
   width: 40px;
+  scale: 1.6;
   cursor: pointer;
   color: #fe9602;
 `;
 
 const Bookmark = styled.div`
+  /* border: 1px solid red; */
+  display: flex;
   margin: 0 20px;
   position: relative;
+  justify-content: center;
+  align-items: center;
 `;
 
-const ArchivedCnt = styled.span`
-  position: absolute;
-  top: -1.5px;
-  left: 36px;
+const ArchivedCntMsg = styled.p`
+  margin: 0;
+  font-size: 20px;
 `;
 
 const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archivedCntState }) => {
@@ -84,29 +93,27 @@ const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archi
   const theme = useRecoilValue(themeState);
 
   return (
-    <>
-      <Container className="storetitle">
-        <StoreTitle>
-          <TitleText>{storeName}</TitleText>
-          <StarContainer>
-            {[...Array(starCnt).keys()].map(val => (
-              <Star key={val} src={`/images/star-${theme}.png`} />
-            ))}
-          </StarContainer>
-        </StoreTitle>
-        <Side>
-          <Bookmark>
-            {user?.archived?.map(({ storeId }) => storeId).includes(id) ? (
-              <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
-            ) : (
-              <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />
-            )}
-            <ArchivedCnt>{archivedCntState}</ArchivedCnt>
-          </Bookmark>
-          <NewModal storeId={storeId} width="120px" />
-        </Side>
-      </Container>
-    </>
+    <Container className="storetitle">
+      <StoreTitle>
+        <TitleText>{storeName}</TitleText>
+        <StarContainer>
+          {[...Array(starCnt).keys()].map(val => (
+            <Star key={val} src={`/images/star-${theme}.png`} />
+          ))}
+        </StarContainer>
+      </StoreTitle>
+      <Side>
+        <Bookmark>
+          <ArchivedCntMsg>{archivedCntState}</ArchivedCntMsg>
+          {user?.archived?.map(({ storeId }) => storeId).includes(id) ? (
+            <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
+          ) : (
+            <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />
+          )}
+        </Bookmark>
+        <NewModal storeId={storeId} width="120px" />
+      </Side>
+    </Container>
   );
 };
 
