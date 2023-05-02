@@ -87,8 +87,6 @@ const CategorySelector = ({
 
   if (isLoading) return <></>;
 
-  console.log(storeInfo);
-
   const onNext = () => {
     const sameCategoryCount = voteStatus.filter(vote => vote.categoryCode === categoryCode).length;
     const sameStoreCount = voteStatus.filter(vote => vote.storeId === storeId).length;

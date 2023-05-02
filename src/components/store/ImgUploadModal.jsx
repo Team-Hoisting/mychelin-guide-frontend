@@ -7,6 +7,7 @@ import { HiOutlinePhotograph } from 'react-icons/hi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiUpload } from 'react-icons/bi';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import { Button as CommonButton } from '../common/index';
 
 const iconSize = css`
@@ -59,6 +60,7 @@ const BeforeUploadButton = styled(Button)`
 `;
 
 const ImgUploadModal = () => {
+  const { id } = useParams();
   const [opened, { open, close }] = useDisclosure(false, {
     onClose: () => setFile(null),
   });
@@ -69,9 +71,7 @@ const ImgUploadModal = () => {
 
     // 프리뷰
     const [file] = files;
-    const imgUrl = URL.createObjectURL(file);
-
-    setFile(imgUrl);
+    setFile(file);
   };
 
   // 이미지 업로드
@@ -79,8 +79,9 @@ const ImgUploadModal = () => {
     try {
       const formData = new FormData();
       formData.append('img', file);
+      formData.append('filename', id);
 
-      await axios.post('/api/upload/', formData);
+      await axios.post('/api/upload/store', formData);
       close();
     } catch (e) {
       console.error(e);
@@ -109,7 +110,7 @@ const ImgUploadModal = () => {
           })}>
           {file ? (
             <Center>
-              <Preview src={file} />
+              <Preview src={URL.createObjectURL(file)} />
             </Center>
           ) : (
             <>
