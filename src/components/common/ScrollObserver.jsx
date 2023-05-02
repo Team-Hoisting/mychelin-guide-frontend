@@ -18,7 +18,7 @@ const ScrollObserver = ({ fetchNextPage }) => {
         if (entry.isIntersecting) fetchNextPage();
       });
     },
-    { threshold: 0.7 }
+    { threshold: 0.1 }
   );
 
   React.useEffect(() => {
