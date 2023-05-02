@@ -5,22 +5,16 @@ import { CategoryTag } from '../common/index';
 
 const Container = styled.div`
   display: flex;
-  max-width: 360px;
   align-items: center;
   padding: 10px 0;
 `;
 
-const Votes = ({ voteCnt }) => {
-  console.log(voteCnt);
-  return (
-    <>
-      <Container>
-        {categoryCodes.map(
-          ctg => voteCnt[ctg] && <CategoryTag key={ctg} categoryCode={ctg} votedCnt={voteCnt[ctg]} renderName={true} />
-        )}
-      </Container>
-    </>
-  );
-};
+const Votes = ({ voteCnt }) => (
+  <Container>
+    {categoryCodes.map(
+      ctg => voteCnt[ctg] && <CategoryTag key={ctg} categoryCode={ctg} votedCnt={voteCnt[ctg]} renderName={true} />
+    )}
+  </Container>
+);
 
 export default Votes;

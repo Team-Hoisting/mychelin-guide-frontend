@@ -11,6 +11,7 @@ import ImgUploadModal from './ImgUploadModal';
 const StoreDetailContainer = styled.div`
   width: 100%;
   min-width: 1000px;
+  margin-bottom: 50px;
 `;
 
 const FirstVoteUser = styled.div`
