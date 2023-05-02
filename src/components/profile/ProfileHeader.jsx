@@ -11,6 +11,7 @@ const Container = styled.div`
 const ProfileImg = styled.img`
   margin: 15px;
   width: 120px;
+  border-radius: 50%;
 `;
 
 const NickName = styled.div`

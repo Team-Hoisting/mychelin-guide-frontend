@@ -6,7 +6,7 @@ import { storeQueryKey } from '../../constants/index';
 import { fetchStore } from '../../api/stores';
 import { Title, Votes, DetailSide } from './index';
 import { Loader } from '../common/index';
-import ImgUploadModal from './ImgUploadModal';
+// import { clampUseMovePosition } from '../../../node_modules/@mantine/hooks/lib/index';
 
 const StoreDetailContainer = styled.div`
   width: 100%;
@@ -41,7 +41,11 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
     setArchiveCntState(storeData?.archivesCount);
   }, [isLoading]);
 
+  console.log('store: ', storeData);
+
   if (isLoading) return <Loader />;
+
+  console.log('HERE', storeData);
 
   return (
     <StoreDetailContainer className="storedetail">
@@ -57,11 +61,9 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
         <FirstVoteUser>
           최초 투표자 : <UserName>{storeData.firstVoteUser}</UserName>
         </FirstVoteUser>
-
-        <ImgUploadModal />
       </SubTitle>
       <DetailSide store={storeData} />
-      <Votes voteCnt={storeData.votesCount} />
+      <Votes voteCnt={storeData.voteCnt} />
     </StoreDetailContainer>
   );
 };
