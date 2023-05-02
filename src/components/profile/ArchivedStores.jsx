@@ -19,7 +19,7 @@ const ArchivedStores = ({ profileUserNickname }) => {
     <>
       <StoresGrid>
         {data.pages.flat().map(({ storeId, storeName }) => (
-          <ProfileStoreItem key={storeId} storeId={storeId} storeName={storeName} imgUrl={`/img/stores/${storeId}`} />
+          <ProfileStoreItem key={storeId} storeId={storeId} storeName={storeName} />
         ))}
       </StoresGrid>
       {hasNextPage && <ScrollObserver fetchNextPage={fetchNextPage} />}
