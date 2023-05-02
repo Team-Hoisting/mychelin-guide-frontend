@@ -62,7 +62,7 @@ const buttonStyle = css`
     css`
       padding: 0;
       margin-left: 0.8rem;
-      font-size: 0.1rem;
+      font-size: 0.7rem;
       width: 60px;
       flex-shrink: 0;
     `};
