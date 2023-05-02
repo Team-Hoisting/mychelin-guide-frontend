@@ -17,7 +17,6 @@ const RootPage = () => {
         const user = await check();
         setUser(user);
       } catch (e) {
-        console.log(e);
         setUser(null);
       } finally {
         setIsLoading(false);

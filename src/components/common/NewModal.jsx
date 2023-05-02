@@ -56,6 +56,7 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId, st
             setIsOpened={setIsOpened}
             setTaskQueue={setTaskQueue}
             storeId={storeId}
+            categoryCode={categoryCode}
           />
         )}
         {phase === 'success' && <SuccessVerifier storeId={storeId} setTaskQueue={setTaskQueue} taskQueue={taskQueue} />}

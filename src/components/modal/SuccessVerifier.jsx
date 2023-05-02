@@ -31,34 +31,37 @@ const SuccessVerifier = ({ taskQueue, storeId }) => {
   const queryClient = useQueryClient();
   const [user, setUser] = useRecoilState(userState);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isStart, setIsStart] = React.useState(false);
 
   React.useEffect(() => {
-    (() => {
-      try {
-        setIsLoading(true);
+    if (!isStart) {
+      setIsStart(true);
+      return;
+    }
 
-        taskQueue.forEach(async task => {
-          const data = await task();
-          setUser(user => ({ ...user, voteStatus: data.voteStatus }));
+    try {
+      setIsLoading(true);
 
-          if (data.newStore) {
-            console.log('[new store]', data.newStore);
-            queryClient.setQueryData(['storeInfo', storeId], data.newStore);
-          }
-        });
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, []);
+      taskQueue.forEach(async task => {
+        const data = await task();
+        setUser(user => ({ ...user, voteStatus: data.voteStatus }));
+
+        if (data.newStore) {
+          queryClient.setQueryData(['storeInfo', storeId], data.newStore);
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isStart]);
 
   if (isLoading) return <></>;
 
   return (
     <Container>
-      <img src="/images/success.png" alt="" />
+      <img src="/images/success.png" alt="success" />
       <Text>투표가 성공적으로 완료되었습니다</Text>
       <Button red thirty onClick={() => navigate(`/profile/${user.nickname}`)}>
         마이페이지로 이동하기
