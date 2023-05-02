@@ -16,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
     --button-color : #fff;
     --button-disabled-color : #c4bdbd;
     --button-hover-color: #f7f7f7;
+    --button-click-color: #c4bdbd;
 
     --border: #ababab;
     --border-primary: #ababab;
@@ -34,6 +35,7 @@ const GlobalStyle = createGlobalStyle`
     --font-color: #CDD9E5; /* 연한 글자 회색 */
     --font-secondary: #549bf5;
     --button-hover-color: #46515C;
+    --button-click-color: #46515C;
 
     --button-color: #2D333B;  
     --button-disabled-color : #353C45;

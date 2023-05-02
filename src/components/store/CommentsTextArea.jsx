@@ -38,6 +38,8 @@ const CommentBtn = styled(Button)`
   right: 10px;
   width: 100px;
   font-size: 14px;
+  color: var(--font-color);
+  background-color: var(--bg-color);
 `;
 
 const CommentsTextArea = ({ addComment, setCurrentPage }) => {

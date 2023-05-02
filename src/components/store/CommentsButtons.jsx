@@ -23,7 +23,7 @@ const PageButton = styled(Button)`
   justify-content: center;
 
   font-size: 17px;
-  background: ${({ clicked }) => (clicked ? 'var(--border-primary);' : 'none;')};
+  background: ${({ clicked }) => (clicked ? 'var(--button-click-color);' : 'none;')};
   color: var(--font-color);
   flex-wrap: nowrap;
 

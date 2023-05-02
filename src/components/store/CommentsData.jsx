@@ -32,11 +32,16 @@ const CloseBtn = styled(Button)`
   position: absolute;
   top: 2px;
   right: 0;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: none;
+  color: var(--font-color);
+  font-weight: 500;
 `;
 
 const CommentText = styled.p`
