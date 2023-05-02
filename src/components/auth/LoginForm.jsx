@@ -5,7 +5,7 @@ import userState from '../../recoil/atoms/userState';
 import { signIn } from '../../api/auth';
 import { signinSchema } from '../../schema';
 import AuthForm from './AuthForm';
-import LoginFailAlert from './Alert';
+import Toast from '../common/Toast';
 
 const defaultValues = {
   email: '',
@@ -37,7 +37,9 @@ const LoginForm = () => {
   return (
     <>
       <AuthForm type="login" formSchema={signinSchema} defaultValues={defaultValues} request={onSubmit} />
-      {isFailedLogin && <LoginFailAlert type="login" close={() => setIsFailedLogin(false)} />}
+      {isFailedLogin && (
+        <Toast type="error" text="이메일 또는 비밀번호를 확인해주세요!" closeHandler={() => setIsFailedLogin(false)} />
+      )}
     </>
   );
 };
