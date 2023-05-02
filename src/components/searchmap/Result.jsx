@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import useMarkeredMap from '../../hooks/useMarkeredMap';
 
 import ResultList from './ResultList';
+import { Toast } from '../common/index';
 
 const Container = styled.div`
   position: relative;
@@ -17,12 +18,16 @@ const MapContainer = styled.div`
 `;
 
 const Result = ({ result, paginationRef }) => {
-  const { mapContainerRef, drawMarkers } = useMarkeredMap(result);
+  const { mapContainerRef, drawMarkers } = useMarkeredMap(() => setIsUnregisterdStore(true));
+  const [isUnregisterdStore, setIsUnregisterdStore] = React.useState(false);
 
   return (
     <Container>
       <MapContainer ref={mapContainerRef} />
-      {result.length !== 0 && <ResultList result={result} paginationRef={paginationRef} drawMarkers={drawMarkers} />}
+      {!!result && <ResultList result={result} paginationRef={paginationRef} drawMarkers={drawMarkers} />}
+      {isUnregisterdStore && (
+        <Toast type="warning" text="등록되지 않은 식당입니다." closeHandler={() => setIsUnregisterdStore(false)} />
+      )}
     </Container>
   );
 };

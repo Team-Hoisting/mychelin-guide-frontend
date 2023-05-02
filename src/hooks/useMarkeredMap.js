@@ -1,11 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const { kakao } = window;
 
-const useMarkeredMap = () => {
+const useMarkeredMap = markerClickHandler => {
   const mapRef = React.useRef(null);
   const mapContainerRef = React.useRef(null);
   const markersRef = React.useRef([]);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     mapRef.current = new kakao.maps.Map(mapContainerRef.current, {
@@ -20,15 +22,11 @@ const useMarkeredMap = () => {
       infowindow.close();
     });
 
-    // TODO: 검색 결과 없는 경우 처리
-    if (markerInfos.length === 0) return;
+    markersRef.current = [];
 
     const bounds = new kakao.maps.LatLngBounds();
 
-    markersRef.current = [];
-
     markerInfos.forEach(({ store, isRegistered }, idx) => {
-      const infowindow = new kakao.maps.InfoWindow();
       const marker = new kakao.maps.Marker({
         map: mapRef.current,
         position: new kakao.maps.LatLng(store.y, store.x),
@@ -36,11 +34,23 @@ const useMarkeredMap = () => {
           `/images/marker${isRegistered ? '' : '_nocolor'}.png`,
           new kakao.maps.Size(45, 45)
         ),
+        zIndex: markerInfos.length - idx,
+      });
+
+      kakao.maps.event.addListener(marker, 'click', () => {
+        if (isRegistered) navigate(`/store/${store.id}`);
+        else markerClickHandler();
+      });
+
+      const infowindow = new kakao.maps.InfoWindow({
+        zIndex: markerInfos.length - idx,
       });
 
       infowindow.setContent(
         `<div style="
-          padding: 5px;
+          padding: 5px 10px;
+          overflow: hidden;
+          white-space: nowrap;
           font-size: 15px;
           color: #353535;"><span style="color: var(--primary-color);">${String.fromCharCode(idx + 65)}. </span>${
           store.place_name
