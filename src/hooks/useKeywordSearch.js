@@ -3,7 +3,7 @@ import React from 'react';
 const { kakao } = window;
 
 const useKeywordSearch = (size = 6, page = 1) => {
-  const [result, setResult] = React.useState([]);
+  const [result, setResult] = React.useState(null);
   const paginationRef = React.useRef(null);
 
   const ps = new kakao.maps.services.Places();
@@ -12,7 +12,8 @@ const useKeywordSearch = (size = 6, page = 1) => {
     ps.keywordSearch(
       keyword,
       (result, status, pagination) => {
-        if (status !== kakao.maps.services.Status.OK) return;
+        // kakao.maps.services.Status.ERROR 일 때
+        if (status === kakao.maps.services.Status.ERROR) return;
 
         paginationRef.current = pagination;
         setResult([...result]);

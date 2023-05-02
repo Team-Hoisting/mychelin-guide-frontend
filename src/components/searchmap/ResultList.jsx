@@ -101,7 +101,7 @@ const ResultList = ({ result, paginationRef, drawMarkers }) => {
   };
 
   const { data: resultList, isLoading } = useQuery({
-    queryKey: ['isRegistered', paginationRef.current.current],
+    queryKey: ['isRegistered', paginationRef.current?.current],
     queryFn: fetchIsRegisteredByStoreIds(result.map(({ id }) => id)),
     select(data) {
       return result.map((store, idx) => ({ store, isRegistered: data[idx] }));
