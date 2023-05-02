@@ -4,11 +4,10 @@ import { BsMoon, BsSun } from 'react-icons/bs';
 import { FaRegUser } from 'react-icons/fa';
 import { useLocation, useParams, Link, useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { userState, searchInputState, categoryState } from '../../recoil/atoms';
+import { userState, searchInputState, categoryState, themeState } from '../../recoil/atoms';
 import { logout } from '../../api/auth';
 import Responsive from './Responsive';
 import { SearchBar } from './index';
-import themeState from '../../recoil/atoms/themeState';
 import { useOnClickOutside } from '../../hooks';
 
 const Container = styled.div`
@@ -68,18 +67,22 @@ const UserIconWrapper = styled.div`
 `;
 
 const UserIcon = styled(FaRegUser)`
-  font-size: 27px;
+  font-size: 25px;
   color: var(--font-color);
   margin: 0;
   padding: 0;
   cursor: pointer;
 `;
 
-const UserImage = styled.img`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const UserImage = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  cursor: pointer;
+  ${({ background }) => `
+    background-image: url(${background});
+    background-size: cover;
+  `};
 `;
 
 const ConfigsContainer = styled.div`
@@ -204,16 +207,7 @@ const Header = () => {
                 if (user) setOpenDropdown(!openDropdown);
                 else navigate('/signin');
               }}>
-              {!user ? (
-                <UserIcon />
-              ) : (
-                <UserImage
-                  src={`/img/users/${user.nickname}`}
-                  onError={e => {
-                    e.target.src = '/images/default-user-image.png';
-                  }}
-                />
-              )}
+              {!user ? <UserIcon /> : <UserImage background={`/img/users/${user.nickname}`} />}
             </UserIconWrapper>
             <UserDropdown opened={openDropdown} ref={userDropdownRef}>
               <Link to={`/profile/${user?.nickname}`}>
