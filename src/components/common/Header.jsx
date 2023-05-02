@@ -85,6 +85,16 @@ const UserImage = styled.div`
   `};
 `;
 
+const DefaultUserImage = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  cursor: pointer;
+  background-image: url('/images/default-user-image.png');
+  background-size: cover;
+  border: 1px solid #ababab;
+`;
+
 const ConfigsContainer = styled.div`
   position: relative;
   display: flex;
@@ -207,7 +217,13 @@ const Header = () => {
                 if (user) setOpenDropdown(!openDropdown);
                 else navigate('/signin');
               }}>
-              {!user ? <UserIcon /> : <UserImage background={`/img/users/${user.nickname}`} />}
+              {!user ? (
+                <UserIcon />
+              ) : (
+                <DefaultUserImage>
+                  <UserImage background={`/img/users/${user.nickname}`} />
+                </DefaultUserImage>
+              )}
             </UserIconWrapper>
             <UserDropdown opened={openDropdown} ref={userDropdownRef}>
               <Link to={`/profile/${user?.nickname}`}>
