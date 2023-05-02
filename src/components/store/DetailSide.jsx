@@ -92,7 +92,7 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const DetailSide = ({ store: { imgUrl, x, y, address, phoneNumber } }) => {
+const DetailSide = ({ store: { storeId, x, y, address, phoneNumber } }) => {
   const [isImgLoading, setisImgLoading] = React.useState(true);
 
   const handleLoad = () => {
@@ -104,7 +104,7 @@ const DetailSide = ({ store: { imgUrl, x, y, address, phoneNumber } }) => {
       <ImageContainer className="imagecontainer">
         {isImgLoading && <ImageSkeleton />}
         <Image
-          src={imgUrl}
+          src={`/img/stores/${storeId}`}
           onLoad={handleLoad}
           onError={e => {
             e.target.src = '/images/defaultstore.png';
