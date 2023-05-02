@@ -1,12 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Divider } from '@mantine/core';
-
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { CgProfile } from 'react-icons/cg';
-import { useRecoilValue } from 'recoil';
-import { Button, Loader } from '../common/index';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 
 import { CommentsTextArea, CommentsData } from './index';
 
@@ -15,30 +11,15 @@ import { fetchComments } from '../../api/comment';
 import useCommentsMutation from '../../hooks/useCommentsMutation';
 import CommentsButtons from './CommentsButtons';
 
-import userState from '../../recoil/atoms/userState';
-
 const CommentsContainer = styled.div`
   font-size: 18px;
   width: 100%;
   min-width: 1000px;
   height: 700;
-  /* height: 100vh; */
 `;
 
 const Label = styled.label`
   font-weight: 800;
-`;
-
-const Comment = styled.div`
-  position: relative;
-  margin: 18px 0;
-  padding: 4px 0;
-`;
-
-const User = styled.div`
-  display: flex;
-  align-items: center;
-  height: 30px;
 `;
 
 const Box = styled.div`
@@ -49,7 +30,6 @@ const Loading = styled.div`
   height: 700;
 `;
 
-// eslint-disable-next-line consistent-return
 const Comments = () => {
   const { id } = useParams();
   const [currentPage, setCurrentPage] = React.useState(1);
