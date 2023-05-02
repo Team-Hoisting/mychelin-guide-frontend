@@ -82,14 +82,14 @@ const StoreName = styled.p`
   word-wrap: normal;
 `;
 
-const ProfileStoreItem = ({ categoryCode, storeId, storeName, imgUrl, isEditing = false }) => (
+const ProfileStoreItem = ({ categoryCode, storeId, storeName, isEditing = false }) => (
   <Container isEditing={isEditing}>
     <Link to={`/store/${storeId}`}>
       <ImageContainer>
         <Img
-          src={imgUrl}
+          src={`/img/stores/${storeId}`}
           onError={e => {
-            e.target.src = '/images/defaultstore.png';
+            e.target.src = '/img/default/store.png';
           }}
         />
       </ImageContainer>
