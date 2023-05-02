@@ -15,7 +15,7 @@ const CommentsContainer = styled.div`
   font-size: 18px;
   width: 100%;
   min-width: 1000px;
-  height: 700;
+  height: 800;
 `;
 
 const Label = styled.label`
@@ -23,11 +23,11 @@ const Label = styled.label`
 `;
 
 const Box = styled.div`
-  height: 500px;
+  height: 550px;
 `;
 
 const Loading = styled.div`
-  height: 700;
+  height: 800;
 `;
 
 const Comments = () => {
@@ -50,12 +50,13 @@ const Comments = () => {
         <Divider my="sm" />
         <CommentsTextArea addComment={addComment} setCurrentPage={setCurrentPage} />
         <Box>
-          {commentsData?.map(commentData => (
+          {commentsData?.map((commentData, idx) => (
             <CommentsData
               className="comments"
               key={commentData.commentId}
               commentData={commentData}
               deleteComment={deleteComment}
+              hasBorder={idx !== 4}
             />
           ))}
           <CommentsButtons
