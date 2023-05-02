@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/tabindex-no-positive */
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -202,7 +203,7 @@ const SearchBar = ({
           onChange={debouncedSearchHandler}
           onFocus={handleRefocus}
         />
-        <SearchButton>
+        <SearchButton tabIndex={1}>
           <SearchIcon />
         </SearchButton>
       </SearchForm>
