@@ -23,8 +23,8 @@ const CategoryIcon = styled.img`
 
 const CatagoryName = styled.span`
   margin: 3px;
-  font-size: 15px;
-  line-height: 1.5;
+  font-size: 18px;
+  font-weight: 700;
 `;
 
 const VotedCnt = styled.span`
