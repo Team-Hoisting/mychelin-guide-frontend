@@ -25,23 +25,22 @@ const CategoryName = styled.p`
   font-weight: 500;
 `;
 
-const VotedCategoryItem = ({ categoryCode, storeId }) => {
-  const imgSrc = storeId
-    ? `/img/stores/${storeId}`
-    : `/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`;
-
-  return (
-    <Container>
-      {storeId ? (
-        <Link to={`/store/${storeId}`}>
-          <StoreImg src={imgSrc} />
-        </Link>
-      ) : (
-        <StoreImg src={imgSrc} />
-      )}
-      <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
-    </Container>
-  );
-};
+const VotedCategoryItem = ({ categoryCode, storeId }) => (
+  <Container>
+    {storeId ? (
+      <Link to={`/store/${storeId}`}>
+        <StoreImg
+          src={`/img/stores/${storeId}`}
+          onError={e => {
+            e.target.src = '/img/default/store.png';
+          }}
+        />
+      </Link>
+    ) : (
+      <StoreImg src={`/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`} />
+    )}
+    <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
+  </Container>
+);
 
 export default VotedCategoryItem;
