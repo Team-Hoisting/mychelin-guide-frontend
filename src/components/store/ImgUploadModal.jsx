@@ -67,7 +67,7 @@ const ImgUploadModal = () => {
       const formData = new FormData();
       formData.append('img', file);
 
-      await axios.post('/api/upload', formData);
+      await axios.post('/api/upload/', formData);
       close();
     } catch (e) {
       console.error(e);
