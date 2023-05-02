@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Divider } from '@mantine/core';
-
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
@@ -11,7 +10,6 @@ import { commentQueryKey } from '../../constants/index';
 import { fetchComments } from '../../api/comment';
 import useCommentsMutation from '../../hooks/useCommentsMutation';
 import CommentsButtons from './CommentsButtons';
-import 'react-loading-skeleton/dist/skeleton.css';
 
 const CommentsContainer = styled.div`
   font-size: 18px;

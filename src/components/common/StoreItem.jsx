@@ -32,6 +32,7 @@ const Contents = styled.section`
   display: flex;
   flex-direction: column;
   background-color: var(--bg-color);
+  height: 100%;
   font-weight: 500;
   font-size: 18px;
 `;
@@ -67,7 +68,12 @@ const StoreItem = ({ storeName = '', imgUrl = '', starCount = 0, votesByCategory
     <Container>
       <Link to="/detail">
         <ImageContainer imgUrl={imgUrl}>
-          <Img src={imgUrl} />
+          <Img
+            src={imgUrl}
+            onError={e => {
+              e.target.src = 'images/defaultstore.png';
+            }}
+          />
         </ImageContainer>
       </Link>
       <Contents>

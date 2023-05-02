@@ -21,7 +21,7 @@ const GlobalStyle = createGlobalStyle`
     --border-primary: #ababab;
     --border-secondary: #eee;
     --border-bottom: #1C2128;
-    
+    --border-top: black;
   }
 
   body[data-theme='dark'] {
@@ -43,6 +43,8 @@ const GlobalStyle = createGlobalStyle`
     --border-primary: #2D333B;
     --border-secondary: #373E47;
     --border-bottom:#CDD9E5;
+    --border-top: #fff;
+
   }
 
   body {
@@ -90,7 +92,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   code {
-    font-family: monospace;
+    font-family: monospace; 
   }
 `;
 

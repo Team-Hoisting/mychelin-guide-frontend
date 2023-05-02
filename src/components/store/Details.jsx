@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { storeQueryKey } from '../../constants/index';
 import { fetchStore } from '../../api/stores';
-import { Title, DetailSide, Votes, StoreImgUpload } from './index';
+import { Title, Votes, DetailSide } from './index';
 import { Loader } from '../common/index';
 import ImgUploadModal from './ImgUploadModal';
 

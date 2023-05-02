@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import userState from '../../recoil/atoms/userState';
@@ -25,8 +26,9 @@ const Text = styled.div`
   margin-bottom: 1.2rem;
 `;
 
-const SuccessVerifier = ({ taskQueue }) => {
+const SuccessVerifier = ({ taskQueue, storeId }) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [user, setUser] = useRecoilState(userState);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -36,8 +38,13 @@ const SuccessVerifier = ({ taskQueue }) => {
         setIsLoading(true);
 
         taskQueue.forEach(async task => {
-          const voteStatus = await task();
-          setUser(user => ({ ...user, voteStatus }));
+          const data = await task();
+          setUser(user => ({ ...user, voteStatus: data.voteStatus }));
+
+          if (data.newStore) {
+            console.log('[new store]', data.newStore);
+            queryClient.setQueryData(['storeInfo', storeId], data.newStore);
+          }
         });
       } catch (e) {
         console.log(e);

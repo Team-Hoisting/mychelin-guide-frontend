@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BiMoon, BiSun } from 'react-icons/bi';
-import { FaUserCircle } from 'react-icons/fa';
+import { BsMoon, BsSun } from 'react-icons/bs';
+import { FaRegUser } from 'react-icons/fa';
 import { useLocation, useParams, Link, useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { userState, searchInputState, categoryState } from '../../recoil/atoms';
@@ -21,7 +21,8 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled(Responsive)`
-  height: 5rem;
+  height: 4rem;
+  min-width: 1024px;
   align-items: center;
   ${({ hasSearchBar }) =>
     hasSearchBar
@@ -40,28 +41,45 @@ const LogoImage = styled.img`
   cursor: pointer;
 `;
 
-const LightModeIcon = styled(BiSun)`
+const LightModeIcon = styled(BsSun)`
   font-size: 30px;
-  color: #cdd9e5;
+  color: #ffff00ea;
   margin: 0;
   padding: 0;
   cursor: pointer;
 `;
 
-const DarkModeIcon = styled(BiMoon)`
-  font-size: 30px;
+const DarkModeIcon = styled(BsMoon)`
+  font-size: 27px;
   color: #3c3c3c;
   margin: 0;
   padding: 0;
   cursor: pointer;
 `;
 
-const UserIcon = styled(FaUserCircle)`
-  font-size: 30px;
+const UserIconWrapper = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const UserIcon = styled(FaRegUser)`
+  font-size: 27px;
   color: var(--font-color);
   margin: 0;
   padding: 0;
   cursor: pointer;
+`;
+
+const UserImage = styled.img`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ConfigsContainer = styled.div`
@@ -119,7 +137,7 @@ const SignoutButton = styled(DropdownButton)`
 `;
 
 const Spacer = styled.div`
-  height: 5rem;
+  height: 4rem;
 `;
 
 const Header = () => {
@@ -179,14 +197,24 @@ const Header = () => {
             ) : (
               <DarkModeIcon onClick={handleThemeIconClick} />
             )}
-            <UserIcon
+            <UserIconWrapper
               onClick={e => {
                 e.stopPropagation();
 
                 if (user) setOpenDropdown(!openDropdown);
                 else navigate('/signin');
-              }}
-            />
+              }}>
+              {!user ? (
+                <UserIcon />
+              ) : (
+                <UserImage
+                  src={`/img/users/${user.nickname}`}
+                  onError={e => {
+                    e.target.src = '/images/default-user-image.png';
+                  }}
+                />
+              )}
+            </UserIconWrapper>
             <UserDropdown opened={openDropdown} ref={userDropdownRef}>
               <Link to={`/profile/${user?.nickname}`}>
                 <DropdownButton onClick={() => setOpenDropdown(false)}>마이페이지</DropdownButton>
