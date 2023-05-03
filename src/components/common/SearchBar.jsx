@@ -214,7 +214,7 @@ const SearchBar = ({
           {dropdownStores.length ? (
             dropdownStores.map(({ storeName, storeId }) => (
               <DropdownResult key={storeName} tabIndex="0" onKeyDown={e => alterFocus(e, storeId)}>
-                <Link to={`/store/${storeId}`}>
+                <Link to={`/store/${storeId}`} onClick={() => setOpenDropdown(false)}>
                   <div>{storeName}</div>
                 </Link>
               </DropdownResult>
