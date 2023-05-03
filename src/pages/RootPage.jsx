@@ -4,10 +4,11 @@ import { useRecoilState } from 'recoil';
 import { ToastContainer } from 'react-toastify';
 import { check } from '../api/auth';
 import { Header, Footer, SideBanner, LogInBanner } from '../components/common';
-import { userState } from '../recoil/atoms';
+import { userState, themeState } from '../recoil/atoms';
 
 const RootPage = () => {
   const [user, setUser] = useRecoilState(userState);
+  const [theme] = useRecoilState(themeState);
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
@@ -42,7 +43,7 @@ const RootPage = () => {
           newestOnTop={false}
           closeOnClick
           rtl={false}
-          theme="light"
+          theme={theme}
         />
       </div>
 

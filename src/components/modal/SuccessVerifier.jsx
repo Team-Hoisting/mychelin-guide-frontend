@@ -51,7 +51,7 @@ const SuccessVerifier = ({ taskQueue, storeId }) => {
         }
       });
     } catch (e) {
-      console.log(e);
+      throw new Error(e);
     } finally {
       setIsLoading(false);
     }
