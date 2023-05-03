@@ -20,6 +20,7 @@ const GlobalStyle = createGlobalStyle`
     --border: #ababab;
     --border-primary: #ababab;
     --border-secondary: #eee;
+    --border-tertiary: #000;
     --border-bottom: #1C2128;
     --border-top: black;
   }
@@ -40,8 +41,9 @@ const GlobalStyle = createGlobalStyle`
 
 
     --border: none;
-    --border-primary: #2D333B;
+    --border-primary: #5d646e;
     --border-secondary: #373E47;
+    --border-tertiary: #fff;
     --border-bottom:#CDD9E5;
     --border-top: #fff;
 

@@ -68,14 +68,11 @@ const StoreItemContainer = styled.div`
   }
 `;
 
-let displayedStores = { topThree: [], remaining: [] };
-
 const InfiniteStoreList = ({ data, fetchNextPage, hasNextPage }) => {
   const searchedStores = data.pages.flat();
   const [topThree, remaining] = [searchedStores.slice(0, 3), searchedStores.slice(3)];
   const searchedInput = useRecoilValue(searchInputState);
-
-  displayedStores = searchedInput ? { topThree: [], remaining: searchedStores } : { topThree, remaining };
+  const displayedStores = searchedInput ? { topThree: [], remaining: searchedStores } : { topThree, remaining };
 
   return (
     <>
