@@ -1,24 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import { useSearchParams } from 'react-router-dom';
-
 import { Result } from '../components/searchmap';
-import { SearchBar } from '../components/common';
-
 import useKeywordSearch from '../hooks/useKeywordSearch';
 
 const Container = styled.main`
   position: relative;
-`;
-
-const SearchBarContainer = styled.div`
-  position: absolute;
-  top: 3rem;
-  width: 100%;
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
 `;
 
 const SearchMapPage = () => {
@@ -34,19 +21,12 @@ const SearchMapPage = () => {
 
   return (
     <Container>
-      <SearchBarContainer>
-        <SearchBar
-          hasDropdown={false}
-          placeholder="당신만의 맛집을 알려주세요!"
-          defaultValue={keyword}
-          inputRef={inputRef}
-          width="500px"
-          submitHandler={() => {
-            keywordSearch(inputRef.current.value);
-          }}
-        />
-      </SearchBarContainer>
-      <Result keyword={inputRef.current?.value} result={result} paginationRef={paginationRef} />
+      <Result
+        keyword={inputRef.current?.value}
+        keywordSearch={keywordSearch}
+        result={result}
+        paginationRef={paginationRef}
+      />
     </Container>
   );
 };
