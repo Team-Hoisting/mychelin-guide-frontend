@@ -8,16 +8,16 @@ const useMarkeredMap = markerClickHandler => {
   const markersRef = React.useRef([]);
 
   React.useEffect(() => {
-    const successGeolocation = position => {
-      if (mapRef.current) return;
+    if (mapRef.current) return;
 
+    mapRef.current = new kakao.maps.Map(mapContainerRef.current, {
+      center: new kakao.maps.LatLng(37.49554428487904, 127.0292884713586),
+      level: 3,
+    });
+
+    const successGeolocation = position => {
       const { latitude, longitude } = position.coords;
       const currentLatLng = new kakao.maps.LatLng(latitude, longitude);
-
-      mapRef.current = new kakao.maps.Map(mapContainerRef.current, {
-        center: currentLatLng,
-        level: 3,
-      });
 
       const marker = new kakao.maps.Marker({
         map: mapRef.current,
@@ -26,15 +26,11 @@ const useMarkeredMap = markerClickHandler => {
       });
 
       markersRef.current = [{ marker }];
+
+      mapRef.current.setCenter(currentLatLng);
     };
 
-    const errorGeolocation = () => {
-      if (mapRef.current) return;
-      mapRef.current = new kakao.maps.Map(mapContainerRef.current, {
-        center: new kakao.maps.LatLng(37.49554428487904, 127.0292884713586),
-        level: 3,
-      });
-    };
+    const errorGeolocation = () => {};
 
     if ('geolocation' in navigator) navigator.geolocation.getCurrentPosition(successGeolocation, errorGeolocation);
   }, []);

@@ -19,14 +19,14 @@ const useFetchStores = () => {
   };
 
   // prettier-ignore
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { data, isLoading, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: [...storesQueryKey, category, keyword], 
     queryFn: ({ pageParam = 1 }) => storeFetcher(pageParam),
     getNextPageParam: (lastPage, allPages) =>
     lastPage.length === STORES_FETCH_SIZE ? allPages.length + 1 : undefined,
   });
 
-  return { data, fetchNextPage, hasNextPage };
+  return { data, isLoading, fetchNextPage, hasNextPage };
 };
 
 export default useFetchStores;

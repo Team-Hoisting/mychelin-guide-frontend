@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { searchInputState } from '../../recoil/atoms';
 import { ScrollObserver } from '../common';
 import { StoreItemOnHover, NoResultMessage, StoreItem } from '.';
+import { useFetchStores } from '../../hooks';
 
 const StoresContainer = styled.div`
   padding: 20px;
@@ -68,7 +69,8 @@ const StoreItemContainer = styled.div`
   }
 `;
 
-const InfiniteStoreList = ({ data, fetchNextPage, hasNextPage }) => {
+const InfiniteStoreList = () => {
+  const { data, fetchNextPage, hasNextPage } = useFetchStores();
   const searchedStores = data.pages.flat();
   const [topThree, remaining] = [searchedStores.slice(0, 3), searchedStores.slice(3)];
   const searchedInput = useRecoilValue(searchInputState);

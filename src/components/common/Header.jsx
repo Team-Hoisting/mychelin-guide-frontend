@@ -66,7 +66,6 @@ const UserIconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  border: 1px solid var(--border-primary);
   object-fit: cover;
 `;
 
@@ -84,6 +83,7 @@ const UserImage = styled.img`
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
+  border: 1px solid var(--border-primary);
 `;
 
 const ConfigsContainer = styled.div`
