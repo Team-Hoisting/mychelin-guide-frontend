@@ -101,17 +101,12 @@ const InputField = ({ control, trigger, name, autoComplete, label, type, doubleC
 
     try {
       const { status } = await request(value);
-      console.log(status);
 
       if (status === 200) {
-        console.log('성공');
-
         setIsDuplicate(true);
         if (doubleCheck) setIsDuplicateField(true);
       }
     } catch (e) {
-      console.log('중복');
-
       setIsDuplicate(false);
       setIsDisabled(true);
       if (doubleCheck) setIsDuplicateField(false);
