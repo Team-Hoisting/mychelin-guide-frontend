@@ -107,7 +107,7 @@ const DetailSide = ({ store: { storeId, x, y, address, phoneNumber } }) => {
           src={`/img/stores/${storeId}`}
           onLoad={handleLoad}
           onError={e => {
-            e.target.src = '/images/defaultstore.png';
+            e.target.src = '/img/default/store.png';
           }}
           isImgLoading={isImgLoading}
           draggable={false}
