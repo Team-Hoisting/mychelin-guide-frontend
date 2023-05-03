@@ -103,6 +103,10 @@ const GlobalStyle = createGlobalStyle`
     width: fit-content;
     min-width: 300px;
   }
+
+  img {
+    pointer-events: none;
+  }
 `;
 
 export default GlobalStyle;
