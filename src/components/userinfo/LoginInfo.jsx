@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 import { nicknameSchema, passwordSchema } from '../../schema';
 import Unit from './Unit';
@@ -45,9 +46,11 @@ const LoginInfo = () => {
         formSchema={passwordSchema}
         defaultValues={defaultValuesForPassword}
       />
-      {isSuccess && (
-        <Toast type="success" text="회원정보 수정이 완료되었습니다!" closeHandler={() => setIsSuccess(false)} />
-      )}
+      {isSuccess &&
+        createPortal(
+          <Toast type="success" text="회원정보 수정이 완료되었습니다!" closeHandler={() => setIsSuccess(false)} />,
+          document.body
+        )}
     </Container>
   );
 };

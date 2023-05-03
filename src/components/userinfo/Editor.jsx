@@ -56,10 +56,8 @@ const Editor = ({ type, onClose, formSchema, defaultValues, setIsSuccess }) => {
       if (type !== 'nickname') {
         await logout();
 
-        setTimeout(() => {
-          navigate('/signin');
-          setUser(null);
-        }, 500);
+        navigate('/signin');
+        setUser(null);
       } else {
         setUser(editedUser);
       }
