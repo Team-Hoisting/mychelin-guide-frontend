@@ -30,7 +30,7 @@ const ProfileHeader = ({ profileUserNickname, isCertified }) => (
     <ProfileImg
       src={`/img/users/${profileUserNickname}`}
       onError={e => {
-        e.target.src = '/images/default-user-image.png';
+        e.target.src = '/img/default/user.png';
       }}
     />
     <NickName>
