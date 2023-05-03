@@ -7,7 +7,7 @@ import { HiOutlinePhotograph } from 'react-icons/hi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiUpload } from 'react-icons/bi';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Button as CommonButton } from '../common/index';
 
 const iconSize = css`
@@ -30,7 +30,7 @@ const UploadIcon = styled(BiUpload)`
 const Preview = styled.img.attrs({
   alt: '선택한 이미지',
 })`
-  width: 200px;
+  width: 400px;
   object-fit: cover;
 `;
 
@@ -59,16 +59,19 @@ const BeforeUploadButton = styled(Button)`
   }
 `;
 
-const ImgUploadModal = () => {
+const ImgUploadModal = ({ user }) => {
   const { id } = useParams();
+
+  const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false, {
+    onOpen: () => {
+      if (!user) navigate('/signin');
+    },
     onClose: () => setFile(null),
   });
   const [file, setFile] = React.useState(null);
 
   const handleImageDrop = files => {
-    console.log('accepted files', files);
-
     // 프리뷰
     const [file] = files;
     setFile(file);
@@ -81,8 +84,16 @@ const ImgUploadModal = () => {
       formData.append('img', file);
       formData.append('filename', id);
 
-      await axios.post('/api/upload/store', formData);
-      close();
+      const res = await axios.post('/api/upload/store', formData);
+
+      if (res.status !== 200) throw new Error(res.statusText);
+
+      const { success } = res.data;
+
+      if (success) {
+        window.location.reload();
+        close();
+      }
     } catch (e) {
       console.error(e);
     }
@@ -134,9 +145,14 @@ const ImgUploadModal = () => {
           )}
         </Dropzone>
         {file && (
-          <Right>
-            <UploadButton onClick={handleUploadButtonClick}>확인</UploadButton>
-          </Right>
+          <>
+            <Center>
+              <Text>사진을 업로드하시겠습니까?</Text>
+            </Center>
+            <Right>
+              <UploadButton onClick={handleUploadButtonClick}>확인</UploadButton>
+            </Right>
+          </>
         )}
       </Modal>
       <BeforeUploadButton onClick={open}>사진 업로드</BeforeUploadButton>

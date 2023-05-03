@@ -11,6 +11,11 @@ const Container = styled.div`
   margin: 0 auto;
   min-height: 100vh;
 
+  button {
+    background-color: var(--button-color);
+    color: var(--font-color);
+  }
+
   @media (max-width: 1024px) {
     width: 768px;
   }
