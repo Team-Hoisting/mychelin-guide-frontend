@@ -17,7 +17,6 @@ const StoreImg = styled.img`
   border-radius: 50%;
   overflow: hidden;
   color: var(--font-color);
-  object-fit: cover;
 `;
 
 const CategoryName = styled.p`
@@ -27,21 +26,21 @@ const CategoryName = styled.p`
 `;
 
 const VotedCategoryItem = ({ categoryCode, storeId }) => (
-  <Container>
-    {storeId ? (
-      <Link to={`/store/${storeId}`}>
+  <Link to={`/store/${storeId}`}>
+    <Container>
+      {storeId ? (
         <StoreImg
           src={`/img/stores/${storeId}`}
           onError={e => {
             e.target.src = '/img/default/store.png';
           }}
         />
-      </Link>
-    ) : (
-      <StoreImg src={`/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`} />
-    )}
-    <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
-  </Container>
+      ) : (
+        <StoreImg src={`/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`} />
+      )}
+      <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
+    </Container>
+  </Link>
 );
 
 export default VotedCategoryItem;
