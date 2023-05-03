@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import { Link } from 'react-router-dom';
 import { Button } from '../common';
 import NewModal from '../common/NewModal';
@@ -12,7 +11,6 @@ const Container = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* border-radius: 20px; */
   z-index: 9999;
 `;
 

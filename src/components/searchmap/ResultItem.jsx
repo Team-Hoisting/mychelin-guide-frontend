@@ -4,7 +4,7 @@ const ResultItemContainer = styled.div`
   padding: 10px 0 10px 20px;
   width: 100%;
   height: 130px;
-  background-color: var(--bg-color);
+  border-bottom: 1px solid var(--border-primary);
   color: var(--font-color);
 `;
 
@@ -32,15 +32,14 @@ const PhoneNumber = styled.span`
   margin: 5px 0;
 `;
 
-const ResultItem = ({ storeName, address, phoneNumber, currentIdx, selected }) => (
-  <ResultItemContainer selected={selected}>
+const ResultItem = ({ storeName, address, phoneNumber, currentIdx }) => (
+  <ResultItemContainer>
     <StoreName>
       <Number>{`${currentIdx}. `}</Number>
       {storeName}
     </StoreName>
     <AdditionalInfoWrapper>
       <Address>{address}</Address>
-      {/* {phoneNumber ? <PhoneNumber>{phoneNumber}</PhoneNumber> : <PlaceHolder />} */}
       <PhoneNumber>{phoneNumber}</PhoneNumber>
     </AdditionalInfoWrapper>
   </ResultItemContainer>
