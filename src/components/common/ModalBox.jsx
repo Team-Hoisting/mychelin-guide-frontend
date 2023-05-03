@@ -97,8 +97,9 @@ const ModalBox = ({ store, storeId, width }) => {
       <Group position="center">
         <Button
           onClick={() => {
-            if (!user) navigate('/signin', { state: pathname });
-            else {
+            if (!user) {
+              navigate('/signin', { state: pathname });
+            } else {
               setIsOpened(true);
               setPhase('select');
             }
