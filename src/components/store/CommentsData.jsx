@@ -84,7 +84,13 @@ const CommentsData = ({ commentData, deleteComment, hasBorder }) => {
   return (
     <div>
       <Comment>
-        <Profile src={`/img/users/${commentData?.nickname}`} onClick={handleProfileClick(nickname)} />
+        <Profile
+          src={`/img/users/${commentData?.nickname}`}
+          onError={e => {
+            e.target.src = 'img/default/user.png';
+          }}
+          onClick={handleProfileClick(nickname)}
+        />
         <div>
           <User>
             <NickName>{nickname}</NickName>
