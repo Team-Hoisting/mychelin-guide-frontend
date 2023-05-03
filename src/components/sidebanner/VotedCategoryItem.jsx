@@ -26,21 +26,21 @@ const CategoryName = styled.p`
 `;
 
 const VotedCategoryItem = ({ categoryCode, storeId }) => (
-  <Link to={`/store/${storeId}`}>
-    <Container>
-      {storeId ? (
+  <Container>
+    {storeId ? (
+      <Link to={`/store/${storeId}`}>
         <StoreImg
           src={`/img/stores/${storeId}`}
           onError={e => {
             e.target.src = '/img/default/store.png';
           }}
         />
-      ) : (
-        <StoreImg src={`/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`} />
-      )}
-      <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
-    </Container>
-  </Link>
+      </Link>
+    ) : (
+      <StoreImg src={`/categoryIcons/noColor/${categoryInfo[categoryCode].imgFile}.png`} />
+    )}
+    <CategoryName>{categoryInfo[categoryCode].ko}</CategoryName>
+  </Container>
 );
 
 export default VotedCategoryItem;
