@@ -1,7 +1,7 @@
 import z from 'zod';
 
 const nicknameSchema = z.object({
-  nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
+  nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }).max(8, { message: '최대 8글자까지 가능합니다.' }),
 });
 
 const passwordSchema = z
@@ -31,7 +31,10 @@ const signinSchema = z.object({
 const signupSchema = signinSchema
   .and(
     z.object({
-      nickname: z.string().min(1, { message: '닉네임을 입력해주세요.' }),
+      nickname: z
+        .string()
+        .min(1, { message: '닉네임을 입력해주세요.' })
+        .max(8, { message: '최대 8글자까지 가능합니다.' }),
       confirmPassword: z.string().min(1, { message: '패스워드를 확인해 주세요' }),
     })
   )
