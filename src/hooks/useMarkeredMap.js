@@ -8,18 +8,41 @@ const useMarkeredMap = markerClickHandler => {
   const markersRef = React.useRef([]);
 
   React.useEffect(() => {
-    if (mapRef.current) return;
+    const successGeolocation = position => {
+      if (mapRef.current) return;
 
-    mapRef.current = new kakao.maps.Map(mapContainerRef.current, {
-      center: new kakao.maps.LatLng(37.497934, 127.027616), // 설정한 위도와 경도를 지도의 중심으로 설정
-      level: 3, // 지도의 확대 레벨
-    });
+      const { latitude, longitude } = position.coords;
+      const currentLatLng = new kakao.maps.LatLng(latitude, longitude);
+
+      mapRef.current = new kakao.maps.Map(mapContainerRef.current, {
+        center: currentLatLng,
+        level: 3,
+      });
+
+      const marker = new kakao.maps.Marker({
+        map: mapRef.current,
+        position: currentLatLng,
+        image: new kakao.maps.MarkerImage(`/images/marker.png`, new kakao.maps.Size(45, 45)),
+      });
+
+      markersRef.current = [{ marker }];
+    };
+
+    const errorGeolocation = () => {
+      if (mapRef.current) return;
+      mapRef.current = new kakao.maps.Map(mapContainerRef.current, {
+        center: new kakao.maps.LatLng(37.49554428487904, 127.0292884713586),
+        level: 3,
+      });
+    };
+
+    if ('geolocation' in navigator) navigator.geolocation.getCurrentPosition(successGeolocation, errorGeolocation);
   }, []);
 
   const drawMarkers = (markerInfos = []) => {
     markersRef.current.forEach(({ marker, infowindow }) => {
       marker.setMap(null);
-      infowindow.close();
+      infowindow?.close();
     });
 
     markersRef.current = [];
