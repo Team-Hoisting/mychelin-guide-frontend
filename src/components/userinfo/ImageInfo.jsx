@@ -100,7 +100,7 @@ const Information = () => {
         <Avatar
           src={`/img/users/${user.nickname}`}
           onError={e => {
-            e.target.src = '/images/default-user-image.png';
+            e.target.src = '/img/default/user.png';
           }}
           ref={imageRef}
         />
