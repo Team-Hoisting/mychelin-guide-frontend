@@ -26,6 +26,7 @@ const Profile = styled.img`
   border-radius: 50%;
   cursor: pointer;
   margin-right: 12px;
+  object-fit: cover;
 `;
 
 const CloseBtn = styled(Button)`
@@ -87,7 +88,7 @@ const CommentsData = ({ commentData, deleteComment, hasBorder }) => {
         <Profile
           src={`/img/users/${commentData?.nickname}`}
           onError={e => {
-            e.target.src = 'img/default/user.png';
+            e.target.src = '/img/default/user.png';
           }}
           onClick={handleProfileClick(nickname)}
         />
