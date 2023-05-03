@@ -15,8 +15,7 @@ const NoArchivedItemContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  height: 250px;
-  border: 2px dashed #ababab;
+  height: 500px;
 `;
 
 const ArchivedStores = ({ profileUserNickname }) => {
@@ -29,7 +28,7 @@ const ArchivedStores = ({ profileUserNickname }) => {
       {data.pages.flat().length === 0 ? (
         <>
           <NoArchivedItemContainer>
-            <span>{profileUserNickname}님이 저장한 식당이 없습니다.</span>
+            <span>{profileUserNickname}님은 아직 저장한 식당이 없습니다.</span>
           </NoArchivedItemContainer>
         </>
       ) : (
