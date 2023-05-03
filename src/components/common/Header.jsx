@@ -65,6 +65,9 @@ const UserIconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  border: 2px solid var(--font-color);
+  object-fit: cover;
 `;
 
 const UserIcon = styled(FaRegUser)`
@@ -81,14 +84,6 @@ const UserImage = styled.img`
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
-`;
-
-const DefaultUserImage = styled.div`
-  width: 30px;
-  height: 30px;
-  border-radius: 30px;
-  cursor: pointer;
-  border: 1px solid #ababab;
 `;
 
 const ConfigsContainer = styled.div`
@@ -216,14 +211,12 @@ const Header = () => {
               {!user ? (
                 <UserIcon />
               ) : (
-                <DefaultUserImage>
-                  <UserImage
-                    src={`/img/users/${user.nickname}`}
-                    onError={e => {
-                      e.target.src = '/img/default/user.png';
-                    }}
-                  />
-                </DefaultUserImage>
+                <UserImage
+                  src={`/img/users/${user.nickname}`}
+                  onError={e => {
+                    e.target.src = '/img/default/user.png';
+                  }}
+                />
               )}
             </UserIconWrapper>
             <UserDropdown opened={openDropdown} ref={userDropdownRef}>

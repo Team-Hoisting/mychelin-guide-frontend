@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { ToastContainer } from 'react-toastify';
 import { check } from '../api/auth';
-import { Header, Footer, SideBanner, LogInBanner } from '../components/common';
+import { Header, Footer, SideBanner, Loader } from '../components/common';
 import { userState, themeState } from '../recoil/atoms';
 
 const RootPage = () => {
@@ -31,22 +31,21 @@ const RootPage = () => {
   return (
     <>
       <Header />
-      {!user ? <LogInBanner /> : <SideBanner />}
-
-      <div id="detail">
+      {user && <SideBanner />}
+      <React.Suspense fallback={<Loader />}>
         <Outlet />
-        <ToastContainer
-          className="toastContainer"
-          position="bottom-right"
-          autoClose={3000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          theme={theme}
-        />
-      </div>
+      </React.Suspense>
 
+      <ToastContainer
+        className="toastContainer"
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        theme={theme}
+      />
       <Footer />
     </>
   );

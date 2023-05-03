@@ -26,20 +26,14 @@ const Box = styled.div`
   height: 500px;
 `;
 
-const Loading = styled.div`
-  height: 700;
-`;
-
 const Comments = () => {
   const { id } = useParams();
   const [currentPage, setCurrentPage] = React.useState(1);
   const { addComment, deleteComment } = useCommentsMutation({ id, currentPage });
 
-  const { data, isLoading } = useQuery([...commentQueryKey, id, currentPage], fetchComments(id, currentPage), {
+  const { data } = useQuery([...commentQueryKey, id, currentPage], fetchComments(id, currentPage), {
     keepPreviousData: true,
   });
-
-  if (isLoading) return <Loading />;
 
   const { data: commentsData, totalPages } = data;
 
