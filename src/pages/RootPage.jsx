@@ -1,12 +1,14 @@
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { ToastContainer } from 'react-toastify';
 import { check } from '../api/auth';
 import { Header, Footer, SideBanner, Loader } from '../components/common';
-import { userState } from '../recoil/atoms';
+import { userState, themeState } from '../recoil/atoms';
 
 const RootPage = () => {
   const [user, setUser] = useRecoilState(userState);
+  const [theme] = useRecoilState(themeState);
   const [isLoading, setIsLoading] = React.useState(false);
   const location = useLocation();
 
@@ -38,6 +40,17 @@ const RootPage = () => {
       <React.Suspense fallback={<Loader />}>
         <Outlet />
       </React.Suspense>
+
+      <ToastContainer
+        className="toastContainer"
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        theme={theme}
+      />
       <Footer />
     </>
   );

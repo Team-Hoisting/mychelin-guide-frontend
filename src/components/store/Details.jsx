@@ -51,12 +51,6 @@ const VoteCntMsg = styled.span`
   }
 `;
 
-const Flex = styled.div`
-  display: flex;
-  align-items: center;
-  height: 30px;
-`;
-
 const storeQuery = storeid => ({ queryKey: [...storeQueryKey, storeid], queryFn: fetchStore(storeid) });
 
 const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBookMark }) => {
@@ -74,14 +68,13 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
         <FirstVoteUser>
           최초 투표자 : <UserName>{storeData.firstVoteUser}</UserName>
         </FirstVoteUser>
-        {/* <Flex> */}
+
         <VoteCntMsg>
           투표 <span>{storeData.totalVotesCnt}</span>개
         </VoteCntMsg>
         <ArchivedCntMsg>
           저장 <span>{archivedCntState}</span>개
         </ArchivedCntMsg>
-        {/* </Flex> */}
       </SubTitle>
       <DetailSide store={storeData} />
       <Votes voteCnt={storeData.voteCnt} />
