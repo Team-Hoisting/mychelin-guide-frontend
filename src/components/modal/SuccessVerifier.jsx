@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import userState from '../../recoil/atoms/userState';
 import Button from '../common/Button';
+import { Loader } from '../common';
 
 const Container = styled.div`
   display: flex;
@@ -57,7 +58,7 @@ const SuccessVerifier = ({ taskQueue, storeId }) => {
     }
   }, [isStart]);
 
-  if (isLoading) return <></>;
+  if (isLoading) return <Loader />;
 
   return (
     <Container>

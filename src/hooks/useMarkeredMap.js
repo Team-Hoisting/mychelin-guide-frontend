@@ -8,6 +8,8 @@ const useMarkeredMap = markerClickHandler => {
   const markersRef = React.useRef([]);
 
   React.useEffect(() => {
+    if (mapRef.current) return;
+
     mapRef.current = new kakao.maps.Map(mapContainerRef.current, {
       center: new kakao.maps.LatLng(37.497934, 127.027616), // 설정한 위도와 경도를 지도의 중심으로 설정
       level: 3, // 지도의 확대 레벨
@@ -21,6 +23,8 @@ const useMarkeredMap = markerClickHandler => {
     });
 
     markersRef.current = [];
+
+    if (markerInfos.length === 0) return;
 
     const bounds = new kakao.maps.LatLngBounds();
 
@@ -61,7 +65,7 @@ const useMarkeredMap = markerClickHandler => {
       bounds.extend(new kakao.maps.LatLng(store.y, store.x));
     });
 
-    mapRef.current.setBounds(bounds, 32, 225, 32, 32);
+    mapRef.current.setBounds(bounds);
   };
 
   return { mapContainerRef, drawMarkers };

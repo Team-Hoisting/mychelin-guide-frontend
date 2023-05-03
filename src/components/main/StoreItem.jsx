@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { MychelinStars } from '../main';
-import { CategoryTag } from '.';
+import { MychelinStars } from '.';
+import { CategoryTag } from '../common';
 
 const Container = styled.div`
   width: 100%;
@@ -63,15 +63,15 @@ const Placeholder = styled.div`
   width: 100px;
 `;
 
-const StoreItem = ({ storeName = '', imgUrl = '', starCount = 0, votesByCategory = {} }) => (
+const StoreItem = ({ storeId, storeName, starCount = 0, votesByCategory = {} }) => (
   <>
     <Container>
       <Link to="/detail">
-        <ImageContainer imgUrl={imgUrl}>
+        <ImageContainer>
           <Img
-            src={imgUrl}
+            src={`img/stores/${storeId}`}
             onError={e => {
-              e.target.src = 'images/defaultstore.png';
+              e.target.src = 'img/default/store.png';
             }}
           />
         </ImageContainer>
