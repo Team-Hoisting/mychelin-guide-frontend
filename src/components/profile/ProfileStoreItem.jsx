@@ -76,7 +76,7 @@ const StoreName = styled.p`
   font-size: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 70%;
+  max-width: 65%;
   white-space: nowrap;
   word-wrap: normal;
 `;
