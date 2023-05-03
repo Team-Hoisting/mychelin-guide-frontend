@@ -30,6 +30,7 @@ const SideSearch = styled.div`
 `;
 
 const SearchBarContainer = styled.div`
+  margin-left: 20px;
   padding: 20px 0;
 `;
 
@@ -114,7 +115,7 @@ const SearchMapPage = () => {
             placeholder="당신만의 맛집을 알려주세요!"
             defaultValue={keyword}
             inputRef={inputRef}
-            width="375px"
+            width="320px"
             submitHandler={() => {
               keywordSearch(inputRef.current.value);
             }}
