@@ -29,7 +29,7 @@ const RootPage = () => {
   return (
     <>
       <Header />
-      {!user ? <LogInBanner /> : <SideBanner />}
+      {user && <SideBanner />}
 
       <div id="detail">
         <Outlet />
