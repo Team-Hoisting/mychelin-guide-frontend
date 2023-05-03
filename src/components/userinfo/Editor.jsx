@@ -63,10 +63,11 @@ const Editor = ({ type, onClose, formSchema, defaultValues }) => {
         setUser(editedUser);
       }
       toast.success(`${type === 'nickname' ? '닉네임' : '비밀번호'}을 수정했습니다.`);
-    } catch (e) {
-      throw new Error(e);
-    } finally {
+
       onClose();
+    } catch (error) {
+      if (error.response.status === 409) toast.warn('기존 비밀번호와 동일합니다.');
+      throw new Error(error);
     }
   };
 
