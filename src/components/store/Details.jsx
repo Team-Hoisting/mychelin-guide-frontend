@@ -30,6 +30,22 @@ const SubTitle = styled.div`
   justify-content: space-between;
 `;
 
+const ArchivedCntMsg = styled.p`
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+`;
+
+const Flex = styled.div`
+  display: flex;
+`;
+
+const VoteCntMsg = styled.span`
+  margin: 0 12px;
+  font-size: 16px;
+  font-weight: 500;
+`;
+
 const storeQuery = storeid => ({ queryKey: [...storeQueryKey, storeid], queryFn: fetchStore(storeid) });
 
 const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBookMark }) => {
@@ -43,22 +59,17 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
 
   if (isLoading) return <Loader />;
 
-  console.log('HERE', storeData);
-
   return (
     <StoreDetailContainer className="storedetail">
-      <Title
-        storeId={storeData.storeId}
-        storeName={storeData.storeName}
-        starCnt={storeData.starsCount}
-        addBookMark={addBookMark}
-        deleteBookMark={deleteBookMark}
-        archivedCntState={archivedCntState}
-      />
+      <Title storeData={storeData} addBookMark={addBookMark} deleteBookMark={deleteBookMark} />
       <SubTitle>
         <FirstVoteUser>
           최초 투표자 : <UserName>{storeData.firstVoteUser}</UserName>
         </FirstVoteUser>
+        <Flex>
+          <VoteCntMsg>투표 {storeData.totalVotesCnt}개</VoteCntMsg>
+          <ArchivedCntMsg>저장 {archivedCntState}개</ArchivedCntMsg>
+        </Flex>
       </SubTitle>
       <DetailSide store={storeData} />
       <Votes voteCnt={storeData.voteCnt} />

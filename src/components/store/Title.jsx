@@ -58,23 +58,14 @@ const FillBookMarkIcon = styled(BsFillBookmarkFill)`
 `;
 
 const Bookmark = styled.div`
-  /* border: 1px solid red; */
   display: flex;
-  margin: 0 20px;
   position: relative;
   justify-content: center;
   align-items: center;
 `;
 
-const ArchivedCntMsg = styled.p`
-  margin: 0;
-  font-size: 20px;
-`;
-
-const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archivedCntState }) => {
+const Title = ({ storeData: { storeName, storeId, starCnt, voteCnt }, addBookMark, deleteBookMark }) => {
   const { id } = useParams();
-
-  console.log(starCnt);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -105,16 +96,15 @@ const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archi
         </StarContainer>
       </StoreTitle>
       <Side>
+        <ImgUploadModal />
+        <NewModal storeId={storeId} width="120px" />
         <Bookmark>
-          <ArchivedCntMsg>{archivedCntState}</ArchivedCntMsg>
           {user?.archived?.map(({ storeId }) => storeId).includes(id) ? (
             <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
           ) : (
             <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />
           )}
         </Bookmark>
-        <ImgUploadModal />
-        <NewModal storeId={storeId} width="120px" />
       </Side>
     </Container>
   );
