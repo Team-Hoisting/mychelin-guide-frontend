@@ -75,11 +75,6 @@ const InputField = ({ control, trigger, name, autoComplete, label, type, doubleC
   const [isDisabled, setIsDisabled] = React.useState(false);
 
   const debounceOnChange = useDebounce(() => {
-    setIsDuplicate(null);
-    setIsDisabled(false);
-
-    if (doubleCheck) setIsDuplicateField(false);
-
     trigger(name);
   }, 200);
   const debounceOnChangeForCP = useDebounce(() => trigger('confirmPassword'), 200);
@@ -87,9 +82,9 @@ const InputField = ({ control, trigger, name, autoComplete, label, type, doubleC
   const handleChange = e => {
     onChange(e.target.value);
 
-    // setIsDuplicate(null);
-    // setIsDisabled(false);
-    // if (doubleCheck) setIsDuplicateField(false);
+    setIsDuplicate(null);
+    setIsDisabled(false);
+    if (doubleCheck) setIsDuplicateField(false);
 
     debounceOnChange();
 
