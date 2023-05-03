@@ -76,7 +76,7 @@ const PopupModal = ({ storeId, width }) => {
         centered
         styles={{
           header: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}` },
-          body: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}` },
+          body: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}`, paddingTop: '0' },
         }}>
         {step === 1 ? (
           <Vote

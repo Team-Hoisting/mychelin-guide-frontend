@@ -13,6 +13,8 @@ import { CategoryBox } from '../common/index';
 const Container = styled.div`
   padding: 0rem 0.5rem;
   border-radius: 8px;
+  background-color: var(--bg-color);
+  color: var(--font-color);
 `;
 
 const StoreInfo = styled.div`
