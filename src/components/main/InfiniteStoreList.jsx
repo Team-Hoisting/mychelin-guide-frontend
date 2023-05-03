@@ -81,31 +81,37 @@ const InfiniteStoreList = ({ data, fetchNextPage, hasNextPage }) => {
       ) : (
         <StoresContainer>
           <TopStoresContainer>
-            {displayedStores.topThree.map(({ storeId, storeName, votesByCategory, address, starsCount }, idx) => (
-              <StoreItemContainer key={storeId} place={idx + 1}>
-                <StoreItemOnHover storeId={storeId} storeName={storeName} address={address} />
-                <StoreItem
-                  key={storeId}
-                  storeId={storeId}
-                  storeName={storeName}
-                  votesByCategory={votesByCategory}
-                  starCount={starsCount}
-                />
-              </StoreItemContainer>
-            ))}
+            {displayedStores.topThree.map(
+              ({ storeId, storeName, votesByCategory, address, voteCntArr, starsCount }, idx) => (
+                <StoreItemContainer key={storeId} place={idx + 1}>
+                  <StoreItemOnHover storeId={storeId} storeName={storeName} address={address} />
+                  <StoreItem
+                    key={storeId}
+                    storeId={storeId}
+                    storeName={storeName}
+                    votesByCategory={votesByCategory}
+                    voteCntArr={voteCntArr}
+                    starCount={starsCount}
+                  />
+                </StoreItemContainer>
+              )
+            )}
           </TopStoresContainer>
           <RestStoresContainer>
-            {displayedStores.remaining.map(({ storeId, storeName, votesByCategory, starsCount }) => (
-              <StoreItemContainer key={`${Math.random() * Math.random()}_${storeId}`}>
-                <StoreItemOnHover storeId={storeId} />
-                <StoreItem
-                  storeId={storeId}
-                  storeName={storeName}
-                  votesByCategory={votesByCategory}
-                  starCount={starsCount}
-                />
-              </StoreItemContainer>
-            ))}
+            {displayedStores.remaining.map(
+              ({ storeId, storeName, votesByCategory, voteCntArr = { voteCntArr }, starsCount }) => (
+                <StoreItemContainer key={`${Math.random() * Math.random()}_${storeId}`}>
+                  <StoreItemOnHover storeId={storeId} />
+                  <StoreItem
+                    storeId={storeId}
+                    storeName={storeName}
+                    votesByCategory={votesByCategory}
+                    voteCntArr={voteCntArr}
+                    starCount={starsCount}
+                  />
+                </StoreItemContainer>
+              )
+            )}
           </RestStoresContainer>
           {hasNextPage && <ScrollObserver fetchNextPage={fetchNextPage} />}
         </StoresContainer>
