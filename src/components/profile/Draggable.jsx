@@ -1,5 +1,17 @@
-const Draggable = ({ dragStartHandler = () => {}, dropHandler = () => {}, children }) => (
-  <div draggable="true" onDragStart={dragStartHandler} onDragOver={e => e.preventDefault()} onDrop={dropHandler}>
+const Draggable = ({
+  dragStartHandler = () => {},
+  dragEndHandler = () => {},
+  dropHandler = () => {},
+  children,
+  dragEnterHandler = () => {},
+}) => (
+  <div
+    draggable="true"
+    onDragEnter={dragEnterHandler}
+    onDragStart={dragStartHandler}
+    onDragOver={e => e.preventDefault()}
+    onDragEnd={dragEndHandler}
+    onDrop={dropHandler}>
     {children}
   </div>
 );
