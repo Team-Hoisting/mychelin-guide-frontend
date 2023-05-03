@@ -44,6 +44,7 @@ const NonImageContents = styled.div`
 `;
 
 const CategoryTitle = styled.div`
+  flex: 1;
   display: flex;
   padding: 10px;
 `;
@@ -71,6 +72,7 @@ const Img = styled.img`
 `;
 
 const StoreName = styled.p`
+  flex: 2;
   margin: 0;
   font-weight: 500;
   font-size: 20px;

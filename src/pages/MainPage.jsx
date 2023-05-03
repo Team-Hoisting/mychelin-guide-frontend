@@ -1,19 +1,15 @@
 import React from 'react';
-import { Loader, SkinnyContainer } from '../components/common';
+import { SkinnyContainer } from '../components/common';
 import { Categories, InfiniteStoreList } from '../components/main';
 import { useFetchStores } from '../hooks';
 
 const MainPage = () => {
-  const { data, isLoading, fetchNextPage, hasNextPage } = useFetchStores();
+  const { data, fetchNextPage, hasNextPage } = useFetchStores();
 
   return (
     <SkinnyContainer>
       <Categories />
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <InfiniteStoreList data={data} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} />
-      )}
+      <InfiniteStoreList data={data} fetchNextPage={fetchNextPage} hasNextPage={hasNextPage} />
     </SkinnyContainer>
   );
 };

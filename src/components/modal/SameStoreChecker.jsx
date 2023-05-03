@@ -66,12 +66,10 @@ const SameStoreChecker = ({ storeId, categoryCode, setIsOpened, setTaskQueue, se
   const { nickname, voteStatus } = useRecoilValue(userState);
   const { categoryCode: prevCategoryCode } = voteStatus.find(vote => vote.storeId === storeId);
 
-  const { data: store, isLoading } = useQuery({
+  const { data: store } = useQuery({
     queryKey: ['storeInfo', storeId],
     queryFn: fetchStore(storeId),
   });
-
-  if (isLoading) return <></>;
 
   const onNext = () => {
     setTaskQueue(taskQueue => [...taskQueue, () => removeVote(nickname, prevCategoryCode)]);

@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { check } from '../api/auth';
-import { Header, Footer, SideBanner, LogInBanner } from '../components/common';
+import { Header, Footer, SideBanner, Loader } from '../components/common';
 import { userState } from '../recoil/atoms';
 
 const RootPage = () => {
@@ -29,11 +29,10 @@ const RootPage = () => {
   return (
     <>
       <Header />
-      {!user ? <LogInBanner /> : <SideBanner />}
-
-      <div id="detail">
+      {user && <SideBanner />}
+      <React.Suspense fallback={<Loader />}>
         <Outlet />
-      </div>
+      </React.Suspense>
       <Footer />
     </>
   );

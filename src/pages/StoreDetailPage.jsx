@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useArchivesMutation } from '../hooks/index';
 import { Comments, Details } from '../components/store/index';
-import { SkinnyContainer } from '../components/common';
+import { SkinnyContainer, Loader } from '../components/common';
 
 const Container = styled.div`
   width: 100%;
@@ -35,7 +35,9 @@ const StoreDetailPage = () => {
             archivedCntState={archivedCntState}
             setArchiveCntState={setArchiveCntState}
           />
-          <Comments />
+          <React.Suspense fallback={<Loader />}>
+            <Comments />
+          </React.Suspense>
         </Center>
       </Container>
     </SkinnyContainer>

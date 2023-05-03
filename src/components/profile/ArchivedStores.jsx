@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import useArchivedInfiniteQuery from '../../hooks/useArchivedInfiniteQuery';
-import { ScrollObserver, Loader } from '../common';
+import { ScrollObserver } from '../common';
 import ProfileStoreItem from './ProfileStoreItem';
 
 const StoresGrid = styled.div`
@@ -19,9 +19,7 @@ const NoArchivedItemContainer = styled.div`
 `;
 
 const ArchivedStores = ({ profileUserNickname }) => {
-  const { data, fetchNextPage, hasNextPage, isLoading } = useArchivedInfiniteQuery(profileUserNickname);
-
-  if (isLoading) return <Loader />;
+  const { data, fetchNextPage, hasNextPage } = useArchivedInfiniteQuery(profileUserNickname);
 
   return (
     <>
