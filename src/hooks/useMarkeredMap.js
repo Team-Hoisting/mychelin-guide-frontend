@@ -65,7 +65,7 @@ const useMarkeredMap = markerClickHandler => {
       bounds.extend(new kakao.maps.LatLng(store.y, store.x));
     });
 
-    mapRef.current.setBounds(bounds, 32, 225, 32, 32);
+    mapRef.current.setBounds(bounds);
   };
 
   return { mapContainerRef, drawMarkers };
