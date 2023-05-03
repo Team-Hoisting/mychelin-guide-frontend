@@ -63,7 +63,7 @@ const Placeholder = styled.div`
   width: 100px;
 `;
 
-const StoreItem = ({ storeId, storeName, starCount = 0, votesByCategory = {} }) => (
+const StoreItem = ({ storeId, storeName, starCount = 0, voteCntArr = [] }) => (
   <>
     <Container>
       <Link to="/detail">
@@ -82,12 +82,24 @@ const StoreItem = ({ storeId, storeName, starCount = 0, votesByCategory = {} }) 
           <MychelinStars starCount={starCount} />
         </StoreInfoMain>
         <VotesContainer>
-          {Object.keys(votesByCategory).length ? (
+          {/* {Object.keys(votesByCategory).length ? (
             Object.keys(votesByCategory).map(category => (
               <CategoryTag
                 key={storeName + category}
                 categoryCode={category}
                 votedCnt={votesByCategory[category]}
+                renderName={false}
+              />
+            ))
+          ) : (
+            <Placeholder />
+          )} */}
+          {voteCntArr.length ? (
+            voteCntArr.map((ctg, idx) => (
+              <CategoryTag
+                key={idx}
+                categoryCode={Object.keys(ctg)[0]}
+                votedCnt={Object.values(ctg)[0]}
                 renderName={false}
               />
             ))

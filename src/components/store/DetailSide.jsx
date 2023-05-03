@@ -110,6 +110,7 @@ const DetailSide = ({ store: { storeId, x, y, address, phoneNumber } }) => {
             e.target.src = '/images/defaultstore.png';
           }}
           isImgLoading={isImgLoading}
+          draggable={false}
         />
         <DetailContainer className="detail-container">
           <Map className="map">
