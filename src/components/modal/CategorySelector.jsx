@@ -81,12 +81,10 @@ const CategorySelector = ({
 }) => {
   const { email, voteStatus } = useRecoilValue(userState);
 
-  const { data: store, isLoading } = useQuery({
+  const { data: store } = useQuery({
     queryKey: ['storeInfo', storeId],
     queryFn: fetchStore(storeId),
   });
-
-  if (isLoading) return <></>;
 
   const onNext = () => {
     const sameCategoryCount = voteStatus.filter(vote => vote.categoryCode === categoryCode).length;
@@ -158,54 +156,4 @@ const CategorySelector = ({
   );
 };
 
-// return (
-//   <Container>
-//     <StoreInfo>
-//       {/* <StoreName>{store.storeName}</StoreName> */}
-//       <StoreName>매장</StoreName>
-//       {/* <span className="address">{store.address}</span> */}
-//       <span className="address">주소</span>
-//     </StoreInfo>
-//     <Selected>
-//       {categoryCode ? (
-//         <CategoryBox
-//           categoryName={categoryInfo[categoryCode].ko}
-//           categoryImgFile={categoryInfo[categoryCode].imgFile}
-//           changeOnHover={false}
-//           colored
-//         />
-//       ) : (
-//         <div>없음</div>
-//       )}
-//     </Selected>
-//     <Selector>
-//       {categoryCodes.map(code => {
-//         if (code === 'AL00') return null;
-
-//         return (
-//           <CategoryBox
-//             categoryName={categoryInfo[code].ko}
-//             categoryImgFile={categoryInfo[code].imgFile}
-//             colored={categoryCode === code}
-//             key={categoryInfo[code].ko}
-//             clickHandler={() => setCategoryCode(code)}
-//           />
-//         );
-//       })}
-//     </Selector>
-//     <TextBox>
-//       <p>카테고리당 1곳만 투표할 수 있습니다.</p>
-//       <p>
-//         정말 <span className="em">투표</span>하시겠습니까?
-//       </p>
-//     </TextBox>
-//     <ButtonGroup
-//       isDisable={categoryCode === null}
-//       leftText="투표하기"
-//       rightText="취소하기"
-//       onNext={() => {}}
-//       onClose={() => {}}
-//     />
-//   </Container>
-// );
 export default CategorySelector;

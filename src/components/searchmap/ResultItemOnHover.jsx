@@ -1,8 +1,6 @@
 import styled from 'styled-components';
-
 import { Link } from 'react-router-dom';
-import { Button } from '../common';
-import NewModal from '../common/NewModal';
+import { Button, ModalBox } from '../common';
 
 const Container = styled.main`
   display: flex;
@@ -12,7 +10,6 @@ const Container = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* border-radius: 20px; */
   z-index: 9999;
 `;
 
@@ -48,7 +45,7 @@ const ResultItemOnHover = ({ storeId, isRegistered, storeName, address, phoneNum
         <InfoText>등록되지 않은 식당입니다.</InfoText>
       )}
 
-      <NewModal
+      <ModalBox
         store={{
           storeName,
           address,
@@ -59,7 +56,7 @@ const ResultItemOnHover = ({ storeId, isRegistered, storeName, address, phoneNum
         storeId={storeId}
         width="120px">
         투표하기
-      </NewModal>
+      </ModalBox>
     </ButtonContainer>
   </Container>
 );

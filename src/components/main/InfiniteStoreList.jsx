@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { searchInputState } from '../../recoil/atoms';
-import { StoreItem, ScrollObserver } from '../common';
-import { StoreItemOnHover, NoResultMessage } from '.';
+import { ScrollObserver } from '../common';
+import { StoreItemOnHover, NoResultMessage, StoreItem } from '.';
 
 const StoresContainer = styled.div`
   padding: 20px;
@@ -68,14 +68,11 @@ const StoreItemContainer = styled.div`
   }
 `;
 
-let displayedStores = { topThree: [], remaining: [] };
-
 const InfiniteStoreList = ({ data, fetchNextPage, hasNextPage }) => {
   const searchedStores = data.pages.flat();
   const [topThree, remaining] = [searchedStores.slice(0, 3), searchedStores.slice(3)];
   const searchedInput = useRecoilValue(searchInputState);
-
-  displayedStores = searchedInput ? { topThree: [], remaining: searchedStores } : { topThree, remaining };
+  const displayedStores = searchedInput ? { topThree: [], remaining: searchedStores } : { topThree, remaining };
 
   return (
     <>
@@ -89,8 +86,8 @@ const InfiniteStoreList = ({ data, fetchNextPage, hasNextPage }) => {
                 <StoreItemOnHover storeId={storeId} storeName={storeName} address={address} />
                 <StoreItem
                   key={storeId}
+                  storeId={storeId}
                   storeName={storeName}
-                  imgUrl={`/img/stores/${storeId}`}
                   votesByCategory={votesByCategory}
                   starCount={starsCount}
                 />
@@ -102,8 +99,8 @@ const InfiniteStoreList = ({ data, fetchNextPage, hasNextPage }) => {
               <StoreItemContainer key={`${Math.random() * Math.random()}_${storeId}`}>
                 <StoreItemOnHover storeId={storeId} />
                 <StoreItem
+                  storeId={storeId}
                   storeName={storeName}
-                  imgUrl={`/img/stores/${storeId}`}
                   votesByCategory={votesByCategory}
                   starCount={starsCount}
                 />

@@ -10,6 +10,8 @@ import { useDebounce, useOnClickOutside } from '../../hooks';
 
 const Container = styled.div`
   position: relative;
+  display: flex;
+  width: 100%;
 `;
 
 const SearchForm = styled.form`
@@ -21,7 +23,7 @@ const Bar = styled.input`
   width: ${({ width }) => width};
   height: 40px;
   border-radius: 20px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-primary);
   padding: 15px;
   background-color: var(--bg-color);
   color: var(--font-color);

@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import { storeQueryKey } from '../../constants/index';
 import { fetchStore } from '../../api/stores';
 import { Title, Votes, DetailSide } from './index';
-import { Loader } from '../common/index';
 
 const StoreDetailContainer = styled.div`
   width: 100%;
@@ -62,14 +61,11 @@ const storeQuery = storeid => ({ queryKey: [...storeQueryKey, storeid], queryFn:
 
 const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBookMark }) => {
   const { id } = useParams();
-  const { data: storeData, isLoading } = useQuery(storeQuery(id));
+  const { data: storeData } = useQuery(storeQuery(id));
 
   React.useEffect(() => {
-    if (isLoading) return;
     setArchiveCntState(storeData?.archivesCount);
-  }, [isLoading]);
-
-  if (isLoading) return <Loader />;
+  }, []);
 
   return (
     <StoreDetailContainer className="storedetail">

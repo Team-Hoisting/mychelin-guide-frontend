@@ -43,7 +43,7 @@ const GlobalStyle = createGlobalStyle`
 
 
     --border: none;
-    --border-primary: #2D333B;
+    --border-primary: #5d646e;
     --border-secondary: #373E47;
     --border-tertiary: #fff;
     --border-bottom:#CDD9E5;

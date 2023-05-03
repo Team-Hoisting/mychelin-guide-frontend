@@ -102,8 +102,6 @@ const SameCategoryChecker = ({ storeId, store: storeInfo, categoryCode, setPhase
 
   const [store, votedPrevStore] = results;
 
-  if (store.isLoading || votedPrevStore.isLoading) return <></>;
-
   const onNext = () => {
     setTaskQueue(taskQueue => [
       ...taskQueue,

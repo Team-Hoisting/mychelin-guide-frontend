@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import styled, { keyframes, css } from 'styled-components';
 import { categoryInfo } from '../../constants';
 
@@ -27,6 +26,7 @@ const Container = styled.div`
   color: var(--font-color);
   border-radius: 5px;
   border: 2px solid var(--border-secondary);
+  position: relative;
 
   :hover {
     scale: 1.01;
@@ -44,6 +44,7 @@ const NonImageContents = styled.div`
 `;
 
 const CategoryTitle = styled.div`
+  flex: 1;
   display: flex;
   padding: 10px;
 `;
@@ -71,7 +72,7 @@ const Img = styled.img`
 `;
 
 const StoreName = styled.p`
-  /* border: 1px solid red; */
+  flex: 2;
   margin: 0;
   font-weight: 500;
   font-size: 20px;
@@ -82,7 +83,16 @@ const StoreName = styled.p`
   word-wrap: normal;
 `;
 
-const ProfileStoreItem = ({ categoryCode, storeId, storeName, isEditing = false }) => (
+const Overlay = styled.div`
+  display: ${({ isOverlaid }) => (isOverlaid ? 'block' : 'none')};
+  position: absolute;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+`;
+
+const ProfileStoreItem = ({ categoryCode, storeId, storeName, isEditing = false, isOverlaid = false }) => (
   <Container isEditing={isEditing}>
     <Link to={`/store/${storeId}`}>
       <ImageContainer>
@@ -103,6 +113,7 @@ const ProfileStoreItem = ({ categoryCode, storeId, storeName, isEditing = false 
       )}
       <StoreName>{storeName}</StoreName>
     </NonImageContents>
+    <Overlay isOverlaid={isOverlaid} />
   </Container>
 );
 
