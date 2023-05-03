@@ -4,10 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { Modal, Group, Button } from '@mantine/core';
 import userState from '../../recoil/atoms/userState';
 import themeState from '../../recoil/atoms/themeState';
-import CategorySelector from '../modal/CategorySelector';
-import SameCategoryChecker from '../modal/SameCategoryChecker';
-import SameStoreChecker from '../modal/SameStoreChecker';
-import SuccessVerifier from '../modal/SuccessVerifier';
+import { CategorySelector, SameCategoryChecker, SameStoreChecker, SuccessVerifier } from '../modal';
 
 const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId, store }) => {
   const theme = useRecoilValue(themeState);
@@ -86,7 +83,7 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId, st
   );
 };
 
-const ModalContainer = ({ store, storeId, width }) => {
+const ModalBox = ({ store, storeId, width }) => {
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -138,4 +135,4 @@ const ModalContainer = ({ store, storeId, width }) => {
   );
 };
 
-export default ModalContainer;
+export default ModalBox;

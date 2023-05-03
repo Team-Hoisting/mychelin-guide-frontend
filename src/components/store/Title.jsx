@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import NewModal from '../common/NewModal';
+import ModalBox from '../common/ModalBox';
 import userState from '../../recoil/atoms/userState';
 import themeState from '../../recoil/atoms/themeState';
 import ImgUploadModal from './ImgUploadModal';
@@ -114,7 +114,7 @@ const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archi
           )}
         </Bookmark>
         <ImgUploadModal />
-        <NewModal storeId={storeId} width="120px" />
+        <ModalBox storeId={storeId} width="120px" />
       </Side>
     </Container>
   );
