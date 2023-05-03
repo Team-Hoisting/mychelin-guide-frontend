@@ -64,12 +64,13 @@ const Bookmark = styled.div`
   align-items: center;
 `;
 
-const Title = ({ storeData: { storeName, storeId, starCnt, voteCnt }, addBookMark, deleteBookMark }) => {
+const Title = ({ storeData: { storeName, storeId, starCnt }, addBookMark, deleteBookMark }) => {
   const { id } = useParams();
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useRecoilValue(userState);
+  const isUserVoted = user.voteStatus.map(({ storeId }) => storeId).includes(id);
 
   const handleAddArchiveClick = () => {
     if (!user) {
@@ -96,10 +97,10 @@ const Title = ({ storeData: { storeName, storeId, starCnt, voteCnt }, addBookMar
         </StarContainer>
       </StoreTitle>
       <Side>
-        <ImgUploadModal />
+        {isUserVoted && <ImgUploadModal user={user} />}
         <NewModal storeId={storeId} width="120px" />
         <Bookmark>
-          {user?.archived?.map(({ storeId }) => storeId).includes(id) ? (
+          {isUserVoted ? (
             <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
           ) : (
             <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />

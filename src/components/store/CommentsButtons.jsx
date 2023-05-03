@@ -5,6 +5,7 @@ import { COMMENTS_FETCH_SIZE } from '../../constants/index';
 
 const ButtonContainer = styled.div`
   width: 100%;
+  margin: 24px 0;
 `;
 
 const ButtonGroup = styled.div`

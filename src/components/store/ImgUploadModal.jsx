@@ -7,7 +7,7 @@ import { HiOutlinePhotograph } from 'react-icons/hi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { BiUpload } from 'react-icons/bi';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Button as CommonButton } from '../common/index';
 
 const iconSize = css`
@@ -30,7 +30,7 @@ const UploadIcon = styled(BiUpload)`
 const Preview = styled.img.attrs({
   alt: '선택한 이미지',
 })`
-  width: 200px;
+  width: 400px;
   object-fit: cover;
 `;
 
@@ -59,16 +59,19 @@ const BeforeUploadButton = styled(Button)`
   }
 `;
 
-const ImgUploadModal = () => {
+const ImgUploadModal = ({ user }) => {
   const { id } = useParams();
+
+  const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false, {
+    onOpen: () => {
+      if (!user) navigate('/signin');
+    },
     onClose: () => setFile(null),
   });
   const [file, setFile] = React.useState(null);
 
   const handleImageDrop = files => {
-    console.log('accepted files', files);
-
     // 프리뷰
     const [file] = files;
     setFile(file);
@@ -88,8 +91,7 @@ const ImgUploadModal = () => {
       const { success } = res.data;
 
       if (success) {
-        // eslint-disable-next-line no-restricted-globals
-        location.reload();
+        window.location.reload();
         close();
       }
     } catch (e) {
@@ -100,6 +102,7 @@ const ImgUploadModal = () => {
   return (
     <>
       <Modal
+        disabled={!isUserVoted}
         opened={opened}
         onClose={close}
         transitionProps={{ transition: 'slide-up', duration: 300, timingFunction: 'linear' }}
@@ -143,9 +146,14 @@ const ImgUploadModal = () => {
           )}
         </Dropzone>
         {file && (
-          <Right>
-            <UploadButton onClick={handleUploadButtonClick}>확인</UploadButton>
-          </Right>
+          <>
+            <Center>
+              <Text>사진을 업로드하시겠습니까?</Text>
+            </Center>
+            <Right>
+              <UploadButton onClick={handleUploadButtonClick}>확인</UploadButton>
+            </Right>
+          </>
         )}
       </Modal>
       <BeforeUploadButton onClick={open}>사진 업로드</BeforeUploadButton>

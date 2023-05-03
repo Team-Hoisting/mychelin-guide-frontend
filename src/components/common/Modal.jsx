@@ -76,28 +76,30 @@ const PopupModal = ({ storeId, width }) => {
         centered
         styles={{
           header: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}` },
-          body: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}`, paddingTop: '0' },
+          body: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}` },
         }}>
-        {step === 1 ? (
-          <Vote
-            selectedCode={selectedCode}
-            setSelectedCode={setSelectedCode}
-            store={store}
-            onClose={onClose}
-            onNext={onSelect}
-          />
-        ) : step === 2 ? (
-          <DuplicateCategory
-            selectedCode={selectedCode}
-            store={store}
-            setStep={setStep}
-            setPrevStoreId={setPrevStoreId}
-          />
-        ) : step === 3 ? (
-          <DuplicateStore store={store} setStep={setStep} onClose={onClose} />
-        ) : (
-          <Success />
-        )}
+        <>
+          {step === 1 ? (
+            <Vote
+              selectedCode={selectedCode}
+              setSelectedCode={setSelectedCode}
+              store={store}
+              onClose={onClose}
+              onNext={onSelect}
+            />
+          ) : step === 2 ? (
+            <DuplicateCategory
+              selectedCode={selectedCode}
+              store={store}
+              setStep={setStep}
+              setPrevStoreId={setPrevStoreId}
+            />
+          ) : step === 3 ? (
+            <DuplicateStore store={store} setStep={setStep} onClose={onClose} />
+          ) : (
+            <Success />
+          )}
+        </>
       </Modal>
       <Group position="center">
         <Button

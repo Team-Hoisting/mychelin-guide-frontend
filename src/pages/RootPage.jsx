@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { check } from '../api/auth';
 import { Header, Footer, SideBanner, LogInBanner } from '../components/common';
@@ -8,6 +8,7 @@ import { userState } from '../recoil/atoms';
 const RootPage = () => {
   const [user, setUser] = useRecoilState(userState);
   const [isLoading, setIsLoading] = React.useState(false);
+  const location = useLocation();
 
   React.useEffect(() => {
     (async () => {
@@ -23,6 +24,10 @@ const RootPage = () => {
       }
     })();
   }, [setUser]);
+
+  React.useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [location]);
 
   if (isLoading) <></>;
 
