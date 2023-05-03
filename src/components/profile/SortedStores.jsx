@@ -30,6 +30,7 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
   const user = useRecoilValue(userState);
   const [votedStoreOrder, setVotedStoreOrder] = React.useState([]);
   const [isEditing, setIsEditing] = React.useState(false);
+  const [dragOverIdx, setDragOverIdx] = React.useState(-1);
   const dragTargetIdx = React.useRef(null);
 
   React.useEffect(() => {
@@ -89,17 +90,25 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
             : votedStoreOrder.map(({ categoryCode, store }, idx) => (
                 <Draggable
                   key={categoryCode}
+                  isBeingDragged={idx === dragTargetIdx.current}
                   dragStartHandler={() => {
                     setDragTargetIdx(idx);
                   }}
                   dropHandler={() => {
                     swap(idx);
+                  }}
+                  dragEnterHandler={() => {
+                    setDragOverIdx(idx);
+                  }}
+                  dragEndHandler={() => {
+                    setDragOverIdx(-1);
                   }}>
                   <ProfileStoreItem
                     categoryCode={categoryCode}
                     storeId={store.storeId}
                     storeName={store.storeName}
                     isEditing={true}
+                    isOverlaid={idx === dragOverIdx}
                   />
                 </Draggable>
               ))}
