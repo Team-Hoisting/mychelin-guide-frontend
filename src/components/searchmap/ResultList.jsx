@@ -48,7 +48,7 @@ const ResultItemContainer = styled.li`
 `;
 
 const ZeroResultText = styled.span`
-  color: white;
+  color: var(--font-color);
   font-size: 20px;
 `;
 
