@@ -212,7 +212,7 @@ const Header = () => {
                 e.stopPropagation();
 
                 if (user) setOpenDropdown(!openDropdown);
-                else navigate('/signin');
+                else navigate('/signin', { state: pathname });
               }}>
               {!user ? (
                 <UserIcon />
