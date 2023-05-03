@@ -26,7 +26,7 @@ const useUserProfile = nickname => {
 
           return result;
         },
-        [...voteStores].sort((a, b) => a.votedAt.valueOf() - b.votedAt.valueOf())
+        [...voteStores].sort((a, b) => a.votedAt - b.votedAt)
       );
 
       return { ...userInfo, voteStores: newVoteStores, emptyCategories };
