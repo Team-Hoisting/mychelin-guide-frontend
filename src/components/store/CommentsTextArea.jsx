@@ -38,6 +38,13 @@ const CommentBtn = styled(Button)`
   right: 10px;
   width: 100px;
   font-size: 14px;
+  color: #eee;
+  background-color: ${({ $disabled }) => ($disabled ? 'var(--button-disabled-color);' : 'var(--button-click-color);')};
+
+  :hover {
+    background: 'var(--button-click-color);';
+    color: #eee;
+  }
 `;
 
 const CommentsTextArea = ({ addComment, setCurrentPage }) => {
@@ -76,7 +83,7 @@ const CommentsTextArea = ({ addComment, setCurrentPage }) => {
     <>
       <Container>
         <TextArea onChange={handleChange} content={content}></TextArea>
-        <CommentBtn onClick={handleCommentBtnClick} disabled={!content.length}>
+        <CommentBtn onClick={handleCommentBtnClick} $disabled={!content.length}>
           등록하기
         </CommentBtn>
       </Container>

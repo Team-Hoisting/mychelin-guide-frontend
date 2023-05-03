@@ -7,6 +7,7 @@ import Toast from '../common/Toast';
 const Container = styled.div`
   padding-top: 38px;
   max-width: 480px;
+  background-color: var(--bg-color);
 `;
 
 const Title = styled.h3`

@@ -26,7 +26,7 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId, st
         centered
         styles={{
           header: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}` },
-          body: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}` },
+          body: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}`, paddingTop: '1px !important' },
         }}>
         {phase === 'select' && (
           <CategorySelector

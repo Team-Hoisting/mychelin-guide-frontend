@@ -58,27 +58,19 @@ const FillBookMarkIcon = styled(BsFillBookmarkFill)`
 `;
 
 const Bookmark = styled.div`
-  /* border: 1px solid red; */
   display: flex;
-  margin: 0 20px;
   position: relative;
   justify-content: center;
   align-items: center;
 `;
 
-const ArchivedCntMsg = styled.p`
-  margin: 0;
-  font-size: 20px;
-`;
-
-const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archivedCntState }) => {
+const Title = ({ storeData: { storeName, storeId, starCnt }, addBookMark, deleteBookMark }) => {
   const { id } = useParams();
-
-  console.log(starCnt);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useRecoilValue(userState);
+  const isUserVoted = user.voteStatus.map(({ storeId }) => storeId).includes(id);
 
   const handleAddArchiveClick = () => {
     if (!user) {
@@ -105,16 +97,15 @@ const Title = ({ storeName, storeId, starCnt, addBookMark, deleteBookMark, archi
         </StarContainer>
       </StoreTitle>
       <Side>
+        {isUserVoted && <ImgUploadModal user={user} />}
+        <ModalBox storeId={storeId} width="120px" />
         <Bookmark>
-          <ArchivedCntMsg>{archivedCntState}</ArchivedCntMsg>
-          {user?.archived?.map(({ storeId }) => storeId).includes(id) ? (
+          {isUserVoted ? (
             <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
           ) : (
             <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />
           )}
         </Bookmark>
-        <ImgUploadModal />
-        <ModalBox storeId={storeId} width="120px" />
       </Side>
     </Container>
   );

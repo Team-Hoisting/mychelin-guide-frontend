@@ -14,7 +14,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  background-color: var(--bg-dark-black-color);
+  background-color: var(--bg-color);
 `;
 
 const WhiteArea = styled.div`
