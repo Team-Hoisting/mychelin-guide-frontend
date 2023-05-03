@@ -102,7 +102,6 @@ const ImgUploadModal = ({ user }) => {
   return (
     <>
       <Modal
-        disabled={!isUserVoted}
         opened={opened}
         onClose={close}
         transitionProps={{ transition: 'slide-up', duration: 300, timingFunction: 'linear' }}

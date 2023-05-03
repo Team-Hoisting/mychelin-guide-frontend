@@ -98,7 +98,7 @@ const Title = ({ storeData: { storeName, storeId, starCnt }, addBookMark, delete
       </StoreTitle>
       <Side>
         {isUserVoted && <ImgUploadModal user={user} />}
-        <NewModal storeId={storeId} width="120px" />
+        <ModalBox storeId={storeId} width="120px" />
         <Bookmark>
           {isUserVoted ? (
             <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
@@ -106,9 +106,6 @@ const Title = ({ storeData: { storeName, storeId, starCnt }, addBookMark, delete
             <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />
           )}
         </Bookmark>
-
-        <ImgUploadModal />
-        <ModalBox storeId={storeId} width="120px" />
       </Side>
     </Container>
   );
