@@ -66,7 +66,6 @@ const UserIconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  border: 1px solid var(--border-primary);
   object-fit: cover;
 `;
 
@@ -84,6 +83,7 @@ const UserImage = styled.img`
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
+  border: 1px solid var(--border-primary);
 `;
 
 const ConfigsContainer = styled.div`
@@ -148,9 +148,9 @@ const Header = () => {
   const [user, setUser] = useRecoilState(userState);
   const setSearchInput = useSetRecoilState(searchInputState);
   const setCategoryState = useSetRecoilState(categoryState);
+  const [theme, setTheme] = useRecoilState(themeState);
   const [openDropdown, setOpenDropdown] = React.useState(false);
   const searchBarRef = React.useRef(null);
-  const [theme, setTheme] = useRecoilState(themeState);
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -168,6 +168,12 @@ const Header = () => {
     toggleTheme();
   };
 
+  const resetMainPage = () => {
+    setSearchInput('');
+    searchBarRef.current.value = '';
+    setCategoryState('AL00');
+  };
+
   const { pathname } = useLocation();
   const { id } = useParams();
   const hasSearchBar = pathname === '/' || pathname === `/store/${id}`;
@@ -179,7 +185,7 @@ const Header = () => {
       <Container>
         <Wrapper hasSearchBar={hasSearchBar}>
           <div>
-            <Link to="/">
+            <Link to="/" onClick={() => resetMainPage()}>
               <LogoImage
                 src={`/images/mychelin-guide-logo-${theme}.png`}
                 alt="마이슐랭 가이드 로고"
