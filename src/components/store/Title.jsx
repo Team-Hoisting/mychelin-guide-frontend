@@ -70,7 +70,7 @@ const Title = ({ storeData: { storeName, storeId, starCnt }, addBookMark, delete
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useRecoilValue(userState);
-  const isUserVoted = user.voteStatus.map(({ storeId }) => storeId).includes(id);
+  const isUserVoted = user?.voteStatus.map(({ storeId }) => storeId).includes(id);
 
   const handleAddArchiveClick = () => {
     if (!user) {
