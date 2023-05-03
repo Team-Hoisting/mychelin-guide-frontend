@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -48,7 +49,7 @@ const ButtonWithIncreased = styled(Button)`
   }
 `;
 
-const Editor = ({ type, onClose, formSchema, defaultValues, setIsSuccess }) => {
+const Editor = ({ type, onClose, formSchema, defaultValues }) => {
   const {
     control,
     handleSubmit,
@@ -75,18 +76,17 @@ const Editor = ({ type, onClose, formSchema, defaultValues, setIsSuccess }) => {
       if (type !== 'nickname') {
         await logout();
 
-        setTimeout(() => {
-          navigate('/signin');
-          setUser(null);
-        }, 500);
+        navigate('/signin');
+        setUser(null);
       } else {
         setUser(editedUser);
       }
-      setIsSuccess(true);
-    } catch (e) {
-      console.log(e);
-    } finally {
+      toast.success(`${type === 'nickname' ? '닉네임' : '비밀번호'}을 수정했습니다.`);
+
       onClose();
+    } catch (error) {
+      if (error.response.status === 409) toast.warn('기존 비밀번호와 동일합니다.');
+      throw new Error(error);
     }
   };
 

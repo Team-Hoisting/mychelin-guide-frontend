@@ -24,9 +24,9 @@ const color = {
 
 const Toast = ({ text, type = 'error', closeHandler = () => {}, delay = 2000 }) => {
   React.useEffect(() => {
-    const timerId = setTimeout(closeHandler, delay);
+    setTimeout(closeHandler, delay);
 
-    return () => clearTimeout(timerId);
+    // return () => clearTimeout(timerId);
   }, []);
 
   return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useController } from 'react-hook-form';
+import { useDebounce } from '../../hooks';
 import palette from '../../lib/palette';
 import Button from '../common/Button';
 import { checkEmail, checkNickname } from '../../api/auth';
@@ -73,16 +74,26 @@ const InputField = ({ control, trigger, name, autoComplete, label, type, doubleC
   const [isDuplicate, setIsDuplicate] = React.useState(null);
   const [isDisabled, setIsDisabled] = React.useState(false);
 
-  const handleChange = e => {
-    onChange(e.target.value);
-
+  const debounceOnChange = useDebounce(() => {
     setIsDuplicate(null);
     setIsDisabled(false);
+
     if (doubleCheck) setIsDuplicateField(false);
 
     trigger(name);
+  }, 200);
+  const debounceOnChangeForCP = useDebounce(() => trigger('confirmPassword'), 200);
 
-    if (name === 'password') trigger('confirmPassword');
+  const handleChange = e => {
+    onChange(e.target.value);
+
+    // setIsDuplicate(null);
+    // setIsDisabled(false);
+    // if (doubleCheck) setIsDuplicateField(false);
+
+    debounceOnChange();
+
+    if (name === 'password') debounceOnChangeForCP();
   };
 
   const confirm = async () => {
@@ -90,17 +101,12 @@ const InputField = ({ control, trigger, name, autoComplete, label, type, doubleC
 
     try {
       const { status } = await request(value);
-      console.log(status);
 
       if (status === 200) {
-        console.log('성공');
-
         setIsDuplicate(true);
         if (doubleCheck) setIsDuplicateField(true);
       }
     } catch (e) {
-      console.log('중복');
-
       setIsDuplicate(false);
       setIsDisabled(true);
       if (doubleCheck) setIsDuplicateField(false);
