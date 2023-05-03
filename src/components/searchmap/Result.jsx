@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import useMarkeredMap from '../../hooks/useMarkeredMap';
 
 import ResultList from './ResultList';
-import { Toast } from '../common/index';
 
 const Container = styled.div`
   position: relative;
@@ -17,16 +16,25 @@ const MapContainer = styled.div`
   position: relative;
 `;
 
-const Result = ({ result, paginationRef }) => {
-  const { mapContainerRef, drawMarkers } = useMarkeredMap(() => setIsUnregisterdStore(true));
-  const [isUnregisterdStore, setIsUnregisterdStore] = React.useState(false);
+const Result = ({ keyword, result, paginationRef }) => {
+  const [clickedIdx, setClickedIdx] = React.useState(null);
+  const { mapContainerRef, drawMarkers } = useMarkeredMap(idx => setClickedIdx(idx));
+
+  React.useEffect(() => {
+    setClickedIdx(null);
+  }, [result]);
 
   return (
     <Container>
       <MapContainer ref={mapContainerRef} />
-      {!!result && <ResultList result={result} paginationRef={paginationRef} drawMarkers={drawMarkers} />}
-      {isUnregisterdStore && (
-        <Toast type="warning" text="등록되지 않은 식당입니다." closeHandler={() => setIsUnregisterdStore(false)} />
+      {!!result && (
+        <ResultList
+          keyword={keyword}
+          result={result}
+          paginationRef={paginationRef}
+          drawMarkers={drawMarkers}
+          clickedIdx={clickedIdx}
+        />
       )}
     </Container>
   );

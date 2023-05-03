@@ -22,7 +22,7 @@ const Container = styled.div`
 
 const List = styled.ul`
   margin: auto;
-  padding: 10px;
+  padding: 5px;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -32,11 +32,15 @@ const List = styled.ul`
 
 const ResultItemContainer = styled.li`
   position: relative;
-  width: 100%;
-  height: 100px;
   background-color: #fff;
-
+  width: 100%;
   overflow: hidden;
+
+  ${props =>
+    props.selected &&
+    `border: 4px solid var(--primary-color);
+    transform: scale(1.08);
+    `}
 
   :hover {
     scale: 1.02;
@@ -91,7 +95,7 @@ const NextPageBtn = ({ hasNextPage, clickHandler }) => (
   </ButtonContainer>
 );
 
-const ResultList = ({ result, paginationRef, drawMarkers }) => {
+const ResultList = ({ keyword, result, paginationRef, drawMarkers, clickedIdx }) => {
   const gotoPreviousPage = () => {
     if (paginationRef.current.hasPrevPage) paginationRef.current.prevPage();
   };
@@ -101,7 +105,7 @@ const ResultList = ({ result, paginationRef, drawMarkers }) => {
   };
 
   const { data: resultList, isLoading } = useQuery({
-    queryKey: ['isRegistered', paginationRef.current?.current],
+    queryKey: ['isRegistered', keyword, paginationRef.current?.current],
     queryFn: fetchIsRegisteredByStoreIds(result.map(({ id }) => id)),
     select(data) {
       return result.map((store, idx) => ({ store, isRegistered: data[idx] }));
@@ -118,7 +122,7 @@ const ResultList = ({ result, paginationRef, drawMarkers }) => {
       <List>
         {resultList?.length !== 0 ? (
           resultList?.map(({ store, isRegistered }, idx) => (
-            <ResultItemContainer key={store.id}>
+            <ResultItemContainer key={store.id} selected={clickedIdx === idx}>
               <ResultItemOnHover
                 storeId={store.id}
                 storeName={store.place_name}
@@ -134,6 +138,7 @@ const ResultList = ({ result, paginationRef, drawMarkers }) => {
                 storeName={store.place_name}
                 address={store.road_address_name}
                 phoneNumber={store.phone}
+                selected={clickedIdx === idx}
               />
             </ResultItemContainer>
           ))

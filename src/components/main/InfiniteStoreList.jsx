@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { searchInputState } from '../../recoil/atoms';
 import { StoreItem, ScrollObserver } from '../common';
 import { StoreItemOnHover, NoResultMessage } from '.';
 
@@ -71,12 +73,15 @@ let displayedStores = { topThree: [], remaining: [] };
 const InfiniteStoreList = ({ data, fetchNextPage, hasNextPage }) => {
   const searchedStores = data.pages.flat();
   const [topThree, remaining] = [searchedStores.slice(0, 3), searchedStores.slice(3)];
+  const searchedInput = useRecoilValue(searchInputState);
 
-  displayedStores = { topThree, remaining };
+  displayedStores = searchedInput ? { topThree: [], remaining: searchedStores } : { topThree, remaining };
 
   return (
     <>
-      {displayedStores.topThree.length ? (
+      {searchedInput && !displayedStores.remaining.length ? (
+        <NoResultMessage />
+      ) : (
         <StoresContainer>
           <TopStoresContainer>
             {displayedStores.topThree.map(({ storeId, storeName, votesByCategory, address, starsCount }, idx) => (
@@ -107,8 +112,6 @@ const InfiniteStoreList = ({ data, fetchNextPage, hasNextPage }) => {
           </RestStoresContainer>
           {hasNextPage && <ScrollObserver fetchNextPage={fetchNextPage} />}
         </StoresContainer>
-      ) : (
-        <NoResultMessage />
       )}
     </>
   );

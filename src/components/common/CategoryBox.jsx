@@ -13,14 +13,18 @@ const EachCategoryBox = styled.div`
       border-bottom: 2px solid var(--primary-color);
     `}
 
-  :hover {
-    ${({ selected }) =>
-      !selected &&
-      `
-      transition: none;
-      border-bottom: 2px solid #ababab;
+  ${({ underlineOnHover }) =>
+    underlineOnHover &&
+    `
+        :hover {
+          ${({ selected }) =>
+            !selected &&
+            `
+            transition: none;
+            border-bottom: 2px solid #ababab;
+          `}
+        }
     `}
-  }
 
   ${({ changeOnHover }) =>
     changeOnHover &&
@@ -59,12 +63,17 @@ const CategoryBox = ({
   colored,
   selected,
   changeOnHover = true,
+  underlineOnHover = true,
   iconWidth = '50%',
 }) => {
   const imgSrc = `/categoryIcons/${colored ? '' : 'noColor/'}${categoryImgFile}.png`;
 
   return (
-    <EachCategoryBox selected={selected} onClick={clickHandler} changeOnHover={changeOnHover}>
+    <EachCategoryBox
+      selected={selected}
+      onClick={clickHandler}
+      changeOnHover={changeOnHover}
+      underlineOnHover={underlineOnHover}>
       {/* <SelectedIcon /> */}
       <CategoryIcon src={imgSrc} alt={`${categoryName}`} width={iconWidth} />
       <CategoryName selected={selected}>{categoryName}</CategoryName>

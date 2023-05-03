@@ -54,7 +54,7 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
 
   return (
     <Container>
-      {user.nickname === profileUserNickname && (
+      {user.nickname === profileUserNickname && voteStores?.length >= 2 && (
         <>
           {isEditing ? (
             <EditButton
@@ -84,7 +84,6 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
                   categoryCode={categoryCode}
                   storeId={store.storeId}
                   storeName={store.storeName}
-                  imgUrl={`/img/stores/${store.storeId}`}
                 />
               ))
             : votedStoreOrder.map(({ categoryCode, store }, idx) => (
@@ -100,7 +99,6 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
                     categoryCode={categoryCode}
                     storeId={store.storeId}
                     storeName={store.storeName}
-                    imgUrl={store.imgUrl}
                     isEditing={true}
                   />
                 </Draggable>
