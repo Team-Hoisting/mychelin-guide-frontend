@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 import { BsMoon, BsSun } from 'react-icons/bs';
 import { FaRegUser } from 'react-icons/fa';
 import { useLocation, useParams, Link, useNavigate } from 'react-router-dom';
@@ -237,12 +238,17 @@ const Header = () => {
               </Link>
               <SignoutButton
                 onClick={async () => {
-                  await logout();
+                  try {
+                    await logout();
 
-                  setUser(null);
-                  setOpenDropdown(false);
+                    setUser(null);
+                    setOpenDropdown(false);
 
-                  navigate('/');
+                    toast.success('로그아웃 되었습니다.');
+                    navigate('/');
+                  } catch (e) {
+                    throw new Error(e);
+                  }
                 }}>
                 Sign Out
               </SignoutButton>

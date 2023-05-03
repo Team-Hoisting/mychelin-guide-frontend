@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { ToastContainer } from 'react-toastify';
 import { check } from '../api/auth';
 import { Header, Footer, SideBanner, LogInBanner } from '../components/common';
 import { userState } from '../recoil/atoms';
@@ -33,7 +34,18 @@ const RootPage = () => {
 
       <div id="detail">
         <Outlet />
+        <ToastContainer
+          className="toastContainer"
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          theme="light"
+        />
       </div>
+
       <Footer />
     </>
   );

@@ -35,7 +35,7 @@ const ButtonWithPosition = styled(Button)`
   bottom: 16px;
 `;
 
-const Unit = ({ type, title, formSchema, defaultValues, setIsSuccess }) => {
+const Unit = ({ type, title, formSchema, defaultValues }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const user = useRecoilValue(userState);
 
@@ -48,13 +48,7 @@ const Unit = ({ type, title, formSchema, defaultValues, setIsSuccess }) => {
           <ButtonWithPosition onClick={() => setIsOpen(true)}>변경</ButtonWithPosition>
         </>
       ) : (
-        <Editor
-          setIsSuccess={setIsSuccess}
-          type={type}
-          onClose={() => setIsOpen(false)}
-          formSchema={formSchema}
-          defaultValues={defaultValues}
-        /> // form
+        <Editor type={type} onClose={() => setIsOpen(false)} formSchema={formSchema} defaultValues={defaultValues} /> // form
       )}
     </Container>
   );

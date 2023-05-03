@@ -96,6 +96,11 @@ const GlobalStyle = createGlobalStyle`
   code {
     font-family: monospace; 
   }
+
+  .toastContainer {
+    width: fit-content;
+    min-width: 300px;
+  }
 `;
 
 export default GlobalStyle;

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -29,7 +30,7 @@ const ButtonWithIncreased = styled(Button)`
   font-size: 0.9rem;
 `;
 
-const Editor = ({ type, onClose, formSchema, defaultValues, setIsSuccess }) => {
+const Editor = ({ type, onClose, formSchema, defaultValues }) => {
   const {
     control,
     handleSubmit,
@@ -61,9 +62,9 @@ const Editor = ({ type, onClose, formSchema, defaultValues, setIsSuccess }) => {
       } else {
         setUser(editedUser);
       }
-      setIsSuccess(true);
+      toast.success(`${type === 'nickname' ? '닉네임' : '비밀번호'}을 수정했습니다.`);
     } catch (e) {
-      console.log(e);
+      throw new Error(e);
     } finally {
       onClose();
     }
