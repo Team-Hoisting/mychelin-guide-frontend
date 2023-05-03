@@ -74,15 +74,12 @@ const UserIcon = styled(FaRegUser)`
   cursor: pointer;
 `;
 
-const UserImage = styled.div`
-  width: 30px;
-  height: 30px;
-  border-radius: 30px;
+const UserImage = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
   cursor: pointer;
-  ${({ background }) => `
-    background-image: url(${background});
-    background-size: cover;
-  `};
 `;
 
 const DefaultUserImage = styled.div`
@@ -90,8 +87,6 @@ const DefaultUserImage = styled.div`
   height: 30px;
   border-radius: 30px;
   cursor: pointer;
-  background-image: url('/images/default-user-image.png');
-  background-size: cover;
   border: 1px solid #ababab;
 `;
 
@@ -221,7 +216,12 @@ const Header = () => {
                 <UserIcon />
               ) : (
                 <DefaultUserImage>
-                  <UserImage background={`/img/users/${user.nickname}`} />
+                  <UserImage
+                    src={`/img/users/${user.nickname}`}
+                    onError={e => {
+                      e.target.src = '/img/default/user.png';
+                    }}
+                  />
                 </DefaultUserImage>
               )}
             </UserIconWrapper>
