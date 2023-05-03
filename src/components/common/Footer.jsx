@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
+import { useLocation } from 'react-router-dom';
 import { themeState } from '../../recoil/atoms';
 
 const Container = styled.footer`
   width: 100%;
   height: 4rem;
-  /* margin-top: 50px; */
   padding: 0.5rem;
   display: flex;
   gap: 40px;
@@ -27,8 +27,11 @@ const GithubLink = styled.img`
 
 const Footer = () => {
   const theme = useRecoilValue(themeState);
+  const { pathname } = useLocation();
 
-  return (
+  return pathname === '/signin' ? (
+    <></>
+  ) : (
     <Container>
       <a href="https://github.com/Team-Hoisting/mychelin-guide-frontend" target="_blank" rel="noreferrer noreopener">
         <GithubLink src="/images/github-logo.svg" alt="Github" theme={theme} />
