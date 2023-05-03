@@ -16,7 +16,7 @@ const Container = styled.div`
   color: var(--font-color);
 
   .up {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 `;
 
@@ -27,12 +27,20 @@ const Changes = styled.div`
   margin-top: 3rem;
   margin-bottom: 1.5rem;
 
+  span {
+    font-size: 1.3rem;
+  }
+
   .red {
     color: #d21312;
   }
 
   .blue {
     color: var(--font-secondary);
+  }
+
+  .bold {
+    font-weight: 700;
   }
 `;
 
@@ -111,13 +119,9 @@ const SameCategoryChecker = ({ storeId, store: storeInfo, categoryCode, setPhase
         현재 <span className="bold red">{categoryInfo[categoryCode]?.ko} 카테고리</span> 표를
       </Text>
       <Changes>
-        <Box>
-          <span className="bold">{votedPrevStore.data.storeName}</span>
-        </Box>
+        <span className="bold">{votedPrevStore.data.storeName}</span>
         <ArrowIcon />
-        <Box>
-          <span className="blue bold">{store.data.storeName ?? storeInfo.storeName}</span>
-        </Box>
+        <span className="blue bold">{store.data.storeName ?? storeInfo.storeName}</span>
       </Changes>
       <Text center>
         <span className="bold">변경</span>하시겠습니까?

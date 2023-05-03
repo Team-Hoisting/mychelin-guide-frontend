@@ -28,7 +28,7 @@ const Title = styled.h2`
   padding-bottom: 1rem;
   font-size: 1.5rem;
   margin-bottom: 3rem;
-  border-bottom: 2px solid #d21312;
+  border-bottom: 2px solid var(--border-tertiary);
 `;
 
 const AvatarWrapper = styled.div`
@@ -40,6 +40,8 @@ const Avatar = styled.img`
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
+
+  border: 1px solid var(--border-primary);
 `;
 
 const NicknameBox = styled.div`

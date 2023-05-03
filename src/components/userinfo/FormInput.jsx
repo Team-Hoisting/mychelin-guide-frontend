@@ -16,7 +16,7 @@ const Title = styled.h4`
   font-weight: 500;
   font-size: 13px;
   letter-spacing: -0.07px;
-  color: rgba(34, 34, 34, 0.5);
+  color: var(--font-color);
 `;
 
 const Input = styled.input`
@@ -27,6 +27,7 @@ const Input = styled.input`
   outline: none;
   border-bottom: 1px solid #ababab;
   font-size: 1rem;
+  color: var(--font-color);
 
   &:focus {
     border-bottom: 1px solid #000;
@@ -51,6 +52,17 @@ const ButtonWithPosition = styled(Button)`
   bottom: 15px;
   padding: 0.5rem;
   display: flex;
+  /* color: var(--font-secondary); */
+
+  &:disabled {
+    background-color: var(--bg-color);
+    color: var(--font-color);
+  }
+
+  &:not(:disabled) {
+    background-color: var(--font-secondary) !important;
+    color: #eee;
+  }
 `;
 
 const Hint = styled.span`
@@ -122,6 +134,7 @@ const FormInput = ({
       {isNicknameInput && (
         <ButtonWithPosition
           type="button"
+          className="confirm"
           red
           disabled={!isDirty || error || isSamePrevious || !(isNicknameDuplicate === null)}
           onClick={handleDoubleCheck}>

@@ -8,6 +8,7 @@ import Editor from './Editor';
 const Container = styled.div`
   padding: 25px 0 18px 0;
   position: relative;
+  color: var(--font-color);
 `;
 
 const Title = styled.h4`
@@ -16,11 +17,9 @@ const Title = styled.h4`
   font-weight: 500;
   font-size: 13px;
   letter-spacing: -0.07px;
-  color: rgba(34, 34, 34, 0.5);
 `;
 
 const Content = styled.div`
-  color: rgba(34, 34, 34, 0.5);
   padding-top: 6px;
   font-size: 1rem;
   letter-spacing: -0.16px;

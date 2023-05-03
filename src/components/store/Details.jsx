@@ -13,8 +13,9 @@ const StoreDetailContainer = styled.div`
 `;
 
 const FirstVoteUser = styled.div`
-  font-size: 18px;
-  margin: 4px 0;
+  font-size: 16px;
+  margin: 2px 0;
+  color: #7f7f7f;
 `;
 
 const UserName = styled.span`
@@ -25,7 +26,35 @@ const SubTitle = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+`;
+
+const ArchivedCntMsg = styled.p`
+  margin: 0 12px;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 0;
+
+  span {
+    font-weight: 600;
+  }
+`;
+
+const VoteCntMsg = styled.span`
+  margin: 0 12px;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 500;
+
+  span {
+    font-weight: 600;
+  }
+`;
+
+const Flex = styled.div`
+  display: flex;
+  align-items: center;
+  height: 30px;
 `;
 
 const storeQuery = storeid => ({ queryKey: [...storeQueryKey, storeid], queryFn: fetchStore(storeid) });
@@ -40,18 +69,19 @@ const Details = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBook
 
   return (
     <StoreDetailContainer className="storedetail">
-      <Title
-        storeId={storeData.storeId}
-        storeName={storeData.storeName}
-        starCnt={storeData.starsCount}
-        addBookMark={addBookMark}
-        deleteBookMark={deleteBookMark}
-        archivedCntState={archivedCntState}
-      />
+      <Title storeData={storeData} addBookMark={addBookMark} deleteBookMark={deleteBookMark} />
       <SubTitle>
         <FirstVoteUser>
           최초 투표자 : <UserName>{storeData.firstVoteUser}</UserName>
         </FirstVoteUser>
+        {/* <Flex> */}
+        <VoteCntMsg>
+          투표 <span>{storeData.totalVotesCnt}</span>개
+        </VoteCntMsg>
+        <ArchivedCntMsg>
+          저장 <span>{archivedCntState}</span>개
+        </ArchivedCntMsg>
+        {/* </Flex> */}
       </SubTitle>
       <DetailSide store={storeData} />
       <Votes voteCnt={storeData.voteCnt} />

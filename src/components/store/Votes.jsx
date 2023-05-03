@@ -11,9 +11,9 @@ const Container = styled.div`
 
 const Votes = ({ voteCnt }) => (
   <Container>
-    {categoryCodes.map(
-      ctg => voteCnt[ctg] && <CategoryTag key={ctg} categoryCode={ctg} votedCnt={voteCnt[ctg]} renderName={true} />
-    )}
+    {voteCnt.map((ctg, idx) => (
+      <CategoryTag key={idx} categoryCode={Object.keys(ctg)[0]} votedCnt={Object.values(ctg)[0]} renderName={true} />
+    ))}
   </Container>
 );
 

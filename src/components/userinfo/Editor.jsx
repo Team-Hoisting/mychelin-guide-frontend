@@ -14,6 +14,10 @@ import FormInput from './FormInput';
 const Form = styled.form`
   padding-top: 1.5rem;
   position: relative;
+
+  input {
+    background-color: transparent;
+  }
 `;
 
 const Buttons = styled.div`
@@ -28,6 +32,21 @@ const Buttons = styled.div`
 
 const ButtonWithIncreased = styled(Button)`
   font-size: 0.9rem;
+  border: 1px solid var(--border-primary);
+
+  &.confirm:disabled {
+    background-color: var(--bg-color);
+    color: var(--font-color);
+  }
+
+  &.confirm:not(:disabled) {
+    background-color: var(--font-secondary);
+    color: #eee;
+  }
+
+  :hover {
+    background: transparent;
+  }
 `;
 
 const Editor = ({ type, onClose, formSchema, defaultValues }) => {
@@ -107,7 +126,10 @@ const Editor = ({ type, onClose, formSchema, defaultValues }) => {
         />
       )}
       <Buttons>
-        <ButtonWithIncreased red disabled={!isValid || isSamePrevious || (type === 'nickname' && !isNicknameDuplicate)}>
+        <ButtonWithIncreased
+          className="confirm"
+          red
+          disabled={!isValid || isSamePrevious || (type === 'nickname' && !isNicknameDuplicate)}>
           확인
         </ButtonWithIncreased>
         <ButtonWithIncreased type="button" onClick={onClose}>

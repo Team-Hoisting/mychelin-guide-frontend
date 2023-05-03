@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { ToastContainer } from 'react-toastify';
 import { check } from '../api/auth';
@@ -10,6 +10,7 @@ const RootPage = () => {
   const [user, setUser] = useRecoilState(userState);
   const [theme] = useRecoilState(themeState);
   const [isLoading, setIsLoading] = React.useState(false);
+  const location = useLocation();
 
   React.useEffect(() => {
     (async () => {
@@ -25,6 +26,10 @@ const RootPage = () => {
       }
     })();
   }, [setUser]);
+
+  React.useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [location]);
 
   if (isLoading) <></>;
 
