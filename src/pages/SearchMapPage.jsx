@@ -19,7 +19,7 @@ const MapContainer = styled.div`
 
 const SideSearch = styled.div`
   padding: 10px;
-  height: calc(100vh - 5rem);
+  height: calc(100vh - 4rem);
   overflow-y: scroll;
   width: 500px;
   background-color: var(--bg-color);
@@ -30,23 +30,24 @@ const SideSearch = styled.div`
 `;
 
 const SearchBarContainer = styled.div`
-  margin-left: 20px;
-  padding: 20px 0;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Result = styled.div`
   height: 90%;
-  margin-top: 20px;
 `;
 
 const PrevIcon = styled(RiArrowUpSLine)`
   color: var(--border-tertiary);
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 `;
 
 const NextIcon = styled(RiArrowDownSLine)`
   color: var(--border-tertiary);
-  margin-top: 20px;
+  margin-top: 1rem;
 `;
 
 const ButtonContainer = styled.div`
@@ -115,7 +116,7 @@ const SearchMapPage = () => {
             placeholder="당신만의 맛집을 알려주세요!"
             defaultValue={keyword}
             inputRef={inputRef}
-            width="320px"
+            width="330px"
             submitHandler={() => {
               keywordSearch(inputRef.current.value);
             }}
