@@ -9,7 +9,9 @@ const Container = styled.div`
 const ProfileImg = styled.img`
   margin: 15px;
   width: 120px;
+  height: 120px;
   border-radius: 50%;
+  object-fit: cover;
 `;
 
 const NickName = styled.div`
@@ -30,7 +32,7 @@ const ProfileHeader = ({ profileUserNickname, isCertified }) => (
     <ProfileImg
       src={`/img/users/${profileUserNickname}`}
       onError={e => {
-        e.target.src = '/images/default-user-image.png';
+        e.target.src = '/img/default/user.png';
       }}
     />
     <NickName>

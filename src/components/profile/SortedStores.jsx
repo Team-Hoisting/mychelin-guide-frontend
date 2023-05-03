@@ -54,7 +54,7 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
 
   return (
     <Container>
-      {user.nickname === profileUserNickname && (
+      {user.nickname === profileUserNickname && voteStores?.length >= 2 && (
         <>
           {isEditing ? (
             <EditButton
