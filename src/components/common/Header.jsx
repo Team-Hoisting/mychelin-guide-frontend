@@ -65,7 +65,7 @@ const UserIconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  border: 2px solid var(--font-color);
+  border: 1px solid var(--border-primary);
   object-fit: cover;
 `;
 
