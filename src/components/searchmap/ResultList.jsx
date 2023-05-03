@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import { ResultItem, ResultItemOnHover } from '.';
 
 import { fetchIsRegisteredByStoreIds } from '../../api/stores';
-import { Loader } from '../common';
 
 const List = styled.ul`
   margin: auto;
@@ -54,15 +53,13 @@ const ZeroResultText = styled.span`
 `;
 
 const ResultList = ({ keyword, result, curPage, drawMarkers, clickedIdx }) => {
-  const { data: resultList, isLoading } = useQuery({
+  const { data: resultList } = useQuery({
     queryKey: ['isRegistered', keyword, curPage],
     queryFn: fetchIsRegisteredByStoreIds(result.map(({ id }) => id)),
     select(data) {
       return result.map((store, idx) => ({ store, isRegistered: data[idx] }));
     },
   });
-
-  if (isLoading) return <Loader />;
 
   drawMarkers(resultList);
 

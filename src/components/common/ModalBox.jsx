@@ -5,6 +5,7 @@ import { Modal, Group, Button } from '@mantine/core';
 import userState from '../../recoil/atoms/userState';
 import themeState from '../../recoil/atoms/themeState';
 import { CategorySelector, SameCategoryChecker, SameStoreChecker, SuccessVerifier } from '../modal';
+import { Loader } from '.';
 
 const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId, store }) => {
   const theme = useRecoilValue(themeState);
@@ -12,7 +13,7 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId, st
   const [taskQueue, setTaskQueue] = React.useState([]);
 
   return (
-    <>
+    <React.Suspense fallback={<Loader />}>
       <Modal
         opened={isOpened}
         onClose={() => {
@@ -79,7 +80,7 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId, st
           투표하기
         </Button>
       </Group>
-    </>
+    </React.Suspense>
   );
 };
 

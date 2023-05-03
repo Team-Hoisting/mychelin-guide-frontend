@@ -5,7 +5,7 @@ import { RiArrowUpSLine, RiArrowDownSLine } from 'react-icons/ri';
 import useKeywordSearch from '../hooks/useKeywordSearch';
 import useMarkeredMap from '../hooks/useMarkeredMap';
 import ResultList from '../components/searchmap/ResultList';
-import SearchBar from '../components/common/SearchBar';
+import { SearchBar, Loader } from '../components/common';
 
 const Container = styled.div`
   display: flex;
@@ -123,7 +123,7 @@ const SearchMapPage = () => {
         </SearchBarContainer>
         <Result>
           {result && (
-            <>
+            <React.Suspense fallback={<Loader />}>
               <PreviousPageBtn clickHandler={gotoPreviousPage} hasPrevPage={paginationRef.current?.hasPrevPage} />
               <ResultList
                 keyword={inputRef.current.value}
@@ -133,7 +133,7 @@ const SearchMapPage = () => {
                 clickedIdx={clickedIdx}
               />
               <NextPageBtn clickHandler={gotoNextPage} hasNextPage={paginationRef.current?.hasNextPage} />{' '}
-            </>
+            </React.Suspense>
           )}
         </Result>
       </SideSearch>
