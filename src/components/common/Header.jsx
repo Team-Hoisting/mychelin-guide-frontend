@@ -148,9 +148,9 @@ const Header = () => {
   const [user, setUser] = useRecoilState(userState);
   const setSearchInput = useSetRecoilState(searchInputState);
   const setCategoryState = useSetRecoilState(categoryState);
+  const [theme, setTheme] = useRecoilState(themeState);
   const [openDropdown, setOpenDropdown] = React.useState(false);
   const searchBarRef = React.useRef(null);
-  const [theme, setTheme] = useRecoilState(themeState);
   const navigate = useNavigate();
 
   React.useEffect(() => {
