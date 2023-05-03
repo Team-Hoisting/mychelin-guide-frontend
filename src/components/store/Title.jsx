@@ -70,7 +70,9 @@ const Title = ({ storeData: { storeName, storeId, starCnt }, addBookMark, delete
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useRecoilValue(userState);
-  const isUserVoted = user.voteStatus.map(({ storeId }) => storeId).includes(id);
+
+  const isUserVoted = user?.voteStatus.map(({ storeId }) => storeId).includes(id);
+  const isUserArchived = user?.archived.map(({ storeId }) => storeId).includes(id);
 
   const handleAddArchiveClick = () => {
     if (!user) {
@@ -100,7 +102,7 @@ const Title = ({ storeData: { storeName, storeId, starCnt }, addBookMark, delete
         {isUserVoted && <ImgUploadModal user={user} />}
         <ModalBox storeId={storeId} width="120px" />
         <Bookmark>
-          {isUserVoted ? (
+          {isUserArchived ? (
             <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
           ) : (
             <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />

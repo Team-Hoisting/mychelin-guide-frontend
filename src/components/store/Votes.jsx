@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { categoryCodes } from '../../constants/index';
 import { CategoryTag } from '../common/index';
 
 const Container = styled.div`
