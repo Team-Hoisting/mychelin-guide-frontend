@@ -17,6 +17,7 @@ const StoreImg = styled.img`
   border-radius: 50%;
   overflow: hidden;
   color: var(--font-color);
+  object-fit: cover;
 `;
 
 const CategoryName = styled.p`
