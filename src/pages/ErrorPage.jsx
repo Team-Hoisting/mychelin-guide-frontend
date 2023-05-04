@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGhost } from '@fortawesome/free-solid-svg-icons';
+import { faCookie } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import Button from '../components/common/Button';
+
+import { Button } from '@mantine/core';
 
 const Container = styled.main`
   @import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,700');
@@ -32,7 +33,7 @@ const Container = styled.main`
 
     & > span {
       animation: spooky 2s alternate infinite linear;
-      color: pink;
+      color: #deb887;
       display: inline-block;
     }
   }
@@ -62,14 +63,13 @@ const Error = () => (
     <h1>
       4
       <span>
-        <FontAwesomeIcon icon={faGhost} />
+        <FontAwesomeIcon icon={faCookie} />
       </span>
       4
     </h1>
     <h2>Error: 404 page not found</h2>
     <p>Sorry, the page you are looking for cannot be accessed</p>
     <Link to="/">
-      {' '}
       <Button>Go Back</Button>
     </Link>
   </Container>
