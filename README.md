@@ -51,55 +51,42 @@
 ## Main Features
 
 ### 1. 맛집 랭킹 카테고리 별 필터
+![카테고리 필터](https://user-images.githubusercontent.com/112310899/236768263-94e36293-e1d9-4a1b-a6ee-d359f471ae83.gif)
 
-![](https://j.gifs.com/gpWkvj.gif)
+### 2. 매장 중복 투표 방지
+![매장중복](https://user-images.githubusercontent.com/112310899/236768331-ac9577f6-e0f1-4e51-bd0d-8d82a5ec0ef2.gif)
 
-### 2. 중복 투표 방지
-
-![](https://j.gifs.com/6Wp0kz.gif)
-
-### 3. 카테고리 중복 방지
-
-![](https://j.gifs.com/57oWjA.gif)
+### 3. 카테고리 중복 투표 방지 (변경 알림)
+![카테고리 중복](https://user-images.githubusercontent.com/112310899/236768387-49dd4f14-bd12-4cc9-94f8-f821d7b0fef7.gif)
 
 ### 4. 신규 매장 등록
-
-![](https://j.gifs.com/QkrOQZ.gif)
+![검색 후 매장 등록 및 투표](https://user-images.githubusercontent.com/112310899/236768432-488a73b7-2916-4e44-a317-67d41e1bb200.gif)
 
 ### 5. 검색 내용 자동 완성
-
-![](https://j.gifs.com/J8kPJv.gif)
+![자동 완성](https://user-images.githubusercontent.com/112310899/236768863-300f0912-8ec9-4f03-b812-71aedf2965eb.gif)
 
 ### 6. 맛집 랭킹 무한 스크롤
-
-![](https://j.gifs.com/99v2lY.gif)
+![메인 무한스크롤](https://user-images.githubusercontent.com/112310899/236769855-db9ba5f3-1440-42de-9210-46362a1c5a37.gif)
 
 ### 7. 로그인 및 회원가입
-
-![](https://j.gifs.com/XQBM1o.gif)
-![](https://j.gifs.com/DqK0G5.gif)
+![로그인](https://user-images.githubusercontent.com/112310899/236769322-a5cf7f3f-08b3-4c8e-9c1a-470d601255a6.gif)
+![회원가입](https://user-images.githubusercontent.com/112310899/236769335-3a2a2549-1d76-4313-8e10-1492bed13cb1.gif)
 
 ### 8. 유저 정보 및 사진 변경
-
-![](https://j.gifs.com/w06kPz.gif)
-![](https://j.gifs.com/79qAlO.gif)
+![userinfo-유저사진변경](https://user-images.githubusercontent.com/112310899/236769604-843b4bde-46cf-4b6a-92c8-e2c443137aaf.gif)
+![userinfo-유저정보변경](https://user-images.githubusercontent.com/112310899/236769622-ce69b8b9-8ae7-44bf-97a0-264b8ef4a38b.gif)
 
 ### 9. 매장 사진 업로드
-
-![](https://j.gifs.com/Y7DM4W.gif)
+![detail-가게사진업로드](https://user-images.githubusercontent.com/112310899/236769678-6e855cb0-5938-436c-8f42-b5d5f53b3392.gif)
 
 ### 10. 댓글 Pagination
-
-![](https://j.gifs.com/NOo8NN.gif)
+![detail-댓글pagination](https://user-images.githubusercontent.com/112310899/236769923-b250a4ce-5d41-456d-b751-d02955d4d54a.gif)
 
 ### 11. 매장 Archive
-
-![](https://j.gifs.com/k2WoyK.gif)
+![detail-저장](https://user-images.githubusercontent.com/112310899/236769979-d35fb87c-a095-47f3-a528-bec80bc3eec9.gif)
 
 ### 12. Archive 매장 무한 스크롤
-
-![](https://j.gifs.com/gpWkvD.gif)
+![ArchivedInfiniteScroll](https://user-images.githubusercontent.com/112310899/236770620-f52fe79f-9de5-475c-8565-41d5048cf9cf.gif)
 
 ### 13. 투표 매장 Drag & Drop
-
-![](https://j.gifs.com/36m979.gif)
+![메인 무한스크롤 (1)](https://user-images.githubusercontent.com/112310899/236770092-f658e75d-d745-48ff-ae74-9edb0a2e1127.gif)
