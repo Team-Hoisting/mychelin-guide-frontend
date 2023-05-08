@@ -1,6 +1,8 @@
 # Mychelin Guide
 
-> [🎞️ _마이슐랭 가이드 시연 영상 확인하기_](https://www.loom.com/share/1ddc2cd3d6d04dc1a3fdb105e43e6ea3)
+> [_마이슐랭 가이드 시연 영상 확인하기_ 🎥](https://www.loom.com/share/1ddc2cd3d6d04dc1a3fdb105e43e6ea3)
+
+> [_마이슐랭 가이드 백엔드 레파지토리 확인하기_ 📍](https://github.com/sqsung/mychelin-guide-backend)
 
 <div align=center>
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
