@@ -39,7 +39,7 @@ const CommentBtn = styled(Button)`
   width: 100px;
   font-size: 14px;
   color: #eee;
-  background-color: ${({ $disabled }) => ($disabled ? 'var(--button-disabled-color);' : 'var(--button-click-color);')};
+  background-color: ${({ $disabled }) => $disabled && 'var(--button-disabled-color);'};
 
   :hover {
     background: 'var(--button-click-color);';

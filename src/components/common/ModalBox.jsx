@@ -1,15 +1,15 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { Modal, Group, Button } from '@mantine/core';
+import { Modal } from '@mantine/core';
 import userState from '../../recoil/atoms/userState';
 import themeState from '../../recoil/atoms/themeState';
-import { CategorySelector, SameCategoryChecker, SameStoreChecker, SuccessVerifier } from '../modal';
+import { CategorySelector, SameCategoryChecker, SameStoreChecker, SuccessVerifier, ModalButton } from '../modal';
 import { Loader } from '.';
 
-const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId, store }) => {
+const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId, store }) => {
   const theme = useRecoilValue(themeState);
-  const [categoryCode, setCategoryCode] = React.useState('none'); // 선택한 카테고리
+  const [categoryCode, setCategoryCode] = React.useState('none');
   const [taskQueue, setTaskQueue] = React.useState([]);
 
   return (
@@ -59,27 +59,6 @@ const PopupModal = ({ width, isOpened, setIsOpened, phase, setPhase, storeId, st
         )}
         {phase === 'success' && <SuccessVerifier storeId={storeId} taskQueue={taskQueue} />}
       </Modal>
-      <Group position="center">
-        <Button
-          onClick={() => setIsOpened(true)}
-          styles={theme => ({
-            root: {
-              width: width || '200px',
-              height: '44px',
-              margin: '6px',
-              border: 'none',
-              borderRadius: '12px',
-              fontSize: '16px',
-              backgroundColor: '#d21312',
-              color: '#fff',
-              '&:not([data-disabled])': theme.fn.hover({
-                backgroundColor: theme.fn.darken('#d21312', 0.05),
-              }),
-            },
-          })}>
-          투표하기
-        </Button>
-      </Group>
     </React.Suspense>
   );
 };
@@ -94,39 +73,21 @@ const ModalBox = ({ store, storeId, width }) => {
 
   if (!user || !isOpened)
     return (
-      <Group position="center">
-        <Button
-          onClick={() => {
-            if (!user) {
-              navigate('/signin', { state: pathname });
-            } else {
-              setIsOpened(true);
-              setPhase('select');
-            }
-          }}
-          styles={theme => ({
-            root: {
-              width: width || '200px',
-              height: '44px',
-              margin: '6px',
-              border: 'none',
-              borderRadius: '12px',
-              fontSize: '16px',
-              backgroundColor: '#d21312',
-              color: '#fff',
-              '&:not([data-disabled])': theme.fn.hover({
-                backgroundColor: theme.fn.darken('#d21312', 0.05),
-              }),
-            },
-          })}>
-          투표하기
-        </Button>
-      </Group>
+      <ModalButton
+        onClick={() => {
+          if (!user) {
+            navigate('/signin', { state: pathname });
+          } else {
+            setIsOpened(true);
+            setPhase('select');
+          }
+        }}
+        width={width}
+      />
     );
 
   return (
     <PopupModal
-      width={width}
       isOpened={isOpened}
       setIsOpened={setIsOpened}
       phase={phase}
