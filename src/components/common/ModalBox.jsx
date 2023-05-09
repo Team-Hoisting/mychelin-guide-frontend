@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { Modal } from '@mantine/core';
 import userState from '../../recoil/atoms/userState';
 import themeState from '../../recoil/atoms/themeState';
-import { CategorySelector, SameCategoryChecker, SameStoreChecker, SuccessVerifier, ModalButton } from '../modal';
+import { CategorySelector, SameCategoryChecker, SameStoreChecker, SuccessVerifier, ToggleButton } from '../modal';
 import { Loader } from '.';
 
 const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId, store }) => {
@@ -57,7 +57,7 @@ const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId, store }) 
             categoryCode={categoryCode}
           />
         )}
-        {phase === 'success' && <SuccessVerifier storeId={storeId} taskQueue={taskQueue} />}
+        {phase === 'success' && <SuccessVerifier setIsOpened={setIsOpened} storeId={storeId} taskQueue={taskQueue} />}
       </Modal>
     </React.Suspense>
   );
@@ -73,7 +73,7 @@ const ModalBox = ({ store, storeId, width }) => {
 
   if (!isOpened)
     return (
-      <ModalButton
+      <ToggleButton
         onClick={() => {
           if (!user) {
             navigate('/signin', { state: pathname });

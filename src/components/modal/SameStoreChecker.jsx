@@ -7,16 +7,18 @@ import userState from '../../recoil/atoms/userState';
 import { fetchStore } from '../../api/stores';
 import { removeVote } from '../../api/votes';
 import categoryInfo from '../../constants/categoryInfo';
-import ButtonGroup from './ButtonGroup';
+import Controller from './Controller';
 
 const Container = styled.div`
+  background-color: var(--bg-color);
+  color: var(--font-color);
+`;
+
+const Inner = styled.div`
   padding: 0 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  background-color: var(--bg-color);
-  color: var(--font-color);
 `;
 
 const Title = styled.h3`
@@ -79,13 +81,15 @@ const SameStoreChecker = ({ storeId, categoryCode, setIsOpened, setTaskQueue, se
 
   return (
     <Container>
-      <Title>매장 중복</Title>
-      <Text>
-        하나의 매장에는 <span className="em">하나의 투표만</span> 부여할 수 있습니다.
-      </Text>
-      <Text>
-        <span className="em">&quot;{store.storeName}&quot;</span> 의 투표 카테고리를 변경합니다.
-      </Text>
+      <Inner>
+        <Title>매장 중복</Title>
+        <Text>
+          하나의 매장에는 <span className="em">하나의 투표만</span> 부여할 수 있습니다.
+        </Text>
+        <Text>
+          <span className="em">&quot;{store.storeName}&quot;</span> 의 투표 카테고리를 변경합니다.
+        </Text>
+      </Inner>
       <Changes>
         <Box>
           <Image src={`/categoryIcons/${categoryInfo[prevCategoryCode].imgFile}.png`} alt="logo" />
@@ -97,7 +101,7 @@ const SameStoreChecker = ({ storeId, categoryCode, setIsOpened, setTaskQueue, se
           {categoryInfo[categoryCode].ko}
         </Box>
       </Changes>
-      <ButtonGroup
+      <Controller
         leftText="확인"
         rightText="취소"
         onNext={onNext}
@@ -105,7 +109,6 @@ const SameStoreChecker = ({ storeId, categoryCode, setIsOpened, setTaskQueue, se
           setTaskQueue([]);
           setIsOpened(false);
         }}
-        mt="2rem"
       />
     </Container>
   );

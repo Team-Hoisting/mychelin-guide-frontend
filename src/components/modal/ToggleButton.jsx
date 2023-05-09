@@ -1,7 +1,7 @@
 import React from 'react';
 import { Group, Button } from '@mantine/core';
 
-const ModalButton = ({ onClick, width }) => (
+const ToggleButton = ({ onClick, width }) => (
   <Group position="center">
     <Button
       onClick={onClick}
@@ -25,4 +25,4 @@ const ModalButton = ({ onClick, width }) => (
   </Group>
 );
 
-export default ModalButton;
+export default ToggleButton;
