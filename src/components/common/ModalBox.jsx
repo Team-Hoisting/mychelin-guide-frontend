@@ -71,7 +71,7 @@ const ModalBox = ({ store, storeId, width }) => {
   const [isOpened, setIsOpened] = React.useState(false);
   const [phase, setPhase] = React.useState('none');
 
-  if (!user || !isOpened)
+  if (!isOpened)
     return (
       <ModalButton
         onClick={() => {
