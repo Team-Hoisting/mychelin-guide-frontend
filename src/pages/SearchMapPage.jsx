@@ -2,9 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import { RiArrowUpSLine, RiArrowDownSLine } from 'react-icons/ri';
-import useKeywordSearch from '../hooks/useKeywordSearch';
-import useMarkeredMap from '../hooks/useMarkeredMap';
-import ResultList from '../components/searchmap/ResultList';
+import { useKeywordSearch, useMarkeredMap } from '../hooks';
+import { ResultList, MoveResultPageBtn } from '../components/searchmap';
 import { SearchBar, Loader } from '../components/common';
 
 const Container = styled.div`
@@ -18,15 +17,15 @@ const MapContainer = styled.div`
 `;
 
 const SideSearch = styled.div`
-  padding: 10px;
-  height: calc(100vh - 4rem);
-  overflow-y: scroll;
-  width: 500px;
-  background-color: var(--bg-color);
-  z-index: 2;
   display: flex;
   flex-direction: column;
+  padding: 10px;
+  width: 500px;
+  height: calc(100vh - 4rem);
+  overflow-y: scroll;
+  background-color: var(--bg-color);
   justify-content: space-between;
+  z-index: 2;
 `;
 
 const SearchBarContainer = styled.div`
@@ -49,36 +48,6 @@ const NextIcon = styled(RiArrowDownSLine)`
   color: var(--border-tertiary);
   margin-top: 1rem;
 `;
-
-const ButtonContainer = styled.div`
-  margin: 0 auto;
-  width: 30px;
-  height: 30px;
-  font-size: 30px;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  color: white;
-  cursor: pointer;
-
-  ${({ hasPage }) => !hasPage && 'visibility: hidden;'}
-
-  :hover {
-    color: #c5c5c5;
-  }
-`;
-
-const PreviousPageBtn = ({ hasPrevPage, clickHandler }) => (
-  <ButtonContainer onClick={clickHandler} hasPage={hasPrevPage}>
-    <PrevIcon />
-  </ButtonContainer>
-);
-
-const NextPageBtn = ({ hasNextPage, clickHandler }) => (
-  <ButtonContainer onClick={clickHandler} hasPage={hasNextPage}>
-    <NextIcon />
-  </ButtonContainer>
-);
 
 const SearchMapPage = () => {
   const [params] = useSearchParams();
@@ -125,7 +94,9 @@ const SearchMapPage = () => {
         <Result>
           {result && (
             <React.Suspense fallback={<Loader />}>
-              <PreviousPageBtn clickHandler={gotoPreviousPage} hasPrevPage={paginationRef.current?.hasPrevPage} />
+              <MoveResultPageBtn clickHandler={gotoPreviousPage} hasPage={paginationRef.current?.hasPrevPage}>
+                <PrevIcon />
+              </MoveResultPageBtn>
               <ResultList
                 keyword={inputRef.current.value}
                 result={result}
@@ -133,7 +104,9 @@ const SearchMapPage = () => {
                 drawMarkers={drawMarkers}
                 clickedIdx={clickedIdx}
               />
-              <NextPageBtn clickHandler={gotoNextPage} hasNextPage={paginationRef.current?.hasNextPage} />{' '}
+              <MoveResultPageBtn clickHandler={gotoNextPage} hasPage={paginationRef.current?.hasNextPage}>
+                <NextIcon />
+              </MoveResultPageBtn>{' '}
             </React.Suspense>
           )}
         </Result>
