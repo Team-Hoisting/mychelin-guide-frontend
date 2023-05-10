@@ -18,36 +18,26 @@ const MapContainer = styled.div`
 `;
 
 const SideSearch = styled.div`
-  display: flex;
-  flex-direction: column;
   padding: 10px;
   width: 500px;
   height: calc(100vh - 4rem);
   overflow-y: scroll;
   background-color: var(--bg-color);
-  justify-content: space-between;
   z-index: 2;
 `;
 
 const SearchBarContainer = styled.div`
   padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
-const Result = styled.div`
-  height: 90%;
-`;
+const Result = styled.div``;
 
 const PrevIcon = styled(RiArrowUpSLine)`
   color: var(--border-tertiary);
-  margin-bottom: 1rem;
 `;
 
 const NextIcon = styled(RiArrowDownSLine)`
   color: var(--border-tertiary);
-  margin-top: 1rem;
 `;
 
 const SearchMapPage = () => {
@@ -97,7 +87,7 @@ const SearchMapPage = () => {
               />
               <MoveResultPageBtn clickHandler={gotoNextPage} hasPage={hasNextPage}>
                 <NextIcon />
-              </MoveResultPageBtn>{' '}
+              </MoveResultPageBtn>
             </React.Suspense>
           )}
         </Result>
