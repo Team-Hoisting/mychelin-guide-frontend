@@ -1,12 +1,12 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import userState from '../../recoil/atoms/userState';
+
 import { Button } from '../common';
-import Draggable from './Draggable';
-import ProfileStoreItem from './ProfileStoreItem';
+import { Draggable, ProfileStoreItem, EmptyStoreItem } from '.';
+
+import userState from '../../recoil/atoms/userState';
 import { changeVotedCategoryOrder } from '../../api/users';
-import EmptyStoreItem from './EmptyStoreItem';
 
 const Container = styled.div`
   text-align: right;
