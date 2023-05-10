@@ -12,7 +12,7 @@ const defaultValues = {
   password: '',
 };
 
-const LoginForm = () => {
+const SigninForm = () => {
   const navigate = useNavigate();
   const setUser = useSetRecoilState(userState);
   const { state } = useLocation();
@@ -39,4 +39,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SigninForm;

@@ -1,4 +1,3 @@
-export { default as ButtonGroup } from './ButtonGroup';
 export { default as CategorySelector } from './CategorySelector';
 export { default as SameCategoryChecker } from './SameCategoryChecker';
 export { default as SameStoreChecker } from './SameStoreChecker';
