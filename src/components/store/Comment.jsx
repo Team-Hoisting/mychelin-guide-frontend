@@ -68,7 +68,7 @@ const NickName = styled.p`
   margin: 0 4px;
 `;
 
-const CommentsData = ({ commentData, deleteComment, hasBorder }) => {
+const Comments = ({ commentData, deleteComment, hasBorder }) => {
   const { nickname, isCertified, content, email, commentId } = commentData;
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -106,4 +106,4 @@ const CommentsData = ({ commentData, deleteComment, hasBorder }) => {
   );
 };
 
-export default CommentsData;
+export default Comments;

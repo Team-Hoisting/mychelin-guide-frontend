@@ -2,14 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { Divider } from '@mantine/core';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-
-import { CommentsTextArea, CommentsData } from './index';
-
-import { commentQueryKey } from '../../constants/index';
-import { fetchComments } from '../../api/comment';
-import useCommentsMutation from '../../hooks/useCommentsMutation';
-import CommentsButtons from './CommentsButtons';
+import { CommentsTextArea, Comment, Pagination } from './index';
+import { COMMENTS_FETCH_SIZE } from '../../constants/index';
+import { useCommentsMutation, useComments } from '../../hooks/index';
 
 const CommentsContainer = styled.div`
   font-size: 18px;
@@ -26,15 +21,12 @@ const Box = styled.div`
   height: 550px;
 `;
 
-const Comments = () => {
+const CommentsList = () => {
   const { id } = useParams();
   const [currentPage, setCurrentPage] = React.useState(1);
   const { addComment, deleteComment } = useCommentsMutation({ id, currentPage });
 
-  const { data } = useQuery([...commentQueryKey, id, currentPage], fetchComments(id, currentPage), {
-    keepPreviousData: true,
-  });
-
+  const { data } = useComments({ storeId: id, currentPage });
   const { data: commentsData, totalPages } = data;
 
   return (
@@ -45,15 +37,15 @@ const Comments = () => {
         <CommentsTextArea addComment={addComment} setCurrentPage={setCurrentPage} />
         <Box>
           {commentsData?.map((commentData, idx) => (
-            <CommentsData
+            <Comment
               className="comments"
               key={commentData.commentId}
               commentData={commentData}
               deleteComment={deleteComment}
-              hasBorder={idx !== 4}
+              hasBorder={idx !== COMMENTS_FETCH_SIZE - 1}
             />
           ))}
-          <CommentsButtons
+          <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             commentsData={commentsData}
@@ -65,4 +57,4 @@ const Comments = () => {
   );
 };
 
-export default Comments;
+export default CommentsList;

@@ -64,9 +64,8 @@ const Bookmark = styled.div`
   align-items: center;
 `;
 
-const Title = ({ storeData: { storeName, storeId, starCnt }, addBookMark, deleteBookMark }) => {
+const Header = ({ storeData: { storeName, storeId, starCnt }, addBookMark, deleteBookMark }) => {
   const { id } = useParams();
-
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useRecoilValue(userState);
@@ -113,4 +112,4 @@ const Title = ({ storeData: { storeName, storeId, starCnt }, addBookMark, delete
   );
 };
 
-export default Title;
+export default Header;

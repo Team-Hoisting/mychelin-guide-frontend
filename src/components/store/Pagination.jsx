@@ -1,5 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { Button } from '../common/index';
 import { COMMENTS_FETCH_SIZE } from '../../constants/index';
 
@@ -34,16 +35,17 @@ const PageButton = styled(Button)`
   }
 `;
 
+const buttonStyle = css`
+  width: 40px;
+  color: white;
+`;
+
 const PrevButton = styled(PageButton)`
-  width: 50px;
-  margin: 0 10px;
-  padding: 0 4px;
+  ${buttonStyle}
 `;
 
 const NextButton = styled(PageButton)`
-  width: 50px;
-  margin: 0 4px;
-  padding: 0 4px;
+  ${buttonStyle}
 `;
 
 const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages }) => {
@@ -72,7 +74,7 @@ const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages
     <ButtonContainer className="container">
       <ButtonGroup className="buttoncontainer">
         <PrevButton onClick={handlePrevBtnClick} show={commentsData?.length > 0 && page !== 1}>
-          Prev
+          <SlArrowLeft style={{ width: '14px', strokeWidth: '50' }} />
         </PrevButton>
         {currentPages.map(pageNum => (
           <PageButton
@@ -87,7 +89,7 @@ const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages
         <NextButton
           onClick={handleNextBtnClick}
           show={commentsData?.length > 0 && page !== Math.ceil(totalPages / COMMENTS_FETCH_SIZE)}>
-          Next
+          <SlArrowRight style={{ width: '14px', strokeWidth: '50' }} />
         </NextButton>
       </ButtonGroup>
     </ButtonContainer>
