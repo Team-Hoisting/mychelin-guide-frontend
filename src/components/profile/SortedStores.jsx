@@ -7,6 +7,7 @@ import { Draggable, ProfileStoreItem, EmptyStoreItem } from '.';
 
 import userState from '../../recoil/atoms/userState';
 import { changeVotedCategoryOrder } from '../../api/users';
+import useDragAndDrop from '../../hooks/useDragAndDrop';
 
 const Container = styled.div`
   text-align: right;
@@ -28,30 +29,11 @@ const StoresGrid = styled.div`
 
 const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
   const user = useRecoilValue(userState);
-  const [votedStoreOrder, setVotedStoreOrder] = React.useState([]);
+
+  const { order: votedStoreOrder, dragStartHandler, swap } = useDragAndDrop(voteStores);
+
   const [isEditing, setIsEditing] = React.useState(false);
   const [dragOverIdx, setDragOverIdx] = React.useState(-1);
-  const dragTargetIdx = React.useRef(null);
-
-  React.useEffect(() => {
-    if (voteStores) setVotedStoreOrder(voteStores);
-  }, [voteStores]);
-
-  const setDragTargetIdx = idx => {
-    dragTargetIdx.current = idx;
-  };
-
-  const swap = idx => {
-    if (dragTargetIdx.current === idx) return;
-
-    const newVotedStoreOrder = [...votedStoreOrder];
-    [newVotedStoreOrder[dragTargetIdx.current], newVotedStoreOrder[idx]] = [
-      newVotedStoreOrder[idx],
-      newVotedStoreOrder[dragTargetIdx.current],
-    ];
-
-    setVotedStoreOrder(newVotedStoreOrder);
-  };
 
   return (
     <Container>
@@ -90,9 +72,8 @@ const SortedStores = ({ profileUserNickname, voteStores, emptyCategories }) => {
             : votedStoreOrder.map(({ categoryCode, store }, idx) => (
                 <Draggable
                   key={categoryCode}
-                  isBeingDragged={idx === dragTargetIdx.current}
                   dragStartHandler={() => {
-                    setDragTargetIdx(idx);
+                    dragStartHandler(idx);
                   }}
                   dropHandler={() => {
                     swap(idx);
