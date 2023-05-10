@@ -22,9 +22,10 @@ const useDataMutation = ({ mutationFn, onMutate: expected, queryKey }) => {
       // 서버 요청 실패 시 롤백
       queryClient.setQueryData(queryKey, context.previousData);
     },
-    onSettled() {
+    onSuccess() {
       // 서버 요청 실패 또는 성공 시 refetch하기
-      queryClient.invalidateQueries(queryKey);
+      // 관련 업데이트가 되는 동안 loading 상태 유지
+      return queryClient.invalidateQueries(queryKey);
     },
   });
 };

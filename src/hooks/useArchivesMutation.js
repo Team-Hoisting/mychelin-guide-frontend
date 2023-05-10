@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import useDataMutation from './useDataMutaiton';
@@ -37,6 +36,7 @@ const useArchivesMutation = ({ id, setArchiveCntState }) => {
           ...user,
           archived: user?.archived?.filter(({ archiveId }) => archiveId !== deleteSeq),
         };
+
         setUser(newUserData);
         setArchiveCntState(prev => prev - 1);
 
