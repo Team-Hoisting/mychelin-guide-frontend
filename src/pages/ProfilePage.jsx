@@ -1,12 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Tabs from '../components/profile/Tabs';
-import ProfileHeader from '../components/profile/ProfileHeader';
 import { SkinnyContainer, Loader } from '../components/common';
 import useUserProfile from '../hooks/useUserProfile';
-import SortedStores from '../components/profile/SortedStores';
-import ArchivedStores from '../components/profile/ArchivedStores';
+import { SortedStores, ArchivedStores, ProfileHeader, Tabs } from '../components/profile';
 
 const ProfileWrapper = styled.main`
   width: 85%;
