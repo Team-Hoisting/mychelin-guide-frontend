@@ -39,7 +39,7 @@ const TabName = styled.p`
   margin: 0;
 `;
 
-const StoresViewer = ({ profileUserNickname, profileInfo }) => {
+const StoresViewer = ({ profileUserNickname, voteStores, emptyCategories }) => {
   const [isVotedStoresTab, setIsVotedStoresTab] = React.useState(true);
 
   return (
@@ -57,8 +57,8 @@ const StoresViewer = ({ profileUserNickname, profileInfo }) => {
       {isVotedStoresTab ? (
         <SortedStores
           profileUserNickname={profileUserNickname}
-          voteStores={profileInfo?.voteStores}
-          emptyCategories={profileInfo?.emptyCategories}
+          voteStores={voteStores}
+          emptyCategories={emptyCategories}
         />
       ) : (
         <React.Suspense fallback={<Loader />}>

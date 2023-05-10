@@ -14,13 +14,17 @@ const ProfileWrapper = styled.main`
 
 const ProfilePage = () => {
   const { nickname: profileUserNickname } = useParams();
-  const profileInfo = useUserProfile(profileUserNickname);
+  const { user, voteStores, emptyCategories } = useUserProfile(profileUserNickname);
 
   return (
     <SkinnyContainer>
       <ProfileWrapper>
-        <ProfileHeader profileUserNickname={profileUserNickname} isCertified={profileInfo?.user.isCertified} />
-        <StoresViewer profileUserNickname={profileUserNickname} profileInfo={profileInfo} />
+        <ProfileHeader profileUserNickname={profileUserNickname} isCertified={user.isCertified} />
+        <StoresViewer
+          profileUserNickname={profileUserNickname}
+          voteStores={voteStores}
+          emptyCategories={emptyCategories}
+        />
       </ProfileWrapper>
     </SkinnyContainer>
   );
