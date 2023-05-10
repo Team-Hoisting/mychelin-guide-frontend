@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useStore } from '../../hooks/index';
-import { Header, Votes, DetailSide } from './index';
+import { Title, Votes, Main } from './index';
 
 const StoreDetailContainer = styled.div`
   width: 100%;
@@ -59,7 +59,7 @@ const StoreDetail = ({ archivedCntState, setArchiveCntState, addBookMark, delete
 
   return (
     <StoreDetailContainer className="storedetail">
-      <Header storeData={storeData} addBookMark={addBookMark} deleteBookMark={deleteBookMark} />
+      <Title storeData={storeData} addBookMark={addBookMark} deleteBookMark={deleteBookMark} />
       <SubTitle>
         <FirstVoteUser>
           최초 투표자 : <UserName>{storeData.firstVoteUser}</UserName>
@@ -71,7 +71,7 @@ const StoreDetail = ({ archivedCntState, setArchiveCntState, addBookMark, delete
           저장 <span>{archivedCntState}</span>개
         </ArchivedCntMsg>
       </SubTitle>
-      <DetailSide store={storeData} />
+      <Main store={storeData} />
       <Votes voteCnt={storeData.voteCnt} />
     </StoreDetailContainer>
   );

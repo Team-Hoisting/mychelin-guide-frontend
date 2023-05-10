@@ -1,6 +1,6 @@
 export { default as StorePositionMap } from './StorePositionMap';
-export { default as Header } from './Header';
-export { default as DetailSide } from './DetailSide';
+export { default as Title } from './Title';
+export { default as Main } from './Main';
 export { default as StoreDetail } from './StoreDetail';
 export { default as Votes } from './Votes';
 export { default as CommentsList } from './CommentsList';

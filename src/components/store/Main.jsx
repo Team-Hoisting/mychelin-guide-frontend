@@ -2,22 +2,21 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { StorePositionMap } from './index';
 
-const ImageContainer = styled.div`
+const Container = styled.div`
   display: flex;
   height: 500px;
   min-width: 1000px;
 `;
 
-const DetailContainer = styled.div`
+const DetailSide = styled.div`
   width: 37%;
   position: relative;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   border-radius: 4px;
-
   background-color: var(--bg-secondary-color);
 `;
 
-const Map = styled.div`
+const MapContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
@@ -92,7 +91,7 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const DetailSide = ({ store: { storeId, x, y, address, phoneNumber } }) => {
+const Main = ({ store: { storeId, x, y, address, phoneNumber } }) => {
   const [isImgLoading, setisImgLoading] = React.useState(true);
 
   const handleLoad = () => {
@@ -100,34 +99,32 @@ const DetailSide = ({ store: { storeId, x, y, address, phoneNumber } }) => {
   };
 
   return (
-    <>
-      <ImageContainer className="imagecontainer">
-        {isImgLoading && <ImageSkeleton />}
-        <Image
-          src={`/img/stores/${storeId}`}
-          onLoad={handleLoad}
-          onError={e => {
-            e.target.src = '/img/default/store.png';
-          }}
-          isImgLoading={isImgLoading}
-          draggable={false}
-        />
-        <DetailContainer className="detail-container">
-          <Map className="map">
-            <StorePositionMap x={x} y={y} />
-          </Map>
-          <DetailTextContainer>
-            <Address>
-              <AddressTitle>주소</AddressTitle>: {address}
-            </Address>
-            <Phone>
-              <PhoneTitle>전화번호</PhoneTitle>: {phoneNumber || '없음'}
-            </Phone>
-          </DetailTextContainer>
-        </DetailContainer>
-      </ImageContainer>
-    </>
+    <Container className="main-container">
+      {isImgLoading && <ImageSkeleton />}
+      <Image
+        src={`/img/stores/${storeId}`}
+        onLoad={handleLoad}
+        onError={e => {
+          e.target.src = '/img/default/store.png';
+        }}
+        isImgLoading={isImgLoading}
+        draggable={false}
+      />
+      <DetailSide className="detail-container">
+        <MapContainer className="map">
+          <StorePositionMap x={x} y={y} />
+        </MapContainer>
+        <DetailTextContainer>
+          <Address>
+            <AddressTitle>주소</AddressTitle>: {address}
+          </Address>
+          <Phone>
+            <PhoneTitle>전화번호</PhoneTitle>: {phoneNumber || '없음'}
+          </Phone>
+        </DetailTextContainer>
+      </DetailSide>
+    </Container>
   );
 };
 
-export default DetailSide;
+export default Main;
