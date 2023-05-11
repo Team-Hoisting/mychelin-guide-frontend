@@ -1,79 +1,96 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useStore } from '../../hooks/index';
 import { Title, Votes, Main } from './index';
 
-const StoreDetailContainer = styled.div`
+const Container = styled.div`
   width: 100%;
   min-width: 1000px;
   margin-bottom: 50px;
 `;
 
-const FirstVoteUser = styled.div`
-  font-size: 16px;
-  margin: 2px 0;
-  color: #7f7f7f;
+const VerticalHr = styled.hr`
+  width: 1px;
+  height: 20px;
+  margin: 0 10px;
 `;
 
-const UserName = styled.span`
-  font-weight: 700;
+const bold = css`
+  font-weight: 600;
 `;
 
 const SubTitle = styled.div`
   display: flex;
-  width: 100%;
   align-items: center;
   justify-content: flex-start;
+  font-size: 16px;
+
+  p {
+    padding: 0;
+  }
+`;
+
+const FirstVoteUser = styled.div``;
+
+const UserName = styled.span`
+  ${bold}
+  position: relative;
+
+  :before {
+    background-color: hsla(120, 60%, 70%, 0.5);
+
+    content: '';
+    position: absolute;
+    width: calc(100% + 4px);
+    height: 60%;
+    left: -2px;
+    bottom: 0;
+    z-index: -1;
+    transform: rotate(-2deg);
+  }
 `;
 
 const ArchivedCntMsg = styled.p`
-  margin: 0 12px;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 0;
-
   span {
-    font-weight: 600;
+    ${bold}
   }
 `;
 
 const VoteCntMsg = styled.span`
-  margin: 0 12px;
-  padding: 0;
-  font-size: 16px;
-  font-weight: 500;
-
   span {
-    font-weight: 600;
+    ${bold}
   }
 `;
 
 const StoreDetail = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBookMark }) => {
   const { id } = useParams();
   const { data: storeData } = useStore(id);
+  const { firstVoteUser, totalVotesCnt, voteCnt } = storeData;
 
   React.useEffect(() => {
     setArchiveCntState(storeData?.archivesCount);
   }, []);
 
   return (
-    <StoreDetailContainer className="storedetail">
+    <Container className="storedetail">
       <Title storeData={storeData} addBookMark={addBookMark} deleteBookMark={deleteBookMark} />
       <SubTitle>
         <FirstVoteUser>
-          최초 투표자 : <UserName>{storeData.firstVoteUser}</UserName>
+          최초 투표자 : <UserName>{firstVoteUser}</UserName>
         </FirstVoteUser>
+        <VerticalHr />
         <VoteCntMsg>
-          투표 <span>{storeData.totalVotesCnt}</span>개
+          투표 <span>{totalVotesCnt}</span>개
         </VoteCntMsg>
+        <VerticalHr />
         <ArchivedCntMsg>
           저장 <span>{archivedCntState}</span>개
         </ArchivedCntMsg>
       </SubTitle>
       <Main store={storeData} />
-      <Votes voteCnt={storeData.voteCnt} />
-    </StoreDetailContainer>
+      <Votes voteCnt={voteCnt} />
+    </Container>
   );
 };
 

@@ -65,13 +65,12 @@ const Bookmark = styled.div`
 `;
 
 const Header = ({ storeData: { storeName, storeId, starCnt }, addBookMark, deleteBookMark }) => {
-  const { id } = useParams();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const user = useRecoilValue(userState);
 
-  const isUserVoted = user?.voteStatus.map(({ storeId }) => storeId).includes(id);
-  const isUserArchived = user?.archived.map(({ storeId }) => storeId).includes(id);
+  const isUserVoted = user?.voteStatus.map(({ storeId }) => storeId).includes(storeId);
+  const isUserArchived = user?.archived.map(({ storeId }) => storeId).includes(storeId);
 
   const handleAddArchiveClick = () => {
     if (!user) {
@@ -82,7 +81,7 @@ const Header = ({ storeData: { storeName, storeId, starCnt }, addBookMark, delet
   };
 
   const handleDeleteArchiveClick = () => {
-    deleteBookMark({ email: user?.email, storeId: id });
+    deleteBookMark({ email: user?.email, storeId });
   };
 
   const theme = useRecoilValue(themeState);

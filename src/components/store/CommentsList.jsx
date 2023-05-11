@@ -10,7 +10,7 @@ const CommentsContainer = styled.div`
   font-size: 18px;
   width: 100%;
   min-width: 1000px;
-  height: 800;
+  height: 800px;
 `;
 
 const Label = styled.label`
