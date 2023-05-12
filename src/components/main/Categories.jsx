@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { categoryState } from '../../recoil/atoms';
-import { categoryInfo } from '../../constants';
-import categoryCodes from '../../constants/categoryCodes';
+import { categoryInfo, categoryCodes } from '../../constants';
 import { CategoryBox } from '../common';
 
 const Container = styled.div`
