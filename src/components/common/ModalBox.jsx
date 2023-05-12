@@ -13,21 +13,21 @@ const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId, store }) 
   const [taskQueue, setTaskQueue] = React.useState([]);
 
   return (
-    <React.Suspense fallback={<Loader />}>
-      <Modal
-        opened={isOpened}
-        onClose={() => {
-          setIsOpened(false);
-          setPhase('none');
-        }}
-        transitionProps={{ transition: 'slide-up', duration: 300, timingFunction: 'linear' }}
-        zIndex="9999"
-        size="lg"
-        centered
-        styles={{
-          header: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}` },
-          body: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}`, paddingTop: '1px !important' },
-        }}>
+    <Modal
+      opened={isOpened}
+      onClose={() => {
+        setIsOpened(false);
+        setPhase('none');
+      }}
+      transitionProps={{ transition: 'slide-up', duration: 300, timingFunction: 'linear' }}
+      zIndex="9999"
+      size="lg"
+      centered
+      styles={{
+        header: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}` },
+        body: { backgroundColor: `${theme === 'light' ? '#fff' : '#22272e'}`, paddingTop: '1px !important' },
+      }}>
+      <React.Suspense fallback={<Loader />}>
         {phase === 'select' && (
           <CategorySelector
             setIsOpened={setIsOpened}
@@ -58,8 +58,8 @@ const PopupModal = ({ isOpened, setIsOpened, phase, setPhase, storeId, store }) 
           />
         )}
         {phase === 'success' && <SuccessVerifier setIsOpened={setIsOpened} storeId={storeId} taskQueue={taskQueue} />}
-      </Modal>
-    </React.Suspense>
+      </React.Suspense>
+    </Modal>
   );
 };
 
