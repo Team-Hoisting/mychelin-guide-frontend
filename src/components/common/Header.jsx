@@ -42,7 +42,7 @@ const LogoImage = styled.img`
 `;
 
 const LightModeIcon = styled(BsSun)`
-  font-size: 30px;
+  font-size: 18px;
   color: #ffff00ea;
   margin: 0;
   padding: 0;
@@ -50,7 +50,7 @@ const LightModeIcon = styled(BsSun)`
 `;
 
 const DarkModeIcon = styled(BsMoon)`
-  font-size: 27px;
+  font-size: 18px;
   color: #3c3c3c;
   margin: 0;
   padding: 0;
@@ -58,8 +58,8 @@ const DarkModeIcon = styled(BsMoon)`
 `;
 
 const UserIconWrapper = styled.div`
-  width: 40px;
-  height: 40px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   overflow: hidden;
   display: flex;
@@ -70,7 +70,7 @@ const UserIconWrapper = styled.div`
 `;
 
 const UserIcon = styled(FaRegUser)`
-  font-size: 25px;
+  font-size: 18px;
   color: var(--font-color);
   margin: 0;
   padding: 0;

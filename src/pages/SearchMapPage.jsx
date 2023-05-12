@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import { RiArrowUpSLine, RiArrowDownSLine } from 'react-icons/ri';
-import useKeywordSearch from '../hooks/useKeywordSearch';
-import useMarkeredMap from '../hooks/useMarkeredMap';
-import ResultList from '../components/searchmap/ResultList';
+
+import { ResultList, MoveResultPageBtn } from '../components/searchmap';
 import { SearchBar, Loader } from '../components/common';
+import useMapSearch from '../hooks/useMapSearch';
 
 const Container = styled.div`
   display: flex;
@@ -19,92 +19,44 @@ const MapContainer = styled.div`
 
 const SideSearch = styled.div`
   padding: 10px;
+  width: 500px;
   height: calc(100vh - 4rem);
   overflow-y: scroll;
-  width: 500px;
   background-color: var(--bg-color);
   z-index: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 `;
 
 const SearchBarContainer = styled.div`
   padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
-const Result = styled.div`
-  height: 90%;
-`;
+const Result = styled.div``;
 
 const PrevIcon = styled(RiArrowUpSLine)`
   color: var(--border-tertiary);
-  margin-bottom: 1rem;
 `;
 
 const NextIcon = styled(RiArrowDownSLine)`
   color: var(--border-tertiary);
-  margin-top: 1rem;
 `;
-
-const ButtonContainer = styled.div`
-  margin: 0 auto;
-  width: 30px;
-  height: 30px;
-  font-size: 30px;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  color: white;
-  cursor: pointer;
-
-  ${({ hasPage }) => !hasPage && 'visibility: hidden;'}
-
-  :hover {
-    color: #c5c5c5;
-  }
-`;
-
-const PreviousPageBtn = ({ hasPrevPage, clickHandler }) => (
-  <ButtonContainer onClick={clickHandler} hasPage={hasPrevPage}>
-    <PrevIcon />
-  </ButtonContainer>
-);
-
-const NextPageBtn = ({ hasNextPage, clickHandler }) => (
-  <ButtonContainer onClick={clickHandler} hasPage={hasNextPage}>
-    <NextIcon />
-  </ButtonContainer>
-);
 
 const SearchMapPage = () => {
   const [params] = useSearchParams();
   const keyword = params.get('keyword');
 
-  const { keywordSearch, result, paginationRef } = useKeywordSearch();
-  const { mapContainerRef, drawMarkers } = useMarkeredMap(idx => setClickedIdx(idx));
-  const [clickedIdx, setClickedIdx] = React.useState(null);
-
-  const inputRef = React.useRef(null);
-
-  React.useEffect(() => {
-    setClickedIdx(null);
-  }, [result]);
-
-  React.useEffect(() => {
-    if (keyword) keywordSearch(keyword);
-  }, []);
-
-  const gotoPreviousPage = () => {
-    if (paginationRef.current.hasPrevPage) paginationRef.current.prevPage();
-  };
-
-  const gotoNextPage = () => {
-    if (paginationRef.current.hasNextPage) paginationRef.current.nextPage();
-  };
+  const {
+    mapContainerRef,
+    result,
+    clickedIdx,
+    curPage,
+    hasPrevPage,
+    hasNextPage,
+    inputRef,
+    search,
+    gotoPreviousPage,
+    gotoNextPage,
+    drawMarkers,
+  } = useMapSearch(keyword);
 
   return (
     <Container>
@@ -117,23 +69,25 @@ const SearchMapPage = () => {
             defaultValue={keyword}
             inputRef={inputRef}
             width="330px"
-            submitHandler={() => {
-              keywordSearch(inputRef.current.value);
-            }}
+            submitHandler={search}
           />
         </SearchBarContainer>
         <Result>
           {result && (
             <React.Suspense fallback={<Loader />}>
-              <PreviousPageBtn clickHandler={gotoPreviousPage} hasPrevPage={paginationRef.current?.hasPrevPage} />
+              <MoveResultPageBtn clickHandler={gotoPreviousPage} hasPage={hasPrevPage}>
+                <PrevIcon />
+              </MoveResultPageBtn>
               <ResultList
                 keyword={inputRef.current.value}
                 result={result}
-                curPage={paginationRef.current?.current}
+                curPage={curPage}
                 drawMarkers={drawMarkers}
                 clickedIdx={clickedIdx}
               />
-              <NextPageBtn clickHandler={gotoNextPage} hasNextPage={paginationRef.current?.hasNextPage} />{' '}
+              <MoveResultPageBtn clickHandler={gotoNextPage} hasPage={hasNextPage}>
+                <NextIcon />
+              </MoveResultPageBtn>
             </React.Suspense>
           )}
         </Result>
