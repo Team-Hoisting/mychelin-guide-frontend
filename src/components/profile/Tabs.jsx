@@ -13,7 +13,7 @@ const Container = styled.div`
 
 const Tab = styled.div`
   width: 250px;
-  border-top: ${({ selected }) => (selected ? '2px solid var(--border-top)' : '2px solid rgba(0,0,0,0)')};
+  border-top: ${({ selected }) => (selected ? '2px solid var(--border-tertiary)' : '2px solid rgba(0,0,0,0)')};
   color: ${({ selected }) => (selected ? 'var(--font-color)' : '#ababab')};
   font-size: 20px;
   font-weight: 600;

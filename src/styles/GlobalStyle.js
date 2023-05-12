@@ -10,10 +10,11 @@ const GlobalStyle = createGlobalStyle`
   body[data-theme='light'] {
     --bg-color: #fff;
     --bg-secondary-color: #fff;
-    --font-color: #000;
-    --font-secondary: #d21312;
 
-    --button-color : #fff;
+    --font-color: #000;
+    --font-secondary: #d21312; 
+
+    --button-color : #f8f8f8;
     --button-disabled-color : #c4bdbd;
     --button-hover-color: #f7f7f7;
     --button-click-color: #c4bdbd;
@@ -22,33 +23,25 @@ const GlobalStyle = createGlobalStyle`
     --border-primary: #ababab;
     --border-secondary: #eee;
     --border-tertiary: #000;
-    --border-bottom: #1C2128;
-    --border-top: black;
   }
 
   body[data-theme='dark'] {
     --bg-color: #22272e; /* 진한 회색  */
     --bg-secondary-color: #353C45; /* 연한 회색 */
-    --bg-dark-color: #1C2128; /* 가장 진한 회색 */
-    --bg-dark-sign-color: #161B22;
-    --bg-dark-black-color: #0D1116;
+    --bg-dark-color: #161B22;/* 가장 진한 회색 */
 
     --font-color: #CDD9E5; /* 연한 글자 회색 */
-    --font-secondary: #549bf5;
+    --font-secondary: #549bf5; /* 중복 확인 */
+
+    --button-color: #2D333B; /* 유저 정보 페이지 버튼 */ 
+    --button-disabled-color : #353C45;
     --button-hover-color: #46515C;
     --button-click-color: #46515C;
-
-    --button-color: #2D333B;  
-    --button-disabled-color : #353C45;
-
 
     --border: none;
     --border-primary: #5d646e;
     --border-secondary: #373E47;
     --border-tertiary: #fff;
-    --border-bottom:#CDD9E5;
-    --border-top: #fff;
-
   }
 
   body {
