@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
-const ResultItemContainer = styled.div`
+const Container = styled.div`
   padding: 10px 0 10px 20px;
-  width: 100%;
   height: 130px;
   border-bottom: 1px solid var(--border-primary);
   color: var(--font-color);
@@ -22,27 +21,22 @@ const AdditionalInfoWrapper = styled.div`
   font-size: 14px;
 `;
 
-const Address = styled.span`
-  display: block;
-  margin: 5px 0;
-`;
-
-const PhoneNumber = styled.span`
+const AdditionalInfo = styled.span`
   display: block;
   margin: 5px 0;
 `;
 
 const ResultItem = ({ storeName, address, phoneNumber, currentIdx }) => (
-  <ResultItemContainer>
+  <Container>
     <StoreName>
       <Number>{`${currentIdx}. `}</Number>
       {storeName}
     </StoreName>
     <AdditionalInfoWrapper>
-      <Address>{address}</Address>
-      <PhoneNumber>{phoneNumber}</PhoneNumber>
+      <AdditionalInfo>{address}</AdditionalInfo>
+      <AdditionalInfo>{phoneNumber}</AdditionalInfo>
     </AdditionalInfoWrapper>
-  </ResultItemContainer>
+  </Container>
 );
 
 export default ResultItem;
