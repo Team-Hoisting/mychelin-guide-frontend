@@ -7,7 +7,6 @@ const Container = styled.main`
   position: absolute;
   width: 100%;
   height: 100%;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 9999;
@@ -15,16 +14,13 @@ const Container = styled.main`
 
 const ButtonContainer = styled.div`
   display: none;
-  width: 250px;
   flex-direction: column;
-  align-items: center;
 `;
 
 const RoundedButton = styled(Button)`
   margin: 5px;
   width: 120px;
   height: 45px;
-  border: none;
   border-radius: 12px;
   font-size: 16px;
 `;
