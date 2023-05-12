@@ -29,7 +29,7 @@ const Footer = () => {
   const theme = useRecoilValue(themeState);
   const { pathname } = useLocation();
 
-  return pathname === '/signin' ? (
+  return pathname === '/signin' || pathname === '/signup' ? (
     <></>
   ) : (
     <Container>

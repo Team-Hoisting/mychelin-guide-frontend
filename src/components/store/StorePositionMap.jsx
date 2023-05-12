@@ -24,7 +24,7 @@ const StorePositionMap = ({ x, y }) => {
     });
 
     marker.setMap(map);
-  }, []);
+  }, [x, y]);
 
   return <Container ref={mapContainerRef} />;
 };
