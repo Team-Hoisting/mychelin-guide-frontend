@@ -9,7 +9,6 @@ const useDataMutation = ({ mutationFn, onMutate: expected, queryKey }) => {
     onMutate(variable) {
       // 낙관적 업데이트를 덮어쓰지 않도록 refetch 모두 취소
       queryClient.cancelQueries();
-
       // 롤백 위한 이전 상태 저장
       const previousData = queryClient.getQueryData(queryKey);
       console.log('previous: ', queryClient.getQueryData(queryKey));

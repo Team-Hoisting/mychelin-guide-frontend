@@ -25,7 +25,6 @@ const WhiteArea = styled.div`
   margin-top: 1rem;
 
   background-color: var(--bg-dark-color);
-  // border: 1px solid var(--border);
 `;
 
 const AuthTemplate = ({ children }) => (
