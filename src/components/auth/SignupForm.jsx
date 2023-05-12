@@ -12,7 +12,7 @@ const defaultValues = {
   nickname: '',
 };
 
-const RegisterForm = () => {
+const SignupForm = () => {
   const navigate = useNavigate();
 
   const onSubmit = async data => {
@@ -30,4 +30,4 @@ const RegisterForm = () => {
   return <AuthForm type="register" formSchema={signupSchema} defaultValues={defaultValues} request={onSubmit} />;
 };
 
-export default RegisterForm;
+export default SignupForm;

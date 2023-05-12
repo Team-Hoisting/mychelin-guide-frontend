@@ -4,20 +4,23 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import userState from '../../recoil/atoms/userState';
-import Button from '../common/Button';
 import { Loader } from '../common';
+import Controller from './Controller';
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 4rem 0;
   background-color: var(--bg-color);
   color: var(--font-color);
 
   img {
     width: 60px;
   }
+`;
+
+const Inner = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 0 3rem 0;
 `;
 
 const Text = styled.div`
@@ -27,25 +30,19 @@ const Text = styled.div`
   margin-bottom: 1.2rem;
 `;
 
-const SuccessVerifier = ({ taskQueue, storeId }) => {
+const SuccessVerifier = ({ setIsOpened, taskQueue, storeId }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [user, setUser] = useRecoilState(userState);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [isStart, setIsStart] = React.useState(false);
 
   React.useEffect(() => {
-    if (!isStart) {
-      setIsStart(true);
-      return;
-    }
-
     try {
       setIsLoading(true);
 
       taskQueue.forEach(async task => {
         const data = await task();
-        setUser(user => ({ ...user, voteStatus: data.voteStatus }));
+        setUser({ ...user, voteStatus: data.voteStatus });
 
         if (data.newStore) {
           queryClient.setQueryData(['storeInfo', storeId], data.newStore);
@@ -56,17 +53,23 @@ const SuccessVerifier = ({ taskQueue, storeId }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [isStart]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (isLoading) return <Loader />;
 
   return (
     <Container>
-      <img src="/images/success.png" alt="success" />
-      <Text>투표가 성공적으로 완료되었습니다</Text>
-      <Button red thirty onClick={() => navigate(`/profile/${user.nickname}`)}>
-        마이페이지로 이동하기
-      </Button>
+      <Inner>
+        <img src="/images/success.png" alt="success" />
+        <Text>투표가 성공적으로 완료되었습니다</Text>
+      </Inner>
+      <Controller
+        leftText="마이페이지"
+        rightText="닫기"
+        onNext={() => navigate(`/profile/${user.nickname}`)}
+        onClose={() => setIsOpened(false)}
+      />
     </Container>
   );
 };

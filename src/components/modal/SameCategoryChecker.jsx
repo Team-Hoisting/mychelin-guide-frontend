@@ -7,7 +7,7 @@ import userState from '../../recoil/atoms/userState';
 import { fetchStore } from '../../api/stores';
 import { reVote } from '../../api/votes';
 import categoryInfo from '../../constants/categoryInfo';
-import ButtonGroup from './ButtonGroup';
+import Controller from './Controller';
 
 const Container = styled.div`
   padding: 2rem 2rem;
@@ -41,25 +41,6 @@ const Changes = styled.div`
 
   .bold {
     font-weight: 700;
-  }
-`;
-
-const Box = styled.div`
-  padding: 1.2rem;
-  display: flex;
-  justify-content: center;
-  font-size: 1.3rem;
-  font-weight: 600;
-  width: 300px;
-  background-color: #ababab;
-  overflow: hidden;
-  border-radius: 5px;
-
-  span {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    word-wrap: normal;
-    overflow: hidden;
   }
 `;
 
@@ -126,7 +107,7 @@ const SameCategoryChecker = ({ storeId, store: storeInfo, categoryCode, setPhase
       <Text center>
         <span className="bold">변경</span>하시겠습니까?
       </Text>
-      <ButtonGroup leftText="확인" rightText="취소" onNext={onNext} onClose={() => setPhase('select')} mt="2rem" />
+      <Controller leftText="확인" rightText="취소" onNext={onNext} onClose={() => setPhase('select')} />
     </Container>
   );
 };

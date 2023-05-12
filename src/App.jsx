@@ -7,7 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import {
   RootPage,
   MainPage,
-  RegisterPage,
+  SignupPage,
   SigninPage,
   ErrorPage,
   SearchMapPage,
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'signup',
-        element: <RegisterPage />,
+        element: <SignupPage />,
       },
       {
         path: 'signin',

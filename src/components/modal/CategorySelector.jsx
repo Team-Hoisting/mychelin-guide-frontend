@@ -7,8 +7,8 @@ import categoryInfo from '../../constants/categoryInfo';
 import categoryCodes from '../../constants/categoryCodes';
 import { fetchStore } from '../../api/stores';
 import { vote } from '../../api/votes';
-import ButtonGroup from './ButtonGroup';
 import { CategoryBox } from '../common/index';
+import Controller from './Controller';
 
 const Container = styled.div`
   padding: 0rem 0.5rem;
@@ -145,7 +145,7 @@ const CategorySelector = ({
           정말 <span className="em">투표</span>하시겠습니까?
         </p>
       </TextBox>
-      <ButtonGroup
+      <Controller
         isDisable={categoryCode === 'none' || isDuplicate}
         leftText="투표하기"
         rightText="취소하기"
