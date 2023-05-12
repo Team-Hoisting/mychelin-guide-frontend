@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Button, ModalBox } from '../common';
-// import Modal from '../common/Modal';
 
 const Container = styled.main`
   z-index: 2;
