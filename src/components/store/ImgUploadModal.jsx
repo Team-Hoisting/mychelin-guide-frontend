@@ -60,7 +60,7 @@ const BeforeUploadButton = styled(Button)`
 `;
 
 const ImgUploadModal = ({ user }) => {
-  const { id } = useParams();
+  const { storeId } = useParams();
 
   const navigate = useNavigate();
   const [opened, { open, close }] = useDisclosure(false, {
@@ -82,7 +82,7 @@ const ImgUploadModal = ({ user }) => {
     try {
       const formData = new FormData();
       formData.append('img', file);
-      formData.append('filename', id);
+      formData.append('filename', storeId);
 
       const res = await axios.post('/api/upload/store', formData);
 

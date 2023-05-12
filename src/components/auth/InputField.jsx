@@ -38,7 +38,7 @@ const Input = styled.input`
 
   &:focus {
     color: $oc-teal-7;
-    border-bottom: 1px solid var(--border-bottom);
+    border-bottom: 1px solid var(--border-tertiary);
   }
 
   & ~ ${Label} {

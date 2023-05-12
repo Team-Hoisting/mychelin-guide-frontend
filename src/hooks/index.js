@@ -5,3 +5,6 @@ export { default as useMarkeredMap } from './useMarkeredMap';
 export { default as useFetchStores } from './useFetchStores';
 export { default as useUserProfile } from './useUserProfile';
 export { default as useArchivesMutation } from './useArchivesMutation';
+export { default as useCommentsMutation } from './useCommentsMutation';
+export { default as useComments } from './useComments';
+export { default as useStore } from './useStore';

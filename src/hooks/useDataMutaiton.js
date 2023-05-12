@@ -9,7 +9,6 @@ const useDataMutation = ({ mutationFn, onMutate: expected, queryKey }) => {
     onMutate(variable) {
       // 낙관적 업데이트를 덮어쓰지 않도록 refetch 모두 취소
       queryClient.cancelQueries();
-
       // 롤백 위한 이전 상태 저장
       const previousData = queryClient.getQueryData(queryKey);
       console.log('previous: ', queryClient.getQueryData(queryKey));
@@ -22,9 +21,10 @@ const useDataMutation = ({ mutationFn, onMutate: expected, queryKey }) => {
       // 서버 요청 실패 시 롤백
       queryClient.setQueryData(queryKey, context.previousData);
     },
-    onSettled() {
+    onSuccess() {
       // 서버 요청 실패 또는 성공 시 refetch하기
-      queryClient.invalidateQueries(queryKey);
+      // 관련 업데이트가 되는 동안 loading 상태 유지
+      return queryClient.invalidateQueries(queryKey);
     },
   });
 };

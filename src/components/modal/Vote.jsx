@@ -60,7 +60,7 @@ const Vote = ({ selectedCode, setSelectedCode, store, onClose, onNext }) => (
   <Container>
     <Info>
       <Store>{store.storeName}</Store>
-      <span className="address">{store.address}</span>
+      <span>{store.address}</span>
     </Info>
     <ImageContainer>
       {selectedCode ? (

@@ -24,8 +24,7 @@ const WhiteArea = styled.div`
   border-radius: 2px;
   margin-top: 1rem;
 
-  background-color: var(--bg-dark-sign-color);
-  // border: 1px solid var(--border);
+  background-color: var(--bg-dark-color);
 `;
 
 const AuthTemplate = ({ children }) => (
