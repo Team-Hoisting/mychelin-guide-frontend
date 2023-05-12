@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { StorePositionMap } from './index';
 
 const Container = styled.div`
@@ -25,30 +25,32 @@ const MapContainer = styled.div`
   border-radius: 4px;
 `;
 
-const DetailTextContainer = styled.div`
+const InfoContainer = styled.div`
   position: absolute;
-  top: 83%;
+  top: 80%;
   left: 0;
   width: 100%;
   font-size: 14px;
-  padding: 5px;
+  padding: 6px;
   border-radius: 4px;
 `;
 
-const Address = styled.div`
-  padding: 4px 0;
+const Info = styled.div`
+  padding: 0 4px;
 `;
 
-const Phone = styled.div`
-  padding: 4px 0;
+const info = css`
+  span {
+    font-weight: 700;
+  }
 `;
 
-const AddressTitle = styled.span`
-  font-weight: 700;
+const AddressTitle = styled.p`
+  ${info}
 `;
 
-const PhoneTitle = styled.span`
-  font-weight: 700;
+const PhoneTitle = styled.p`
+  ${info}
 `;
 
 const loading = keyframes`
@@ -103,25 +105,27 @@ const Main = ({ store: { storeId, x, y, address, phoneNumber } }) => {
       {isImgLoading && <ImageSkeleton />}
       <Image
         src={`/img/stores/${storeId}`}
+        isImgLoading={isImgLoading}
+        draggable={false}
         onLoad={handleLoad}
         onError={e => {
           e.target.src = '/img/default/store.png';
         }}
-        isImgLoading={isImgLoading}
-        draggable={false}
       />
       <DetailSide className="detail-container">
         <MapContainer className="map">
           <StorePositionMap x={x} y={y} />
         </MapContainer>
-        <DetailTextContainer>
-          <Address>
-            <AddressTitle>주소</AddressTitle>: {address}
-          </Address>
-          <Phone>
-            <PhoneTitle>전화번호</PhoneTitle>: {phoneNumber || '없음'}
-          </Phone>
-        </DetailTextContainer>
+        <InfoContainer>
+          <Info>
+            <AddressTitle>
+              <span>주소</span> : {address}
+            </AddressTitle>
+            <PhoneTitle>
+              <span>전화번호</span> : {phoneNumber || '없음'}
+            </PhoneTitle>
+          </Info>
+        </InfoContainer>
       </DetailSide>
     </Container>
   );

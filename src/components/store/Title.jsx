@@ -1,7 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { BsBookmark, BsFillBookmarkFill } from 'react-icons/bs';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import ModalBox from '../common/ModalBox';
 import userState from '../../recoil/atoms/userState';
@@ -40,10 +40,14 @@ const Side = styled.div`
   justify-content: space-between;
 `;
 
-const EmtpyBookmarkIcon = styled(BsBookmark)`
+const bookmark = css`
   width: 40px;
   scale: 1.6;
   cursor: pointer;
+`;
+
+const EmtpyBookmarkIcon = styled(BsBookmark)`
+  ${bookmark}
 
   :hover {
     color: #858585;
@@ -51,17 +55,9 @@ const EmtpyBookmarkIcon = styled(BsBookmark)`
 `;
 
 const FillBookMarkIcon = styled(BsFillBookmarkFill)`
-  width: 40px;
-  scale: 1.6;
-  cursor: pointer;
-  color: #fe9602;
-`;
+  ${bookmark}
 
-const Bookmark = styled.div`
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: center;
+  color: #fe9602;
 `;
 
 const Header = ({ storeData: { storeName, storeId, starCnt }, addBookMark, deleteBookMark }) => {
@@ -99,13 +95,11 @@ const Header = ({ storeData: { storeName, storeId, starCnt }, addBookMark, delet
       <Side>
         {isUserVoted && <ImgUploadModal user={user} />}
         <ModalBox storeId={storeId} width="120px" />
-        <Bookmark>
-          {isUserArchived ? (
-            <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
-          ) : (
-            <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />
-          )}
-        </Bookmark>
+        {isUserArchived ? (
+          <FillBookMarkIcon onClick={handleDeleteArchiveClick} />
+        ) : (
+          <EmtpyBookmarkIcon onClick={handleAddArchiveClick} />
+        )}
       </Side>
     </Container>
   );

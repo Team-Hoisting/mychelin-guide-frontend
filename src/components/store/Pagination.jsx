@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
-import { Button } from '../common/index';
+import { Button, rem } from '@mantine/core';
 import { COMMENTS_FETCH_SIZE } from '../../constants/index';
 
 const ButtonContainer = styled.div`
@@ -12,7 +12,6 @@ const ButtonContainer = styled.div`
 const ButtonGroup = styled.div`
   display: flex;
   width: 30%;
-  justify-content: flex-start;
   margin: 0 auto;
 `;
 
@@ -20,12 +19,8 @@ const PageButton = styled(Button)`
   width: 40px;
   height: 40px;
   padding: 0;
-  visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
-
-  align-items: center;
-  justify-content: center;
-
   font-size: 17px;
+  visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
   background-color: ${({ clicked }) => (clicked ? 'var(--button-click-color)' : 'var(--bg-color)')};
   color: var(--font-color);
 
@@ -37,15 +32,19 @@ const PageButton = styled(Button)`
 
 const buttonStyle = css`
   width: 40px;
-  color: white;
+  color: var(--font-color);
+
+  :hover {
+    /* background-color: ; */
+  }
 `;
 
 const PrevButton = styled(PageButton)`
-  ${buttonStyle}
+  /* ${buttonStyle} */
 `;
 
 const NextButton = styled(PageButton)`
-  ${buttonStyle}
+  /* ${buttonStyle} */
 `;
 
 const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages }) => {
@@ -73,24 +72,60 @@ const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages
   return (
     <ButtonContainer className="container">
       <ButtonGroup className="buttoncontainer">
-        <PrevButton onClick={handlePrevBtnClick} show={commentsData?.length > 0 && page !== 1}>
+        <Button
+          variant="subtle"
+          onClick={handlePrevBtnClick}
+          color="gray"
+          styles={theme => ({
+            root: {
+              visibility: commentsData?.length > 0 && page !== 1 ? 'visible;' : 'hidden;',
+              '&:hover': { backgroundColor: 'var(--button-hover-color);' },
+              border: 0,
+              height: rem(42),
+            },
+          })}>
           <SlArrowLeft style={{ width: '14px', strokeWidth: '50' }} />
-        </PrevButton>
+        </Button>
         {currentPages.map(pageNum => (
-          <PageButton
+          <Button
+            variant="subtle"
+            color="gray"
             key={pageNum}
             onClick={handlePageBtnClick(pageNum)}
-            clicked={pageNum === currentPage}
-            show={pageNum <= totalPages}>
+            styles={theme => ({
+              root: {
+                backgroundColor: pageNum === currentPage ? 'var(--button-click-color);' : 'var(--bg-color);',
+                '&:hover': {
+                  backgroundColor:
+                    pageNum === currentPage ? 'var(--button-click-color);' : 'var(--button-hover-color);',
+                },
+                color: 'var(--font-color)',
+                visibility: pageNum <= totalPages ? 'visible;' : 'hidden;',
+                border: 0,
+                height: rem(42),
+              },
+            })}>
             {pageNum}
-          </PageButton>
+          </Button>
         ))}
-
-        <NextButton
+        <Button
           onClick={handleNextBtnClick}
-          show={commentsData?.length > 0 && page !== Math.ceil(totalPages / COMMENTS_FETCH_SIZE)}>
+          variant="subtle"
+          color="gray"
+          styles={theme => ({
+            root: {
+              visibility:
+                commentsData?.length > 0 && page !== Math.ceil(totalPages / COMMENTS_FETCH_SIZE)
+                  ? 'visible;'
+                  : 'hidden;',
+              '&:hover': { backgroundColor: 'var(--button-hover-color);' },
+              border: 0,
+              height: rem(42),
+              width: rem(20),
+            },
+          })}>
           <SlArrowRight style={{ width: '14px', strokeWidth: '50' }} />
-        </NextButton>
+        </Button>
       </ButtonGroup>
     </ButtonContainer>
   );

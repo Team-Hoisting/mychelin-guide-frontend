@@ -19,9 +19,9 @@ const TextArea = styled.textarea.attrs(({ content }) => ({
   width: 100%;
   font-size: 16px;
   border-radius: 12px;
-
   margin: 12px 0;
   resize: none;
+
   background-color: var(--bg-dark-color);
   color: var(--font-color);
   border: 2px solid var(--border-primary);
@@ -32,11 +32,10 @@ const TextArea = styled.textarea.attrs(({ content }) => ({
   }
 `;
 
-const CommentBtn = styled(Button)`
+const CommentButton = styled(Button)`
   position: absolute;
   bottom: 10px;
   right: 10px;
-  width: 100px;
   font-size: 14px;
   color: #eee;
   background: ${({ $disabled }) => $disabled && 'var(--button-disabled-color)'};
@@ -58,7 +57,7 @@ const CommentsTextArea = ({ addComment, setCurrentPage }) => {
     setContent(e.target.value);
   };
 
-  const handleCommentBtnClick = () => {
+  const handleClick = () => {
     if (!content) return;
 
     if (!user) {
@@ -83,9 +82,9 @@ const CommentsTextArea = ({ addComment, setCurrentPage }) => {
     <>
       <Container>
         <TextArea onChange={handleChange} content={content}></TextArea>
-        <CommentBtn onClick={handleCommentBtnClick} $disabled={!content.length}>
+        <CommentButton onClick={handleClick} $disabled={!content.length}>
           등록하기
-        </CommentBtn>
+        </CommentButton>
       </Container>
     </>
   );

@@ -17,10 +17,6 @@ const Label = styled.label`
   font-weight: 800;
 `;
 
-const Box = styled.div`
-  height: 550px;
-`;
-
 const CommentsList = () => {
   const { id } = useParams();
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -30,30 +26,26 @@ const CommentsList = () => {
   const { data: commentsData, totalPages } = data;
 
   return (
-    <>
-      <CommentsContainer className="comments-container">
-        <Label>댓글</Label>
-        <Divider my="sm" />
-        <CommentsTextArea addComment={addComment} setCurrentPage={setCurrentPage} />
-        <Box>
-          {commentsData?.map((commentData, idx) => (
-            <Comment
-              className="comments"
-              key={commentData.commentId}
-              commentData={commentData}
-              deleteComment={deleteComment}
-              hasBorder={idx !== COMMENTS_FETCH_SIZE - 1}
-            />
-          ))}
-          <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            commentsData={commentsData}
-            totalPages={totalPages}
-          />
-        </Box>
-      </CommentsContainer>
-    </>
+    <CommentsContainer className="comments-container">
+      <Label>댓글</Label>
+      <Divider my="sm" />
+      <CommentsTextArea addComment={addComment} setCurrentPage={setCurrentPage} />
+      {commentsData?.map((commentData, idx) => (
+        <Comment
+          className="comments"
+          key={commentData.commentId}
+          commentData={commentData}
+          deleteComment={deleteComment}
+          hasBorder={idx !== COMMENTS_FETCH_SIZE - 1}
+        />
+      ))}
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        commentsData={commentsData}
+        totalPages={totalPages}
+      />
+    </CommentsContainer>
   );
 };
 

@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { Divider } from '@mantine/core';
+import { AiOutlineClose } from 'react-icons/ai';
 import userState from '../../recoil/atoms/userState';
-import { Button } from '../common/index';
 
 const Comment = styled.div`
   position: relative;
@@ -24,33 +23,22 @@ const Profile = styled.img`
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  cursor: pointer;
   margin-right: 12px;
   object-fit: cover;
+  cursor: pointer;
 `;
 
-const CloseBtn = styled(Button)`
+const CloseBtn = styled(AiOutlineClose)`
   position: absolute;
-  top: 2px;
+  top: 10%;
   right: 0;
-  width: 40px;
-  height: 40px;
-  font-size: 18px;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
+  width: 20px;
+  height: 20px;
   color: var(--font-color);
-  font-weight: 500;
-
-  :hover {
-    color: var(--font-color);
-    background: none;
-  }
+  cursor: pointer;
 `;
 
-const CommentText = styled.p`
+const Content = styled.p`
   padding: 0 8px;
   margin: 4px 0;
 `;
@@ -74,7 +62,7 @@ const Comments = ({ commentData, deleteComment, hasBorder }) => {
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
 
-  const handleCommentCloseBtnClick = commentId => () => {
+  const handleDeleteBtnClick = commentId => () => {
     deleteComment(commentId);
   };
 
@@ -83,26 +71,26 @@ const Comments = ({ commentData, deleteComment, hasBorder }) => {
   };
 
   return (
-    <div>
+    <>
       <Comment>
         <Profile
           src={`/img/users/${commentData?.nickname}`}
+          onClick={handleProfileClick(nickname)}
           onError={e => {
             e.target.src = '/img/default/user.png';
           }}
-          onClick={handleProfileClick(nickname)}
         />
         <div>
           <User>
             <NickName>{nickname}</NickName>
             {isCertified && <CertifiedIcon />}
           </User>
-          <CommentText>{content}</CommentText>
+          <Content>{content}</Content>
         </div>
-        {user && email === user?.email && <CloseBtn onClick={handleCommentCloseBtnClick(commentId)}>X</CloseBtn>}
+        {user && email === user.email && <CloseBtn onClick={handleDeleteBtnClick(commentId)} />}
       </Comment>
       {hasBorder && <Divider />}
-    </div>
+    </>
   );
 };
 
