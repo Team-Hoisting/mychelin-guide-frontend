@@ -6,21 +6,17 @@ import { ResultItem, ResultItemOnHover } from '.';
 
 import { fetchIsRegisteredByStoreIds } from '../../api/stores';
 
-const List = styled.ul`
+const Container = styled.ul`
   margin: auto;
   padding: 5px;
-  border-radius: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
 `;
 
 const ResultItemContainer = styled.li`
   position: relative;
-  width: 100%;
-  overflow: hidden;
   transition: 0.2s ease-in-out;
+  list-style: none;
 
   ${props =>
     props.selected &&
@@ -48,6 +44,7 @@ const ResultItemContainer = styled.li`
 `;
 
 const ZeroResultText = styled.span`
+  margin: auto;
   color: var(--font-color);
   font-size: 20px;
 `;
@@ -64,7 +61,7 @@ const ResultList = ({ keyword, result, curPage, drawMarkers, clickedIdx }) => {
   drawMarkers(resultList);
 
   return (
-    <List>
+    <Container>
       {resultList?.length !== 0 ? (
         resultList?.map(({ store, isRegistered }, idx) => (
           <ResultItemContainer key={store.id} selected={clickedIdx === idx}>
@@ -89,7 +86,7 @@ const ResultList = ({ keyword, result, curPage, drawMarkers, clickedIdx }) => {
       ) : (
         <ZeroResultText>검색 결과가 없습니다.</ZeroResultText>
       )}
-    </List>
+    </Container>
   );
 };
 
