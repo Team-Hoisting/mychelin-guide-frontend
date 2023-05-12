@@ -6,7 +6,6 @@ import { Loader } from '../common';
 import { SortedStores, ArchivedStores } from '.';
 
 const Tabs = styled.div`
-  width: 100%;
   border-top: 1px solid #ababab;
   display: flex;
   justify-content: center;
@@ -64,7 +63,7 @@ const StoresViewer = ({ profileUserNickname, voteStores, emptyCategories }) => {
         <React.Suspense fallback={<Loader />}>
           <ArchivedStores profileUserNickname={profileUserNickname} />
         </React.Suspense>
-      )}{' '}
+      )}
     </>
   );
 };
