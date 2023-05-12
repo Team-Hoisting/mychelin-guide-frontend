@@ -101,7 +101,7 @@ const Main = ({ store: { storeId, x, y, address, phoneNumber } }) => {
   };
 
   return (
-    <Container className="main-container">
+    <Container>
       {isImgLoading && <ImageSkeleton />}
       <Image
         src={`/img/stores/${storeId}`}
@@ -112,7 +112,7 @@ const Main = ({ store: { storeId, x, y, address, phoneNumber } }) => {
           e.target.src = '/img/default/store.png';
         }}
       />
-      <DetailSide className="detail-container">
+      <DetailSide>
         <MapContainer className="map">
           <StorePositionMap x={x} y={y} />
         </MapContainer>

@@ -64,8 +64,8 @@ const VoteCntMsg = styled.span`
 `;
 
 const StoreDetail = ({ archivedCntState, setArchiveCntState, addBookMark, deleteBookMark }) => {
-  const { id } = useParams();
-  const { data: storeData } = useStore(id);
+  const { storeId } = useParams();
+  const { data: storeData } = useStore(storeId);
   const { firstVoteUser, totalVotesCnt, voteCnt } = storeData;
 
   React.useEffect(() => {
@@ -73,7 +73,7 @@ const StoreDetail = ({ archivedCntState, setArchiveCntState, addBookMark, delete
   }, []);
 
   return (
-    <Container className="storedetail">
+    <Container>
       <Title storeData={storeData} addBookMark={addBookMark} deleteBookMark={deleteBookMark} />
       <SubTitle>
         <FirstVoteUser>

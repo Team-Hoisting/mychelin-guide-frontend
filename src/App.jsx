@@ -59,7 +59,7 @@ const router = createBrowserRouter([
         element: <SearchMapPage />,
       },
       {
-        path: 'store/:id',
+        path: 'store/:storeId',
         element: <StoreDetailPage />,
         // loader: storeDetailLoader(queryClient),
       },

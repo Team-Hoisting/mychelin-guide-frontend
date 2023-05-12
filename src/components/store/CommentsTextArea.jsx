@@ -48,7 +48,7 @@ const CommentButton = styled(Button)`
 
 const CommentsTextArea = ({ addComment, setCurrentPage }) => {
   const [content, setContent] = React.useState('');
-  const { id } = useParams();
+  const { storeId } = useParams();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
@@ -66,7 +66,7 @@ const CommentsTextArea = ({ addComment, setCurrentPage }) => {
     }
 
     const newComment = {
-      storeId: id,
+      storeId,
       content,
       email: user?.email,
       isCertified: true,

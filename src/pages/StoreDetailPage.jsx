@@ -18,16 +18,16 @@ const Center = styled.div`
 
 const StoreDetailPage = () => {
   const [archivedCntState, setArchiveCntState] = React.useState(0);
-  const { id } = useParams();
+  const { storeId } = useParams();
 
   const { addBookMark, deleteBookMark } = useArchivesMutation({
-    id,
+    storeId,
     setArchiveCntState,
   });
 
   return (
     <SkinnyContainer>
-      <Container className="container">
+      <Container>
         <Center>
           <StoreDetail
             addBookMark={addBookMark}

@@ -6,7 +6,7 @@ import { archiveQueryKey } from '../constants/index';
 
 const archiveURL = '/api/archives';
 
-const useArchivesMutation = ({ id, setArchiveCntState }) => {
+const useArchivesMutation = ({ storeId, setArchiveCntState }) => {
   const [user, setUser] = useRecoilState(userState);
 
   const { mutate: addBookMark } = useDataMutation({
@@ -20,7 +20,7 @@ const useArchivesMutation = ({ id, setArchiveCntState }) => {
         return newUser;
       };
     },
-    queryKey: [...archiveQueryKey, id, user?.email],
+    queryKey: [...archiveQueryKey, storeId, user?.email],
   });
 
   const { mutate: deleteBookMark } = useDataMutation({
@@ -43,7 +43,7 @@ const useArchivesMutation = ({ id, setArchiveCntState }) => {
         return newUserData;
       };
     },
-    queryKey: [...archiveQueryKey, id, user?.email],
+    queryKey: [...archiveQueryKey, storeId, user?.email],
   });
 
   return { addBookMark, deleteBookMark };

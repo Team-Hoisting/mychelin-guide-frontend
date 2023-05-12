@@ -83,7 +83,7 @@ const Header = ({ storeData: { storeName, storeId, starCnt }, addBookMark, delet
   const theme = useRecoilValue(themeState);
 
   return (
-    <Container className="storetitle">
+    <Container>
       <StoreTitle>
         <TitleText>{storeName}</TitleText>
         <StarContainer>

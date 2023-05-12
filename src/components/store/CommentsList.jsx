@@ -18,21 +18,20 @@ const Label = styled.label`
 `;
 
 const CommentsList = () => {
-  const { id } = useParams();
+  const { storeId } = useParams();
   const [currentPage, setCurrentPage] = React.useState(1);
-  const { addComment, deleteComment } = useCommentsMutation({ id, currentPage });
+  const { addComment, deleteComment } = useCommentsMutation({ storeId, currentPage });
 
-  const { data } = useComments({ storeId: id, currentPage });
+  const { data } = useComments({ storeId, currentPage });
   const { data: commentsData, totalPages } = data;
 
   return (
-    <CommentsContainer className="comments-container">
+    <CommentsContainer>
       <Label>댓글</Label>
       <Divider my="sm" />
       <CommentsTextArea addComment={addComment} setCurrentPage={setCurrentPage} />
       {commentsData?.map((commentData, idx) => (
         <Comment
-          className="comments"
           key={commentData.commentId}
           commentData={commentData}
           deleteComment={deleteComment}

@@ -1,7 +1,7 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
-import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
+import styled from 'styled-components';
 import { Button, rem } from '@mantine/core';
+import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { COMMENTS_FETCH_SIZE } from '../../constants/index';
 
 const ButtonContainer = styled.div`
@@ -13,38 +13,6 @@ const ButtonGroup = styled.div`
   display: flex;
   width: 30%;
   margin: 0 auto;
-`;
-
-const PageButton = styled(Button)`
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  font-size: 17px;
-  visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
-  background-color: ${({ clicked }) => (clicked ? 'var(--button-click-color)' : 'var(--bg-color)')};
-  color: var(--font-color);
-
-  :hover {
-    background-color: var(--button-click-color);
-    color: var(--font-color);
-  }
-`;
-
-const buttonStyle = css`
-  width: 40px;
-  color: var(--font-color);
-
-  :hover {
-    /* background-color: ; */
-  }
-`;
-
-const PrevButton = styled(PageButton)`
-  /* ${buttonStyle} */
-`;
-
-const NextButton = styled(PageButton)`
-  /* ${buttonStyle} */
 `;
 
 const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages }) => {
@@ -70,8 +38,8 @@ const CommentsButtons = ({ currentPage, setCurrentPage, commentsData, totalPages
   };
 
   return (
-    <ButtonContainer className="container">
-      <ButtonGroup className="buttoncontainer">
+    <ButtonContainer>
+      <ButtonGroup>
         <Button
           variant="subtle"
           onClick={handlePrevBtnClick}
