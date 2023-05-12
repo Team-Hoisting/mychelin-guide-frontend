@@ -6,6 +6,7 @@ import { categoryState } from '../../recoil/atoms';
 const Container = styled.div`
   text-align: center;
   margin: 10px;
+  opacity: 0;
 `;
 
 const ScrollObserver = ({ fetchNextPage }) => {
