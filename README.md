@@ -2,6 +2,8 @@
 
 > [_마이슐랭 가이드 시연 영상 확인하기_ 🎥](https://www.loom.com/share/1ddc2cd3d6d04dc1a3fdb105e43e6ea3)
 
+> [_마이슐랭 가이드 TypeScript 마이그레이션 버전 확인하기_](https://github.com/Team-Hoisting/mychelin-guide-typescript)
+
 > [_마이슐랭 가이드 백엔드 레파지토리 확인하기_ 📍](https://github.com/sqsung/mychelin-guide-backend)
 
 <div align=center>
@@ -40,13 +42,13 @@
 
 | Message  | Description                   |
 | -------- | ----------------------------- |
-| fix      | fixed bugs and errors         |
-| feat     | added new feature             |
-| refactor | updated existing feature/code |
-| style    | fixed styles                  |
-| docs     | added/updated docs            |
-| add      | added icons, images, etc.     |
-| ver      | updated version               |
+| Fix      | fixed bugs and errors         |
+| Feat     | added new feature             |
+| Refactor | updated existing feature/code |
+| Style    | fixed styles                  |
+| Docs     | added/updated docs            |
+| Add      | added icons, images, etc.     |
+| Ver      | updated version               |
 
 <br>
 
